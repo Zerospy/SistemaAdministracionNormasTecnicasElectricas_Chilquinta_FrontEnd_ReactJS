@@ -1,0 +1,8 @@
+@import "custom-vars";
+@import "./bootstrap/bootstrap.scss";
+@import "./mdbreact/mdb.scss";
+/***screens**/
+@import "screens/dashboard";
+@import "screens/login";
+@import "icons";
+@import "print";

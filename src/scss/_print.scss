@@ -1,0 +1,58 @@
+@media print {
+
+    .body, table td, table th, .card-header span {
+        font-size: 18px;
+    }
+
+    .noPrint {
+        display: none !important;
+    }
+
+    .card-header {
+        background-color: rgba(107, 107, 107, 0.62);
+    }
+
+    .page-title h5 {
+        color: black !important;
+        font-weight: 400;
+    }
+
+    .text-truncate {
+        white-space: nowrap !important;
+    }
+
+    .trial-print {
+        display: block;
+        
+    }
+
+    .trial-print .page-title h5 {
+        color: white !important;
+        font-weight: bold;
+    }
+
+    table.print-config {
+        tr th, tr td {
+            border-bottom: 1px solid black;
+            background-color: transparent !important;
+        }
+        tbody tr td {
+            text-align: right !important;
+        }
+        tbody tr td:nth-child(3) {
+            text-align: left !important;
+        }
+        tbody tr:nth-child(even) {
+            background-color: rgba(235, 235, 235, 1) !important;
+        }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: transparent !important;
+        }
+        tr, img {
+            page-break-inside: auto;
+        }
+    }
+@page {
+    margin-bottom: 7mm;
+}
+}

@@ -1,0 +1,394 @@
+{
+    "app.title": "Programación formulación y diseño",
+    
+    "legend.ban.mp": "Materias Primas Prohibidas",
+    "legend.alergen.mp": "Materias Primas con Componentes Alergenos",
+    "legend.alergen.formula": "Fórmula con Materias Primas con Componentes Alergenos",
+    "legend.alergen.al.free": "Fórmula libre de  Componentes Alergenos",
+    "legend.ban.form.mp": "Fórmula con Materias Primas Prohibidas",
+
+    "login.username": "Usuario",
+    "login.password": "Clave",
+    "login.language": "Seleccione el idioma",
+    "login.btnLogin": "iniciar sesión",
+    "login.formTitle": "Iniciar sesión",
+
+    "login.verificationModal.title": "Ingrese código de verificación",
+    "login.verificationModal.hint": "Hemos enviado el código de verificación a su correo.",
+    "login.verificationModal.btn.save": "Enviar",
+    "login.verificationModal.btn.cancel": "Cancelar",
+
+    "login.message.success": "Bienvenido",
+    "login.message.verificationInput": "Código de verificación",
+    "login.message.emptyData": "El usuario o la clave no deben estar vacíos",
+    "login.message.invalidUser": "Usuario y/o clave incorrectos",
+    "login.message.invalidVerificationCode": "Código de verificación incorrecto",
+    "login.message.emptyVerificationCode": "El código no puede estar vacío.",
+
+    "menu.home": "Inicio",
+    "menu.home.requests": "Solicitudes",
+    "menu.home.dashboard": "Creación de fórmulas",
+    "menu.home.materials": "Materias primas",
+    "menu.home.personalLib": "Librería personal",
+    "menu.home.regulations": "Regulaciones",
+
+    "menu.account": "Cuenta",
+    "menu.account.logout": "Cerrar sesión",
+
+    "menu.help": "Ayuda",
+    "menu.help.userManual": "Manual de usuario",
+
+    "component.messages.loading": "Cargando...",
+    
+    "component.dataGrid.noRows": "No hay registros que mostrar",
+    "component.dataGrid.loading": "Cargando... Por favor, espere..",
+    "component.dataGrid.detail": "Ver detalle",
+    "component.dataGrid.validateIfra": "Validar IFRA",
+    "component.dataGrid.comments": "Agregar comentarios",
+    "component.dataGrid.genExperimental": "Generar experimental",
+    "component.dataGrid.genExperimentalHint": "Debes validar IFRA antes de generar la fórmula experimental.",
+    "component.dataGrid.deleteTrial": "Eliminar trial",
+    "component.dataGrid.shareTrial": "Compartir trial",
+    "component.dataGrid.page.from": "Página",
+    "component.dataGrid.page.to": "de",
+
+    "dashboard.button.print": "Imprimir",
+    "dashboard.button.save": "Guardar",
+    "dashboard.button.reset": "Reiniciar",
+    "dashboard.button.ifra": "Validar Ifra",
+    "dashboard.button.officialize": "Generar experimental",
+    "dashboard.button.addTrial": "Agr. Trial",
+    "dashboard.button.dupTrial": "Dup. Trial",
+    "dashboard.button.normalize": "Normalizar",
+    "dashboard.button.addObs": "Observaciones",
+
+    "dashboard.messages.maxTrialsReached": "No se pueden agregar mas de 5 trials.",
+    "dashboard.messages.noTrialSelected": "No se ha seleccionado ningún trial",
+    "dashboard.messages.noTrialActive": "Solo se permite guardar en trial activo",
+    "dashboard.messages.noTrials": "No existen trials para duplicar",
+    "dashboard.messages.formulaZero": "La fórmula esta en cero",
+    "dashboard.messages.errorGetDetFormulaInfo": "Ocurrió un error al obtener el detalle de la fórmula",
+    "dashboard.messages.errorGetExplodeMaterials": "Ocurrió un error al obtener la fórmula explotada",
+    "dashboard.messages.errorExplodeFormulaNotAvailable": "Fórmula no ha sido refundida (Solicite a Gerencia explosión manual)",
+    "dashboard.messages.errorEmptyInfo": "No hay información para guardar",
+    "dashboard.messages.errorGetRequestInfo": "Ocurrió un error al obtener los datos de la solicitud",
+    "dashboard.messages.saveSuccess": "Guardado correctamente.",
+    "dashboard.messages.saveError": "Ocurrió un error al guardar la información",
+    "dashboard.messages.cantCloseActiveTrial": "No se puede cerrar el trial activo.",
+    "dashboard.messages.closeTrial": "Realmente deseas cerrar el trial?",
+    "dashboard.messages.resetDashboard": "Realmente deseas eliminar todas las materias primas?",
+    "dashboard.messages.deleteTrial": "Realmente deseas eliminar el trial?",
+    "dashboard.messages.successsDeleteTrial": "El trial se eliminó correctamente",
+    "dashboard.messages.deleteTrialNotAllowed": "Solo el creador puede eliminar el trial.",
+    "dashboard.messages.deleteMaterial": "Realmente deseas eliminar el material?",
+    "dashboard.messages.confirm": "Sí",
+    "dashboard.messages.cancel": "No",
+    
+    "dashboard.clientData.panel.title": "Información de pedido",
+    "dashboard.clientData.sample": "Número de Muestra o Solicitud",
+    "dashboard.clientData.section": "Sección",
+    "dashboard.clientData.clientName": "Nombre Cliente",
+    "dashboard.clientData.clientType": "Tipo Cliente",
+    "dashboard.clientData.country": "País",
+    "dashboard.clientData.seller": "Vendedor",
+    "dashboard.clientData.deliverDate": "Fecha Entrega a Laboratorio",
+    "dashboard.clientData.delegate": "Delegado",
+    "dashboard.clientData.productCode": "Código producto",
+    "dashboard.clientData.productName": "Nombre producto",
+    "dashboard.clientData.cost": "Costo",
+    "dashboard.clientData.quantity": "Cantidad (grms)",
+    "dashboard.clientData.lowerDosage": "Dosificación Menor",
+    "dashboard.clientData.higherDosage": "Dosificación Mayor",
+    "dashboard.clientData.application": "Aplicación",
+    "dashboard.clientData.observations": "Observación del vendedor",
+    
+    "dashboard.panel.title": "Estructura de fórmula",
+
+    "dashboard.field.formulaName": "Proyecto",
+    "dashboard.field.trialName": "Nombre de fórmula",
+    "dashboard.field.editMaterials": "Cambiar materiales",
+    
+    "dashboard.label.addComponents": "Agregar",
+    "dashboard.label.selectedTrial": "Trial activo",
+    "dashboard.label.compareTrial": "Comparar con",
+
+    "dashboard.dataGrid.col.sun": "SUN",
+    "dashboard.dataGrid.col.trialInfo.save": "Guardar",
+    "dashboard.dataGrid.col.trialInfo.edit": "Editar información de trial",
+    "dashboard.dataGrid.col.trialInfo.close": "Cerrar trial",
+    "dashboard.dataGrid.col.material": "Material",
+    "dashboard.dataGrid.col.price": "$/Kg",
+    "dashboard.dataGrid.col.total": "Total",
+    "dashboard.dataGrid.col.expense": "Total + Gasto: {totalExpense} (Gasto: {expense}) ",
+    "dashboard.dataGrid.col.priceTrial": "$",
+    "dashboard.dataGrid.col.quantity": "Cant.",
+
+    "dashboard.select.importComponent.material": "Materias primas",
+    "dashboard.select.importComponent.formulaCramer": "Dilución y Fórmula",
+    "dashboard.select.importComponent.formulaPersonal": "Fórmula librería personal",
+    "dashboard.select.trial.select": "Seleccione",
+    "dashboard.select.trial.print": "Imprimir trial",
+
+    "trial.panel.search.title": "Filtros de búsqueda de trials",
+
+    "trial.panel.input.delegate": "Nombre delegado",
+    "trial.panel.input.formulaName": "Proyecto",
+    "trial.panel.input.trialCode": "Cód. de trial",
+    "trial.panel.input.trialName": "Nombre fórmula",
+    "trial.panel.input.obs": "Observaciones",
+    "trial.panel.input.solicitud": "Número de Solicitud",
+    "trial.panel.input.created": "Fecha de Creación",
+    "trial.panel.input.myFormulas": "Mis fórmulas",
+    "trial.panel.input.search": "Buscar",
+
+    "trial.panel.trialList.title": "Listado de trials",
+
+    "trial.panel.input.openTrial": "Abrir en diseño",
+
+    "trial.panel.datagrid.col.formulaName": "Proyecto",
+    "trial.panel.datagrid.col.codExp": "Fórmula Cramer",
+    "trial.panel.datagrid.col.trialCode": "Cód. trial",
+    "trial.panel.datagrid.col.trialName": "Nombre fórmula",
+    "trial.panel.datagrid.col.trialCost": "Gasto",
+    "trial.panel.datagrid.col.sample": "Solicitud",
+    "trial.panel.datagrid.col.trial": "Trial",
+    "trial.panel.datagrid.col.createdAt": "Creación",
+    "trial.panel.datagrid.col.cost": "Costo (USD)",
+    "trial.panel.datagrid.col.country": "País",
+    "trial.panel.datagrid.col.delegate": "Delegado",
+    "trial.panel.datagrid.col.detail": "Detalle",
+    "trial.panel.datagrid.col.ifra": "Ifra",
+    "trial.panel.datagrid.col.obs": "Obs",
+    "trial.panel.datagrid.col.genExperimental": "Gen. exp.",
+    "trial.panel.datagrid.col.delete": "Eliminar",
+    "trial.panel.datagrid.col.share": "Compartir",
+    "trial.panel.datagrid.col.version": "Versión",
+    "trial.panel.datagrid.col.addMaterial": "Agregar",
+    
+    "trial.panel.trialDetail.title": "Detalle de trial",
+
+    "trial.panel.button.save": "Guardar",
+    
+    "trial.trialDetail.codFormula": "Código fórmula",
+    "trial.trialDetail.formulaName": "Nombre fórmula",
+    "trial.trialDetail.version": "Versión fórmula",
+    "trial.trialDetail.catFamily.title": "Categoría familia",
+    "trial.trialDetail.catFamily.placeholder": "Categoría",
+    "trial.trialDetail.subCatFamily.title": "SubCategoría familia",
+    "trial.trialDetail.subCatFamily.placeholder": "Sub categoria",
+    "trial.trialDetail.subSubCatFamily": "SubSubCategoría",
+    "trial.trialDetail.triangle.top": "Triangulo cabeza",
+    "trial.trialDetail.triangle.middle": "Triangulo corazón",
+    "trial.trialDetail.triangle.bottom": "Triangulo fondo",
+    "trial.trialDetail.validity.true": "VIGENTE",
+    "trial.trialDetail.validity.false": "NO VIGENTE",
+    "trial.trialDetail.formulaType.experimental": "EXPERIMENTAL",
+    "trial.trialDetail.formulaType.official": "OFICIAL",
+    
+    "materials.panel.filter.title": "Búsqueda avanzada",
+
+    "materials.panel.filter.input.code": "Código",
+    "materials.panel.filter.input.name": "Nombre",
+    "materials.panel.filter.input.family": "Familia",
+
+    "materials.panel.filter.button.search": "Buscar",
+    "materials.panel.filter.button.selectedMats": "Materiales",
+
+    "materials.panel.materialList.title": "Listado de materias primas",
+
+    "materials.panel.materialList.datagrid.allergen": "Alérgeno",
+    "materials.panel.materialList.datagrid.sun": "SUN",
+    "materials.panel.materialList.datagrid.material": "Materias primas",
+    "materials.panel.materialList.datagrid.cost": "Costo (USD)",
+    "materials.panel.materialList.datagrid.casNum": "CAS",
+    "materials.panel.materialList.datagrid.lastPurchase": "Última Compra",
+    "materials.panel.materialList.datagrid.stock": "Stock (Kg)",
+    "materials.panel.materialList.datagrid.group": "Grupo",
+    "materials.panel.materialList.datagrid.family": "Familia",
+
+    "requests.panel.filter.title": "Filtros de búsqueda de Solicitudes",
+    
+    "requests.panel.filter.input.sampleNumber": "Nro. Muestra",
+    "requests.panel.filter.input.clientName": "Nombre cliente",
+    "requests.panel.filter.input.button": "Desvincular Muestra",
+    
+    "requests.panel.filter.button.search": "Buscar",
+
+    "requests.panel.requestsList.title": "Listado de solicitudes",
+
+    "requests.panel.requestsList.datagrid.sampleNumber": "Nro. Muestra",
+    "requests.panel.requestsList.datagrid.createdAt": "Fecha ingreso",
+    "requests.panel.requestsList.datagrid.deliveredAt": "Fecha entrega",
+    "requests.panel.requestsList.datagrid.clientName": "Nombre cliente",
+    "requests.panel.requestsList.datagrid.sellerName": "Nombre vendedor",
+    "requests.panel.requestsList.datagrid.delegatedName": "Nombre delegado",
+    "requests.panel.requestsList.datagrid.country": "País",
+    "requests.panel.requestsList.datagrid.stage": "Etapa",
+
+    "requests.panel.button.requestSelect": "Seleccionar solicitud",
+
+    "personalLib.messages.maxTrialsReached": "No se pueden seleccionar mas de {maxTrials} trials.",
+    "personalLib.messages.saveTrial.success": "La información se actualizó correctamente",
+    "personalLib.messages.saveTrial.error": "Ocurrió un problema al guardar la información",
+
+    "modal.materials.title": "Listado de materias primas",
+
+    "modal.materials.footer.button.accept": "Seleccionar M/P",
+    "modal.materials.footer.button.cancel": "Cancelar",
+
+    "modal.materials.selected.title": "Materiales seleccionados",
+    "modal.materials.selected.codSun": "SUN",
+    "modal.materials.selected.name": "Material",
+    "modal.materials.selected.price": "Costo USD",
+
+    "modal.formulaPersonalLib.title": "Importar fórmula librería personal",
+    
+    "modal.formulaPersonalLib.footer.label.level": "Nivel de fórmula",
+    
+    "modal.formulaPersonalLib.footer.button.accept": "Importar",
+    "modal.formulaPersonalLib.footer.button.cancel": "Cancelar",
+
+    "modal.trial.comments.title": "Agregar comentarios",
+    "modal.trial.comments.add": "Agregar",
+    "modal.trial.comments.input.placeHolder": "Ingresa el comentario",
+    "modal.trial.comments.datagrid.col": "Comentários",
+    "modal.trial.comments.footer.button.cancel": "Cancelar",
+    "modal.trial.comments.datagrid.delete": "Eliminar",
+
+    "modal.trial.edit.title": "Cambiar información del trial",
+    "modal.trial.edit.inputCode.placeHolder": "Código",
+    "modal.trial.edit.inputName.placeHolder": "Nombre",
+    "modal.trial.edit.inputCost.placeHolder": "Gasto",
+    "modal.trial.edit.button.accept": "Guardar",
+    "modal.trial.edit.button.cancel": "Cancelar",
+    "modal.trial.edit.switch.requests": "Vincular otra Solicitud",
+    "modal.trial.edit.button.no": "No",
+    "modal.trial.edit.button.yes": "Si",
+    "modal.trial.edit.button.accepts": "Aceptar",
+
+    "modal.trial.normalize.title": "Normalizar Fórmula",
+    "modal.trial.normalize.input.placeHolder": "Ingresa el valor a usar para normalizar",
+    "modal.trial.normalize.select.placeHolder": "Unidad de normalización",
+    "modal.trial.normalize.select.grams": "Gramos",
+    "modal.trial.normalize.select.percent": "Porcentaje",
+    "modal.trial.normalize.button.accept": "Normalizar",
+    "modal.trial.normalize.button.cancel": "Cancelar",
+    
+    "modal.trial.officialize.title": "Generar fórmula experimental",
+
+    "modal.trial.officialize.input.obs": "Observaciones",
+
+    "modal.trial.officialize.button.accept.title": "Se deben ingresar todos los campos",
+    "modal.trial.officialize.button.accept": "Crear experimental",
+    "modal.trial.officialize.button.cancel": "Cancelar",
+
+    "modal.trial.officialize.messages.success": "La fórmula experimental se generó correctamente. Código: {codFormula}",
+    "modal.trial.officialize.messages.error": "Ocurrió un error al generar la fórmula experimental",
+    "modal.trial.officialize.messages.alreadyExp": "El trial ya se encuentra en su versión experimental",
+    "modal.trial.officialize.messages.ZeroFound": "Existen componentes con cantidad cero, lo que impide la grabación de la formula experimental, revisar, modificar y reintentar",
+    
+    "modal.trial.ifra.title": "Validación IFRA",
+
+    "modal.trial.ifra.label.performance": "Rendimiento (%)",
+    "modal.trial.ifra.label.dose": "Dósis a validar (%)",
+    "modal.trial.ifra.label.categories": "Categorías",
+    "modal.trial.ifra.label.categoriesDesc": "Categorias IFRA",
+
+    "modal.trial.ifra.datagrid.dose": "Dosís",
+    "modal.trial.ifra.datagrid.categories": "Categorías",
+    "modal.trial.ifra.datagrid.delete": "Eliminar",
+
+    "modal.trial.ifra.button.validate": "Validar",
+    "modal.trial.ifra.button.cancel": "Cancelar",
+    "modal.trial.ifra.button.add": "Agregar",
+
+    
+    "modal.trial.ifra.messages.success": "Validación IFRA finalizada",
+    "modal.trial.ifra.messages.error": "Ocurrió un problema al validar IFRA",
+
+    "modal.trial.ifra.result.title": "Resultado validación IFRA",
+    "modal.trial.ifra.result.panel.title": "Resultado validación IFRA",
+    "modal.trial.ifra.result.success": "Validación exitosa de IFRA!",
+    "modal.trial.ifra.result.error": "Ocurrió un error al validar IFRA",
+    "modal.trial.ifra.result.btn.cancel": "Cerrar",
+
+    "modal.trial.detail.title": "Detalle de fórmula",
+    
+    "modal.material.detail.title": "Detalle de material",
+    
+    "modal.trial.detail.datagrid.code": "Cod. Comp.",
+    "modal.trial.detail.datagrid.name": "Nombre Componente",
+    "modal.trial.detail.datagrid.quantity": "Cant.",
+
+    "modal.trial.zero.info" : "Existen materias primas con cantidad igual a 0 ¿Desea guardar la fórmula con materias primas en 0?",
+    "modal.trial.zero.cancel" : "Cancelar",
+    
+    "modal.formula.title": "Importar Fórmula",
+
+    "modal.formula.footer.label.level": "Nivel de fórmula",
+    
+    "modal.formula.footer.button.accept": "Importar",
+    "modal.formula.footer.button.cancel": "Cancelar",
+    
+    "modal.formula.detail.title": "Detalle fórmula",
+
+    "modal.formula.panel.search.title": "Filtros de búsqueda de Fórmulas",
+    "modal.formula.panel.search.input.code": "Código",
+    "modal.formula.panel.search.input.salesCode": "Código venta",
+    "modal.formula.panel.search.input.salesName": "Nombre venta",
+    "modal.formula.panel.search.input.formulaName": "Nombre de fórmula",
+    
+    "modal.formula.panel.search.select.default": "Todas",
+    "modal.formula.panel.search.select.label": "Estado aprobación",
+    "modal.formula.panel.search.select.experimental": "Experimental",
+    "modal.formula.panel.search.select.official": "Oficial",
+
+    "modal.formula.panel.search.select.workArea": "Área de trabajo",
+
+    "modal.formula.panel.search.select.formulaComposition.label": "Composición",
+    "modal.formula.panel.search.select.formulaComposition.finishedProduct": "PT",
+    "modal.formula.panel.search.select.formulaComposition.dilution": "DI",
+    
+    "modal.formula.panel.search.button.search": "Buscar",
+
+    "modal.formula.panel.detail.title": "Listado de Fórmulas",
+    "modal.formula.panel.detail.datagrid.col.code": "Código",
+    "modal.formula.panel.detail.datagrid.col.formulaName": "Nombre",
+    "modal.formula.panel.detail.datagrid.col.version": "Versión",
+    "modal.formula.panel.detail.datagrid.col.quantity": "Cant. base",
+    "modal.formula.panel.detail.datagrid.col.performance": "Rend.",
+    "modal.formula.panel.detail.datagrid.col.cretedAt": "Fecha creación",
+    "modal.formula.panel.detail.datagrid.col.updatedAt": "Fecha actualización",
+    "modal.formula.panel.detail.datagrid.col.approvalStage": "Etapa aprobación",
+    "modal.formula.panel.detail.datagrid.col.validity": "Vigencia",
+    "modal.formula.panel.detail.datagrid.col.allergen": "Alérgeno",
+    "modal.formula.panel.detail.datagrid.col.cost": "Costo (USD)",
+    "modal.formula.panel.detail.datagrid.col.detail": "Detalle",
+
+    "modal.shareTrial.title": "Compartir trial",
+    "modal.shareTrial.switch.label": "Compartir con todos?",
+    "modal.shareTrial.switch.leftText": "No",
+    "modal.shareTrial.switch.rightText": "Sí",
+
+    "modal.shareTrial.select.label": "Compartir con",
+    "modal.shareTrial.select.placeHolder": "Usuarios",
+    "modal.shareTrial.footer.success": "Guardar",
+    "modal.shareTrial.footer.cancel": "Cerrar",
+
+    "modal.shareTrial.message.save.success": "El trial fué compartido correctamente.",
+    "modal.shareTrial.message.save.error": "Ocurrió un problema al guardar la información.",
+
+    "modal.personalLib.title": "Clonar tags",
+    "modal.personalLib.button.selectedMaterials": "Formulas seleccionadas",
+    "modal.personalLib.messages.success": "Los tags han sido clonados correctamente",
+
+    "modal.trial.detail.material.number": "Número",
+    "modal.trial.detail.material.desc": "Descripción",
+    "modal.trial.detail.material.numberCas": "Número CAS",
+    "modal.trial.detail.material.quantity": "Cantidad",
+    
+    "trial.personalLib.message": "Existe más de un Trial seleccionado, seleccione sólo uno para ver el detalle",
+
+    "end": "end"
+
+}
