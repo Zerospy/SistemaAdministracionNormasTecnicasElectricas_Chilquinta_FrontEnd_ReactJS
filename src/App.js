@@ -4,17 +4,14 @@ import RouterComponent from 'routes/RouterComponent';
 import {BrowserRouter} from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
 import messages_es from 'translations/es.json';
-import messages_pt from 'translations/pt.json';
 import {IntlProvider, addLocaleData} from 'react-intl';
 import esLocaleData from 'react-intl/locale-data/es';
-import ptLocaleData from 'react-intl/locale-data/pt';
 import {GeneralContext} from 'GeneralContext';
 
-addLocaleData(esLocaleData, ptLocaleData);
+addLocaleData(esLocaleData);
 
 const messages = {
-    es: messages_es,
-    pt: messages_pt
+    es: messages_es
 };
 
 const defaultLang = {
@@ -37,8 +34,7 @@ class App extends Component {
           localeSelected = defaultLang;
       } else if (country === 'brasil') {
           localeSelected = {
-              lang: 'en',
-              messages: 'pt'
+              lang: 'en'
           };
       } else {
           localeSelected = defaultLang;

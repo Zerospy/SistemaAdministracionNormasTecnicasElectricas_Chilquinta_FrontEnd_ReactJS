@@ -63,10 +63,6 @@ class SidebarComponent extends React.Component {
                           icon="home"
                           startOpen={true}
                       >
-                          <SideNavLink to="/requests">
-                              <Fa icon="list" />
-                              <FormattedMessage id="menu.home.requests" />
-                          </SideNavLink>
                           <SideNavLink
                               to="/dashboard"
                               onClick={() => {
@@ -75,18 +71,6 @@ class SidebarComponent extends React.Component {
                           >
                               <Fa icon="bong" />
                               <FormattedMessage id="menu.home.dashboard" />
-                          </SideNavLink>
-                          <SideNavLink to="/materials">
-                              <Fa icon="clipboard-list" />
-                              <FormattedMessage id="menu.home.materials" />
-                          </SideNavLink>
-                          <SideNavLink to="/personal-lib">
-                              <Fa icon="book" />
-                              <FormattedMessage id="menu.home.personalLib" />
-                          </SideNavLink>
-                          <SideNavLink to="#">
-                              <Fa icon="receipt" />
-                              <FormattedMessage id="menu.home.regulations" />
                           </SideNavLink>
                       </SideNavCat>
 

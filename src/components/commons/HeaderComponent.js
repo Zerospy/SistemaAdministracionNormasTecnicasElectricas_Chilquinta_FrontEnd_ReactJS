@@ -39,9 +39,7 @@ class HeaderComponent extends React.Component {
                         {this.state.pageTitle}
                     </h5>
                 </div>
-                <div className="col-1">
-                    <img src={logo} alt="Cramer" className="page-logo" />
-                </div>
+                <div className="col-1" />
             </Row>
         );
     }
