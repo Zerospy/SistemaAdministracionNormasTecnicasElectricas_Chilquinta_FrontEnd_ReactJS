@@ -53,6 +53,8 @@
     "demo.label": "Demo label",
     "demo.message": "Demo message",
 
+    "component.workflow.title": "Workflow",
+
     "end": "end"
 
 }
