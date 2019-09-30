@@ -54,6 +54,9 @@
     "demo.message": "Demo message",
 
     "component.workflow.title": "Workflow",
+    "component.workflow.datagrid.id": "Id",
+    "component.workflow.datagrid.name": "Nombre",
+    "component.workflow.datagrid.comments": "Comentarios",
 
     "end": "end"
 
