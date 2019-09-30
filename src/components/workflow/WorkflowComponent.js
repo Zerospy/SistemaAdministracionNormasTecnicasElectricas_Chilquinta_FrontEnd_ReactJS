@@ -38,7 +38,7 @@ class WorkflowComponent extends React.Component {
                 })}`,
                 field: 'Comments',
                 width: 140
-            },
+            }
         );
 
         this.state = {
@@ -57,35 +57,44 @@ class WorkflowComponent extends React.Component {
             <WorkflowContext.Provider value={this}>
                 <HeaderComponent />
                 <Row>
-                    <Col>
-                        <FormattedMessage id="component.workflow.title" />
+                    <Col size="12">
+                        <PanelComponent
+                            title={`${this.props.intl.formatMessage({
+                                id: 'component.workflow.title'
+                            })}`}
+                        >
+                            <FormattedMessage id="component.workflow.title" />
+                        </PanelComponent>
                     </Col>
                 </Row>
+                <br />
                 <Row>
-                    <PanelComponent
-                        title={`${this.props.intl.formatMessage({
-                            id: 'materials.panel.materialList.title'
-                        })}`}
-                    >
-                        <DataGridComponent
-                            isLoading={this.state.loadingInformation}
-                            classContainer="grid-container"
-                            onPaginationChange={pagination => {
-                                this.setState(
-                                    {
-                                        pagination: pagination
-                                    },
-                                    () => {
-                                        // search workflows
-                                    }
-                                );
-                            }}
-                            columnDefs={this.state.columnDefs}
-                            rowData={this.state.rowData}
-                            pagination={this.state.pagination}
-                            enableColResize={true}
-                        />
-                    </PanelComponent>
+                    <Col size="12">
+                        <PanelComponent
+                            title={`${this.props.intl.formatMessage({
+                                id: 'component.workflow.title'
+                            })}`}
+                        >
+                            <DataGridComponent
+                                isLoading={this.state.loadingInformation}
+                                classContainer="grid-container"
+                                onPaginationChange={pagination => {
+                                    this.setState(
+                                        {
+                                            pagination: pagination
+                                        },
+                                        () => {
+                                            // search workflows
+                                        }
+                                    );
+                                }}
+                                columnDefs={this.state.columnDefs}
+                                rowData={this.state.rowData}
+                                pagination={this.state.pagination}
+                                enableColResize={true}
+                            />
+                        </PanelComponent>
+                    </Col>
                 </Row>
             </WorkflowContext.Provider>
         );

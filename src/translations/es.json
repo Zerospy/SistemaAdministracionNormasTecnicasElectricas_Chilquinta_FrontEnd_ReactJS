@@ -28,6 +28,8 @@
     "menu.home": "Inicio",
     "menu.home.dashboard": "Home",
 
+    "menu.workflow": "Workflow",
+
     "menu.account": "Cuenta",
     "menu.account.logout": "Cerrar sesión",
 

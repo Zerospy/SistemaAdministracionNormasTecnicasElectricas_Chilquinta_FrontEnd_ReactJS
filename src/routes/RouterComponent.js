@@ -27,13 +27,13 @@ class RouterComponent extends React.Component {
     render() {
         const token = this.LoginService.getSessionInformation();
 
-        if (
+        /* if (
             token === null &&
       this.props.history.location.pathname !== '/dashboard'
         ) {
             this.props.history.push('/dashboard');
         }
-
+*/
         return (
             <Switch>
                 <Route
