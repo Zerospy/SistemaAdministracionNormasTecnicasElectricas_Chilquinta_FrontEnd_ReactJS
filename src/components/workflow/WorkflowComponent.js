@@ -56,17 +56,6 @@ class WorkflowComponent extends React.Component {
         return (
             <WorkflowContext.Provider value={this}>
                 <HeaderComponent />
-                <Row>
-                    <Col size="12">
-                        <PanelComponent
-                            title={`${this.props.intl.formatMessage({
-                                id: 'component.workflow.title'
-                            })}`}
-                        >
-                            <FormattedMessage id="component.workflow.title" />
-                        </PanelComponent>
-                    </Col>
-                </Row>
                 <br />
                 <Row>
                     <Col size="12">
