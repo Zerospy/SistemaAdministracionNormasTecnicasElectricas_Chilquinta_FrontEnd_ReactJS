@@ -1,8 +1,8 @@
 package cl.desagen.chilquinta.repositories;
 
 import cl.desagen.chilquinta.entities.RevisionNormaEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface RevisionNormaRepository extends CrudRepository<RevisionNormaEntity, Long> {
+public interface RevisionNormaRepository extends PagingAndSortingRepository<RevisionNormaEntity, Long> {
 
 }

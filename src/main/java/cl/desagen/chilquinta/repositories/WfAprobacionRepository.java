@@ -1,8 +1,8 @@
 package cl.desagen.chilquinta.repositories;
 
 import cl.desagen.chilquinta.entities.WfAprobacionEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface WfAprobacionRepository extends CrudRepository<WfAprobacionEntity, Long> {
+public interface WfAprobacionRepository extends PagingAndSortingRepository<WfAprobacionEntity, Long> {
 
 }

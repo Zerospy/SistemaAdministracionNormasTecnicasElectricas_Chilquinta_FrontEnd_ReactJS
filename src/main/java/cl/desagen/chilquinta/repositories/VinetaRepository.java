@@ -1,8 +1,8 @@
 package cl.desagen.chilquinta.repositories;
 
 import cl.desagen.chilquinta.entities.VinetaEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface VinetaRepository extends CrudRepository<VinetaEntity, Long> {
+public interface VinetaRepository extends PagingAndSortingRepository<VinetaEntity, Long> {
 
 }

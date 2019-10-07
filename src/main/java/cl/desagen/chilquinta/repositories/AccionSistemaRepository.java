@@ -1,8 +1,8 @@
 package cl.desagen.chilquinta.repositories;
 
 import cl.desagen.chilquinta.entities.AccionSistemaEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface AccionSistemaRepository extends CrudRepository<AccionSistemaEntity, Long> {
+public interface AccionSistemaRepository extends PagingAndSortingRepository<AccionSistemaEntity, Long> {
 
 }

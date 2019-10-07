@@ -1,8 +1,8 @@
 package cl.desagen.chilquinta.repositories;
 
 import cl.desagen.chilquinta.entities.ModListMatNormaEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface ModListMatNormaRepository extends CrudRepository<ModListMatNormaEntity, Long> {
+public interface ModListMatNormaRepository extends PagingAndSortingRepository<ModListMatNormaEntity, Long> {
 
 }

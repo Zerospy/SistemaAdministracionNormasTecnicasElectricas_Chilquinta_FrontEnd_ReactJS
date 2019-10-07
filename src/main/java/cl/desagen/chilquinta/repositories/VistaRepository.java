@@ -1,8 +1,8 @@
 package cl.desagen.chilquinta.repositories;
 
 import cl.desagen.chilquinta.entities.VistaEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface VistaRepository extends CrudRepository<VistaEntity, Long> {
+public interface VistaRepository extends PagingAndSortingRepository<VistaEntity, Long> {
 
 }

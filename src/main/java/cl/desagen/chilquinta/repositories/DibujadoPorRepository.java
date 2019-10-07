@@ -1,8 +1,8 @@
 package cl.desagen.chilquinta.repositories;
 
 import cl.desagen.chilquinta.entities.DibujadoPorEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface DibujadoPorRepository extends CrudRepository<DibujadoPorEntity, Long> {
+public interface DibujadoPorRepository extends PagingAndSortingRepository<DibujadoPorEntity, Long> {
 
 }

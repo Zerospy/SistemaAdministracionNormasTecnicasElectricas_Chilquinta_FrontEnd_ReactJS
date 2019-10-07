@@ -1,8 +1,8 @@
 package cl.desagen.chilquinta.repositories;
 
 import cl.desagen.chilquinta.entities.NotaNormaEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface NotaNormaRepository extends CrudRepository<NotaNormaEntity, Long> {
+public interface NotaNormaRepository extends PagingAndSortingRepository<NotaNormaEntity, Long> {
 
 }
