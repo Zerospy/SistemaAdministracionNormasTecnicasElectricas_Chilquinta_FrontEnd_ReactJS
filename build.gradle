@@ -33,6 +33,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
     compile 'postgresql:postgresql:42.2.6'
 
+    // https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc
+    compile group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '7.4.1.jre8'
+
     // https://mvnrepository.com/artifact/org.quartz-scheduler/quartz
     compile group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.0'
 
