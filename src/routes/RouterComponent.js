@@ -31,7 +31,7 @@ class RouterComponent extends React.Component {
             token === null &&
       this.props.history.location.pathname !== '/dashboard'
         ) {
-            this.props.history.push('/dashboard');
+            // this.props.history.push('/dashboard');
         }
 
         return (

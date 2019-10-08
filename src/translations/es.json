@@ -55,8 +55,14 @@
 
     "component.workflow.title": "Workflow",
     "component.workflow.datagrid.id": "Id",
-    "component.workflow.datagrid.name": "Nombre",
-    "component.workflow.datagrid.comments": "Comentarios",
+    "component.workflow.datagrid.codNorma": "Cod. Norma",
+    "component.workflow.datagrid.nombre": "Nombre",
+    "component.workflow.datagrid.descripcion": "Desc",
+    "component.workflow.datagrid.estado": "Estado",
+    "component.workflow.datagrid.fecha": "Fecha",
+    "component.workflow.datagrid.tipoTabla": "Tipo",
+    "component.workflow.datagrid.urlPdf": "UrlPdf",
+    "component.workflow.datagrid.urlCad": "UrlCad",
 
     "end": "end"
 

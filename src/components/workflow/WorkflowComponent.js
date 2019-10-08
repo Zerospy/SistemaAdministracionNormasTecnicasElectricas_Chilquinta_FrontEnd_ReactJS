@@ -6,7 +6,8 @@ import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import Constantes from 'Constantes';
 import PanelComponent from 'components/commons/panels/PanelComponent';
-import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
+import {MDBDataTable} from 'mdbreact';
+import NormaService from 'services/NormaService';
 
 class WorkflowComponent extends React.Component {
     showSettings(event) {
@@ -16,76 +17,126 @@ class WorkflowComponent extends React.Component {
     constructor(props) {
         super(props);
 
-        const columnDefs = [];
-        columnDefs.push(
-            {
-                headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.id'
-                })}`,
-                field: 'Id',
-                width: 70
-            },
-            {
-                headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.name'
-                })}`,
-                field: 'Name',
-                width: 120
-            },
-            {
-                headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.comments'
-                })}`,
-                field: 'Comments',
-                width: 140
-            },
-        );
+        this.normaService = new NormaService();
+
+        const data = {
+            columns: [
+                {
+                    label: `${props.intl.formatMessage({
+                        id: 'component.workflow.datagrid.id'
+                    })}`,
+                    field: 'id',
+                    sort: 'asc',
+                    width: 80
+                },
+                {
+                    label: `${props.intl.formatMessage({
+                        id: 'component.workflow.datagrid.codNorma'
+                    })}`,
+                    field: 'codNorma',
+                    sort: 'asc',
+                    width: 80
+                },
+                {
+                    label: `${props.intl.formatMessage({
+                        id: 'component.workflow.datagrid.nombre'
+                    })}`,
+                    field: 'nombre',
+                    sort: 'asc',
+                    width: 100
+                },
+                {
+                    label: `${props.intl.formatMessage({
+                        id: 'component.workflow.datagrid.descripcion'
+                    })}`,
+                    field: 'descripcion',
+                    sort: 'asc',
+                    width: 120
+                },
+                {
+                    label: `${props.intl.formatMessage({
+                        id: 'component.workflow.datagrid.estado'
+                    })}`,
+                    field: 'estado',
+                    sort: 'asc',
+                    width: 110
+                },
+                {
+                    label: `${props.intl.formatMessage({
+                        id: 'component.workflow.datagrid.fecha'
+                    })}`,
+                    field: 'fecha',
+                    sort: 'asc',
+                    width: 100
+                },
+                {
+                    label: `${props.intl.formatMessage({
+                        id: 'component.workflow.datagrid.tipoTabla'
+                    })}`,
+                    field: 'tipoTabla',
+                    sort: 'asc',
+                    width: 80
+                },
+                {
+                    label: `${props.intl.formatMessage({
+                        id: 'component.workflow.datagrid.urlPdf'
+                    })}`,
+                    field: 'urlPdf',
+                    sort: 'asc',
+                    width: 100
+                },
+                {
+                    label: `${props.intl.formatMessage({
+                        id: 'component.workflow.datagrid.urlCad'
+                    })}`,
+                    field: 'urlCad',
+                    sort: 'asc',
+                    width: 100
+                }
+            ],
+            rows: []
+        };
 
         this.state = {
             pagination: {
                 PageIndex: 1,
                 RowsPerPage: Constantes.DEFAULT_PAGE_SIZE
             },
-            columnDefs: columnDefs,
-            rowData: [],
+            data: data,
             loadingInformation: false
         };
+    }
+
+    componentDidMount() {
+        this.normaService.get().then(response => {
+            const rowsState = this.state.data;
+            rowsState.rows = response !== null ? response.data : [];
+            this.setState({
+                data: rowsState
+            });
+        });
     }
 
     render() {
         return (
             <WorkflowContext.Provider value={this}>
                 <HeaderComponent />
+                <br />
                 <Row>
-                    <Col>
-                        <FormattedMessage id="component.workflow.title" />
+                    <Col size="12">
+                        <PanelComponent
+                            title={`${this.props.intl.formatMessage({
+                                id: 'component.workflow.title'
+                            })}`}
+                        >
+                            <MDBDataTable
+                                striped
+                                hover
+                                data={this.state.data}
+                            />
+                        </PanelComponent>
                     </Col>
-                </Row>
-                <Row>
-                    <PanelComponent
-                        title={`${this.props.intl.formatMessage({
-                            id: 'materials.panel.materialList.title'
-                        })}`}
-                    >
-                        <DataGridComponent
-                            isLoading={this.state.loadingInformation}
-                            classContainer="grid-container"
-                            onPaginationChange={pagination => {
-                                this.setState(
-                                    {
-                                        pagination: pagination
-                                    },
-                                    () => {
-                                        // search workflows
-                                    }
-                                );
-                            }}
-                            columnDefs={this.state.columnDefs}
-                            rowData={this.state.rowData}
-                            pagination={this.state.pagination}
-                            enableColResize={true}
-                        />
-                    </PanelComponent>
+
                 </Row>
             </WorkflowContext.Provider>
         );
