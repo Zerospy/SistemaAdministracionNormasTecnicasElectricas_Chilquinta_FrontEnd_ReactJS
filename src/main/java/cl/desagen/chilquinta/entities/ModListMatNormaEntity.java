@@ -7,7 +7,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "mod_list_mat_norma", schema = "dbo", catalog = "NORMAS")
 public class ModListMatNormaEntity {
-    private int id;
+    private Long id;
     private Integer revisionId;
     private Integer normaId;
     private Integer tipo;
@@ -16,11 +16,11 @@ public class ModListMatNormaEntity {
 
     @Id
     @Column(name = "id")
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

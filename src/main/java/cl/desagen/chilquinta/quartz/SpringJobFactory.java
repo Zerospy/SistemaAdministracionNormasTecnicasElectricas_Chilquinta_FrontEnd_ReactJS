@@ -10,9 +10,9 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
 public final class SpringJobFactory extends SpringBeanJobFactory implements ApplicationContextAware {
 
-    private transient AutowireCapableBeanFactory beanFactory;
+    private AutowireCapableBeanFactory beanFactory;
 
-    private static final Logger log = LoggerFactory.getLogger(SchedulerConfig.class);
+    private static final Logger log = LoggerFactory.getLogger(SpringJobFactory.class);
 
     @Override
     public void setApplicationContext(final ApplicationContext context) {

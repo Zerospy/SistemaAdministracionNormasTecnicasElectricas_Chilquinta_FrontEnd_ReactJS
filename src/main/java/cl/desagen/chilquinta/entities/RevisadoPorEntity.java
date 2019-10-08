@@ -6,17 +6,17 @@ import java.util.Objects;
 @Entity
 @Table(name = "revisado_por", schema = "dbo", catalog = "NORMAS")
 public class RevisadoPorEntity {
-    private int id;
+    private Long id;
     private Integer revNormaId;
     private String nombre;
 
     @Id
     @Column(name = "id")
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

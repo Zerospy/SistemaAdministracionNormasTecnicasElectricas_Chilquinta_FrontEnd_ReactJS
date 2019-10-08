@@ -7,17 +7,17 @@ import java.util.Objects;
 @Entity
 @Table(name = "perfil", schema = "dbo", catalog = "NORMAS")
 public class PerfilEntity {
-    private int id;
+    private Long id;
     private String perfil;
     private Timestamp timestamp;
 
     @Id
     @Column(name = "id")
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
