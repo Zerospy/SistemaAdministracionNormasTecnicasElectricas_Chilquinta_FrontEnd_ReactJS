@@ -1,5 +1,6 @@
 import HeaderComponent from 'components/commons/HeaderComponent';
 import {WorkflowContext} from 'components/workflow/WorkflowContext';
+import CommentsModal from 'components/workflow/CommentsModal';
 import {Col, Row} from 'mdbreact';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -7,6 +8,8 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 import Constantes from 'Constantes';
 import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
+import NormaService from 'services/NormaService';
+import {toast} from 'react-toastify';
 
 class WorkflowComponent extends React.Component {
     showSettings(event) {
@@ -16,30 +19,66 @@ class WorkflowComponent extends React.Component {
     constructor(props) {
         super(props);
 
-        const columnDefs = [];
-        columnDefs.push(
+        this.normaService = new NormaService();
+
+        const columnDefs = [
             {
                 headerName: `${props.intl.formatMessage({
                     id: 'component.workflow.datagrid.id'
                 })}`,
-                field: 'Id',
-                width: 70
+                field: 'id',
+                width: 50
             },
             {
                 headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.name'
+                    id: 'component.workflow.datagrid.codNorma'
                 })}`,
-                field: 'Name',
+                field: 'codNorma',
                 width: 120
             },
             {
                 headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.comments'
+                    id: 'component.workflow.datagrid.nombre'
                 })}`,
-                field: 'Comments',
+                field: 'nombre',
+                width: 420
+            },
+            {
+                headerName: `${props.intl.formatMessage({
+                    id: 'component.workflow.datagrid.descripcion'
+                })}`,
+                field: 'descripcion',
+                width: 420
+            },
+            {
+                headerName: `${props.intl.formatMessage({
+                    id: 'component.workflow.datagrid.estado'
+                })}`,
+                field: 'estado.descripcion',
                 width: 140
+            },
+            {
+                headerName: `${props.intl.formatMessage({
+                    id: 'component.workflow.datagrid.fecha'
+                })}`,
+                field: 'fecha',
+                width: 180
+            },
+            {
+                headerName: '#',
+                field: 'id',
+                cellRenderer: 'CommentsButtonGridRenderer',
+                onClick: norma => {
+                    this.setState({
+                        selectedNorma: norma,
+                        modalComments: true
+                    });
+                },
+                editable: false,
+                colId: 'id',
+                width: 50
             }
-        );
+        ];
 
         this.state = {
             pagination: {
@@ -48,15 +87,56 @@ class WorkflowComponent extends React.Component {
             },
             columnDefs: columnDefs,
             rowData: [],
-            loadingInformation: false
+            loadingInformation: false,
+            modalComments: false,
+            loadingComments: false,
+            selectedNorma: null
         };
     }
 
+    searchNormas() {
+        this.setState({
+            loadingInformation: true
+        });
+
+        this.normaService.get().then(
+            response => {
+                this.setState({
+                    rowData: response !== null ? response.data : [],
+                    loadingInformation: false
+                });
+            },
+            () => {
+                toast.info(
+                    `${this.props.intl.formatMessage({
+                        id: 'component.workflow.title'
+                    })}`
+                );
+
+                this.setState({
+                    loadingInformation: false
+                });
+            }
+        );
+    }
+
+    componentDidMount() {
+        this.searchNormas();
+    }
+
     render() {
-        return (
+        return [
             <WorkflowContext.Provider value={this}>
+                <CommentsModal
+                    norma={this.state.selectedNorma}
+                    isOpen={this.state.modalComments}
+                    toggle={() => {
+                        this.setState({
+                            modalComments: !this.state.modalComments
+                        });
+                    }}
+                />
                 <HeaderComponent />
-                <br />
                 <Row>
                     <Col size="12">
                         <PanelComponent
@@ -86,7 +166,7 @@ class WorkflowComponent extends React.Component {
                     </Col>
                 </Row>
             </WorkflowContext.Provider>
-        );
+        ];
     }
 }
 
