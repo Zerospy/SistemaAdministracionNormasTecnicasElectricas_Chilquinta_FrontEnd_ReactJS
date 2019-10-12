@@ -33,6 +33,11 @@ public class ObservacionNormaController {
         return observacionnormaService.findById(id);
     }
 
+    @GetMapping(value = "getByIdNorma/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
+    public Iterable<ObservacionNormaEntity> findAllByNormaId(@PathVariable Long id) {
+        return observacionnormaService.findAllByNormaId(id);
+    }
+
     @PostMapping(value = "/", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity save(@RequestBody ObservacionNormaEntity observacionnormaEntity) {
 

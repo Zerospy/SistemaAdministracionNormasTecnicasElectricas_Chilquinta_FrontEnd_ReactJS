@@ -1,4 +1,7 @@
 package cl.desagen.chilquinta.entities;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -6,106 +9,47 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "norma", schema = "dbo", catalog = "NORMAS")
+@Data
 public class NormaEntity {
-    private Long id;
-    private String codNorma;
-    private String nombre;
-    private String descripcion;
-    private Integer estado;
-    private Timestamp fecha;
-    private Integer tipoTabla;
-    private String urlPdf;
-    private String urlCad;
 
     @Id
-    @Column(name = "id")
-    public Long getId() {
-        return id;
-    }
+    @JsonProperty
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true)
+    private Long id;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Basic
+    @JsonProperty
     @Column(name = "cod_norma")
-    public String getCodNorma() {
-        return codNorma;
-    }
+    private String codNorma;
 
-    public void setCodNorma(String codNorma) {
-        this.codNorma = codNorma;
-    }
-
-    @Basic
+    @JsonProperty
     @Column(name = "nombre")
-    public String getNombre() {
-        return nombre;
-    }
+    private String nombre;
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    @Basic
+    @JsonProperty
     @Column(name = "descripcion")
-    public String getDescripcion() {
-        return descripcion;
-    }
+    private String descripcion;
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonProperty
+    @JoinColumn(name = "estado_id")
+    private EstadosEntity estado;
 
-    @Basic
-    @Column(name = "estado")
-    public Integer getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Integer estado) {
-        this.estado = estado;
-    }
-
-    @Basic
+    @JsonProperty
     @Column(name = "fecha")
-    public Timestamp getFecha() {
-        return fecha;
-    }
+    private Timestamp fecha;
 
-    public void setFecha(Timestamp fecha) {
-        this.fecha = fecha;
-    }
-
-    @Basic
+    @JsonProperty
     @Column(name = "tipo_tabla")
-    public Integer getTipoTabla() {
-        return tipoTabla;
-    }
+    private Integer tipoTabla;
 
-    public void setTipoTabla(Integer tipoTabla) {
-        this.tipoTabla = tipoTabla;
-    }
-
-    @Basic
+    @JsonProperty
     @Column(name = "Url_pdf")
-    public String getUrlPdf() {
-        return urlPdf;
-    }
+    private String urlPdf;
 
-    public void setUrlPdf(String urlPdf) {
-        this.urlPdf = urlPdf;
-    }
-
-    @Basic
+    @JsonProperty
     @Column(name = "Url_cad")
-    public String getUrlCad() {
-        return urlCad;
-    }
-
-    public void setUrlCad(String urlCad) {
-        this.urlCad = urlCad;
-    }
+    private String urlCad;
 
     @Override
     public boolean equals(Object o) {
@@ -125,7 +69,6 @@ public class NormaEntity {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, codNorma, nombre, descripcion, estado, fecha, tipoTabla, urlPdf, urlCad);
     }
 }

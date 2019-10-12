@@ -23,6 +23,11 @@ public class ObservacionNormaService {
         return observacionnormaRepository.findAll(pageable);
     }
 
+    public Iterable<ObservacionNormaEntity> findAllByNormaId(Long normaId) {
+        return observacionnormaRepository.findAllByNormaId(normaId);
+    }
+
+
     public ObservacionNormaEntity save(ObservacionNormaEntity observacionnormaEntity) {
         return observacionnormaRepository.save(observacionnormaEntity);
     }

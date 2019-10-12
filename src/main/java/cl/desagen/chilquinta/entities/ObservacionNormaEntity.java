@@ -1,17 +1,34 @@
 package cl.desagen.chilquinta.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
+@Data
 @Table(name = "observacion_norma", schema = "dbo", catalog = "NORMAS")
 public class ObservacionNormaEntity {
+
     private Long id;
-    private Integer revNormaId;
+
+    private Long normaId;
+
     private String observacion;
+
+    private UsuarioEntity usuario;
+
+    private Timestamp createdAt;
+
+    private Timestamp updatedAt;
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -21,13 +38,13 @@ public class ObservacionNormaEntity {
     }
 
     @Basic
-    @Column(name = "rev_norma_id")
-    public Integer getRevNormaId() {
-        return revNormaId;
+    @Column(name = "norma_id")
+    public Long getNormaId() {
+        return normaId;
     }
 
-    public void setRevNormaId(Integer revNormaId) {
-        this.revNormaId = revNormaId;
+    public void setNormaId(Long normaId) {
+        this.normaId = normaId;
     }
 
     @Basic
@@ -40,19 +57,50 @@ public class ObservacionNormaEntity {
         this.observacion = observacion;
     }
 
+    @JsonProperty
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    public UsuarioEntity getUser() {
+        return usuario;
+    }
+
+    public void setUser(UsuarioEntity usuario) {
+        this.usuario = usuario;
+    }
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ObservacionNormaEntity that = (ObservacionNormaEntity) o;
         return id == that.id &&
-                Objects.equals(revNormaId, that.revNormaId) &&
+                Objects.equals(normaId, that.normaId) &&
                 Objects.equals(observacion, that.observacion);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, revNormaId, observacion);
+        return Objects.hash(id, normaId, observacion);
     }
 }

@@ -1,5 +1,7 @@
 package cl.desagen.chilquinta.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -7,7 +9,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "usuario", schema = "dbo", catalog = "NORMAS")
 public class UsuarioEntity {
-    private Long id;
+    private Integer id;
     private String nombres;
     private String apellidos;
     private String usuario;
@@ -17,13 +19,16 @@ public class UsuarioEntity {
     private String email;
     private String claveTextoPlano;
 
+
     @Id
-    @Column(name = "id")
-    public Long getId() {
+    @JsonProperty
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true)
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
