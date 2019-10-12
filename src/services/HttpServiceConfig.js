@@ -4,9 +4,9 @@ import LoginService from 'services/LoginService';
 export default class HttpServiceConfig {
     constructor(config) {
         if (config) {
-            if (config.jwt) {
-                this.jwt = config.jwt;
-            }
+            // if (config.jwt) {
+            //     this.jwt = config.jwt;
+            // }
 
             if (config.apiUrl) {
                 this.apiUrl = config.apiUrl;
@@ -23,17 +23,17 @@ export default class HttpServiceConfig {
     addRequestsInterceptors() {
     // Add a request interceptor
         axios.interceptors.request.use(
-            config => {
-                const sessionInformation = this.LoginService.getSessionInformation();
+            config =>
+            /* const sessionInformation = this.LoginService.getSessionInformation();
 
                 if (sessionInformation && sessionInformation.JWT) {
                     config.headers = {
                         Authorization: sessionInformation.JWT.Token
                     };
-                }
+                }*/
 
-                return config;
-            },
+                config
+            ,
             error => {
                 console.error('error', error);
                 return Promise.reject(error);
@@ -47,14 +47,14 @@ export default class HttpServiceConfig {
                 const response = error.response;
                 console.debug(error);
 
-                if (
+                /*  if (
                     (response && response.status && response.status === 403) ||
           error.message === 'Network Error'
                 ) {
-                    this.LoginService.logOut();
-                    window.location = '/login';
+                    // this.LoginService.logOut();
+                    // window.location = '/login';
                 }
-
+*/
                 return Promise.reject(error);
             }
         );

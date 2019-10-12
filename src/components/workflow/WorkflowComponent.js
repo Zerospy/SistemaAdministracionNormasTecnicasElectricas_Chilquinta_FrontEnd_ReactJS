@@ -1,12 +1,15 @@
 import HeaderComponent from 'components/commons/HeaderComponent';
 import {WorkflowContext} from 'components/workflow/WorkflowContext';
-import {Col, Row} from 'mdbreact';
+import CommentsModal from 'components/workflow/CommentsModal';
+import {Col, Row, Input} from 'mdbreact';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import Constantes from 'Constantes';
 import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
+import NormaService from 'services/NormaService';
+import {toast} from 'react-toastify';
 
 class WorkflowComponent extends React.Component {
     showSettings(event) {
@@ -16,30 +19,66 @@ class WorkflowComponent extends React.Component {
     constructor(props) {
         super(props);
 
-        const columnDefs = [];
-        columnDefs.push(
+        this.normaService = new NormaService();
+
+        const columnDefs = [
             {
                 headerName: `${props.intl.formatMessage({
                     id: 'component.workflow.datagrid.id'
                 })}`,
-                field: 'Id',
-                width: 70
+                field: 'id',
+                width: 50
             },
             {
                 headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.name'
+                    id: 'component.workflow.datagrid.codNorma'
                 })}`,
-                field: 'Name',
+                field: 'codNorma',
                 width: 120
             },
             {
                 headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.comments'
+                    id: 'component.workflow.datagrid.nombre'
                 })}`,
-                field: 'Comments',
+                field: 'nombre',
+                width: 420
+            },
+            {
+                headerName: `${props.intl.formatMessage({
+                    id: 'component.workflow.datagrid.descripcion'
+                })}`,
+                field: 'descripcion',
+                width: 420
+            },
+            {
+                headerName: `${props.intl.formatMessage({
+                    id: 'component.workflow.datagrid.estado'
+                })}`,
+                field: 'estado.descripcion',
                 width: 140
             },
-        );
+            {
+                headerName: `${props.intl.formatMessage({
+                    id: 'component.workflow.datagrid.fecha'
+                })}`,
+                field: 'fecha',
+                width: 180
+            },
+            {
+                headerName: '#',
+                field: 'id',
+                cellRenderer: 'CommentsButtonGridRenderer',
+                onClick: norma => {
+                    this.setState({
+                        selectedNorma: norma,
+                        modalComments: true
+                    });
+                },
+                editable: false,
+                colId: 'id',
+                width: 50
+            }
+        ];
 
         this.state = {
             pagination: {
@@ -48,47 +87,102 @@ class WorkflowComponent extends React.Component {
             },
             columnDefs: columnDefs,
             rowData: [],
-            loadingInformation: false
+            loadingInformation: false,
+            modalComments: false,
+            loadingComments: false,
+            selectedNorma: null,
+            quickFilter: ''
         };
     }
 
+    searchNormas() {
+        this.setState({
+            loadingInformation: true
+        });
+
+        this.normaService.get().then(
+            response => {
+                this.setState({
+                    rowData: response !== null ? response.data : [],
+                    loadingInformation: false
+                });
+            },
+            () => {
+                toast.info(
+                    `${this.props.intl.formatMessage({
+                        id: 'component.workflow.title'
+                    })}`
+                );
+
+                this.setState({
+                    loadingInformation: false
+                });
+            }
+        );
+    }
+
+    componentDidMount() {
+        this.searchNormas();
+    }
+
     render() {
-        return (
+        return [
             <WorkflowContext.Provider value={this}>
+                <CommentsModal
+                    norma={this.state.selectedNorma}
+                    isOpen={this.state.modalComments}
+                    toggle={() => {
+                        this.setState({
+                            modalComments: !this.state.modalComments
+                        });
+                    }}
+                />
                 <HeaderComponent />
                 <Row>
-                    <Col>
-                        <FormattedMessage id="component.workflow.title" />
+                    <Col size="12">
+                        <PanelComponent
+                            title={`${this.props.intl.formatMessage({
+                                id: 'component.workflow.title'
+                            })}`}
+                        >
+                            <Col size="4">
+                                <Input
+                                    label={`${this.props.intl.formatMessage({
+                                        id: 'component.workflow.datagrid.search'
+                                    })}`}
+                                    value={this.state.quickFilter}
+                                    onChange={event => {
+                                        this.setState({
+                                            quickFilter: event.target.value
+                                        });
+                                    }}
+                                />
+                            </Col>
+
+                            <DataGridComponent
+                                isLoading={this.state.loadingInformation}
+                                classContainer="grid-container"
+                                onPaginationChange={pagination => {
+                                    this.setState(
+                                        {
+                                            pagination: pagination
+                                        },
+                                        () => {
+                                            // search workflows
+                                        }
+                                    );
+                                }}
+                                columnDefs={this.state.columnDefs}
+                                rowData={this.state.rowData}
+                                pagination={this.state.pagination}
+                                enableColResize={true}
+                                quickFilter={this.state.quickFilter}
+                            />
+                        </PanelComponent>
                     </Col>
                 </Row>
-                <Row>
-                    <PanelComponent
-                        title={`${this.props.intl.formatMessage({
-                            id: 'materials.panel.materialList.title'
-                        })}`}
-                    >
-                        <DataGridComponent
-                            isLoading={this.state.loadingInformation}
-                            classContainer="grid-container"
-                            onPaginationChange={pagination => {
-                                this.setState(
-                                    {
-                                        pagination: pagination
-                                    },
-                                    () => {
-                                        // search workflows
-                                    }
-                                );
-                            }}
-                            columnDefs={this.state.columnDefs}
-                            rowData={this.state.rowData}
-                            pagination={this.state.pagination}
-                            enableColResize={true}
-                        />
-                    </PanelComponent>
-                </Row>
             </WorkflowContext.Provider>
-        );
+        ];
     }
 }
 

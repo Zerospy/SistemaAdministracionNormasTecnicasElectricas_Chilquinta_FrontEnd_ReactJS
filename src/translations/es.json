@@ -1,5 +1,8 @@
 {
     "app.title": "Chilquinta",
+
+    "app.general.btn.accept": "Aceptar",
+    "app.general.btn.cancel": "Cancelar",
     
     "legend.ban.mp": "Materias Primas Prohibidas",
     "legend.alergen.mp": "Materias Primas con Componentes Alergenos",
@@ -28,6 +31,8 @@
     "menu.home": "Inicio",
     "menu.home.dashboard": "Home",
 
+    "menu.workflow": "Workflow",
+
     "menu.account": "Cuenta",
     "menu.account.logout": "Cerrar sesión",
 
@@ -54,9 +59,21 @@
     "demo.message": "Demo message",
 
     "component.workflow.title": "Workflow",
+    "component.workflow.datagrid.search": "Búsqueda rápida",
     "component.workflow.datagrid.id": "Id",
-    "component.workflow.datagrid.name": "Nombre",
-    "component.workflow.datagrid.comments": "Comentarios",
+    "component.workflow.datagrid.codNorma": "Cod. Norma",
+    "component.workflow.datagrid.nombre": "Nombre",
+    "component.workflow.datagrid.descripcion": "Desc",
+    "component.workflow.datagrid.estado": "Estado",
+    "component.workflow.datagrid.fecha": "Fecha",
+    "component.workflow.datagrid.tipoTabla": "Tipo",
+    "component.workflow.datagrid.urlPdf": "UrlPdf",
+    "component.workflow.datagrid.urlCad": "UrlCad",
+
+    "component.workflow.modal.title": "Comentarios",
+    "component.workflow.modal.grid.id": "Id",
+    "component.workflow.modal.grid.comment": "Comentario",
+    "component.workflow.modal.grid.user": "Usuario",
 
     "end": "end"
 

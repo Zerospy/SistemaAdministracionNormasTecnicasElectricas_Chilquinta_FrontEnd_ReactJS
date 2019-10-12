@@ -75,6 +75,25 @@ class SidebarComponent extends React.Component {
                       </SideNavCat>
 
                       <SideNavCat
+                          id="workflow"
+                          name={`${this.props.intl.formatMessage({
+                              id: 'menu.workflow'
+                          })}`}
+                          icon="arrows-alt"
+                          startOpen={true}
+                      >
+                          <SideNavLink
+                              to="/workflow"
+                              onClick={() => {
+                                  window.location.reaload();
+                              }}
+                          >
+                              <Fa icon="network-wired" />
+                              <FormattedMessage id="menu.workflow" />
+                          </SideNavLink>
+                      </SideNavCat>
+
+                      <SideNavCat
                           id="session"
                           name={`${this.props.intl.formatMessage({
                               id: 'menu.account'
