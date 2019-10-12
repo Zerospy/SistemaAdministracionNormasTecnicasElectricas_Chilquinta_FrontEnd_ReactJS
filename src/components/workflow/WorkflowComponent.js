@@ -1,7 +1,7 @@
 import HeaderComponent from 'components/commons/HeaderComponent';
 import {WorkflowContext} from 'components/workflow/WorkflowContext';
 import CommentsModal from 'components/workflow/CommentsModal';
-import {Col, Row} from 'mdbreact';
+import {Col, Row, Input} from 'mdbreact';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
@@ -90,7 +90,8 @@ class WorkflowComponent extends React.Component {
             loadingInformation: false,
             modalComments: false,
             loadingComments: false,
-            selectedNorma: null
+            selectedNorma: null,
+            quickFilter: ''
         };
     }
 
@@ -144,6 +145,20 @@ class WorkflowComponent extends React.Component {
                                 id: 'component.workflow.title'
                             })}`}
                         >
+                            <Col size="4">
+                                <Input
+                                    label={`${this.props.intl.formatMessage({
+                                        id: 'component.workflow.datagrid.search'
+                                    })}`}
+                                    value={this.state.quickFilter}
+                                    onChange={event => {
+                                        this.setState({
+                                            quickFilter: event.target.value
+                                        });
+                                    }}
+                                />
+                            </Col>
+
                             <DataGridComponent
                                 isLoading={this.state.loadingInformation}
                                 classContainer="grid-container"
@@ -161,6 +176,7 @@ class WorkflowComponent extends React.Component {
                                 rowData={this.state.rowData}
                                 pagination={this.state.pagination}
                                 enableColResize={true}
+                                quickFilter={this.state.quickFilter}
                             />
                         </PanelComponent>
                     </Col>

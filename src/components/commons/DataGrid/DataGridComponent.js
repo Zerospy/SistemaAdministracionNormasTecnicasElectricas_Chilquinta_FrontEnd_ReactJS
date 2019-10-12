@@ -97,10 +97,19 @@ class DataGridComponent extends React.Component {
   componentDidMount() {}
 
   componentDidUpdate() {
-      const {columnDefs, forceLoadColumns, pagination} = this.props;
+      const {
+          columnDefs,
+          forceLoadColumns,
+          pagination,
+          quickFilter
+      } = this.props;
 
       if (this.gridApi) {
           this.displayOverlay();
+
+          if (quickFilter !== null && quickFilter !== '') {
+              this.gridApi.setQuickFilter(quickFilter);
+          }
 
           if (forceLoadColumns) {
               this.gridApi.setColumnDefs(columnDefs);
@@ -422,5 +431,6 @@ DataGridComponent.propTypes = {
     onRowSelection: PropTypes.func,
     columnDefs: PropTypes.array,
     pagination: PropTypes.any,
-    onPaginationChange: PropTypes.func
+    onPaginationChange: PropTypes.func,
+    quickFilter: PropTypes.string
 };
