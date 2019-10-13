@@ -33,7 +33,7 @@ class SidebarComponent extends React.Component {
       const menuButton = (
           <a
               href="#!"
-              className="text-white"
+              className="text-black-50"
               onClick={this.handleToggleClick}
               key="sideNavToggle"
           >

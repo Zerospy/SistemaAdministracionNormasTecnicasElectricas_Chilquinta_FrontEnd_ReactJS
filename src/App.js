@@ -8,6 +8,8 @@ import {IntlProvider, addLocaleData} from 'react-intl';
 import esLocaleData from 'react-intl/locale-data/es';
 import {GeneralContext} from 'GeneralContext';
 
+
+
 addLocaleData(esLocaleData);
 
 const messages = {
@@ -86,6 +88,11 @@ class App extends Component {
                   </BrowserRouter>
               </IntlProvider>
           </Container>
+      
+      
+   
+   
+      
       );
   }
 }
