@@ -35,7 +35,7 @@ class HeaderComponent extends React.Component {
                     })}
                 />
                 <div className="col-10 page-title mt-3">
-                    <h5 className="text-center white-text mt-2">
+                    <h5 className="text-center red-text mt-2">
                         {this.state.pageTitle}
                     </h5>
                 </div>

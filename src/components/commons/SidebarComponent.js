@@ -33,7 +33,7 @@ class SidebarComponent extends React.Component {
       const menuButton = (
           <a
               href="#!"
-              className="text-white"
+              className="text-black-50"
               onClick={this.handleToggleClick}
               key="sideNavToggle"
           >
@@ -49,7 +49,7 @@ class SidebarComponent extends React.Component {
                   hidden
                   triggerOpening={this.state.toggleState}
                   breakWidth={1300}
-                  className="primary-color-dark"
+                  className="sidebar-color-dark"
               >
                   <div>
                       <img src={logo} alt="Cramer" className="page-logo" />
