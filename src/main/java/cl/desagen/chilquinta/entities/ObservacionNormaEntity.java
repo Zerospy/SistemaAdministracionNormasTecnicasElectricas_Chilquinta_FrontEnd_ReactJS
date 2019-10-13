@@ -20,7 +20,7 @@ public class ObservacionNormaEntity {
 
     private String observacion;
 
-    private UsuarioEntity usuario;
+    private UsuarioEntity usuarioEntity;
 
     private Timestamp createdAt;
 
@@ -60,12 +60,12 @@ public class ObservacionNormaEntity {
     @JsonProperty
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    public UsuarioEntity getUser() {
-        return usuario;
+    public UsuarioEntity getUsuarioEntity() {
+        return usuarioEntity;
     }
 
-    public void setUser(UsuarioEntity usuario) {
-        this.usuario = usuario;
+    public void setUsuarioEntity(UsuarioEntity usuarioEntity) {
+        this.usuarioEntity = usuarioEntity;
     }
 
     @Column(name = "created_at")
