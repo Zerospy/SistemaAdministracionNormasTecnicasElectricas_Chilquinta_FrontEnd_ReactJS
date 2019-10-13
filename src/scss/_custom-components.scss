@@ -45,14 +45,16 @@
 }
 
 .page-logo {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0);
   padding: 4px;
   padding-top: 6px;
   width: 180px;
   height: auto;
+  /*
   -webkit-box-shadow: 2px 2px 14px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 2px 2px 14px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 2px 2px 14px 0px rgba(0, 0, 0, 0.75);
+  */
 }
 
 /* Custom grid styles */
