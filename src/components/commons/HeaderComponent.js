@@ -24,7 +24,7 @@ class HeaderComponent extends React.Component {
             <Row
                 className={classNames({
                     'header-top': true,
-                    'danger-color': true,
+                    'white-color': true,
                     noPrint: this.props.print === false
                 })}
             >
@@ -35,9 +35,7 @@ class HeaderComponent extends React.Component {
                     })}
                 />
                 <div className="col-10 page-title mt-3">
-                    <h4 className="text-center white-text mt-2">
-                        {this.state.pageTitle}
-                    </h4>
+                    <h4 className="text-center text-bold mt-2">{this.state.pageTitle}</h4>
                 </div>
                 <div className="col-1" />
             </Row>
