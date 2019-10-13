@@ -25,26 +25,6 @@ class DashboardComponent extends React.Component {
 
                 <div className="dashboard">
                     <HeaderComponent print={false} />
-                    <Row size="4">
-                        <Col size="2">
-                            <p>
-                                <Fa icon="user" />
-                                <FormattedMessage id="demo.label" />
-                            </p>
-                        </Col>
-                        <Col size="2">
-                            <Input
-                                type="text"
-                                value={this.state.propertyDemo}
-                                onChange={e => {
-                                    this.setState({
-                                        propertyDemo: e.target.value
-                                    });
-                                }}
-                            />
-                        </Col>
-                    </Row>
-                    <FormattedMessage id="demo.message" />
                 </div>
             </DashboardContext.Provider>
         );

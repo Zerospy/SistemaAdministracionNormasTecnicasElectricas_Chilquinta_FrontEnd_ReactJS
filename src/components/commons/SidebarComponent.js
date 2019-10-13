@@ -49,7 +49,7 @@ class SidebarComponent extends React.Component {
                   hidden
                   triggerOpening={this.state.toggleState}
                   breakWidth={1300}
-                  className="primary-color-dark"
+                  className="danger-color"
               >
                   <div>
                       <img src={logo} alt="Cramer" className="page-logo" />

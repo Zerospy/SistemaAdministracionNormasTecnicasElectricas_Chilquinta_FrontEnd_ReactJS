@@ -310,11 +310,18 @@ class DataGridComponent extends React.Component {
           <Container fluid={true}>
               <LoadingComponent loading={this.props.isLoading} />
               <div className={this.props.classContainer}>
-                  <div id={this.state.id} className={'ag-theme-bootstrap h-100'}>
+                  <div id={this.state.id} className={'ag-theme-balham h-100'}>
                       <AgGridReact
                           onGridReady={this.onGridReady}
-                          suppressPaginationPanel={true}
                           suppressScrollOnNewData={true}
+                          suppressPaginationPanel={
+                              pagination && typeof pagination === 'object'
+                          }
+                          paginationPageSize={
+                              pagination && typeof pagination === 'boolean'
+                                  ? Constantes.DEFAULT_PAGE_SIZE
+                                  : null
+                          }
                           rowDragManaged={true}
                           onSelectionChanged={this.onSelectionChanged.bind(
                               this,
@@ -326,8 +333,8 @@ class DataGridComponent extends React.Component {
                   </div>
               </div>
               <div>
-                  <div className="ag-theme-bootstrap">
-                      {pagination ? (
+                  {pagination && typeof pagination === 'object' ? (
+                      <div className="ag-theme-bootstrap">
                           <div className="ag-paging-panel ag-font-style">
                               <div className="ag-paging-panel ag-font-style">
                                   <span className="ag-paging-row-summary-panel">
@@ -406,8 +413,8 @@ class DataGridComponent extends React.Component {
                                   </span>
                               </div>
                           </div>
-                      ) : null}
-                  </div>
+                      </div>
+                  ) : null}
               </div>
           </Container>
       );
