@@ -141,24 +141,34 @@ class WorkflowComponent extends React.Component {
                         });
                     }}
                     onSave={norma => {
-                        this.normaService.publish(norma.id).then(() => {
-                            this.setState({
-                                modalComments: false
-                            }, () => {
-                                this.searchNormas();
-                            });
-                            toast.success(
-                                `${this.props.intl.formatMessage({
-                                    id: 'component.workflow.modal.msg.success'
-                                })}`
-                            );
-                        }, () => {
-                            toast.error(
-                                `${this.props.intl.formatMessage({
-                                    id: 'component.workflow.modal.msg.error'
-                                })}`
-                            );
+                        this.setState({
+                            publishing: true,
+                            modalComments: false
                         });
+
+                        this.normaService.publish(norma.id).then(
+                            () => {
+                                this.setState({publishing: false}, () => {
+                                    this.searchNormas();
+                                });
+                                toast.success(
+                                    `${this.props.intl.formatMessage({
+                                        id: 'component.workflow.modal.msg.success'
+                                    })}`
+                                );
+                            },
+                            () => {
+                                this.setState({
+                                    publishing: true
+                                });
+
+                                toast.error(
+                                    `${this.props.intl.formatMessage({
+                                        id: 'component.workflow.modal.msg.error'
+                                    })}`
+                                );
+                            }
+                        );
                     }}
                 />
                 <HeaderComponent />

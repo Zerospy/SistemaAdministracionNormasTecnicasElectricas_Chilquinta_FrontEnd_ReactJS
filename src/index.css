@@ -7,11 +7,11 @@ body {
   height: 100%; }
 
 .modal-header {
-  background-color: #ff3547;
-  color: white !important; }
+  background-color: #FBFCFD;
+  color: black !important; }
 
 .modal-header .close {
-  color: white !important;
+  color: black !important;
   opacity: 10; }
 
 /*!
@@ -21749,16 +21749,11 @@ section.team-section .avatar img {
   margin-bottom: 100px; }
 
 .page-logo {
-  background-color: rgba(255, 255, 255, 0);
+  background-color: transparent;
   padding: 4px;
-  padding-top: 6px;
+  padding-top: 25px;
   width: 180px;
-  height: auto;
-  /*
-  -webkit-box-shadow: 2px 2px 14px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 2px 2px 14px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 2px 2px 14px 0px rgba(0, 0, 0, 0.75);
-  */ }
+  height: auto; }
 
 /* Custom grid styles */
 .grid-container {
@@ -21857,17 +21852,17 @@ section.team-section .avatar img {
 /* Custom grid styles */
 .icon-panel {
   transition: all 0.5s ease;
-  color: #f10a0a8f; }
+  color: #FBFCFD; }
 
 .icon-panel:hover {
   cursor: pointer;
-  text-shadow: 0 0 1px #f10a0ade; }
+  text-shadow: 0 0 1px #FBFCFD; }
 
 .desv-button {
   margin-left: 30px; }
 
 .side-nav ul a {
-  color: white;
+  color: black;
   font-weight: bold; }
 
 .header-top {
@@ -21891,7 +21886,8 @@ section.team-section .avatar img {
   transition: all 400ms ease-in-out; }
   .side-nav .collapsible li a:hover {
     background-color: rgba(0, 0, 0, 0.28);
-    border-left: 3px solid #4285f4; }
+    border-left: 3px solid #f70e0e;
+    color: black; }
 
 /* Modal */
 body.modal-open {
@@ -22028,6 +22024,18 @@ body.modal-open {
 .btn-cancel:not([disabled]):not(.disabled).active,
 .show > .btn-cancel.dropdown-toggle {
   background-color: #bebebe !important; }
+
+.white-color {
+  background-color: #FBFCFD;
+  color: black;
+  font-weight: 400; }
+
+.side-nav .collapsible > li a {
+  color: black;
+  background-color: white; }
+
+.side-nav .collapsible > li a :active {
+  color: black; }
 
 .background-login-form {
   /*background-image: url("./assets/img/fondocalidad.jpg");*/

@@ -70,142 +70,153 @@ class CommentsModal extends React.Component {
         });
     }
 
-    componentDidUpdate(prevProps) {
-        if (
-            this.props !== null &&
+  saveComment = () => {
+      const {rowData} = this.state;
+      const normaId = this.props.norma.id;
+
+      this.setState({
+          savingComment: true
+      });
+
+      this.commentService
+          .post(normaId, {
+              comment: this.state.newComment
+          })
+          .then(
+              response => {
+                  const data = response.data;
+
+                  this.setState(
+                      {
+                          rowData: [...rowData, data],
+                          savingComment: false
+                      },
+                      () => {
+                          this.setState({
+                              newComment: ''
+                          });
+                      }
+                  );
+              },
+              () => {
+                  toast.error(
+                      `${this.props.intl.formatMessage({
+                          id: 'component.normas.modal.comment.error'
+                      })}`
+                  );
+
+                  this.setState({
+                      savingComment: false
+                  });
+              }
+          );
+  };
+  componentDidUpdate(prevProps) {
+      if (
+          this.props !== null &&
       this.props.norma !== null &&
       this.props.norma !== prevProps.norma
-        ) {
-            this.setState({
-                rowData: []
-            });
-            this.getComments(this.props.norma);
-        }
-    }
+      ) {
+          this.setState({
+              rowData: []
+          });
+          this.getComments(this.props.norma);
+      }
+  }
 
-    render() {
-        const {toggle, isOpen, onSave} = this.props;
+  render() {
+      const {toggle, isOpen, onSave} = this.props;
 
-        return (
-            <Container>
-                <Modal isOpen={isOpen} size="lg">
-                    <ModalHeader toggle={toggle}>
-                        <FormattedMessage id="component.workflow.modal.title" />
-                    </ModalHeader>
-                    <ModalBody>
-                        <Row>
-                            <Col size="12">
-                                <PanelComponent
-                                    title={`${this.props.intl.formatMessage({
-                                        id: 'component.workflow.title'
-                                    })}`}
-                                >
-                                    <DataGridComponent
-                                        isLoading={this.state.loadingInformation}
-                                        classContainer="grid-container"
-                                        onPaginationChange={pagination => {
-                                            this.setState(
-                                                {
-                                                    pagination: pagination
-                                                },
-                                                () => {
-                                                    // search workflows
-                                                }
-                                            );
-                                        }}
-                                        columnDefs={this.state.columnDefs}
-                                        rowData={this.state.rowData}
-                                        enableColResize={true}
-                                    />
-                                </PanelComponent>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col size="9">
-                                <Input
-                                    value={this.state.newComment}
-                                    onChange={event => {
-                                        this.setState({
-                                            newComment: event.target.value
-                                        });
-                                    }}
-                                />
-                            </Col>
-                            <Col size="3">
-                                <Button
-                                    disabled={this.state.savingComment}
-                                    color="primary"
-                                    onClick={() => {
-                                        const {rowData} = this.state;
-                                        const normaId = this.props.norma.id;
-
-                                        this.setState({
-                                            savingComment: true
-                                        });
-
-                                        this.commentService.post(normaId, {
-                                            comment: this.state.newComment
-                                        }).then(response => {
-                                            const data = response.data;
-
-                                            const newItem = {
-                                                id: data.id,
-                                                normaId: data.normaId,
-                                                observacion: data.observacion,
-                                                createdAt: data.createdAt
-                                            };
-
-                                            this.setState(
-                                                {
-                                                    rowData: [...rowData, newItem],
-                                                    savingComment: false
-                                                },
-                                                () => {
-                                                    this.setState({
-                                                        newComment: ''
-                                                    });
-                                                }
-                                            );
-                                        }, () => {
-                                            toast.error(`${this.props.intl.formatMessage({
-                                                id: 'component.normas.modal.comment.error'
-                                            })}`);
-
-                                            this.setState({
-                                                savingComment: false
-                                            });
-                                        });
-                                    }}
-                                >
-                                    {this.state.savingComment ? <div className="spinner-border" role="status">
-                                        <span className="sr-only">Loading...</span>
-                                    </div> : <Fa icon="spinner" />}
-                                </Button>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col className="d-flex justify-content-end">
-                                <Button color="cancel" onClick={toggle}>
-                                    {' '}
-                                    <FormattedMessage id="app.general.btn.cancel" />
-                                </Button>
-                                <Button
-                                    onClick={() => {
-                                        if (typeof onSave === 'function') {
-                                            onSave(this.props.norma);
-                                        }
-                                    }}
-                                >
-                                    {' '}
-                                    <FormattedMessage id="component.workflow.modal.btn.save" />
-                                </Button>
-                            </Col>
-                        </Row>
-                    </ModalBody>
-                </Modal>
-            </Container>
-        );
-    }
+      return (
+          <Container>
+              <Modal isOpen={isOpen} size="lg">
+                  <ModalHeader toggle={toggle}>
+                      <FormattedMessage id="component.workflow.modal.title" />
+                  </ModalHeader>
+                  <ModalBody>
+                      <Row>
+                          <Col size="12">
+                              <PanelComponent
+                                  title={`${this.props.intl.formatMessage({
+                                      id: 'component.workflow.title'
+                                  })}`}
+                              >
+                                  <DataGridComponent
+                                      isLoading={this.state.loadingInformation}
+                                      classContainer="grid-container"
+                                      onPaginationChange={pagination => {
+                                          this.setState(
+                                              {
+                                                  pagination: pagination
+                                              },
+                                              () => {
+                                                  // search workflows
+                                              }
+                                          );
+                                      }}
+                                      columnDefs={this.state.columnDefs}
+                                      rowData={this.state.rowData}
+                                      enableColResize={true}
+                                  />
+                              </PanelComponent>
+                          </Col>
+                      </Row>
+                      <Row>
+                          <Col size="9">
+                              <Input
+                                  autofocus="true"
+                                  readOnly={this.state.savingComment}
+                                  value={this.state.newComment}
+                                  onChange={event => {
+                                      this.setState({
+                                          newComment: event.target.value
+                                      });
+                                  }}
+                                  onKeyPress={event => {
+                                      if (event.key === 'Enter') {
+                                          this.saveComment();
+                                      }
+                                  }}
+                                  maxLength="255"
+                              />
+                          </Col>
+                          <Col size="3">
+                              <Button
+                                  disabled={this.state.savingComment}
+                                  color="primary"
+                                  onClick={this.saveComment}
+                              >
+                                  {this.state.savingComment ? (
+                                      <Fa icon="spinner" className="fa-1x fa-spin" />
+                                  ) : (
+                                      <Fa icon="plus" />
+                                  )}
+                              </Button>
+                          </Col>
+                      </Row>
+                      <Row>
+                          <Col className="d-flex justify-content-end">
+                              <Button color="cancel" onClick={toggle}>
+                                  {' '}
+                                  <FormattedMessage id="app.general.btn.cancel" />
+                              </Button>
+                              <Button
+                                  onClick={() => {
+                                      if (typeof onSave === 'function') {
+                                          onSave(this.props.norma);
+                                      }
+                                  }}
+                              >
+                                  {' '}
+                                  <FormattedMessage id="component.workflow.modal.btn.save" />
+                              </Button>
+                          </Col>
+                      </Row>
+                  </ModalBody>
+              </Modal>
+          </Container>
+      );
+  }
 }
 
 export default injectIntl(CommentsModal);
