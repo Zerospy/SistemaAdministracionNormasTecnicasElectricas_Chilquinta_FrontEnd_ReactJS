@@ -69,11 +69,15 @@
     "component.workflow.datagrid.tipoTabla": "Tipo",
     "component.workflow.datagrid.urlPdf": "UrlPdf",
     "component.workflow.datagrid.urlCad": "UrlCad",
+    "component.workflow.datagrid.actions": "#",
 
     "component.workflow.modal.title": "Comentarios",
     "component.workflow.modal.grid.id": "Id",
     "component.workflow.modal.grid.comment": "Comentario",
     "component.workflow.modal.grid.user": "Usuario",
+    "component.workflow.modal.msg.success": "Norma publicada correctamente!",
+    
+    "component.workflow.modal.btn.save": "Publicar",
 
     "end": "end"
 

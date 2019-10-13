@@ -10,6 +10,7 @@ import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import NormaService from 'services/NormaService';
 import {toast} from 'react-toastify';
+import Moment from 'moment';
 
 class WorkflowComponent extends React.Component {
     showSettings(event) {
@@ -24,13 +25,6 @@ class WorkflowComponent extends React.Component {
         const columnDefs = [
             {
                 headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.id'
-                })}`,
-                field: 'id',
-                width: 50
-            },
-            {
-                headerName: `${props.intl.formatMessage({
                     id: 'component.workflow.datagrid.codNorma'
                 })}`,
                 field: 'codNorma',
@@ -41,14 +35,14 @@ class WorkflowComponent extends React.Component {
                     id: 'component.workflow.datagrid.nombre'
                 })}`,
                 field: 'nombre',
-                width: 420
+                width: 380
             },
             {
                 headerName: `${props.intl.formatMessage({
                     id: 'component.workflow.datagrid.descripcion'
                 })}`,
                 field: 'descripcion',
-                width: 420
+                width: 360
             },
             {
                 headerName: `${props.intl.formatMessage({
@@ -65,7 +59,9 @@ class WorkflowComponent extends React.Component {
                 width: 180
             },
             {
-                headerName: '#',
+                headerName: `${props.intl.formatMessage({
+                    id: 'component.workflow.datagrid.actions'
+                })}`,
                 field: 'id',
                 cellRenderer: 'CommentsButtonGridRenderer',
                 onClick: norma => {
@@ -102,6 +98,14 @@ class WorkflowComponent extends React.Component {
 
         this.normaService.get().then(
             response => {
+                if (response.data && response.data.length > 0) {
+                    response.data.forEach(item => {
+                        item.fecha = new Moment(item.fecha).format(
+                            Constantes.DATETIME_FORMAT
+                        );
+                    });
+                }
+
                 this.setState({
                     rowData: response !== null ? response.data : [],
                     loadingInformation: false
@@ -136,6 +140,16 @@ class WorkflowComponent extends React.Component {
                             modalComments: !this.state.modalComments
                         });
                     }}
+                    onSave={() => {
+                        this.setState({
+                            modalComments: false
+                        });
+                        toast.success(
+                            `${this.props.intl.formatMessage({
+                                id: 'component.workflow.modal.msg.success'
+                            })}`
+                        );
+                    }}
                 />
                 <HeaderComponent />
                 <Row>
@@ -162,19 +176,9 @@ class WorkflowComponent extends React.Component {
                             <DataGridComponent
                                 isLoading={this.state.loadingInformation}
                                 classContainer="grid-container"
-                                onPaginationChange={pagination => {
-                                    this.setState(
-                                        {
-                                            pagination: pagination
-                                        },
-                                        () => {
-                                            // search workflows
-                                        }
-                                    );
-                                }}
                                 columnDefs={this.state.columnDefs}
                                 rowData={this.state.rowData}
-                                pagination={this.state.pagination}
+                                pagination={true}
                                 enableColResize={true}
                                 quickFilter={this.state.quickFilter}
                             />

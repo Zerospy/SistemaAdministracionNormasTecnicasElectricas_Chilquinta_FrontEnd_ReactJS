@@ -5,6 +5,7 @@ import HttpServiceConfig from 'services/HttpServiceConfig';
 import NotFoundComponent from 'components/commons/NotFoundComponent';
 import DashboardComponent from 'components/home/DashboardComponent';
 import WorkflowComponent from 'components/workflow/WorkflowComponent';
+import LoginComponent from 'components/login/LoginComponent';
 import PropTypes from 'prop-types';
 import LoginService from 'services/LoginService';
 
@@ -46,6 +47,7 @@ class RouterComponent extends React.Component {
                         return <Redirect to="/dashboard" />;
                     }}
                 />
+                <Route exact path="/login" component={LoginComponent} />
                 <Route exact path="/dashboard" component={DashboardComponent} />
                 <Route exact path="/workflow" component={WorkflowComponent} />
                 <Route component={NotFoundComponent} />

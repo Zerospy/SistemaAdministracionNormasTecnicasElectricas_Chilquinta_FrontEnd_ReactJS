@@ -26,13 +26,6 @@ class CommentsModal extends React.Component {
         const columnDefs = [
             {
                 headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.modal.grid.id'
-                })}`,
-                field: 'id',
-                width: 50
-            },
-            {
-                headerName: `${props.intl.formatMessage({
                     id: 'component.workflow.modal.grid.comment'
                 })}`,
                 field: 'observacion',
@@ -42,7 +35,7 @@ class CommentsModal extends React.Component {
                 headerName: `${props.intl.formatMessage({
                     id: 'component.workflow.modal.grid.user'
                 })}`,
-                field: 'user.usuario',
+                field: 'usuarioEntity.usuario',
                 width: 140
             }
         ];
@@ -190,7 +183,7 @@ class CommentsModal extends React.Component {
                                     }}
                                 >
                                     {' '}
-                                    <FormattedMessage id="app.general.btn.accept" />
+                                    <FormattedMessage id="component.workflow.modal.btn.save" />
                                 </Button>
                             </Col>
                         </Row>

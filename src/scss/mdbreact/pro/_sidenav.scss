@@ -114,6 +114,7 @@
       left: auto;
     }
   }
+  
   // Fixed sideNav hide on smaller
   @media #{$hide-sidenav} {
     &.fixed {

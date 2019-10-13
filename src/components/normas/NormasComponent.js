@@ -14,7 +14,7 @@ import {toast} from 'react-toastify';
 class WorkflowComponent extends React.Component {
     showSettings(event) {
         event.preventDefault();
-    }
+    }   
 
     constructor(props) {
         super(props);

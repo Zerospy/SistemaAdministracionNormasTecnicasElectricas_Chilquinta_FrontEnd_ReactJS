@@ -125,7 +125,8 @@
   padding: 2px;
   height: 19px;
   width: 31px;
-  margin-left: calc(65% - 30px);
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 2px;
 }
 
@@ -168,12 +169,13 @@
 
 /* Custom grid styles */
 .icon-panel {
-  color: #4285f4;
+  transition: all 0.5s ease;
+  color: #f10a0a8f;
 }
 
 .icon-panel:hover {
   cursor: pointer;
-  text-shadow: 0 0 1px #4285f4;
+  text-shadow: 0 0 1px #f10a0ade;
 }
 
 .desv-button {

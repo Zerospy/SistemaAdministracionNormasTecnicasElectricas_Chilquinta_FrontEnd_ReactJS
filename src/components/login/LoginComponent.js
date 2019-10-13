@@ -3,7 +3,6 @@ import {Container, Fa} from 'mdbreact';
 import LoginService from 'services/LoginService';
 import logo from 'assets/logo.png';
 import PropTypes from 'prop-types';
-import Select from 'react-select';
 import {toast} from 'react-toastify';
 import {GeneralContext} from 'GeneralContext';
 import {FormattedMessage, injectIntl} from 'react-intl';
@@ -56,7 +55,15 @@ class LoginComponent extends React.Component {
           return;
       }
 
-      this.setState({
+      toast.success(
+          `${this.props.intl.formatMessage({
+              id: 'login.message.success'
+          })}`
+      );
+
+      this.redirectHome();
+
+      /* this.setState({
           loading: true
       });
 
@@ -90,7 +97,7 @@ class LoginComponent extends React.Component {
                   })}`
               );
           }
-      );
+      );*/
   };
 
   render() {
@@ -264,27 +271,7 @@ class LoginComponent extends React.Component {
                                                   )}
                                               </FormattedMessage>
                                           </div>
-                                          <FormattedMessage id="login.language">
-                                              {placeholder => (
-                                                  <Select
-                                                      isDisabled={this.state.loading}
-                                                      className="mb-3"
-                                                      placeholder={placeholder}
-                                                      value={selectedCountry}
-                                                      onChange={lang => {
-                                                          this.setState(
-                                                              {
-                                                                  lang: lang
-                                                              },
-                                                              () => {
-                                                                  generalContext.onChangeCountry(lang.value);
-                                                              }
-                                                          );
-                                                      }}
-                                                      options={this.countries}
-                                                  />
-                                              )}
-                                          </FormattedMessage>
+
                                           <button
                                               disabled={this.state.loading}
                                               className="btn btn-primary btn-block"

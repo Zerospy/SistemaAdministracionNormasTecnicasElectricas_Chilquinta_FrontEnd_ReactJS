@@ -7,7 +7,7 @@ body {
   height: 100%; }
 
 .modal-header {
-  background-color: #0d47a1;
+  background-color: #ff3547;
   color: white !important; }
 
 .modal-header .close {
@@ -7510,10 +7510,7 @@ a.text-dark:hover, a.text-dark:focus {
   background-color: #4285f4 !important; }
 
 .primary-color-dark {
-  background-color: rgb(251, 252, 253) !important; }
-
-  .sidebar-color-dark {
-    background-color: rgb(251, 252, 253) !important; }
+  background-color: #0d47a1 !important; }
 
 .secondary-color {
   background-color: #aa66cc !important; }
@@ -16710,14 +16707,14 @@ span[data-jarallax-element] {
     .side-nav .collapsible > li {
       border-radius: 2px; }
       .side-nav .collapsible > li a.collapsible-header:hover {
-        background-color: rgba(212, 68, 68, 0.15)5); }
+        background-color: rgba(255, 255, 255, 0.15); }
       .side-nav .collapsible > li a.collapsible-header.active {
         background-color: rgba(255, 255, 255, 0.15); }
     .side-nav .collapsible ul {
       padding: 0;
       list-style-type: none; }
     .side-nav .collapsible a {
-      color: rgb(34, 32, 32);
+      color: #fff;
       font-weight: 300;
       font-size: 0.8rem;
       height: 36px;
@@ -16834,7 +16831,7 @@ span[data-jarallax-element] {
       font-size: 0.9rem;
       padding-right: 0.6rem;
       padding-left: 0.6rem;
-      color: #04bdfa;
+      color: #dbe4e7;
       transition: 0.3s; }
       .side-nav .social .fa:hover {
         color: #AFC4CB;
@@ -21752,18 +21749,14 @@ section.team-section .avatar img {
   margin-bottom: 100px; }
 
 .page-logo {
-  background-color: rgba(255, 255, 255, 0);
+  background-color: white;
   padding: 4px;
   padding-top: 6px;
   width: 180px;
   height: auto;
-  /*    -webkit-box-shadow: 2px 2px 14px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 2px 2px 14px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 2px 2px 14px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 2px 2px 14px 0px rgba(0, 0, 0, 0.75);
-  */
-
-
-}
+  box-shadow: 2px 2px 14px 0px rgba(0, 0, 0, 0.75); }
 
 /* Custom grid styles */
 .grid-container {
@@ -21823,7 +21816,8 @@ section.team-section .avatar img {
   padding: 2px;
   height: 19px;
   width: 31px;
-  margin-left: calc(65% - 30px);
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 2px; }
 
 .btn-import {
@@ -21860,11 +21854,12 @@ section.team-section .avatar img {
 
 /* Custom grid styles */
 .icon-panel {
-  color: #4285f4; }
+  transition: all 0.5s ease;
+  color: #f10a0a8f; }
 
 .icon-panel:hover {
   cursor: pointer;
-  text-shadow: 0 0 1px #4285f4; }
+  text-shadow: 0 0 1px #f10a0ade; }
 
 .desv-button {
   margin-left: 30px; }
