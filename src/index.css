@@ -21649,7 +21649,7 @@ section.team-section .avatar img {
   box-shadow: 0 3x 2px 0 rgba(0, 55, 255, 0.48), 0 0 1px 2px rgba(0, 55, 255, 0.48); }
 
 .background-login-form {
-  background-image: url("./assets/img/fondocalidad.jpg");
+  /*background-image: url("./assets/img/fondocalidad.jpg");*/
   background-repeat: no-repeat;
   background-size: contain;
   background-attachment: fixed;
@@ -22028,7 +22028,7 @@ body.modal-open {
   background-color: #bebebe !important; }
 
 .background-login-form {
-  background-image: url("./assets/img/fondocalidad.jpg");
+  /*background-image: url("./assets/img/fondocalidad.jpg");*/
   background-repeat: no-repeat;
   background-size: contain;
   background-attachment: fixed;
