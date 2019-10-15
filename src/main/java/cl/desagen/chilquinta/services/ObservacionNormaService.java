@@ -101,7 +101,7 @@ public class ObservacionNormaService {
         if (normaEntityOptional.isPresent()) {
             NormaEntity normaEntity = normaEntityOptional.get();
             Optional<EstadosEntity> normaEstado = estadosRepository.findById(Long.valueOf(EstadoNorma.CON_COMENTARIOS.value));
-            normaEntity.setEstado(normaEstado.get());
+            normaEntity.setEstado(normaEstado.isPresent() ? normaEstado.get() : null);
             normaRepository.save(normaEntity);
 
             observacionNormaEntity.setNormaId(normaEntity.getId());
@@ -112,7 +112,8 @@ public class ObservacionNormaService {
 
         Optional<UsuarioEntity> usuarioEntity = usuarioRepository.findById(1L);
 
-        observacionNormaEntity.setUsuarioEntity(usuarioEntity.get());
+        observacionNormaEntity.setObservacion(comment);
+        observacionNormaEntity.setUsuarioEntity(usuarioEntity.isPresent() ? usuarioEntity.get() : null);
         observacionNormaEntity.setCreatedAt(timestamp);
 
         return observacionNormaEntity;
