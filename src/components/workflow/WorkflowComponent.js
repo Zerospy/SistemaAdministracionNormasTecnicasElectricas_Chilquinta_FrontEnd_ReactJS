@@ -144,10 +144,18 @@ class WorkflowComponent extends React.Component {
                         this.normaService.publish(norma.id).then(() => {
                             this.setState({
                                 modalComments: false
+                            }, () => {
+                                this.searchNormas();
                             });
                             toast.success(
                                 `${this.props.intl.formatMessage({
                                     id: 'component.workflow.modal.msg.success'
+                                })}`
+                            );
+                        }, () => {
+                            toast.error(
+                                `${this.props.intl.formatMessage({
+                                    id: 'component.workflow.modal.msg.error'
                                 })}`
                             );
                         });
