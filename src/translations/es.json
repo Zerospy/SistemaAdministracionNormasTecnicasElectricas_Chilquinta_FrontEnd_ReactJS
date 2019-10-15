@@ -79,6 +79,27 @@
     
     "component.workflow.modal.btn.save": "Publicar",
 
+    "component.normas.title": "Listado de Normas",
+    "component.normas.datagrid.search": "Búsqueda rápida",
+    "component.normas.datagrid.id": "Id",
+    "component.normas.datagrid.codNorma": "Cod. Norma",
+    "component.normas.datagrid.nombre": "Nombre",
+    "component.normas.datagrid.descripcion": "Desc",
+    "component.normas.datagrid.estado": "Estado",
+    "component.normas.datagrid.fecha": "Fecha",
+    "component.normas.datagrid.tipoTabla": "Tipo",
+    "component.normas.datagrid.urlPdf": "UrlPdf",
+    "component.normas.datagrid.urlCad": "UrlCad",
+    "component.normas.datagrid.actions": "#",
+
+    "component.normas.modal.title": "Comentarios",
+    "component.normas.modal.grid.id": "Id", 
+    "component.normas.modal.grid.comment": "Comentario",
+    "component.normas.modal.grid.user": "Usuario",
+    "component.normas.modal.msg.success": "Norma publicada correctamente!",
+    
+    "component.normas.modal.btn.save": "Publicar",
+
     "end": "end"
 
 }

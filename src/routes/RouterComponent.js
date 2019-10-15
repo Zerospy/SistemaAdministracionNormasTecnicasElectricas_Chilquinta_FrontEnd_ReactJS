@@ -8,6 +8,7 @@ import WorkflowComponent from 'components/workflow/WorkflowComponent';
 import LoginComponent from 'components/login/LoginComponent';
 import PropTypes from 'prop-types';
 import LoginService from 'services/LoginService';
+import NormasComponent from 'components/normas/NormasComponent';
 
 class RouterComponent extends React.Component {
     constructor(props) {
@@ -50,6 +51,7 @@ class RouterComponent extends React.Component {
                 <Route exact path="/login" component={LoginComponent} />
                 <Route exact path="/dashboard" component={DashboardComponent} />
                 <Route exact path="/workflow" component={WorkflowComponent} />
+                <Route exact path="/normas" component={NormasComponent} />
                 <Route component={NotFoundComponent} />
             </Switch>
         );
