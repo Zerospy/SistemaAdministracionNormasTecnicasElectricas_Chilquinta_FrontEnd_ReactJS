@@ -140,15 +140,17 @@ class WorkflowComponent extends React.Component {
                             modalComments: !this.state.modalComments
                         });
                     }}
-                    onSave={() => {
-                        this.setState({
-                            modalComments: false
+                    onSave={norma => {
+                        this.normaService.publish(norma.id).then(() => {
+                            this.setState({
+                                modalComments: false
+                            });
+                            toast.success(
+                                `${this.props.intl.formatMessage({
+                                    id: 'component.workflow.modal.msg.success'
+                                })}`
+                            );
                         });
-                        toast.success(
-                            `${this.props.intl.formatMessage({
-                                id: 'component.workflow.modal.msg.success'
-                            })}`
-                        );
                     }}
                 />
                 <HeaderComponent />

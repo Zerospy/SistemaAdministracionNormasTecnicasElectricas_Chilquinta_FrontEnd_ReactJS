@@ -97,6 +97,7 @@
     "component.normas.modal.grid.comment": "Comentario",
     "component.normas.modal.grid.user": "Usuario",
     "component.normas.modal.msg.success": "Norma publicada correctamente!",
+    "component.normas.modal.comment.error": "Ocurrió un problema al agregar el comentario",
     
     "component.normas.modal.btn.save": "Publicar",
 

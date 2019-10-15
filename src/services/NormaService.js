@@ -4,4 +4,5 @@ export default class NormaService {
   get = params => axios.get('/norma/', {
       params: params
   });
+  publish = id => axios.post(`/publish/${id}`);
 }

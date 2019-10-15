@@ -16,6 +16,7 @@ import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import Constantes from 'Constantes';
 import CommentsService from 'services/CommentsService';
+import {toast} from 'react-toastify';
 
 class CommentsModal extends React.Component {
     constructor(props) {
@@ -48,7 +49,9 @@ class CommentsModal extends React.Component {
             columnDefs: columnDefs,
             rowData: [],
             loadingInformation: false,
-            loadingComments: false
+            loadingComments: false,
+            savingComment: false,
+            newComment: ''
         };
     }
 
@@ -130,42 +133,53 @@ class CommentsModal extends React.Component {
                             </Col>
                             <Col size="3">
                                 <Button
+                                    disabled={this.state.savingComment}
                                     color="primary"
                                     onClick={() => {
                                         const {rowData} = this.state;
+                                        const normaId = this.props.norma.id;
 
-                                        const newItem = {
-                                            id: 0,
-                                            normaId: this.props.norma.id,
-                                            observacion: this.state.newComment,
-                                            createdAt: null,
-                                            updatedAt: null,
-                                            user: {
-                                                id: 1,
-                                                nombres: 'Enrique',
-                                                apellidos: 'Steffens Aburto',
-                                                usuario: 'esteffen',
-                                                clave: 'cf9e7ac87e8a11e68b98b093d21625d0',
-                                                estado: 1,
-                                                timestamp: null,
-                                                email: 'steffen@chilquinta.cl',
-                                                claveTextoPlano: null
-                                            }
-                                        };
+                                        this.setState({
+                                            savingComment: true
+                                        });
 
-                                        this.setState(
-                                            {
-                                                rowData: [...rowData, newItem]
-                                            },
-                                            () => {
-                                                this.setState({
-                                                    newComment: ''
-                                                });
-                                            }
-                                        );
+                                        this.commentService.post(normaId, {
+                                            comment: this.state.newComment
+                                        }).then(response => {
+                                            const data = response.data;
+
+                                            const newItem = {
+                                                id: data.id,
+                                                normaId: data.normaId,
+                                                observacion: data.observacion,
+                                                createdAt: data.createdAt
+                                            };
+
+                                            this.setState(
+                                                {
+                                                    rowData: [...rowData, newItem],
+                                                    savingComment: false
+                                                },
+                                                () => {
+                                                    this.setState({
+                                                        newComment: ''
+                                                    });
+                                                }
+                                            );
+                                        }, () => {
+                                            toast.error(`${this.props.intl.formatMessage({
+                                                id: 'component.normas.modal.comment.error'
+                                            })}`);
+
+                                            this.setState({
+                                                savingComment: false
+                                            });
+                                        });
                                     }}
                                 >
-                                    <Fa icon="plus" />
+                                    {this.state.savingComment ? <div className="spinner-border" role="status">
+                                        <span className="sr-only">Loading...</span>
+                                    </div> : <Fa icon="spinner" />}
                                 </Button>
                             </Col>
                         </Row>
@@ -178,7 +192,7 @@ class CommentsModal extends React.Component {
                                 <Button
                                     onClick={() => {
                                         if (typeof onSave === 'function') {
-                                            onSave();
+                                            onSave(this.props.norma);
                                         }
                                     }}
                                 >
