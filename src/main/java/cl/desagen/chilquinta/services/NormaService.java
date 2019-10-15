@@ -1,6 +1,9 @@
 package cl.desagen.chilquinta.services;
 
+import cl.desagen.chilquinta.entities.EstadosEntity;
 import cl.desagen.chilquinta.entities.NormaEntity;
+import cl.desagen.chilquinta.enums.EstadoNorma;
+import cl.desagen.chilquinta.repositories.EstadosRepository;
 import cl.desagen.chilquinta.repositories.NormaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +17,9 @@ public class NormaService {
 
     @Autowired
     private NormaRepository normaRepository;
+
+    @Autowired
+    private EstadosRepository estadosRepository;
 
     public Iterable<NormaEntity> findAll() {
         return normaRepository.findAll();
@@ -68,4 +74,14 @@ public class NormaService {
         return normaRepository.findAll(sort);
     }
 
+    public void publishNorma(Long id) {
+
+        Optional<NormaEntity> normaEntity = normaRepository.findById(id);
+
+        if (normaEntity.isPresent()) {
+            Optional<EstadosEntity> normaEstado = estadosRepository.findById(Long.valueOf(EstadoNorma.PUBLICADA.value));
+            normaEntity.get().setEstado(normaEstado.isPresent() ? normaEstado.get() : null);
+        }
+
+    }
 }

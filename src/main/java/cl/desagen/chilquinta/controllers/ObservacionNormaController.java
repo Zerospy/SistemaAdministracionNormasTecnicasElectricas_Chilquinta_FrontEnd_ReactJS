@@ -38,11 +38,11 @@ public class ObservacionNormaController {
         return observacionnormaService.findAllByNormaId(id);
     }
 
-    @PostMapping(value = "/", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity save(@RequestBody ObservacionNormaEntity observacionnormaEntity) {
+    @PostMapping(value = "/{id}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity save(@PathVariable Long id, @RequestBody String comment) {
 
         try {
-            ObservacionNormaEntity observacionnormaResult = observacionnormaService.save(observacionnormaEntity);
+            ObservacionNormaEntity observacionnormaResult = observacionnormaService.saveComment(id, comment);
             return new ResponseEntity(observacionnormaResult, HttpStatus.OK);
         } catch (Exception e) {
             if (log.isErrorEnabled()) {

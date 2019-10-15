@@ -78,4 +78,19 @@ public class NormaController {
 
     }
 
+    @PostMapping(value = "/{id}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity publishNorma(@PathVariable Long id) {
+
+        try {
+            normaService.publishNorma(id);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            if (log.isErrorEnabled()) {
+                log.error(Constants.BAD_REQUEST_MESSAGE, e.getMessage(), e);
+            }
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
 }
