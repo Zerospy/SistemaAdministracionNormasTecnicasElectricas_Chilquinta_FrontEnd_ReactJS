@@ -34,7 +34,7 @@ class DetalleNormaModal extends React.Component {
             },
             {
                 headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.modal.grid.user'
+                    id: 'component.normas.modal.grid.user'
                 })}`,
                 field: 'usuarioEntity.usuario',
                 width: 140
