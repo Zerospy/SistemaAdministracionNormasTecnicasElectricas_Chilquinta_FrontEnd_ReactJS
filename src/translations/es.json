@@ -80,6 +80,7 @@
     "component.workflow.modal.btn.save": "Publicar",
 
     "component.normas.title": "Listado de Normas",
+    "component.normas.title.name": "Nombre Norma",
     "component.normas.datagrid.search": "Búsqueda rápida",
     "component.normas.datagrid.id": "Id",
     "component.normas.datagrid.codNorma": "Cod. Norma",

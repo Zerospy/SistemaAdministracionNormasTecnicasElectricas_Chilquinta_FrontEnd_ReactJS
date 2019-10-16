@@ -17,7 +17,7 @@ class DetailButtonGridRenderer extends Component {
                     id: 'component.dataGrid.detail'
                 })}`}
             >
-                <Fa icon="list-ul" />
+                <Fa icon="book-open" />
             </Button>
         );
     }
