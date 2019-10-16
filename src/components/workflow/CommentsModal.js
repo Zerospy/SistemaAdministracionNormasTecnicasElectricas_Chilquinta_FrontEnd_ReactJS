@@ -125,7 +125,9 @@ class CommentsModal extends React.Component {
   }
 
   render() {
-      const {toggle, isOpen, onSave} = this.props;
+      const {toggle, isOpen, onSave, norma} = this.props;
+
+      const canPublish = norma !== null && norma.estado.id !== 3;
 
       return (
           <Container>
@@ -196,20 +198,30 @@ class CommentsModal extends React.Component {
                       </Row>
                       <Row>
                           <Col className="d-flex justify-content-end">
-                              <Button color="cancel" onClick={toggle}>
+                              <Button
+                                  color="cancel"
+                                  onClick={toggle}
+                                  disabled={this.props.publishing}
+                              >
                                   {' '}
                                   <FormattedMessage id="app.general.btn.cancel" />
                               </Button>
-                              <Button
-                                  onClick={() => {
-                                      if (typeof onSave === 'function') {
-                                          onSave(this.props.norma);
-                                      }
-                                  }}
-                              >
-                                  {' '}
-                                  <FormattedMessage id="component.workflow.modal.btn.save" />
-                              </Button>
+                              {canPublish ? (
+                                  <Button
+                                      disabled={this.props.publishing}
+                                      onClick={() => {
+                                          if (typeof onSave === 'function') {
+                                              onSave(this.props.norma);
+                                          }
+                                      }}
+                                  >
+                                      {this.props.publishing ? (
+                                          <Fa icon="spinner" className="fa-1x fa-spin" />
+                                      ) : (
+                                          <FormattedMessage id="component.workflow.modal.btn.save" />
+                                      )}
+                                  </Button>
+                              ) : null}
                           </Col>
                       </Row>
                   </ModalBody>
@@ -225,6 +237,7 @@ CommentsModal.propTypes = {
     toggle: PropTypes.func,
     onSave: PropTypes.func,
     isOpen: PropTypes.bool,
+    publishing: PropTypes.bool,
     intl: PropTypes.any,
     norma: PropTypes.any
 };

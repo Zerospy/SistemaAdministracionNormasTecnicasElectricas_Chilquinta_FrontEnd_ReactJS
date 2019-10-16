@@ -1,7 +1,7 @@
 import HeaderComponent from 'components/commons/HeaderComponent';
 import {WorkflowContext} from 'components/workflow/WorkflowContext';
 import CommentsModal from 'components/workflow/CommentsModal';
-import {Col, Row, Input} from 'mdbreact';
+import {Col, Row, Input, Button, Fa} from 'mdbreact';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
@@ -135,6 +135,7 @@ class WorkflowComponent extends React.Component {
                 <CommentsModal
                     norma={this.state.selectedNorma}
                     isOpen={this.state.modalComments}
+                    publishing={this.state.publishing}
                     toggle={() => {
                         this.setState({
                             modalComments: !this.state.modalComments
@@ -142,15 +143,20 @@ class WorkflowComponent extends React.Component {
                     }}
                     onSave={norma => {
                         this.setState({
-                            publishing: true,
-                            modalComments: false
+                            publishing: true
                         });
 
                         this.normaService.publish(norma.id).then(
                             () => {
-                                this.setState({publishing: false}, () => {
-                                    this.searchNormas();
-                                });
+                                this.setState(
+                                    {
+                                        publishing: false,
+                                        modalComments: false
+                                    },
+                                    () => {
+                                        this.searchNormas();
+                                    }
+                                );
                                 toast.success(
                                     `${this.props.intl.formatMessage({
                                         id: 'component.workflow.modal.msg.success'
@@ -159,7 +165,8 @@ class WorkflowComponent extends React.Component {
                             },
                             () => {
                                 this.setState({
-                                    publishing: true
+                                    publishing: false,
+                                    modalComments: false
                                 });
 
                                 toast.error(
@@ -179,19 +186,34 @@ class WorkflowComponent extends React.Component {
                                 id: 'component.workflow.title'
                             })}`}
                         >
-                            <Col size="4">
-                                <Input
-                                    label={`${this.props.intl.formatMessage({
-                                        id: 'component.workflow.datagrid.search'
-                                    })}`}
-                                    value={this.state.quickFilter}
-                                    onChange={event => {
-                                        this.setState({
-                                            quickFilter: event.target.value
-                                        });
-                                    }}
-                                />
-                            </Col>
+                            <Row>
+                                <Col size="4">
+                                    <Input
+                                        size="sm"
+                                        label={`${this.props.intl.formatMessage({
+                                            id: 'component.workflow.datagrid.search'
+                                        })}`}
+                                        value={this.state.quickFilter}
+                                        onChange={event => {
+                                            this.setState({
+                                                quickFilter: event.target.value
+                                            });
+                                        }}
+                                    />
+                                </Col>
+
+                                <Col className="offset-6" size="2">
+                                    <Button
+                                        size="sm"
+                                        onClick={() => {
+                                            this.searchNormas();
+                                        }}
+                                    >
+                                        {' '}
+                                        <Fa icon="sync" />
+                                    </Button>
+                                </Col>
+                            </Row>
 
                             <DataGridComponent
                                 isLoading={this.state.loadingInformation}
