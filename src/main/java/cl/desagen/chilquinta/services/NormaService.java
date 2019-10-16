@@ -76,11 +76,15 @@ public class NormaService {
 
     public void publishNorma(Long id) {
 
-        Optional<NormaEntity> normaEntity = normaRepository.findById(id);
+        Optional<NormaEntity> normaEntityOptional = normaRepository.findById(id);
 
-        if (normaEntity.isPresent()) {
+        if (normaEntityOptional.isPresent()) {
             Optional<EstadosEntity> normaEstado = estadosRepository.findById(Long.valueOf(EstadoNorma.PUBLICADA.value));
-            normaEntity.get().setEstado(normaEstado.isPresent() ? normaEstado.get() : null);
+
+            NormaEntity normaEntity = normaEntityOptional.get();
+            normaEntity.setEstado(normaEstado.orElse(null));
+
+            normaRepository.save(normaEntity);
         }
 
     }

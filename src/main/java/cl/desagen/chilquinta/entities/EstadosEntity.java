@@ -15,7 +15,7 @@ public class EstadosEntity implements Serializable {
     @JsonProperty
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private int id;
+    private Long id;
 
     @JsonProperty
     @Column(name = "DescripcionEstado")

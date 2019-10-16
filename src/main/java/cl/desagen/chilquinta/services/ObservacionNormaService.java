@@ -1,5 +1,6 @@
 package cl.desagen.chilquinta.services;
 
+import cl.desagen.chilquinta.dto.CommentRequestDto;
 import cl.desagen.chilquinta.entities.EstadosEntity;
 import cl.desagen.chilquinta.entities.NormaEntity;
 import cl.desagen.chilquinta.entities.ObservacionNormaEntity;
@@ -92,7 +93,7 @@ public class ObservacionNormaService {
         return observacionnormaRepository.findAll(sort);
     }
 
-    public ObservacionNormaEntity saveComment(Long id, String comment) {
+    public ObservacionNormaEntity saveComment(Long id, CommentRequestDto comment) {
 
         ObservacionNormaEntity observacionNormaEntity = new ObservacionNormaEntity();
 
@@ -112,9 +113,11 @@ public class ObservacionNormaService {
 
         Optional<UsuarioEntity> usuarioEntity = usuarioRepository.findById(1L);
 
-        observacionNormaEntity.setObservacion(comment);
+        observacionNormaEntity.setObservacion(comment.getComment());
         observacionNormaEntity.setUsuarioEntity(usuarioEntity.isPresent() ? usuarioEntity.get() : null);
         observacionNormaEntity.setCreatedAt(timestamp);
+
+        observacionnormaRepository.save(observacionNormaEntity);
 
         return observacionNormaEntity;
     }

@@ -9,7 +9,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "usuario", schema = "dbo", catalog = "NORMAS")
 public class UsuarioEntity {
-    private Integer id;
+    private Long id;
     private String nombres;
     private String apellidos;
     private String usuario;
@@ -24,11 +24,11 @@ public class UsuarioEntity {
     @JsonProperty
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

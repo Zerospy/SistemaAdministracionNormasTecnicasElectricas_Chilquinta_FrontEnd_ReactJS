@@ -78,7 +78,7 @@ public class NormaController {
 
     }
 
-    @PostMapping(value = "/publish/{id}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/publish/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity publishNorma(@PathVariable Long id) {
 
         try {

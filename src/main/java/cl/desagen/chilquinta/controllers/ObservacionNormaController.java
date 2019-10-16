@@ -1,6 +1,7 @@
 package cl.desagen.chilquinta.controllers;
 
 import cl.desagen.chilquinta.commons.Constants;
+import cl.desagen.chilquinta.dto.CommentRequestDto;
 import cl.desagen.chilquinta.entities.ObservacionNormaEntity;
 import cl.desagen.chilquinta.services.ObservacionNormaService;
 import org.slf4j.Logger;
@@ -39,7 +40,7 @@ public class ObservacionNormaController {
     }
 
     @PostMapping(value = "/{id}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity save(@PathVariable Long id, @RequestBody String comment) {
+    public ResponseEntity save(@PathVariable Long id, @RequestBody CommentRequestDto comment) {
 
         try {
             ObservacionNormaEntity observacionnormaResult = observacionnormaService.saveComment(id, comment);
