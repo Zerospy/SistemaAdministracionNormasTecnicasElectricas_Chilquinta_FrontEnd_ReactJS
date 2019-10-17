@@ -1,6 +1,6 @@
 import HeaderComponent from 'components/commons/HeaderComponent';
-import {WorkflowContext} from 'components/workflow/WorkflowContext';
-import CommentsModal from 'components/workflow/CommentsModal';
+import {NormasContext} from 'components/normas/NormasContext';
+import DetalleNormaModal from 'components/normas/DetalleNormaModal';
 import {Col, Row, Input} from 'mdbreact';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -11,7 +11,8 @@ import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import NormaService from 'services/NormaService';
 import {toast} from 'react-toastify';
 
-class WorkflowComponent extends React.Component {
+
+class NormasComponent extends React.Component {
     showSettings(event) {
         event.preventDefault();
     }   
@@ -24,50 +25,50 @@ class WorkflowComponent extends React.Component {
         const columnDefs = [
             {
                 headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.id'
+                    id: 'component.normas.datagrid.id'
                 })}`,
                 field: 'id',
                 width: 50
             },
             {
                 headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.codNorma'
+                    id: 'component.normas.datagrid.codNorma'
                 })}`,
                 field: 'codNorma',
-                width: 120
+                width: 100
             },
             {
                 headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.nombre'
+                    id: 'component.normas.datagrid.nombre'
                 })}`,
                 field: 'nombre',
                 width: 420
             },
             {
                 headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.descripcion'
+                    id: 'component.normas.datagrid.descripcion'
                 })}`,
                 field: 'descripcion',
                 width: 420
             },
             {
                 headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.estado'
+                    id: 'component.normas.datagrid.estado'
                 })}`,
                 field: 'estado.descripcion',
                 width: 140
             },
             {
                 headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.fecha'
+                    id: 'component.normas.datagrid.fecha'
                 })}`,
                 field: 'fecha',
-                width: 180
+                width: 150
             },
             {
-                headerName: '#',
+                headerName: 'Ver',
                 field: 'id',
-                cellRenderer: 'CommentsButtonGridRenderer',
+                cellRenderer: 'DetailButtonGridRenderer',
                 onClick: norma => {
                     this.setState({
                         selectedNorma: norma,
@@ -76,7 +77,7 @@ class WorkflowComponent extends React.Component {
                 },
                 editable: false,
                 colId: 'id',
-                width: 50
+                width: 80
             }
         ];
 
@@ -110,7 +111,7 @@ class WorkflowComponent extends React.Component {
             () => {
                 toast.info(
                     `${this.props.intl.formatMessage({
-                        id: 'component.workflow.title'
+                        id: 'component.norma.title'
                     })}`
                 );
 
@@ -127,8 +128,8 @@ class WorkflowComponent extends React.Component {
 
     render() {
         return [
-            <WorkflowContext.Provider value={this}>
-                <CommentsModal
+            <NormasContext.Provider value={this}>
+                <DetalleNormaModal
                     norma={this.state.selectedNorma}
                     isOpen={this.state.modalComments}
                     toggle={() => {
@@ -142,13 +143,13 @@ class WorkflowComponent extends React.Component {
                     <Col size="12">
                         <PanelComponent
                             title={`${this.props.intl.formatMessage({
-                                id: 'component.workflow.title'
+                                id: 'component.normas.title'
                             })}`}
                         >
                             <Col size="4">
                                 <Input
                                     label={`${this.props.intl.formatMessage({
-                                        id: 'component.workflow.datagrid.search'
+                                        id: 'component.normas.datagrid.search'
                                     })}`}
                                     value={this.state.quickFilter}
                                     onChange={event => {
@@ -181,14 +182,14 @@ class WorkflowComponent extends React.Component {
                         </PanelComponent>
                     </Col>
                 </Row>
-            </WorkflowContext.Provider>
+            </NormasContext.Provider>
         ];
     }
 }
 
-export default injectIntl(WorkflowComponent);
+export default injectIntl(NormasComponent);
 
-WorkflowComponent.propTypes = {
+NormasComponent.propTypes = {
     match: PropTypes.any,
     location: PropTypes.object,
     intl: PropTypes.any
