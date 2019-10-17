@@ -22,7 +22,7 @@ public class EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public void sendEmail(String mailTo, String mailSubject, String mailBody) {
+    public void sendEmail(String[] mailTo, String mailSubject, String mailBody) {
 
         if (log.isDebugEnabled()) {
             log.debug("--Sending mail");

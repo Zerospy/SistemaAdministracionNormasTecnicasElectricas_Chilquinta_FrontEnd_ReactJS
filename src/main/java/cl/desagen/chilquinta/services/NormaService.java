@@ -31,7 +31,7 @@ public class NormaService {
     private UsuarioRepository usuarioRepository;
 
     @Value("${spring.mail.to}")
-    private String mailTo;
+    private String[] mailTo;
 
     @Value("${spring.mail.publish.subject}")
     private String mailPublishSubject;

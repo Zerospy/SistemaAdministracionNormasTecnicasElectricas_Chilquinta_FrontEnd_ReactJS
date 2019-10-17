@@ -37,7 +37,7 @@ public class ObservacionNormaService {
     private EmailService emailService;
 
     @Value("${spring.mail.to}")
-    private String mailTo;
+    private String[] mailTo;
 
     @Value("${spring.mail.comment.subject}")
     private String mailCommentSubject;
