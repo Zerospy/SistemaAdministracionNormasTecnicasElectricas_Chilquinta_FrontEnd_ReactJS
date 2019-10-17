@@ -127,15 +127,20 @@ public class ObservacionNormaService {
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
 
-        Optional<UsuarioEntity> usuarioEntity = usuarioRepository.findById(1L);
+        Optional<UsuarioEntity> usuarioEntityOptional = usuarioRepository.findById(1L);
+        UsuarioEntity usuarioEntity = usuarioEntityOptional.orElse(null);
+
+        if(usuarioEntity == null) {
+            throw new BusinessException("User not found");
+        }
 
         observacionNormaEntity.setObservacion(comment.getComment());
-        observacionNormaEntity.setUsuarioEntity(usuarioEntity.orElse(null));
+        observacionNormaEntity.setUsuarioEntity(usuarioEntity);
         observacionNormaEntity.setCreatedAt(timestamp);
 
         observacionnormaRepository.save(observacionNormaEntity);
 
-        emailService.sendEmail(mailTo, mailCommentSubject, String.format(mailCommentBody, normaEntity.getCodNorma(), usuarioEntity));
+        emailService.sendEmail(mailTo, String.format(mailCommentSubject, normaEntity.getCodNorma()), String.format(mailCommentBody, normaEntity.getCodNorma(), usuarioEntity.getFullName()));
 
         return observacionNormaEntity;
     }

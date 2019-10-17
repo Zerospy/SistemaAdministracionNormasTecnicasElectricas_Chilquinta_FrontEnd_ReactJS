@@ -4,6 +4,7 @@ import cl.desagen.chilquinta.entities.EstadosEntity;
 import cl.desagen.chilquinta.entities.NormaEntity;
 import cl.desagen.chilquinta.entities.UsuarioEntity;
 import cl.desagen.chilquinta.enums.EstadoNorma;
+import cl.desagen.chilquinta.exceptions.BusinessException;
 import cl.desagen.chilquinta.repositories.EstadosRepository;
 import cl.desagen.chilquinta.repositories.NormaRepository;
 import cl.desagen.chilquinta.repositories.UsuarioRepository;
@@ -92,7 +93,7 @@ public class NormaService {
         return normaRepository.findAll(sort);
     }
 
-    public void publishNorma(Long id) {
+    public void publishNorma(Long id) throws BusinessException {
 
         Optional<NormaEntity> normaEntityOptional = normaRepository.findById(id);
 
@@ -104,9 +105,13 @@ public class NormaService {
 
             Optional<UsuarioEntity> usuarioEntityOptional = usuarioRepository.findById(1L);
 
-            UsuarioEntity usuarioEntity = usuarioEntityOptional.isPresent() ? usuarioEntityOptional.get() : null;
+            UsuarioEntity usuarioEntity = usuarioEntityOptional.orElse(null);
 
-            emailService.sendEmail(mailTo, mailPublishSubject, String.format(mailPublishBody, normaEntity.getCodNorma(), usuarioEntity));
+            if (usuarioEntity == null) {
+                throw new BusinessException("User not found");
+            }
+
+            emailService.sendEmail(mailTo, String.format(mailPublishSubject, normaEntity.getCodNorma()), String.format(mailPublishBody, normaEntity.getCodNorma(), usuarioEntity.getFullName()));
 
             normaRepository.save(normaEntity);
         }

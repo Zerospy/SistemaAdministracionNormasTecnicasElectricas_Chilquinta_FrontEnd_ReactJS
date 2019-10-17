@@ -112,6 +112,11 @@ public class UsuarioEntity {
         this.claveTextoPlano = claveTextoPlano;
     }
 
+    @Transient
+    public String getFullName() {
+        return this.getNombres() + " " + this.getApellidos();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
