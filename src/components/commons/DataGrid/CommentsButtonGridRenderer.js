@@ -10,6 +10,7 @@ class CommentsButtonGridRenderer extends Component {
 
         return (
             <Button
+                disabled={data === null || data.estado.id === 3}
                 color="info"
                 className="btn-grid"
                 onClick={onClick.bind(this, data)}
