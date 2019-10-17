@@ -2,9 +2,11 @@ package cl.desagen.chilquinta.services;
 
 import cl.desagen.chilquinta.entities.EstadosEntity;
 import cl.desagen.chilquinta.entities.NormaEntity;
+import cl.desagen.chilquinta.entities.UsuarioEntity;
 import cl.desagen.chilquinta.enums.EstadoNorma;
 import cl.desagen.chilquinta.repositories.EstadosRepository;
 import cl.desagen.chilquinta.repositories.NormaRepository;
+import cl.desagen.chilquinta.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
@@ -25,14 +27,17 @@ public class NormaService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     @Value("${spring.mail.to}")
     private String mailTo;
 
-    @Value("${spring.mail.subject}")
-    private String mailSubject;
+    @Value("${spring.mail.publish.subject}")
+    private String mailPublishSubject;
 
-    @Value("${spring.mail.body}")
-    private String mailBody;
+    @Value("${spring.mail.publish.body}")
+    private String mailPublishBody;
 
     public Iterable<NormaEntity> findAll() {
         return normaRepository.findAll();
@@ -97,7 +102,11 @@ public class NormaService {
             NormaEntity normaEntity = normaEntityOptional.get();
             normaEntity.setEstado(normaEstado.orElse(null));
 
-            emailService.sendEmail(mailTo, mailSubject, String.format(mailBody, normaEntity.getCodNorma()));
+            Optional<UsuarioEntity> usuarioEntityOptional = usuarioRepository.findById(1L);
+
+            UsuarioEntity usuarioEntity = usuarioEntityOptional.isPresent() ? usuarioEntityOptional.get() : null;
+
+            emailService.sendEmail(mailTo, mailPublishSubject, String.format(mailPublishBody, normaEntity.getCodNorma(), usuarioEntity));
 
             normaRepository.save(normaEntity);
         }
