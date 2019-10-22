@@ -2,7 +2,7 @@
     "app.title": "Chilquinta",
 
     "app.general.btn.accept": "Aceptar",
-    "app.general.btn.cancel": "Cancelar",
+    "app.general.btn.cancel": "Cerrar",
     
     "legend.ban.mp": "Materias Primas Prohibidas",
     "legend.alergen.mp": "Materias Primas con Componentes Alergenos",
@@ -92,6 +92,13 @@
     "component.normas.datagrid.urlPdf": "UrlPdf",
     "component.normas.datagrid.urlCad": "UrlCad",
     "component.normas.datagrid.actions": "#",
+    "component.normas.title.detalles": "Ver Norma",
+
+    "component.vernormas.CodNorma.Modal": "Codigo identificador de la Norma",
+    "component.vernormas.title.Modal": "Nombre norma",
+    "component.vernormas.descripcion.Modal": "Descripcion de la norma",
+    "component.vernormas.fp.Modal": "Fecha de publicacion de la norma",
+    "component.vernormas.descarga.Modal": "Descarga y visualizacion de la norma",
 
     "component.normas.modal.title": "Comentarios",
     "component.normas.modal.grid.id": "Id", 

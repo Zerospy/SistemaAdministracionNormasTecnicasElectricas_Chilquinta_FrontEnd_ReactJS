@@ -17,100 +17,59 @@ import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import Constantes from 'Constantes';
 import NormaService from 'services/NormaService';
 import {toast} from 'react-toastify';
+import pdf from 'assets/img/pdf.png';
+import cad from 'assets/img/cad.png';
+import { Link } from 'react-router-dom';
 
 class DetalleNormaModal extends React.Component {
+          state = {
+            id: null
+
+          };
     constructor(props) {
         super(props);
 
-        this.NormaService = new NormaService();
-
+        this.normaService = new NormaService();
+        
+        
         const columnDefs = [
             {
                 headerName: `${props.intl.formatMessage({
                     id: 'component.normas.title.name'
                 })}`,
                 field: 'nombre',
-                width: 420
+                width: 900
             },
-            {
-                headerName: `${props.intl.formatMessage({
-                    id: 'component.normas.modal.grid.user'
-                })}`,
-                field: 'usuarioEntity.usuario',
-                width: 140
-            }
+  
+         
         ];
-
+   
         this.state = {
             pagination: {
-                PageIndex: 1,
-                RowsPerPage: Constantes.DEFAULT_PAGE_SIZE
+            PageIndex: 1,
+            RowsPerPage: Constantes.DEFAULT_PAGE_SIZE
             },
             columnDefs: columnDefs,
             rowData: [],
             loadingInformation: false,
-            loadingComments: false,
-            savingComment: false,
-            newComment: ''
         };
     }
 
     getNorma(norma) {
-        this.setState({
-            modalComments: true,
-            loadingComments: true
-        });
-
-        this.NormaService.get(norma.id).then(response => {
+    
+        this.normaService.get(norma.id).then(response => {
             const data = response.data;
-
+             
+             
             this.setState({
-                rowData: data
+                rowData: response !== null ? response.data : [],
+               
+                loadingInformation: false
             });
         });
     }
-
-  saveComment = () => {
-      const {rowData} = this.state;
-      const normaId = this.props.norma.id;
-
-      this.setState({
-          savingComment: true
-      });
-
-      this.NormaService
-          .post(normaId, {
-              comment: this.state.newComment
-          })
-          .then(
-              response => {
-                  const data = response.data;
-
-                  this.setState(
-                      {
-                          rowData: [...rowData, data],
-                          savingComment: false
-                      },
-                      () => {
-                          this.setState({
-                              newComment: ''
-                          });
-                      }
-                  );
-              },
-              () => {
-                  toast.error(
-                      `${this.props.intl.formatMessage({
-                          id: 'component.normas.modal.comment.error'
-                      })}`
-                  );
-
-                  this.setState({
-                      savingComment: false
-                  });
-              }
-          );
-  };
+    
+ 
   componentDidUpdate(prevProps) {
       if (
           this.props !== null &&
@@ -118,69 +77,92 @@ class DetalleNormaModal extends React.Component {
       this.props.norma !== prevProps.norma
       ) {
           this.setState({
-              rowData: []
+              rowData: [],
+            
+            
+            
           });
           this.getNorma(this.props.norma);
+       
       }
   }
 
   render() {
-      const {toggle, isOpen, onSave, norma} = this.props;
+      const {toggle, isOpen, onSave, norma } = this.props;
 
-      const canPublish = norma !== null && norma.estado.id !== 3;
+      var normaid0 = JSON.stringify(this.props.norma,['codNorma']).split('{"codNorma":"').join('');
+      var normaid = normaid0.split('"}').join('');
 
+      var normaname0 = JSON.stringify(this.props.norma,['nombre']).split('{"nombre":"').join('');
+      var normaname = normaname0.split('"}').join('');
+
+      var normadesc0 = JSON.stringify(this.props.norma,['descripcion']).split('{"descripcion":"').join('');
+      var normadesc = normadesc0.split('"}').join('');
+
+      var normafecha0 = JSON.stringify(this.props.norma,['fecha']).split('{"fecha":"').join('');
+      var normafecha = normafecha0.split('"}').join('');
+      
+      var normaDesc = JSON.stringify(this.props.norma,['id']);
+
+
+
+
+      
       return (
           <Container>
               <Modal isOpen={isOpen} size="lg">
                   <ModalHeader toggle={toggle}>
-                      <FormattedMessage id="component.workflow.modal.title" />
+                      <FormattedMessage id="component.normas.title.detalles" />
                   </ModalHeader>
                   <ModalBody>
                       <Row>
                           <Col size="12">
-                              <PanelComponent
+                              < PanelComponent
                                   title={`${this.props.intl.formatMessage({
-                                      id: 'component.workflow.title'
+                                      id: 'component.vernormas.CodNorma.Modal'
                                   })}`}
-                              >
-                                  <DataGridComponent
-                                      isLoading={this.state.loadingInformation}
-                                      classContainer="grid-container"
-                                      onPaginationChange={pagination => {
-                                          this.setState(
-                                              {
-                                                  pagination: pagination
-                                              },
-                                              () => {
-                                                  // search workflows
-                                              }
-                                          );
-                                      }}
-                                      columnDefs={this.state.columnDefs}
-                                      rowData={this.state.rowData}
-                                      enableColResize={true}
-                                  />
-                              </PanelComponent>
+                                >   
+                 <h5>{normaid}</h5>
+                                         </PanelComponent>
+                                         < PanelComponent
+                                  title={`${this.props.intl.formatMessage({
+                                      id: 'component.vernormas.title.Modal'
+                                  })}`}
+                                >   
+                   <h5>{normaname}</h5>
+                                         </PanelComponent>
+
+                                         <PanelComponent
+                                  title={`${this.props.intl.formatMessage({
+                                      id: 'component.vernormas.descripcion.Modal'
+                                  })}`}
+                                >   
+                   <h5>{normadesc}</h5>
+                
+                                         </PanelComponent>
+                                         <PanelComponent
+                                  title={`${this.props.intl.formatMessage({
+                                      id: 'component.vernormas.fp.Modal'
+                                  })}`}
+                                >   
+                   <h5>{normafecha.substring(0,10)}</h5>
+                   
+                                         </PanelComponent>
+                                         <PanelComponent
+                                  title={`${this.props.intl.formatMessage({
+                                      id: 'component.vernormas.descarga.Modal'
+                                  })}`}
+                                >   
+                   <h5>  <td onClick={()=> window.open("https://www.chilquinta.cl/storage/pdf/a56285c3a22b557f55af7afd1130f0c6.pdf", "_blank")}> <img style={{width:70,height:70}}src={pdf}></img></td>    <td onClick={()=> window.open("https://www.bloquesautocad.com/descargas/seguridad/barandillas/dwg/SS_Barandilla-Sargento-01.zip", "_blank")}> <img style={{width:70,height:70}}src={cad}></img></td> </h5>
+                   
+                                         </PanelComponent>
+                            
+                              
                           </Col>
                       </Row>
                       <Row>
                           <Col size="9">
-                              <Input
-                                  autofocus="true"
-                                  readOnly={this.state.savingComment}
-                                  value={this.state.newComment}
-                                  onChange={event => {
-                                      this.setState({
-                                          newComment: event.target.value
-                                      });
-                                  }}
-                                  onKeyPress={event => {
-                                      if (event.key === 'Enter') {
-                                          this.saveComment();
-                                      }
-                                  }}
-                                  maxLength="255"
-                              />
+                          
                           </Col>
                 
                       </Row>
