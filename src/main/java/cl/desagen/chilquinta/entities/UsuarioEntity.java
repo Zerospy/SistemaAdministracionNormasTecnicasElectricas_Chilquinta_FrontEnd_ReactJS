@@ -18,6 +18,7 @@ public class UsuarioEntity {
     private Timestamp timestamp;
     private String email;
     private String claveTextoPlano;
+    private String urlAvatar;
 
 
     @Id
@@ -110,6 +111,16 @@ public class UsuarioEntity {
 
     public void setClaveTextoPlano(String claveTextoPlano) {
         this.claveTextoPlano = claveTextoPlano;
+    }
+
+    @Basic
+    @Column(name = "urlAvatar")
+    public String getUrlAvatar() {
+        return urlAvatar;
+    }
+
+    public void setUrlAvatar(String urlAvatar) {
+        this.urlAvatar = urlAvatar;
     }
 
     @Transient

@@ -106,7 +106,7 @@ public class ObservacionNormaService {
         return observacionnormaRepository.findAll(sort);
     }
 
-    public ObservacionNormaEntity saveComment(Long id, CommentRequestDto comment) throws BusinessException {
+    public ObservacionNormaEntity saveComment(Integer id, CommentRequestDto comment) throws BusinessException {
 
         ObservacionNormaEntity observacionNormaEntity = new ObservacionNormaEntity();
 

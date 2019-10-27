@@ -57,15 +57,15 @@ public class NormaService {
     }
 
 
-    public Optional<NormaEntity> findById(Long id) {
+    public Optional<NormaEntity> findById(Integer id) {
         return normaRepository.findById(id);
     }
 
-    public boolean existsById(Long id) {
+    public boolean existsById(Integer id) {
         return normaRepository.existsById(id);
     }
 
-    public Iterable<NormaEntity> findAllById(Iterable<Long> ids) {
+    public Iterable<NormaEntity> findAllById(Iterable<Integer> ids) {
         return normaRepository.findAllById(ids);
     }
 
@@ -73,7 +73,7 @@ public class NormaService {
         return normaRepository.count();
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         normaRepository.deleteById(id);
     }
 
@@ -93,7 +93,7 @@ public class NormaService {
         return normaRepository.findAll(sort);
     }
 
-    public void publishNorma(Long id) throws BusinessException {
+    public void publishNorma(Integer id) throws BusinessException {
 
         Optional<NormaEntity> normaEntityOptional = normaRepository.findById(id);
 

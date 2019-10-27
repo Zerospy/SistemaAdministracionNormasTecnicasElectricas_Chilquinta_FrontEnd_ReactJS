@@ -1,6 +1,6 @@
 package cl.desagen.chilquinta.entities;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,7 +16,7 @@ public class NormaEntity {
     @JsonProperty
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long id;
+    private Integer id;
 
     @JsonProperty
     @Column(name = "cod_norma")

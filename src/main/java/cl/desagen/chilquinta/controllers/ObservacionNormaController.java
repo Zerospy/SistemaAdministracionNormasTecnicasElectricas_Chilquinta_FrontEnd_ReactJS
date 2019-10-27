@@ -40,7 +40,7 @@ public class ObservacionNormaController {
     }
 
     @PostMapping(value = "/{id}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity save(@PathVariable Long id, @RequestBody CommentRequestDto comment) {
+    public ResponseEntity save(@PathVariable Integer id, @RequestBody CommentRequestDto comment) {
 
         try {
             ObservacionNormaEntity observacionnormaResult = observacionnormaService.saveComment(id, comment);

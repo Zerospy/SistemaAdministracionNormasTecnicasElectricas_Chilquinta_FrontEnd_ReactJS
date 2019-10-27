@@ -29,7 +29,7 @@ public class NormaController {
     }
 
     @GetMapping(value = "/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
-    public Optional<NormaEntity> findById(@PathVariable Long id) {
+    public Optional<NormaEntity> findById(@PathVariable Integer id) {
         return normaService.findById(id);
     }
 
@@ -64,7 +64,7 @@ public class NormaController {
     }
 
     @DeleteMapping(value = "/{id}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable Integer id) {
 
         try {
             normaService.deleteById(id);
@@ -79,7 +79,7 @@ public class NormaController {
     }
 
     @PostMapping(value = "/publish/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity publishNorma(@PathVariable Long id) {
+    public ResponseEntity publishNorma(@PathVariable Integer id) {
 
         try {
             normaService.publishNorma(id);

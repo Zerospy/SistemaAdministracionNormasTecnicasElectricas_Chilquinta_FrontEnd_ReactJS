@@ -16,7 +16,7 @@ public class ObservacionNormaEntity {
 
     private Long id;
 
-    private Long normaId;
+    private Integer normaId;
 
     private String observacion;
 
@@ -39,11 +39,11 @@ public class ObservacionNormaEntity {
 
     @Basic
     @Column(name = "norma_id")
-    public Long getNormaId() {
+    public Integer getNormaId() {
         return normaId;
     }
 
-    public void setNormaId(Long normaId) {
+    public void setNormaId(Integer normaId) {
         this.normaId = normaId;
     }
 
