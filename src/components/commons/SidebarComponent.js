@@ -79,7 +79,7 @@ class SidebarComponent extends React.Component {
                           name={`${this.props.intl.formatMessage({
                               id: 'Normas'
                           })}`}
-                          icon="arrows-alt"
+                          icon="folder"
                           startOpen={true}
                       >
                           <SideNavLink
@@ -88,7 +88,7 @@ class SidebarComponent extends React.Component {
                                   window.location.reaload();
                               }}
                           >
-                              <Fa icon="network-wired" />
+                              <Fa icon="cubes" />
                               <FormattedMessage id="Normas" />
                           </SideNavLink>
                       </SideNavCat>   
