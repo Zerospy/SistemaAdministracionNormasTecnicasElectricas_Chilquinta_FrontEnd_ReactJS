@@ -73,6 +73,7 @@ class CommentsModal extends React.Component {
   saveComment = () => {
       const {rowData} = this.state;
       const normaId = this.props.norma.id;
+      const {onSaveComment, norma} = this.props;
 
       this.setState({
           savingComment: true
@@ -86,6 +87,7 @@ class CommentsModal extends React.Component {
               response => {
                   const data = response.data;
 
+                  onSaveComment(norma);
                   this.setState(
                       {
                           rowData: [...rowData, data],
@@ -236,6 +238,7 @@ export default injectIntl(CommentsModal);
 CommentsModal.propTypes = {
     toggle: PropTypes.func,
     onSave: PropTypes.func,
+    onSaveComment: PropTypes.func,
     isOpen: PropTypes.bool,
     publishing: PropTypes.bool,
     intl: PropTypes.any,

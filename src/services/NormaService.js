@@ -1,9 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default class NormaService {
-  get = params =>
-    axios.get("/norma/", {
-      params: params
-    });
+  get = () => axios.get('/norma/');
+  getById = id => axios.get(`/norma/${id}`);
   publish = id => axios.post(`/norma/publish/${id}`);
 }

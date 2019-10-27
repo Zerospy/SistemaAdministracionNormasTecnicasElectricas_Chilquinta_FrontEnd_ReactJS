@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import HeaderComponent from 'components/commons/HeaderComponent';
 import {WorkflowContext} from 'components/workflow/WorkflowContext';
 import CommentsModal from 'components/workflow/CommentsModal';
@@ -19,6 +20,8 @@ class WorkflowComponent extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.gridApi = null;
 
         this.normaService = new NormaService();
 
@@ -141,6 +144,33 @@ class WorkflowComponent extends React.Component {
                             modalComments: !this.state.modalComments
                         });
                     }}
+                    onSaveComment={norma => {
+                        console.log(norma);
+
+                        const rowData = this.state.rowData;
+
+                        if (rowData !== null && rowData.length > 0) {
+                            this.normaService.getById(norma.id).then(
+                                response => {
+                                    rowData.some((item, index) => {
+                                        if (item.id === norma.id) {
+                                            rowData[index].estado = response.data.estado;
+                                            return true;
+                                        }
+                                    });
+                                    this.gridApi.setRowData(rowData);
+                                },
+                                errorResponse => {
+                                    console.error(errorResponse);
+                                    toast.error(
+                                        `${this.props.intl.formatMessage({
+                                            id: 'component.workflow.modal.msg.error'
+                                        })}`
+                                    );
+                                }
+                            );
+                        }
+                    }}
                     onSave={norma => {
                         this.setState({
                             publishing: true
@@ -223,6 +253,9 @@ class WorkflowComponent extends React.Component {
                                 pagination={true}
                                 enableColResize={true}
                                 quickFilter={this.state.quickFilter}
+                                onGridLoad={params => {
+                                    this.gridApi = params.api;
+                                }}
                             />
                         </PanelComponent>
                     </Col>
