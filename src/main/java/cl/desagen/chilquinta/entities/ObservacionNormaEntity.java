@@ -26,6 +26,13 @@ public class ObservacionNormaEntity {
 
     private Timestamp updatedAt;
 
+    @Transient
+    private Boolean isCurrentUserComment;
+
+    public Boolean getIsCurrentUserComment() {
+        return true;
+    }
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -56,7 +56,7 @@ public class ObservacionNormaService {
         return observacionnormaRepository.findAll(pageable);
     }
 
-    public Iterable<ObservacionNormaEntity> findAllByNormaId(Long normaId) {
+    public Iterable<ObservacionNormaEntity> findAllByNormaId(Integer normaId) {
         return observacionnormaRepository.findAllByNormaId(normaId);
     }
 

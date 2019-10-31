@@ -6,5 +6,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface ObservacionNormaRepository extends PagingAndSortingRepository<ObservacionNormaEntity, Long> {
 
-    Iterable<ObservacionNormaEntity> findAllByNormaId(Long normaId);
+    Iterable<ObservacionNormaEntity> findAllByNormaId(Integer normaId);
 }
