@@ -5,6 +5,7 @@ import {
     Modal,
     ModalBody,
     ModalHeader,
+    ModalFooter,
     Input,
     Fa,
     Row,
@@ -17,6 +18,7 @@ import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import Constantes from 'Constantes';
 import CommentsService from 'services/CommentsService';
 import {toast} from 'react-toastify';
+import AvatarImage from 'assets/img/avatar.jpg';
 
 class CommentsModal extends React.Component {
     constructor(props) {
@@ -140,68 +142,112 @@ class CommentsModal extends React.Component {
                   <ModalBody>
                       <Row>
                           <Col size="12">
-                              <PanelComponent
-                                  title={`${this.props.intl.formatMessage({
-                                      id: 'component.workflow.title'
-                                  })}`}
-                              >
-                                  <DataGridComponent
-                                      isLoading={this.state.loadingInformation}
-                                      classContainer="grid-container"
-                                      onPaginationChange={pagination => {
-                                          this.setState(
-                                              {
-                                                  pagination: pagination
-                                              },
-                                              () => {
-                                                  // search workflows
-                                              }
-                                          );
-                                      }}
-                                      columnDefs={this.state.columnDefs}
-                                      rowData={this.state.rowData}
-                                      enableColResize={true}
-                                  />
-                              </PanelComponent>
+                              <div className="container">
+                                  <div
+                                      className="chat-window"
+                                      id="chat_window_1"
+                                      style={{marginLeft: '10px'}}
+                                  >
+                                      <div className="panel panel-default">
+                                          <div className="panel-body msg_container_base">
+                                              {this.state.rowData.map(comment =>
+                                                  comment.isCurrentUserComment ? (
+                                                      <div className="row msg_container base_sent">
+                                                          <div className="col-md-10 col-xs-10">
+                                                              <div className="messages msg_sent">
+                                                                  <p>
+                                    that mongodb thing looks good, huh? tiny
+                                    master db, and huge document store
+                                                                  </p>
+                                                                  <time dateTime="2009-11-13T20:00">
+                                    Timothy • 51 min
+                                                                  </time>
+                                                              </div>
+                                                          </div>
+                                                          <div className="col-md-2 col-xs-2 avatar">
+                                                              <img
+                                                                  src={AvatarImage}
+                                                                  className=" img-responsive "
+                                                              />
+                                                          </div>
+                                                      </div>
+                                                  ) : (
+                                                      <div className="row msg_container base_receive">
+                                                          <div className="col-md-2 col-xs-2 avatar">
+                                                              <img
+                                                                  src={AvatarImage}
+                                                                  className=" img-responsive "
+                                                              />
+                                                          </div>
+                                                          <div className="col-md-10 col-xs-10">
+                                                              <div className="messages msg_receive">
+                                                                  <p>
+                                    that mongodb thing looks good, huh? tiny
+                                    master db, and huge document store
+                                                                  </p>
+                                                                  <time dateTime="2009-11-13T20:00">
+                                    Timothy • 51 min
+                                                                  </time>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  )
+                                              )}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
                           </Col>
                       </Row>
                       <Row>
-                          <Col size="9">
-                              <Input
-                                  autofocus="true"
-                                  readOnly={this.state.savingComment}
-                                  value={this.state.newComment}
-                                  onChange={event => {
-                                      this.setState({
-                                          newComment: event.target.value
-                                      });
-                                  }}
-                                  onKeyPress={event => {
-                                      if (event.key === 'Enter') {
-                                          this.saveComment();
-                                      }
-                                  }}
-                                  maxLength="255"
-                              />
-                          </Col>
-                          <Col size="3">
-                              <Button
-                                  disabled={this.state.savingComment}
-                                  color="primary"
-                                  onClick={this.saveComment}
-                              >
-                                  {this.state.savingComment ? (
-                                      <Fa icon="spinner" className="fa-1x fa-spin" />
-                                  ) : (
-                                      <Fa icon="plus" />
-                                  )}
-                              </Button>
+                          <Col className="mt-3 ml-4">
+                              <div className="input-group">
+                                  <div className="input-group-prepend">
+                                      <span className="input-group-text" id="basic-addon">
+                                          <i className="fa fa-comment prefix"></i>
+                                      </span>
+                                  </div>
+                                  <input
+                                      className="form-control"
+                                      placeholder={`${this.props.intl.formatMessage({
+                                          id: 'component.normas.modal.input.placeholder'
+                                      })}`}
+                                      autoFocus="true"
+                                      readOnly={this.state.savingComment}
+                                      value={this.state.newComment}
+                                      onChange={event => {
+                                          this.setState({
+                                              newComment: event.target.value
+                                          });
+                                      }}
+                                      onKeyPress={event => {
+                                          if (event.key === 'Enter') {
+                                              this.saveComment();
+                                          }
+                                      }}
+                                      maxLength="255"
+                                  />
+
+                                  <Button
+                                      disabled={this.state.savingComment}
+                                      color="primary"
+                                      onClick={this.saveComment}
+                                  >
+                                      {this.state.savingComment ? (
+                                          <Fa icon="spinner" className="fa-1x fa-spin" />
+                                      ) : (
+                                          <FormattedMessage id="component.normas.modal.btn.send" />
+                                      )}
+                                  </Button>
+                              </div>
                           </Col>
                       </Row>
+                  </ModalBody>
+                  <ModalFooter>
                       <Row>
                           <Col className="d-flex justify-content-end">
                               <Button
-                                  color="cancel"
+                                  color="info"
                                   onClick={toggle}
                                   disabled={this.props.publishing}
                               >
@@ -226,7 +272,7 @@ class CommentsModal extends React.Component {
                               ) : null}
                           </Col>
                       </Row>
-                  </ModalBody>
+                  </ModalFooter>
               </Modal>
           </Container>
       );
