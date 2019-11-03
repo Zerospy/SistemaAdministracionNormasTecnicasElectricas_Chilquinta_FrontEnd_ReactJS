@@ -1,7 +1,7 @@
 import HeaderComponent from 'components/commons/HeaderComponent';
 import {NormasContext} from 'components/normas/NormasContext';
 import DetalleNormaModal from 'components/normas/DetalleNormaModal';
-import {Col, Row, Input} from 'mdbreact';
+import {Col, Row, Input, Fa, Button} from 'mdbreact';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
@@ -10,6 +10,7 @@ import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import NormaService from 'services/NormaService';
 import {toast} from 'react-toastify';
+import DetalleCrearNorma from './DetalleCrearNorma';
 
 
 class NormasComponent extends React.Component {
@@ -78,7 +79,21 @@ class NormasComponent extends React.Component {
                 editable: false,
                 colId: 'id',
                 width: 80
-            }
+            },
+            {
+                headerName: 'Editar',
+                field: 'id',
+                cellRenderer: 'DetailButtonGridEdit',
+                onClick: norma => {
+                    this.setState({
+                        selectedNorma: norma,
+                        modalComments: true
+                    });
+                },
+                editable: false,
+                colId: 'id',
+                width: 80
+            },
         ];
 
         this.state = {
@@ -125,11 +140,11 @@ class NormasComponent extends React.Component {
     componentDidMount() {
         this.searchNormas();
     }
-
+        
     render() {
         return [
             <NormasContext.Provider value={this}>
-                <DetalleNormaModal
+                <DetalleCrearNorma
                     norma={this.state.selectedNorma}
                     isOpen={this.state.modalComments}
                     toggle={() => {
@@ -160,6 +175,20 @@ class NormasComponent extends React.Component {
                                 />
                             </Col>
 
+                               <Row>     
+                            <Col className="offset-10" size="2">
+                                    <Button
+                                        size="sm"
+                                        onClick={() => {
+                                            this.searchNormas();
+                                        }}
+                                    >
+                                        {' '}
+                                        <Fa icon="plus" />
+                                    </Button>
+                                </Col>
+                                </Row>
+                                        
                             <DataGridComponent
                                 isLoading={this.state.loadingInformation}
                                 classContainer="grid-container"
