@@ -29,13 +29,10 @@ class RouterComponent extends React.Component {
     render() {
         const token = this.LoginService.getSessionInformation();
 
-        /* if (
-            token === null &&
-      this.props.history.location.pathname !== '/dashboard'
-        ) {
-            // this.props.history.push('/dashboard');
+        if (token === null && this.props.history.location.pathname !== '/login') {
+            this.props.history.push('/login');
         }
-*/
+
         return (
             <Switch>
                 <Route
@@ -45,7 +42,7 @@ class RouterComponent extends React.Component {
                         if (token) {
                             return <Redirect to="/dashboard" />;
                         }
-                        return <Redirect to="/dashboard" />;
+                        return <Redirect to="/login" />;
                     }}
                 />
                 <Route exact path="/login" component={LoginComponent} />

@@ -4,9 +4,9 @@ import LoginService from 'services/LoginService';
 export default class HttpServiceConfig {
     constructor(config) {
         if (config) {
-            // if (config.jwt) {
-            //     this.jwt = config.jwt;
-            // }
+            if (config.jwt) {
+                this.jwt = config.jwt;
+            }
 
             if (config.apiUrl) {
                 this.apiUrl = config.apiUrl;
@@ -23,17 +23,17 @@ export default class HttpServiceConfig {
     addRequestsInterceptors() {
     // Add a request interceptor
         axios.interceptors.request.use(
-            config =>
-            /* const sessionInformation = this.LoginService.getSessionInformation();
+            config => {
+                const sessionInformation = this.LoginService.getSessionInformation();
 
-                if (sessionInformation && sessionInformation.JWT) {
+                if (sessionInformation && sessionInformation.token) {
                     config.headers = {
-                        Authorization: sessionInformation.JWT.Token
+                        Authorization: `Bearer ${sessionInformation.token}`
                     };
-                }*/
+                }
 
-                config
-            ,
+                return config;
+            },
             error => {
                 console.error('error', error);
                 return Promise.reject(error);

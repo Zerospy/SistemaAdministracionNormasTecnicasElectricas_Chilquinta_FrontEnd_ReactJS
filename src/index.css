@@ -21879,6 +21879,7 @@ section.team-section .avatar img {
   text-align: left; }
 
 .side-nav .collapsible li a {
+  text-align: left;
   -webkit-transition: all 400ms ease-in-out;
   -moz-transition: all 400ms ease-in-out;
   -ms-transition: all 400ms ease-in-out;

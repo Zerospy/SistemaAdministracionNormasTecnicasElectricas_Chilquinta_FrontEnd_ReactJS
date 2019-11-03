@@ -3,9 +3,8 @@ import axios from 'axios';
 export default class LoginService {
   authenticate = (username, password, verificationCode) =>
       axios.post('login/authenticate', {
-          Username: username,
-          Password: password,
-          VerificationCode: verificationCode
+          username: username,
+          password: password
       });
 
   createSessionInformation = sessionInformation => {
@@ -44,10 +43,5 @@ export default class LoginService {
 }
 
 export const Permisos = {
-    Dashboard: 'DASHBOARD',
-    DashboardGuardar: 'DASHBOARD#GUARDAR',
-    DashboardIfra: 'DASHBOARD#IFRA',
-    DashboardOficializar: 'DASHBOARD#OFICIALIZAR',
-    Solicitudes: 'SOLICITUDES',
-    DashboardSolicitud: 'DASHBOARD#SOLICITUD'
+    Dashboard: 'DASHBOARD'
 };

@@ -19,6 +19,7 @@ import Constantes from 'Constantes';
 import CommentsService from 'services/CommentsService';
 import {toast} from 'react-toastify';
 import AvatarImage from 'assets/img/avatar.jpg';
+import Moment from 'moment';
 
 class CommentsModal extends React.Component {
     constructor(props) {
@@ -65,6 +66,12 @@ class CommentsModal extends React.Component {
 
         this.commentService.get(norma.id).then(response => {
             const data = response.data;
+
+            response.data.forEach(item => {
+                item.createdAt = new Moment(item.fecha).format(
+                    Constantes.DATETIME_FORMAT
+                );
+            });
 
             this.setState({
                 rowData: data
@@ -155,12 +162,9 @@ class CommentsModal extends React.Component {
                                                       <div className="row msg_container base_sent">
                                                           <div className="col-md-10 col-xs-10">
                                                               <div className="messages msg_sent">
-                                                                  <p>
-                                    that mongodb thing looks good, huh? tiny
-                                    master db, and huge document store
-                                                                  </p>
-                                                                  <time dateTime="2009-11-13T20:00">
-                                    Timothy • 51 min
+                                                                  <p>{comment.observacion}</p>
+                                                                  <time dateTime={comment.createdAt}>
+                                                                      {comment.createdAt}
                                                                   </time>
                                                               </div>
                                                           </div>
@@ -181,12 +185,9 @@ class CommentsModal extends React.Component {
                                                           </div>
                                                           <div className="col-md-10 col-xs-10">
                                                               <div className="messages msg_receive">
-                                                                  <p>
-                                    that mongodb thing looks good, huh? tiny
-                                    master db, and huge document store
-                                                                  </p>
-                                                                  <time dateTime="2009-11-13T20:00">
-                                    Timothy • 51 min
+                                                                  <p>{comment.observacion}</p>
+                                                                  <time dateTime={comment.createdAt}>
+                                                                      {comment.createdAt}
                                                                   </time>
                                                               </div>
                                                           </div>

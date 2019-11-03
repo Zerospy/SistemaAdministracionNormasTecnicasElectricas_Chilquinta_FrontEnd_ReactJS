@@ -16,10 +16,6 @@ class LoginComponent extends React.Component {
             {
                 label: 'Chile',
                 value: 'chile'
-            },
-            {
-                label: 'Brasil',
-                value: 'brasil'
             }
         ];
 
@@ -55,15 +51,7 @@ class LoginComponent extends React.Component {
           return;
       }
 
-      toast.success(
-          `${this.props.intl.formatMessage({
-              id: 'login.message.success'
-          })}`
-      );
-
-      this.redirectHome();
-
-      /* this.setState({
+      this.setState({
           loading: true
       });
 
@@ -74,9 +62,15 @@ class LoginComponent extends React.Component {
               });
 
               if (response && response.status && response.status === 200) {
-                  this.setState({
-                      modalVerificationCode: true
-                  });
+                  this.loginService.createSessionInformation(response.data);
+
+                  toast.success(
+                      `${this.props.intl.formatMessage({
+                          id: 'login.message.success'
+                      })}`
+                  );
+
+                  this.redirectHome();
               } else {
                   toast.error(
                       `${this.props.intl.formatMessage({
@@ -97,7 +91,7 @@ class LoginComponent extends React.Component {
                   })}`
               );
           }
-      );*/
+      );
   };
 
   render() {
@@ -121,82 +115,6 @@ class LoginComponent extends React.Component {
 
                   return (
                       <React.Fragment>
-                          <VerificationCodeModal
-                              toggle={() => {
-                                  this.setState({
-                                      modalVerificationCode: !this.state.modalVerificationCode
-                                  });
-                              }}
-                              isOpen={this.state.modalVerificationCode}
-                              onSave={verificationCode => {
-                                  if (!verificationCode) {
-                                      toast.error(
-                                          `${this.props.intl.formatMessage({
-                                              id: 'login.message.emptyVerificationCode'
-                                          })}`
-                                      );
-                                      return;
-                                  }
-
-                                  this.setState({
-                                      loading: true
-                                  });
-
-                                  const username = this.state.username;
-                                  const password = this.state.password;
-
-                                  this.loginService
-                                      .authenticate(username, password, verificationCode)
-                                      .then(
-                                          response => {
-                                              this.setState({
-                                                  loading: false
-                                              });
-
-                                              if (
-                                                  response &&
-                          response.status &&
-                          response.status === 200
-                                              ) {
-                                                  const sessionInformacion = response.data;
-
-                                                  toast.success(
-                                                      `${this.props.intl.formatMessage({
-                                                          id: 'login.message.success'
-                                                      })} ${sessionInformacion.NombreApellido}`
-                                                  );
-
-                                                  this.loginService.createSessionInformation(
-                                                      sessionInformacion
-                                                  );
-
-                                                  this.props.history.push('/dashboard');
-                                              } else {
-                                                  toast.info(
-                                                      `${this.props.intl.formatMessage({
-                                                          id: 'login.message.invalidVerificationCode'
-                                                      })}`
-                                                  );
-
-                                                  this.setState({
-                                                      loading: false
-                                                  });
-                                              }
-                                          },
-                                          () => {
-                                              toast.info(
-                                                  `${this.props.intl.formatMessage({
-                                                      id: 'login.message.invalidVerificationCode'
-                                                  })}`
-                                              );
-
-                                              this.setState({
-                                                  loading: false
-                                              });
-                                          }
-                                      );
-                              }}
-                          />
                           <Container fluid={true} className="background-login-form h-100">
                               <div className="page-header">
                                   <div className="offset-10 col-2">
