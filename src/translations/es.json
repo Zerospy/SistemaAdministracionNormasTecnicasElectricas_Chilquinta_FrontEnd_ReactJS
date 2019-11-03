@@ -32,6 +32,7 @@
     "menu.home.dashboard": "Home",
 
     "menu.workflow": "Workflow",
+    "menu.workflow.item": "Publicar Normas",
 
     "menu.account": "Cuenta",
     "menu.account.logout": "Cerrar sesión",
@@ -80,6 +81,7 @@
     
     "component.workflow.modal.btn.save": "Publicar",
 
+    "component.normas": "Normas",
     "component.normas.title": "Listado de Normas",
     "component.normas.title.name": "Nombre Norma",
     "component.normas.datagrid.search": "Búsqueda rápida",
@@ -110,6 +112,8 @@
     "component.normas.modal.title": "Comentarios",
     "component.normas.modal.grid.id": "Id", 
     "component.normas.modal.grid.comment": "Comentario",
+    "component.normas.modal.input.placeholder": "Agregar comentarios...",
+    "component.normas.modal.btn.send": "Enviar",
     "component.normas.modal.grid.user": "Usuario",
     "component.normas.modal.msg.success": "Norma publicada correctamente!",
     "component.normas.modal.msg.error": "Ocurrió un problema al publicar la norma",

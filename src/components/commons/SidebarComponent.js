@@ -77,7 +77,7 @@ class SidebarComponent extends React.Component {
                       <SideNavCat
                           id="normas"
                           name={`${this.props.intl.formatMessage({
-                              id: 'Normas'
+                              id: 'component.normas'
                           })}`}
                           icon="folder"
                           startOpen={true}
@@ -89,7 +89,7 @@ class SidebarComponent extends React.Component {
                               }}
                           >
                               <Fa icon="cubes" />
-                              <FormattedMessage id="Listado de normas" />
+                              <FormattedMessage id="component.normas" />
                           </SideNavLink>
 
                           <SideNavLink
@@ -99,12 +99,10 @@ class SidebarComponent extends React.Component {
                               }}
                           >
                               <Fa icon="paperclip" />
-                              <FormattedMessage id="Crear Norma" />
+                              <FormattedMessage id="component.normas" />
                           </SideNavLink>
-                      </SideNavCat>   
+                      </SideNavCat>
 
-                      
-                         
                       <SideNavCat
                           id="workflow"
                           name={`${this.props.intl.formatMessage({
@@ -120,7 +118,7 @@ class SidebarComponent extends React.Component {
                               }}
                           >
                               <Fa icon="network-wired" />
-                              <FormattedMessage id="menu.workflow" />
+                              <FormattedMessage id="menu.workflow.item" />
                           </SideNavLink>
                       </SideNavCat>
 
