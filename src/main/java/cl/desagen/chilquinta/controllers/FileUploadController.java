@@ -1,5 +1,6 @@
 package cl.desagen.chilquinta.controllers;
 
+import cl.desagen.chilquinta.enums.FileExtension;
 import cl.desagen.chilquinta.storage.StorageFileNotFoundException;
 import cl.desagen.chilquinta.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +46,24 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/{normaId}")
-    public ResponseEntity handleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable Integer normaId) {
+    @PostMapping("/{normaId}/{fileType}")
+    public ResponseEntity handleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable Integer normaId, @PathVariable FileExtension fileType) {
 
         try {
             storageService.store(file, normaId);
+            return new ResponseEntity(HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
+        }
+
+    }
+
+    @GetMapping("/{normaId}/{fileType}")
+    public ResponseEntity getFile(@PathVariable Integer normaId, @PathVariable FileExtension fileType) {
+
+        try {
+            storageService.load("");
             return new ResponseEntity(HttpStatus.OK);
 
         } catch (Exception e) {
