@@ -97,6 +97,7 @@ class DetalleNormaModal extends React.Component {
   handleChange(event) {
     this.setState({value: event.target.value});
   }
+
  
   render() {
       const {toggle, isOpen, onSave, norma } = this.props;
@@ -136,7 +137,8 @@ class DetalleNormaModal extends React.Component {
         type="text"
         className="form-control"
         id="formGroupExampleInput"
-        value= {normaid}
+        defaultValue={normaid}
+        onChange= {this.handleChange}
       />
 
 <label htmlFor="formGroupExampleInput">Nombre Norma</label>
@@ -144,9 +146,8 @@ class DetalleNormaModal extends React.Component {
         type="text"
         className="form-control"
         id="formGroupExampleInput"
-        value= {normaname} 
-        onChange={this.handleChange}
-
+        defaultValue={normaname}
+        onChange= {this.handleChange}
       />
 
 <label htmlFor="formGroupExampleInput">Descripcion Norma</label>
@@ -154,10 +155,9 @@ class DetalleNormaModal extends React.Component {
         type="text"
         className="form-control"
         id="formGroupExampleInput"
-        value= {normadesc}
+        defaultValue= {normadesc}
+        onChange= {this.handleChange}
       />    
-
-
 
     </div>
                             
