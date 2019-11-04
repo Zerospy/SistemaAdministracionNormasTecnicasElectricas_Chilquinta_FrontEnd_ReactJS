@@ -89,18 +89,10 @@ class SidebarComponent extends React.Component {
                               }}
                           >
                               <Fa icon="cubes" />
-                              <FormattedMessage id="component.normas" />
+                              <FormattedMessage id="component.normas.title" />
                           </SideNavLink>
 
-                          <SideNavLink
-                              to="CrearNorma"
-                              onClick={() => {
-                                  window.location.reaload();
-                              }}
-                          >
-                              <Fa icon="paperclip" />
-                              <FormattedMessage id="component.normas" />
-                          </SideNavLink>
+                     
                       </SideNavCat>
 
                       <SideNavCat

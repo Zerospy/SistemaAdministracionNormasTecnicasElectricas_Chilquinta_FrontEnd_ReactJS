@@ -87,7 +87,7 @@ class NormasComponent extends React.Component {
                 onClick: norma => {
                     this.setState({
                         selectedNorma: norma,
-                        modalComments: true
+                        modalEdit: true
                     });
                 },
                 editable: false,
@@ -105,6 +105,7 @@ class NormasComponent extends React.Component {
             rowData: [],
             loadingInformation: false,
             modalComments: false,
+            modalEdit:false,
             loadingComments: false,
             selectedNorma: null,
             quickFilter: ''
@@ -144,7 +145,9 @@ class NormasComponent extends React.Component {
     render() {
         return [
             <NormasContext.Provider value={this}>
-                <DetalleCrearNorma
+
+
+                     <DetalleNormaModal
                     norma={this.state.selectedNorma}
                     isOpen={this.state.modalComments}
                     toggle={() => {
@@ -153,6 +156,18 @@ class NormasComponent extends React.Component {
                         });
                     }}
                 />
+
+
+                <DetalleCrearNorma
+                    norma={this.state.selectedNorma}
+                    isOpen={this.state.modalEdit}
+                    toggle={() => {
+                        this.setState({
+                            modalEdit: !this.state.modalEdit
+                        });
+                    }}
+                />
+
                 <HeaderComponent />
                 <Row>
                     <Col size="12">

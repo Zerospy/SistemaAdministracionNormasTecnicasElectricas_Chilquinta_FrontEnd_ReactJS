@@ -59,7 +59,11 @@ class DetalleNormaModal extends React.Component {
     }
 
     getNorma(norma) {
-    
+        this.setState({
+            modalEdit: true,
+            loadingComments: true
+        });
+
         this.normaService.get(norma.id).then(response => {
             const data = response.data;
              
