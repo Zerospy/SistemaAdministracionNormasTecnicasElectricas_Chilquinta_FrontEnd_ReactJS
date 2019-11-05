@@ -243,6 +243,7 @@ class WorkflowComponent extends React.Component {
                                         <Fa icon="sync" />
                                     </Button>
                                 </Col>
+                                
                             </Row>
 
                             <DataGridComponent

@@ -45,6 +45,7 @@
     "component.dataGrid.noRows": "No hay registros que mostrar",
     "component.dataGrid.loading": "Cargando... Por favor, espere..",
     "component.dataGrid.detail": "Ver detalle",
+    "component.dataGrid.EditarNorma":"Editar Norma",
     "component.dataGrid.validateIfra": "Validar IFRA",
     "component.dataGrid.comments": "Agregar comentarios",
     "component.dataGrid.genExperimental": "Generar experimental",
@@ -95,6 +96,12 @@
     "component.normas.datagrid.urlCad": "UrlCad",
     "component.normas.datagrid.actions": "#",
     "component.normas.title.detalles": "Ver Norma",
+
+
+    "component.normas.title.EditModal": "Editar Norma",
+    "component.workflow.modal.btn.edit": "Modificar",
+    
+    "component.CrearNormas.title":"Subir una nueva norma",
 
     "component.vernormas.CodNorma.Modal": "Codigo identificador de la Norma",
     "component.vernormas.title.Modal": "Nombre norma",

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import HeaderGroupComponent from 'components/commons/DataGrid/HeaderGroupComponent';
 import DetailButtonGridRenderer from 'components/commons/DataGrid/DetailButtonGridRenderer';
+import DetailButtonGridEdit from 'components/commons/DataGrid/DetailButtonGridEdit';
 import DetailAlergenButtonGridRenderer from 'components/commons/DataGrid/DetailAlergenButtonGridRenderer';
 import CustomCheckboxRenderer from 'components/commons/DataGrid/CustomCheckboxRenderer';
 import GenerateExpButtonGridRenderer from 'components/commons/DataGrid/GenerateExpButtonGridRenderer';
@@ -30,6 +31,7 @@ class DataGridComponent extends React.Component {
             frameworkComponents: {
                 customHeaderGroupComponent: HeaderGroupComponent,
                 DetailButtonGridRenderer: DetailButtonGridRenderer,
+                DetailButtonGridEdit: DetailButtonGridEdit,
                 DetailAlergenButtonGridRenderer: DetailAlergenButtonGridRenderer,
                 CustomCheckboxRenderer: CustomCheckboxRenderer,
                 GenerateExpButtonGridRenderer: GenerateExpButtonGridRenderer,

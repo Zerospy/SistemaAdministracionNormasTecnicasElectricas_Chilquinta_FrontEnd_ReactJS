@@ -9,6 +9,8 @@ import LoginComponent from 'components/login/LoginComponent';
 import PropTypes from 'prop-types';
 import LoginService from 'services/LoginService';
 import NormasComponent from 'components/normas/NormasComponent';
+import CrearNormaComponent from 'components/normas/CrearNormaComponent';
+import GridUsuarios from 'components/normas/GridUsuarios';
 
 class RouterComponent extends React.Component {
     constructor(props) {
@@ -49,6 +51,8 @@ class RouterComponent extends React.Component {
                 <Route exact path="/dashboard" component={DashboardComponent} />
                 <Route exact path="/workflow" component={WorkflowComponent} />
                 <Route exact path="/normas" component={NormasComponent} />
+           
+            
                 <Route component={NotFoundComponent} />
             </Switch>
         );
