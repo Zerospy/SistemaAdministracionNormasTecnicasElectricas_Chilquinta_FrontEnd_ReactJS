@@ -48,11 +48,13 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void store(MultipartFile file, Integer normaId) {
+    public void store(MultipartFile file, Integer normaId, FileExtension fileType) {
 
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             String hashFileName = DigestUtils.md5DigestAsHex(filename.getBytes());
+            String finalFileName = hashFileName + "." + fileType.name();
+
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + filename);
             }
@@ -63,19 +65,35 @@ public class FileSystemStorageService implements StorageService {
                                 + filename);
             }
             try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, this.rootLocation.resolve(hashFileName),
+
+                Optional<FileNormaEntity> fileNormaEntityOptional = fileNormaService.findByNormaIdAndFileExtension(normaId, fileType);
+
+                //Delete previous file
+                if (fileNormaEntityOptional.isPresent()) {
+                    FileNormaEntity fileNormaEntity = fileNormaEntityOptional.get();
+                    Path pathToFile = this.rootLocation.resolve(fileNormaEntity.getUrlFileLocation());
+
+                    Resource resource = new UrlResource(pathToFile.toUri());
+                    if (resource.exists() && resource.isReadable()) {
+                        Files.delete(pathToFile);
+                    }
+
+                    fileNormaService.delete(fileNormaEntity);
+                }
+
+                Files.copy(inputStream, this.rootLocation.resolve(finalFileName),
                         StandardCopyOption.REPLACE_EXISTING);
 
                 FileNormaEntity fileNormaEntity = new FileNormaEntity();
                 Timestamp now = new Timestamp(Instant.now().toEpochMilli());
                 fileNormaEntity.setCreatedAt(now);
-                fileNormaEntity.setFileExtension(FileExtension.pdf);
+                fileNormaEntity.setFileExtension(fileType);
 
                 Optional<NormaEntity> normaEntityOptional = normaService.findById(normaId);
-                normaEntityOptional.ifPresent(fileNormaEntity::setNormaId);
+                normaEntityOptional.ifPresent(fileNormaEntity::setNormaEntity);
 
                 fileNormaEntity.setOriginalFileName(filename);
-                fileNormaEntity.setUrlFileLocation(hashFileName);
+                fileNormaEntity.setUrlFileLocation(finalFileName);
 
                 fileNormaService.save(fileNormaEntity);
             }
@@ -97,24 +115,33 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public Path load(String filename) {
-        return rootLocation.resolve(filename);
-    }
+    public Resource loadAsResource(Integer normaId, FileExtension fileExtension) {
 
-    @Override
-    public Resource loadAsResource(String filename) {
+        Path file;
+        String urlFileLocation = null;
+
         try {
-            Path file = load(filename);
+
+            Optional<FileNormaEntity> fileNormaEntityOptional = fileNormaService.findByNormaIdAndFileExtension(normaId, fileExtension);
+
+            if (fileNormaEntityOptional.isPresent()) {
+                FileNormaEntity fileNormaEntity = fileNormaEntityOptional.get();
+                urlFileLocation = fileNormaEntity.getUrlFileLocation();
+                file = rootLocation.resolve(urlFileLocation);
+            } else {
+                throw new StorageException("Failed to find stored file");
+            }
+
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
                 throw new StorageFileNotFoundException(
-                        "Could not read file: " + filename);
+                        "Could not read file: " + urlFileLocation);
 
             }
         } catch (MalformedURLException e) {
-            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+            throw new StorageFileNotFoundException("Could not read file: " + urlFileLocation, e);
         }
     }
 

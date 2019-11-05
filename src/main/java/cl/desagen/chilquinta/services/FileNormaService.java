@@ -1,6 +1,7 @@
 package cl.desagen.chilquinta.services;
 
 import cl.desagen.chilquinta.entities.FileNormaEntity;
+import cl.desagen.chilquinta.enums.FileExtension;
 import cl.desagen.chilquinta.repositories.FileNormaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +35,10 @@ public class FileNormaService {
 
     public Optional<FileNormaEntity> findById(Long id) {
         return filenormaRepository.findById(id);
+    }
+
+    public Optional<FileNormaEntity> findByNormaIdAndFileExtension(Integer id, FileExtension fileExtension) {
+        return filenormaRepository.findByNormaEntityIdAndFileExtension(id, fileExtension);
     }
 
     public boolean existsById(Long id) {

@@ -31,16 +31,24 @@ public class UsuarioService {
         return usuarioRepository.saveAll(usuarioEntities);
     }
 
-
-    public Optional<UsuarioEntity> findById(Long id) {
+    public Optional<UsuarioEntity> findById(Integer id) {
         return usuarioRepository.findById(id);
     }
 
-    public boolean existsById(Long id) {
+    public Optional<UsuarioEntity> findByUsuarioAndClave(String username, String clave) {
+        return usuarioRepository.findByUsuarioAndClave(username, clave);
+    }
+
+
+    public Optional<UsuarioEntity> findByUsuario(String username) {
+        return usuarioRepository.findByUsuario(username);
+    }
+
+    public boolean existsById(Integer id) {
         return usuarioRepository.existsById(id);
     }
 
-    public Iterable<UsuarioEntity> findAllById(Iterable<Long> ids) {
+    public Iterable<UsuarioEntity> findAllById(Iterable<Integer> ids) {
         return usuarioRepository.findAllById(ids);
     }
 
@@ -48,7 +56,7 @@ public class UsuarioService {
         return usuarioRepository.count();
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         usuarioRepository.deleteById(id);
     }
 

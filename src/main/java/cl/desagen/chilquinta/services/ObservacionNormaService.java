@@ -127,7 +127,7 @@ public class ObservacionNormaService {
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
 
-        Optional<UsuarioEntity> usuarioEntityOptional = usuarioRepository.findById(1L);
+        Optional<UsuarioEntity> usuarioEntityOptional = usuarioRepository.findById(1);
         UsuarioEntity usuarioEntity = usuarioEntityOptional.orElse(null);
 
         if(usuarioEntity == null) {

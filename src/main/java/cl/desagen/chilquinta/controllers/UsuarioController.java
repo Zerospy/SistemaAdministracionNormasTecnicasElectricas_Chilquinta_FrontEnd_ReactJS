@@ -29,7 +29,7 @@ public class UsuarioController {
     }
 
     @GetMapping(value = "/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
-    public Optional<UsuarioEntity> findById(@PathVariable Long id) {
+    public Optional<UsuarioEntity> findById(@PathVariable Integer id) {
         return usuarioService.findById(id);
     }
 
@@ -64,7 +64,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping(value = "/{id}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable Integer id) {
 
         try {
             usuarioService.deleteById(id);

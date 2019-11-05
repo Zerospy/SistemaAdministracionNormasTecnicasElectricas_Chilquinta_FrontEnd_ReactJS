@@ -1,5 +1,6 @@
 package cl.desagen.chilquinta.storage;
 
+import cl.desagen.chilquinta.enums.FileExtension;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,13 +12,11 @@ public interface StorageService {
 
     void init();
 
-    void store(MultipartFile file, Integer normaId);
+    void store(MultipartFile file, Integer normaId, FileExtension fileType);
 
     Stream<Path> loadAll();
 
-    Path load(String filename);
-
-    Resource loadAsResource(String filename);
+    Resource loadAsResource(Integer normaId, FileExtension fileExtension);
 
     void deleteAll();
 

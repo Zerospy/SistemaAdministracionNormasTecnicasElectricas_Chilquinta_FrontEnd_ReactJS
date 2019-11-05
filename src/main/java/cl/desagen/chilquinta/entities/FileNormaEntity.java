@@ -28,7 +28,7 @@ public class FileNormaEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "norma_id", nullable = false)
-    private NormaEntity normaId;
+    private NormaEntity normaEntity;
 
     @Column(name = "created_at")
     private Timestamp createdAt;

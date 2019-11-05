@@ -37,20 +37,11 @@ public class FileUploadController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/files/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-
-        Resource file = storageService.loadAsResource(filename);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }
-
     @PostMapping("/{normaId}/{fileType}")
     public ResponseEntity handleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable Integer normaId, @PathVariable FileExtension fileType) {
 
         try {
-            storageService.store(file, normaId);
+            storageService.store(file, normaId, fileType);
             return new ResponseEntity(HttpStatus.OK);
 
         } catch (Exception e) {
@@ -60,11 +51,13 @@ public class FileUploadController {
     }
 
     @GetMapping("/{normaId}/{fileType}")
-    public ResponseEntity getFile(@PathVariable Integer normaId, @PathVariable FileExtension fileType) {
+    @ResponseBody
+    public ResponseEntity<Resource> getFile(@PathVariable Integer normaId, @PathVariable FileExtension fileType) {
 
         try {
-            storageService.load("");
-            return new ResponseEntity(HttpStatus.OK);
+            Resource resource = storageService.loadAsResource(normaId, fileType);
+            return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=\"" + resource.getFilename() + "\"").body(resource);
 
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);

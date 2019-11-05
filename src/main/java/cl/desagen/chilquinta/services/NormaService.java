@@ -103,7 +103,7 @@ public class NormaService {
             NormaEntity normaEntity = normaEntityOptional.get();
             normaEntity.setEstado(normaEstado.orElse(null));
 
-            Optional<UsuarioEntity> usuarioEntityOptional = usuarioRepository.findById(1L);
+            Optional<UsuarioEntity> usuarioEntityOptional = usuarioRepository.findById(1);
 
             UsuarioEntity usuarioEntity = usuarioEntityOptional.orElse(null);
 
