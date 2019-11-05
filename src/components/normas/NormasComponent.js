@@ -1,22 +1,32 @@
 import HeaderComponent from 'components/commons/HeaderComponent';
-import {NormasContext} from 'components/normas/NormasContext';
+import { NormasContext } from 'components/normas/NormasContext';
 import DetalleNormaModal from 'components/normas/DetalleNormaModal';
-import {Col, Row, Input, Fa, Button} from 'mdbreact';
+import { Col, Row, Input, Fa, Button, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBModal, MDBBtn, MDBFileInput } from 'mdbreact';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import Constantes from 'Constantes';
 import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import NormaService from 'services/NormaService';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import DetalleEditarNormaModal from './DetalleEditarNormaModal';
 
 
 class NormasComponent extends React.Component {
     showSettings(event) {
         event.preventDefault();
-    }   
+    }
+
+    state = {
+        modal: false
+    }
+    toggle = () => {
+        this.setState({
+            modal: !this.state.modal
+        });
+    }
+
 
     constructor(props) {
         super(props);
@@ -105,7 +115,7 @@ class NormasComponent extends React.Component {
             rowData: [],
             loadingInformation: false,
             modalComments: false,
-            modalEdit:false,
+            modalEdit: false,
             loadingComments: false,
             selectedNorma: null,
             quickFilter: ''
@@ -141,13 +151,13 @@ class NormasComponent extends React.Component {
     componentDidMount() {
         this.searchNormas();
     }
-        
+
     render() {
         return [
             <NormasContext.Provider value={this}>
 
 
-                     <DetalleNormaModal
+                <DetalleNormaModal
                     norma={this.state.selectedNorma}
                     isOpen={this.state.modalComments}
                     toggle={() => {
@@ -190,20 +200,78 @@ class NormasComponent extends React.Component {
                                 />
                             </Col>
 
-                               <Row>     
-                            <Col className="offset-10" size="2">
-                                    <Button
+                            <Row>
+                                <Col className="offset-10" size="2">
+                                    <MDBBtn onClick={this.toggle}
                                         size="sm"
-                                        onClick={() => {
-                                            this.searchNormas();
-                                        }}
+
                                     >
-                                        {' '}
+
                                         <Fa icon="plus" />
-                                    </Button>
+                                    </MDBBtn>
+                                    <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
+                                        <MDBModalHeader toggle={this.toggle}>Crear Norma</MDBModalHeader>
+                                        <MDBModalBody>
+
+                                            <div className="form-group">
+                                                <label htmlFor="formGroupExampleInput">Codigo de Norma</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    id="formGroupExampleInput"
+                                                    defaultValue= ''
+                                                    onChange={this.handleChange}
+                                                />
+
+                                                <label htmlFor="formGroupExampleInput">Nombre Norma</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    id="formGroupExampleInput"
+                                                    defaultValue=''
+                                                    onChange={this.handleChange}
+                                                />
+
+                                                <label htmlFor="formGroupExampleInput">Descripcion Norma</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    id="formGroupExampleInput"
+                                                    defaultValue=''
+                                                   
+                                                    onChange=
+                                                    {event => {
+                                                        this.setState({
+                                                            normadesc: event.target.value
+                                                        });
+                                                    }}
+                                                    onKeyPress={event => {
+                                                        if (event.key === 'Enter') {
+                                                            this.saveNorma();
+                                                        }
+                                                    }}
+
+
+                                                    readOnly={this.state.savingNorma}
+                                                />
+                                                <label>PDF</label>
+                                                <MDBFileInput />
+                                                <label>CAD</label>
+                                                <MDBFileInput />
+                                            </div>
+
+
+
+                                        </MDBModalBody>
+                                        <MDBModalFooter>
+                                            <MDBBtn color="secondary" onClick={this.toggle}> Cerrar </MDBBtn>
+                                            <MDBBtn color="primary" onClick={this.toggle}
+                                                disabled={this.props.publishing}> Enviar a workflow</MDBBtn>
+                                        </MDBModalFooter>
+                                    </MDBModal>
                                 </Col>
-                                </Row>
-                                        
+                            </Row>
+
                             <DataGridComponent
                                 isLoading={this.state.loadingInformation}
                                 classContainer="grid-container"

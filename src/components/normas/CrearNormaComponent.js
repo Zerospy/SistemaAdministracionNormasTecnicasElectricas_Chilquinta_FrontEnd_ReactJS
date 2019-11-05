@@ -2,7 +2,7 @@
 import HeaderComponent from 'components/commons/HeaderComponent';
 import { NormasContext } from 'components/normas/NormasContext';
 import DetalleNormaModal from 'components/normas/DetalleNormaModal';
-import { Col, Row, Input } from 'mdbreact';
+import { Col, Row, Input, Btn } from 'mdbreact';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -207,23 +207,9 @@ class CrearNormaComponent extends React.Component {
                                             <MDBFileInput />
                                             <label>CAD</label>
                                             <MDBFileInput />
-
-                                            <MDBBtn onClick={this.toggle}>Convocar para revision</MDBBtn>
-                                            <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
-
-                                                <MDBModalHeader toggle={this.toggle}>Seleccione a los usuarios que desea convocar a workflow</MDBModalHeader>
-                                                <MDBModalBody>
-
-
-
-
-                                                </MDBModalBody>
-                                                <MDBModalFooter>
-                                                    <MDBBtn color="secondary" onClick={this.toggle}> Cerrar </MDBBtn>
-                                                    <MDBBtn color="primary"  onClick={this.toggle}
-                                                    disabled={this.props.publishing}  >Convocar</MDBBtn>
-                                                </MDBModalFooter>
-                                            </MDBModal>
+                                            <Col className="offset-9" size="4">
+                                            <MDBBtn> Enviar a workflow </MDBBtn>
+                                            </Col>
                                         </form>
                                     </MDBCard>
                                 </MDBContainer>

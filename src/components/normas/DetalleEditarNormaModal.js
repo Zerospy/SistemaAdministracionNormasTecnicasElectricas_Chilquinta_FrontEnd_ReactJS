@@ -8,7 +8,8 @@ import {
     Input,
     Fa,
     Row,
-    Col
+    Col,
+    MDBFileInput
 } from 'mdbreact';
 import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl} from 'react-intl';
@@ -38,7 +39,7 @@ class DetalleNormaModal extends React.Component {
                     id: 'component.normas.title.name'
                 })}`,
                 field: 'nombre',
-                width: 900
+                width: 901
             },
   
          
@@ -212,7 +213,10 @@ class DetalleNormaModal extends React.Component {
 
         readOnly={this.state.savingNorma}
       />    
-
+                                               <label>PDF</label>
+                                            <MDBFileInput />
+                                            <label>CAD</label>
+                                            <MDBFileInput />
     </div>  
                           </Col>
                       </Row>
