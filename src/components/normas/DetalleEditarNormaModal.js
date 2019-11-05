@@ -52,11 +52,19 @@ class DetalleNormaModal extends React.Component {
             columnDefs: columnDefs,
             rowData: [],
             loadingInformation: false,
+            normaDescripcion: ''
         };
+
+        this.handleChange = this.handleChange.bind(this);
+        
     }
 
     getNorma(norma) {
-    
+        this.setState({
+            modalEdit: true,
+            loadingComments: true
+        });
+
         this.normaService.get(norma.id).then(response => {
             const data = response.data;
              
@@ -68,32 +76,32 @@ class DetalleNormaModal extends React.Component {
             });
         });
     }
-    saveComment = () => {
+ saveNorma = () => {
         const {rowData} = this.state;
         const normaId = this.props.norma.id;
-        const {onSaveComment, norma} = this.props;
+        const {onSaveNorma, norma} = this.props;
   
         this.setState({
-            savingComment: true
+            savingNorma: true
         });
   
-        this.commentService
+        this.normaService
             .post(normaId, {
-                comment: this.state.newComment
+                normadesc: this.state.normaEdit
             })
             .then(
                 response => {
                     const data = response.data;
   
-                    onSaveComment(norma);
+                    onSaveNorma(norma);
                     this.setState(
                         {
                             rowData: [...rowData, data],
-                            savingComment: false
+                            savingNorma: false
                         },
                         () => {
                             this.setState({
-                                newComment: ''
+                                normaDescripcion: ''
                             });
                         }
                     );
@@ -101,16 +109,17 @@ class DetalleNormaModal extends React.Component {
                 () => {
                     toast.error(
                         `${this.props.intl.formatMessage({
-                            id: 'component.normas.modal.comment.error'
+                            id: 'component.normas.modal.edit.error'
                         })}`
                     );
   
                     this.setState({
-                        savingComment: false
+                        savingNorma: false
                     });
                 }
             );
     };
+ 
   componentDidUpdate(prevProps) {
       if (
           this.props !== null &&
@@ -126,8 +135,13 @@ class DetalleNormaModal extends React.Component {
           this.getNorma(this.props.norma);
        
       }
+      
+  }
+  handleChange(event) {
+    this.setState({value: event.target.value});
   }
 
+ 
   render() {
       const {toggle, isOpen, onSave, norma } = this.props;
 
@@ -146,59 +160,60 @@ class DetalleNormaModal extends React.Component {
       var normaDesc = JSON.stringify(this.props.norma,['id']);
 
 
-
-
-      
       return (
           <Container>
               <Modal isOpen={isOpen} size="lg">
                   <ModalHeader toggle={toggle}>
-                      <FormattedMessage id="component.normas.title.detalles" />
+                      <FormattedMessage id="component.normas.title.EditModal" />
                   </ModalHeader>
                   <ModalBody>
                       <Row>
                           <Col size="12">
-                              < PanelComponent
-                                  title={`${this.props.intl.formatMessage({
-                                      id: 'component.vernormas.CodNorma.Modal'
-                                  })}`}
-                                >   
-                 <h5>{normaid}</h5>
-                                         </PanelComponent>
-                                         < PanelComponent
-                                  title={`${this.props.intl.formatMessage({
-                                      id: 'component.vernormas.title.Modal'
-                                  })}`}
-                                >   
-                   <h5>{normaname}</h5>
-                                         </PanelComponent>
 
-                                         <PanelComponent
-                                  title={`${this.props.intl.formatMessage({
-                                      id: 'component.vernormas.descripcion.Modal'
-                                  })}`}
-                                >   
-                   <h5>{normadesc}</h5>
-                
-                                         </PanelComponent>
-                                         <PanelComponent
-                                  title={`${this.props.intl.formatMessage({
-                                      id: 'component.vernormas.fp.Modal'
-                                  })}`}
-                                >   
-                   <h5>{normafecha.substring(0,10)}</h5>
-                   
-                                         </PanelComponent>
-                                         <PanelComponent
-                                  title={`${this.props.intl.formatMessage({
-                                      id: 'component.vernormas.descarga.Modal'
-                                  })}`}
-                                >   
-                   <h5>  <td onClick={()=> window.open("https://www.chilquinta.cl/storage/pdf/a56285c3a22b557f55af7afd1130f0c6.pdf", "_blank")}> <img style={{width:70,height:70}}src={pdf}></img></td>    <td onClick={()=> window.open("https://www.bloquesautocad.com/descargas/seguridad/barandillas/dwg/SS_Barandilla-Sargento-01.zip", "_blank")}> <img style={{width:70,height:70}}src={cad}></img></td> </h5>
-                   
-                                         </PanelComponent>
-                            
-                              
+
+                          <div className="form-group">
+      <label htmlFor="formGroupExampleInput">Codigo de Norma</label>
+      <input
+        type="text"
+        className="form-control"
+        id="formGroupExampleInput"
+        defaultValue={normaid}
+        onChange= {this.handleChange}
+      />
+
+<label htmlFor="formGroupExampleInput">Nombre Norma</label>
+      <input
+        type="text"
+        className="form-control"
+        id="formGroupExampleInput"
+        defaultValue={normaname}
+        onChange= {this.handleChange}
+      />
+
+<label htmlFor="formGroupExampleInput">Descripcion Norma</label>
+      <input
+        type="text"
+        className="form-control"
+        id="formGroupExampleInput"
+        defaultValue= {normadesc}
+        value = {this.state.normadesc}
+        onChange=
+        {event => {
+            this.setState({
+                normadesc: event.target.value
+            });
+        }}
+        onKeyPress={event => {
+            if (event.key === 'Enter') {
+                this.saveNorma();
+            }
+        }}
+
+
+        readOnly={this.state.savingNorma}
+      />    
+
+    </div>  
                           </Col>
                       </Row>
                       <Row>
@@ -209,7 +224,18 @@ class DetalleNormaModal extends React.Component {
                       </Row>
                       <Row>
                           <Col className="d-flex justify-content-end">
-                              <Button
+                          <Button
+                                     disabled={this.state.savingNorma}
+                                     color="primary"
+                                     onClick={this.saveNorma}
+                                 >
+                                     {this.state.savingNorma ? (
+                                         <Fa icon="spinner" className="fa-1x fa-spin" />
+                                     ) : (
+                                          <FormattedMessage id="component.normas.modal.btn.edit" />
+                                      )}
+                            </Button>
+                            <Button
                                   color="cancel"
                                   onClick={toggle}
                                   disabled={this.props.publishing}

@@ -51,7 +51,7 @@ class RouterComponent extends React.Component {
                 <Route exact path="/dashboard" component={DashboardComponent} />
                 <Route exact path="/workflow" component={WorkflowComponent} />
                 <Route exact path="/normas" component={NormasComponent} />
-           
+                <Route exact path="/CrearNorma" component={CrearNormaComponent} />
             
                 <Route component={NotFoundComponent} />
             </Switch>

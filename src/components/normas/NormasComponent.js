@@ -10,7 +10,7 @@ import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import NormaService from 'services/NormaService';
 import {toast} from 'react-toastify';
-import DetalleCrearNorma from './DetalleCrearNorma';
+import DetalleEditarNormaModal from './DetalleEditarNormaModal';
 
 
 class NormasComponent extends React.Component {
@@ -158,7 +158,7 @@ class NormasComponent extends React.Component {
                 />
 
 
-                <DetalleCrearNorma
+                <DetalleEditarNormaModal
                     norma={this.state.selectedNorma}
                     isOpen={this.state.modalEdit}
                     toggle={() => {

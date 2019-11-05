@@ -83,6 +83,7 @@
 
     "component.normas": "Normas",
     "component.normas.title": "Listado de Normas",
+    "component.normas.crear": "Crear Norma",
     "component.normas.title.name": "Nombre Norma",
     "component.normas.datagrid.search": "Búsqueda rápida",
     "component.normas.datagrid.id": "Id",
@@ -99,7 +100,8 @@
 
 
     "component.normas.title.EditModal": "Editar Norma",
-    "component.workflow.modal.btn.edit": "Modificar",
+    "component.normas.modal.btn.edit": "Modificar",
+    "component.normas.modal.edit.error": "Ocurrió un problema al modificar la norma",
     
     "component.CrearNormas.title":"Subir una nueva norma",
 
@@ -120,6 +122,8 @@
     "component.normas.modal.comment.error": "Ocurrió un problema al agregar el comentario",
     
     "component.normas.modal.btn.save": "Publicar",
+
+
 
     "end": "end"
 
