@@ -1,17 +1,17 @@
 import HeaderComponent from 'components/commons/HeaderComponent';
-import { NormasContext } from 'components/normas/NormasContext';
+import {NormasContext} from 'components/normas/NormasContext';
 import DetalleNormaModal from 'components/normas/DetalleNormaModal';
-import { Col, Row, Input, Fa, Button, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBModal, MDBBtn, MDBFileInput } from 'mdbreact';
+import {Col, Row, Input, Fa, Button, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBModal, MDBBtn, MDBFileInput} from 'mdbreact';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import Constantes from 'Constantes';
 import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import NormaService from 'services/NormaService';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import DetalleEditarNormaModal from './DetalleEditarNormaModal';
-
+import {saveAs} from 'file-saver';
 
 class NormasComponent extends React.Component {
     showSettings(event) {
@@ -103,7 +103,7 @@ class NormasComponent extends React.Component {
                 editable: false,
                 colId: 'id',
                 width: 80
-            },
+            }
         ];
 
         this.state = {
@@ -146,6 +146,12 @@ class NormasComponent extends React.Component {
                 });
             }
         );
+    }
+
+    publishToWorkflow() {
+        this.normaService.uploadNormaFile(1, 'pdf').then(result => {
+            saveAs(new File(result.data));
+        });
     }
 
     componentDidMount() {
@@ -238,13 +244,13 @@ class NormasComponent extends React.Component {
                                                     className="form-control"
                                                     id="formGroupExampleInput"
                                                     defaultValue=''
-                                                   
+
                                                     onChange=
-                                                    {event => {
-                                                        this.setState({
-                                                            normadesc: event.target.value
-                                                        });
-                                                    }}
+                                                        {event => {
+                                                            this.setState({
+                                                                normadesc: event.target.value
+                                                            });
+                                                        }}
                                                     onKeyPress={event => {
                                                         if (event.key === 'Enter') {
                                                             this.saveNorma();
@@ -261,11 +267,10 @@ class NormasComponent extends React.Component {
                                             </div>
 
 
-
                                         </MDBModalBody>
                                         <MDBModalFooter>
                                             <MDBBtn color="secondary" onClick={this.toggle}> Cerrar </MDBBtn>
-                                            <MDBBtn color="primary" onClick={this.toggle}
+                                            <MDBBtn color="primary" onClick={this.publishToWorkflow}
                                                 disabled={this.props.publishing}> Enviar a workflow</MDBBtn>
                                         </MDBModalFooter>
                                     </MDBModal>
