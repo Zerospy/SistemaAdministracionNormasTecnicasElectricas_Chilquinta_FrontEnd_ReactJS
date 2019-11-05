@@ -96,6 +96,10 @@ class CommentsModal extends React.Component {
               response => {
                   const data = response.data;
 
+                  data.createdAt = new Moment(data.createdAt).format(
+                      Constantes.DATETIME_FORMAT
+                  );
+
                   onSaveComment(norma);
                   this.setState(
                       {
