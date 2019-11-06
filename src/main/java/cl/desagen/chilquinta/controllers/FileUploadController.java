@@ -60,10 +60,15 @@ public class FileUploadController {
 
             if(fileType.pdf.equals(FileExtension.pdf)) {
                 return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + resource.getFilename() + "\"").contentType(MediaType.APPLICATION_PDF).body(resource);
+                        "attachment; filename=\"" + resource.getFilename() + "\"")
+                        .contentType(MediaType.APPLICATION_PDF)
+                        .contentLength(resource.contentLength())
+                                .body(resource);
             } else {
                 return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + resource.getFilename() + "\"").body(resource);
+                        "attachment; filename=\"" + resource.getFilename() + "\"")
+                        .contentLength(resource.contentLength())
+                        .body(resource);
             }
 
         } catch (Exception e) {
