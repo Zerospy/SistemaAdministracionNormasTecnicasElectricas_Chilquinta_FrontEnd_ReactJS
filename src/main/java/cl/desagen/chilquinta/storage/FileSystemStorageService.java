@@ -51,6 +51,11 @@ public class FileSystemStorageService implements StorageService {
     public void store(MultipartFile file, Integer normaId, FileExtension fileType) {
 
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
+
+        int salt = (int) Instant.now().getEpochSecond();
+
+        filename = salt + "_" + filename;
+
         try {
             String hashFileName = DigestUtils.md5DigestAsHex(filename.getBytes());
             String finalFileName = hashFileName + "." + fileType.name();
