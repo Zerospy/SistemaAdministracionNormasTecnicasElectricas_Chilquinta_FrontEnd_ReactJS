@@ -11,7 +11,6 @@ import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import NormaService from 'services/NormaService';
 import {toast} from 'react-toastify';
 import DetalleEditarNormaModal from './DetalleEditarNormaModal';
-import {saveAs} from 'file-saver';
 
 class NormasComponent extends React.Component {
     showSettings(event) {
@@ -148,12 +147,6 @@ class NormasComponent extends React.Component {
         );
     }
 
-    publishToWorkflow() {
-        this.normaService.uploadNormaFile(1, 'pdf').then(result => {
-            saveAs(new File(result.data));
-        });
-    }
-
     componentDidMount() {
         this.searchNormas();
     }
@@ -270,7 +263,7 @@ class NormasComponent extends React.Component {
                                         </MDBModalBody>
                                         <MDBModalFooter>
                                             <MDBBtn color="secondary" onClick={this.toggle}> Cerrar </MDBBtn>
-                                            <MDBBtn color="primary" onClick={this.publishToWorkflow}
+                                            <MDBBtn color="primary" onClick={this.toggle}
                                                 disabled={this.props.publishing}> Enviar a workflow</MDBBtn>
                                         </MDBModalFooter>
                                     </MDBModal>

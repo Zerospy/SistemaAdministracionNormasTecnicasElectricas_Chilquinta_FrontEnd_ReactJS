@@ -102,6 +102,7 @@
     "component.normas.title.EditModal": "Editar Norma",
     "component.normas.modal.btn.edit": "Modificar",
     "component.normas.modal.edit.error": "Ocurrió un problema al modificar la norma",
+    "component.normas.modal.edit.success": "Datos registrados correctamente",
     
     "component.CrearNormas.title":"Subir una nueva norma",
 
