@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,7 @@ public class FileUploadController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/{normaId}/{fileType}")
+    @PostMapping("upload/{normaId}/{fileType}")
     public ResponseEntity handleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable Integer normaId, @PathVariable FileExtension fileType) {
 
         try {
@@ -51,24 +52,31 @@ public class FileUploadController {
 
     }
 
-    @GetMapping("/{normaId}/{fileType}")
+    @PostMapping("download/{normaId}/{fileType}")
     @ResponseBody
-    public ResponseEntity<Resource> getFile(@PathVariable Integer normaId, @PathVariable FileExtension fileType) {
+    public ResponseEntity<byte[]> getFile(@PathVariable Integer normaId, @PathVariable FileExtension fileType) {
 
         try {
             Resource resource = storageService.loadAsResource(normaId, fileType);
 
-            if(fileType.pdf.equals(FileExtension.pdf)) {
-                return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + resource.getFilename() + "\"")
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
+            headers.add(HttpHeaders.PRAGMA, "no-cache");
+            headers.add(HttpHeaders.EXPIRES, "0");
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
+
+            byte[] bytes = Files.readAllBytes(resource.getFile().toPath());
+
+            if (fileType.pdf.equals(FileExtension.pdf)) {
+                return ResponseEntity.ok().headers(headers)
                         .contentType(MediaType.APPLICATION_PDF)
                         .contentLength(resource.contentLength())
-                                .body(resource);
+                        .body(bytes);
             } else {
-                return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + resource.getFilename() + "\"")
+                return ResponseEntity.ok().headers(headers)
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
                         .contentLength(resource.contentLength())
-                        .body(resource);
+                        .body(bytes);
             }
 
         } catch (Exception e) {
