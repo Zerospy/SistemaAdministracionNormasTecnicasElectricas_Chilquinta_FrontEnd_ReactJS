@@ -3,6 +3,7 @@ package cl.desagen.chilquinta.controllers;
 import cl.desagen.chilquinta.commons.Constants;
 import cl.desagen.chilquinta.dto.CommentRequestDto;
 import cl.desagen.chilquinta.entities.ObservacionNormaEntity;
+import cl.desagen.chilquinta.security.JwtTokenUtil;
 import cl.desagen.chilquinta.services.ObservacionNormaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
@@ -23,6 +25,9 @@ public class ObservacionNormaController {
 
     @Autowired
     private ObservacionNormaService observacionnormaService;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @GetMapping(value = "/", produces = APPLICATION_JSON_UTF8_VALUE)
     public Iterable<ObservacionNormaEntity> findAll() {
@@ -40,9 +45,11 @@ public class ObservacionNormaController {
     }
 
     @PostMapping(value = "/{id}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity save(@PathVariable Integer id, @RequestBody CommentRequestDto comment) {
+    public ResponseEntity save(HttpServletRequest httpServletRequest, @PathVariable Integer id, @RequestBody CommentRequestDto comment) {
 
         try {
+            String tokenFromRequest = jwtTokenUtil.getTokenFromRequest(httpServletRequest);
+
             ObservacionNormaEntity observacionnormaResult = observacionnormaService.saveComment(id, comment);
             return new ResponseEntity(observacionnormaResult, HttpStatus.OK);
         } catch (Exception e) {

@@ -4,9 +4,11 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -67,5 +69,17 @@ public class JwtTokenUtil implements Serializable {
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    //get token from request
+    public String getTokenFromRequest(HttpServletRequest httpServletRequest) throws Exception {
+
+        String headerAuth = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
+
+        if(headerAuth == null || headerAuth.isEmpty() || !headerAuth.startsWith("Bearer ")) {
+            throw new Exception("Unauthorized");
+        }
+
+        return headerAuth.substring(7);
     }
 }

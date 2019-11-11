@@ -117,4 +117,15 @@ public class NormaService {
         }
 
     }
+
+    public void downloadCount(Integer normaId) {
+
+        Optional<NormaEntity> normaEntityOptional = normaRepository.findById(normaId);
+
+        if (normaEntityOptional.isPresent()) {
+            normaRepository.increaseCounterNormaEntity(normaId);
+        }
+
+    }
+
 }

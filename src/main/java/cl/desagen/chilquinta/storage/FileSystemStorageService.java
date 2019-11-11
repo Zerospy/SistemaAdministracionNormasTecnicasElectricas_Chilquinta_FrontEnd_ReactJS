@@ -86,6 +86,8 @@ public class FileSystemStorageService implements StorageService {
                     fileNormaService.delete(fileNormaEntity);
                 }
 
+                normaService.downloadCount(normaId);
+
                 Files.copy(inputStream, this.rootLocation.resolve(finalFileName),
                         StandardCopyOption.REPLACE_EXISTING);
 

@@ -51,6 +51,10 @@ public class NormaEntity {
     @Column(name = "Url_cad")
     private String urlCad;
 
+    @JsonProperty
+    @Column(name = "download_counter")
+    private Integer downloadCounter;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,7 +68,8 @@ public class NormaEntity {
                 Objects.equals(fecha, that.fecha) &&
                 Objects.equals(tipoTabla, that.tipoTabla) &&
                 Objects.equals(urlPdf, that.urlPdf) &&
-                Objects.equals(urlCad, that.urlCad);
+                Objects.equals(urlCad, that.urlCad) &&
+                Objects.equals(downloadCounter, that.downloadCounter);
     }
 
     @Override
