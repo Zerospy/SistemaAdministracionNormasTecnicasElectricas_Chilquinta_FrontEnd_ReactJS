@@ -13,13 +13,16 @@ export default class NormaService {
   /*
   postNorma = (normaId, params) => axios.post(`/norma/${normaId}`, 
   params);
-  */
+*/
 
-  downloadNormaFile = (normaId, fileType) =>
+    estadoNormas = (estadoNorma) => axios.get(`/norma/findByStatus/${estadoNorma}`); 
+
+
+    downloadNormaFile = (normaId, fileType) =>
       axios.post(`/norma-files/download/${normaId}/${fileType}`, null, {responseType: 'arraybuffer'});
 
 
-  uploadNormaFile = (normaId, fileType, formData) =>
+    uploadNormaFile = (normaId, fileType, formData) =>
       axios.post(`/norma-files/upload/${normaId}/${fileType}`, formData);
 
 

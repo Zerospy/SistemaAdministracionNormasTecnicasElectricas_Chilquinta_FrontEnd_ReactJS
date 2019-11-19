@@ -10,6 +10,8 @@ import PropTypes from 'prop-types';
 import LoginService from 'services/LoginService';
 import NormasComponent from 'components/normas/NormasComponent';
 import CrearNormaComponent from 'components/normas/CrearNormaComponent';
+import normasInternacionales from 'components/normasInternacionales/normasInternacionales';
+import administracionNormasInternacionales from 'components/normasInternacionales/administracionNormasInternacionales';
 import GridUsuarios from 'components/normas/GridUsuarios';
 
 class RouterComponent extends React.Component {
@@ -37,6 +39,7 @@ class RouterComponent extends React.Component {
 
         return (
             <Switch>
+
                 <Route
                     exact
                     path="/"
@@ -52,9 +55,11 @@ class RouterComponent extends React.Component {
                 <Route exact path="/workflow" component={WorkflowComponent} />
                 <Route exact path="/normas" component={NormasComponent} />
                 <Route exact path="/CrearNorma" component={CrearNormaComponent} />
-            
+                <Route exact path="/normasInternacionales" component={normasInternacionales} />
+                <Route exact path="/administracionNormasInternacionales" component={administracionNormasInternacionales} />
                 <Route component={NotFoundComponent} />
-            </Switch>
+
+             </Switch>
         );
     }
 }

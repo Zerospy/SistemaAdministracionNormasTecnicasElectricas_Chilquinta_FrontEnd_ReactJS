@@ -124,6 +124,9 @@
     "component.normas.modal.comment.error": "Ocurrió un problema al agregar el comentario",
     "component.normas.modal.btn.save": "Publicar",
     "component.normas.modal.msg.success.crear": "Norma enviada correctamente a workflow!",
+    
+    "component.normasInternacionales": "Normas Internacionales",
+    "component.normasInternacionales.administracion": "Subir norma internacional",
 
 
     "end": "end"

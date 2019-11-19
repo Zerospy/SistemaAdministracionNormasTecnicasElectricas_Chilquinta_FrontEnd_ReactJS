@@ -126,10 +126,13 @@ class NormasComponent extends React.Component {
                     descripcion: 'En Revisión',
                     id: 0
 
-            }
+            },
+            estadoNorma: ''
         };
     }
+
     getNorma(norma) {
+   
         this.setState({
             modalEdit: true,
             loadingComments: true
@@ -239,11 +242,12 @@ class NormasComponent extends React.Component {
         })
     }
     searchNormas() {
+        const estadoNorma = 'PUBLICADA';
         this.setState({
             loadingInformation: true
         });
-
-        this.normaService.get().then(
+       
+        this.normaService.estadoNormas(estadoNorma).then(
             response => {
                 this.setState({
                     rowData: response !== null ? response.data :   [],
@@ -424,7 +428,7 @@ class NormasComponent extends React.Component {
                                 pagination={true}
                                 enableColResize={true}
                                 quickFilter={this.state.quickFilter}
-                                filter={this.state.FiltroEstado}
+                                
                                 
                             />
 

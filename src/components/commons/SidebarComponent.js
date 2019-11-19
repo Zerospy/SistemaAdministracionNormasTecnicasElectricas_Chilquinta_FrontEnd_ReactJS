@@ -106,6 +106,37 @@ class SidebarComponent extends React.Component {
                       </SideNavCat>
 
                       <SideNavCat
+                          id="component.normasInternacionales"
+                          name={`${this.props.intl.formatMessage({
+                              id: 'component.normasInternacionales'
+                          })}`}
+                          icon="globe"
+                          startOpen={true}
+                      >
+                          <SideNavLink
+                              to="normasInternacionales"
+                              onClick={() => {
+                                  window.location.reaload();
+                              }}
+                          >
+                              <Fa icon="passport" />
+                              <FormattedMessage id="component.normasInternacionales" />
+                          </SideNavLink>
+                          <SideNavLink
+                              to="administracionNormasInternacionales"
+                              onClick={() => {
+                                  window.location.reaload();
+                              }}
+                          >
+                              <Fa icon="cloud-upload-alt" />
+                              <FormattedMessage id="component.normasInternacionales.administracion" />
+                          </SideNavLink>
+                     
+                      </SideNavCat>
+
+
+
+                      <SideNavCat
                           id="workflow"
                           name={`${this.props.intl.formatMessage({
                               id: 'menu.workflow'
