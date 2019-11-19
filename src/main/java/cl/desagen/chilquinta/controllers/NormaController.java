@@ -2,6 +2,7 @@ package cl.desagen.chilquinta.controllers;
 
 import cl.desagen.chilquinta.commons.Constants;
 import cl.desagen.chilquinta.entities.NormaEntity;
+import cl.desagen.chilquinta.enums.EstadoNorma;
 import cl.desagen.chilquinta.services.NormaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
@@ -31,6 +33,11 @@ public class NormaController {
     @GetMapping(value = "/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
     public Optional<NormaEntity> findById(@PathVariable Integer id) {
         return normaService.findById(id);
+    }
+
+    @GetMapping(value = "findByStatus/{estadoNorma}", produces = APPLICATION_JSON_UTF8_VALUE)
+    public List<NormaEntity> findByStatus(@PathVariable EstadoNorma estadoNorma) {
+        return normaService.findByStatus(estadoNorma);
     }
 
     @PostMapping(value = "/", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)

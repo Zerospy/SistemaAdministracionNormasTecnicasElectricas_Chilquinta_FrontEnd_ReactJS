@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -128,4 +129,7 @@ public class NormaService {
 
     }
 
+    public List<NormaEntity> findByStatus(EstadoNorma estadoNorma) {
+        return normaRepository.findByStatus(estadoNorma.value);
+    }
 }
