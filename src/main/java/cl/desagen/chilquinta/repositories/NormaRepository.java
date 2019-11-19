@@ -15,5 +15,5 @@ public interface NormaRepository extends PagingAndSortingRepository<NormaEntity,
     void increaseCounterNormaEntity(Integer normaId);
 
     @Query("SELECT n FROM NormaEntity n WHERE n.estado.id = :idEstadoNorma")
-    List<NormaEntity> findByStatus(@Param("idEstadoNorma") Integer idEstadoNorma);
+    List<NormaEntity> findByStatus(@Param("idEstadoNorma") Long idEstadoNorma);
 }

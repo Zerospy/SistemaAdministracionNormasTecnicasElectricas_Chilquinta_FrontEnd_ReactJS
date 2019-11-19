@@ -130,6 +130,6 @@ public class NormaService {
     }
 
     public List<NormaEntity> findByStatus(EstadoNorma estadoNorma) {
-        return normaRepository.findByStatus(estadoNorma.value);
+        return normaRepository.findByStatus(Long.valueOf(estadoNorma.value));
     }
 }
