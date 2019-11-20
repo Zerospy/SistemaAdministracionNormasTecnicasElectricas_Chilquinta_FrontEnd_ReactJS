@@ -1,5 +1,6 @@
 package cl.desagen.chilquinta.services;
 
+import cl.desagen.chilquinta.dto.DashboardDto;
 import cl.desagen.chilquinta.entities.EstadosEntity;
 import cl.desagen.chilquinta.entities.NormaEntity;
 import cl.desagen.chilquinta.entities.UsuarioEntity;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -131,5 +133,17 @@ public class NormaService {
 
     public List<NormaEntity> findByStatus(EstadoNorma estadoNorma) {
         return normaRepository.findByStatus(Long.valueOf(estadoNorma.value));
+    }
+
+    public DashboardDto getDashboardInformation() {
+
+        Integer normasQuantity = normaRepository.getNormasQuantity();
+        Integer normasPublished = normaRepository.getNormasPublished(Long.valueOf(EstadoNorma.PUBLICADA.value));
+        Integer fileNormasQuantity = normaRepository.getFileNormasQuantity(Arrays.asList(1));
+        Integer normasDownloaded = normaRepository.getNormasDownloaded();
+        Integer normasCommentsQuantity = normaRepository.getNormasCommentsQuantity(Arrays.asList(1));
+
+        return new DashboardDto(normasQuantity, normasPublished, fileNormasQuantity, normasDownloaded, normasCommentsQuantity);
+
     }
 }
