@@ -16,7 +16,7 @@ public class ObservacionNormaEntity {
 
     private Long id;
 
-    private Integer normaId;
+    private NormaEntity normaEntity;
 
     private String observacion;
 
@@ -44,14 +44,15 @@ public class ObservacionNormaEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "norma_id")
-    public Integer getNormaId() {
-        return normaId;
+    @JsonProperty
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "norma_id")
+    public NormaEntity getNormaEntity() {
+        return normaEntity;
     }
 
-    public void setNormaId(Integer normaId) {
-        this.normaId = normaId;
+    public void setNormaEntity(NormaEntity normaEntity) {
+        this.normaEntity = normaEntity;
     }
 
     @Basic
@@ -101,13 +102,13 @@ public class ObservacionNormaEntity {
         if (o == null || getClass() != o.getClass()) return false;
         ObservacionNormaEntity that = (ObservacionNormaEntity) o;
         return id == that.id &&
-                Objects.equals(normaId, that.normaId) &&
+                Objects.equals(normaEntity, that.normaEntity) &&
                 Objects.equals(observacion, that.observacion);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, normaId, observacion);
+        return Objects.hash(id, normaEntity, observacion);
     }
 }
