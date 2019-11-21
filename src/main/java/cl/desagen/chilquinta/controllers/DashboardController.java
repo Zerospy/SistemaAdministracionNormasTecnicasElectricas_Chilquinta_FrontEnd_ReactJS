@@ -1,6 +1,7 @@
 package cl.desagen.chilquinta.controllers;
 
 import cl.desagen.chilquinta.dto.DashboardDto;
+import cl.desagen.chilquinta.entities.NormaEntity;
 import cl.desagen.chilquinta.services.NormaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,26 @@ public class DashboardController {
     @GetMapping(value = "/info", produces = APPLICATION_JSON_UTF8_VALUE)
     public DashboardDto getDashboardInfo() {
         return normaService.getDashboardInformation();
+    }
+
+    @GetMapping(value = "/getAllWithFiles", produces = APPLICATION_JSON_UTF8_VALUE)
+    public Iterable<NormaEntity> getAllWithFiles() {
+        return normaService.getAllWithFiles();
+    }
+
+    @GetMapping(value = "/getDownloaded", produces = APPLICATION_JSON_UTF8_VALUE)
+    public Iterable<NormaEntity> getNormasDownloaded() {
+        return normaService.getNormasDownloaded();
+    }
+
+    @GetMapping(value = "/getWithComment", produces = APPLICATION_JSON_UTF8_VALUE)
+    public Iterable<NormaEntity> getNormasWithComment() {
+        return normaService.getNormasWithComment();
+    }
+
+    @GetMapping(value = "/getEnWorkflow", produces = APPLICATION_JSON_UTF8_VALUE)
+    public Iterable<NormaEntity> getNormasEnWorkflow() {
+        return normaService.getNormasEnWorkflow();
     }
 
 }

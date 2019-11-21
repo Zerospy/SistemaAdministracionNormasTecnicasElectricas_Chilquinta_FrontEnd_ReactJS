@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -144,11 +143,28 @@ public class NormaService {
         Integer normasQuantity = normaRepository.getNormasQuantity();
         Integer normasPublished = normaRepository.getNormasPublished(Long.valueOf(EstadoNorma.PUBLICADA.value));
         Integer fileNormasQuantity = normaRepository.getFileNormasQuantity(fileNormaRepository.getIdsNormasWithFiles());
-        Integer normasDownloaded = normaRepository.getNormasDownloaded();
+        Integer normasDownloaded = normaRepository.getCountNormasDownloaded();
         Integer normasCommentsQuantity = normaRepository.getNormasCommentsQuantity(observacionNormaRepository.getIdsNormasWithComments());
         Integer cantidadNormasEnWorkflow = normaRepository.getCantidadNormasEnWorkflow(Long.valueOf(EstadoNorma.PUBLICADA.value));
 
         return new DashboardDto(normasQuantity, normasPublished, fileNormasQuantity, normasDownloaded, normasCommentsQuantity, cantidadNormasEnWorkflow);
 
     }
+
+    public Iterable<NormaEntity> getAllWithFiles() {
+        return normaRepository.findAllById(fileNormaRepository.getIdsNormasWithFiles());
+    }
+
+    public Iterable<NormaEntity> getNormasDownloaded() {
+        return normaRepository.getNormasDownloaded();
+    }
+
+    public Iterable<NormaEntity> getNormasWithComment() {
+        return normaRepository.getNormasWithComment(observacionNormaRepository.getIdsNormasWithComments());
+    }
+
+    public Iterable<NormaEntity> getNormasEnWorkflow() {
+        return normaRepository.getNormasEnWorkflow(Long.valueOf(EstadoNorma.PUBLICADA.value));
+    }
+
 }
