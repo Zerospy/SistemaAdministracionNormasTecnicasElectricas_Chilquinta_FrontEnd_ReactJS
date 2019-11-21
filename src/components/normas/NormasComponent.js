@@ -1,16 +1,17 @@
 import HeaderComponent from 'components/commons/HeaderComponent';
-import {NormasContext} from 'components/normas/NormasContext';
+import { NormasContext } from 'components/normas/NormasContext';
 import DetalleNormaModal from 'components/normas/DetalleNormaModal';
-import {Col, Row, Input, Fa, Button, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBModal, MDBBtn, MDBFileInput} from 'mdbreact';
+import { Col, Row, Input, Fa, Button, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBModal, MDBBtn, MDBFileInput } from 'mdbreact';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import Constantes from 'Constantes';
 import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import NormaService from 'services/NormaService';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import DetalleEditarNormaModal from './DetalleEditarNormaModal';
+import Moment from 'moment';
 
 class NormasComponent extends React.Component {
     showSettings(event) {
@@ -82,7 +83,7 @@ class NormasComponent extends React.Component {
                 onClick: norma => {
                     this.setState({
                         selectedNorma: norma,
-                        modalComments: true
+                        modalDetalle: true
                     });
                 },
                 editable: false,
@@ -113,24 +114,145 @@ class NormasComponent extends React.Component {
             columnDefs: columnDefs,
             rowData: [],
             loadingInformation: false,
-            modalComments: false,
+            modalDetalle: false,
             modalEdit: false,
-            loadingComments: false,
+            loadingDetalles: false,
             selectedNorma: null,
-            quickFilter: ''
+            quickFilter: '',
+            codigoNorma: '',
+            nombreNorma: '',
+            normadescripcion: '',
+            estado: {
+                    descripcion: 'En Revisión',
+                    id: 0
+
+            },
+            estadoNorma: ''
         };
     }
 
+    getNorma(norma) {
+   
+        this.setState({
+            modalEdit: true,
+            loadingComments: true
+        });
+
+        this.normaService.get(norma.id).then(response => {
+            const data = response.data;
+
+
+            this.setState({
+                rowData: response !== null ? response.data : [],
+
+                loadingInformation: false
+
+            });
+        });
+    }
+    
+    setEstadoModel() {
+
+    var EstadoFilterComponent = this.normaService.getFilterInstance("estado");
+    var model = {
+      type: "set",
+      values: ['Publicada']
+    };
+    EstadoFilterComponent.setModel(model);
+    this.gridApi.onFilterChanged();
+
+  }
+
+    saveNorma = () => {
+
+        const { onSaveNorma, norma } = this.props;
+        const normaId = '1';
+        console.log(normaId);
+        let params = {
+            codNorma: this.state.codigoNorma, nombre: this.state.nombreNorma,
+            descripcion: this.state.normadescripcion,
+            estado: { descripcion: '' , id: '1'}
+                
+        }
+      
+        
+        this.normaService
+            .post( params
+            )
+            .then(response => {
+                const data = response.data;
+                
+                data.createdAt = new Moment(data.createdAt).format(
+                    Constantes.DATETIME_FORMAT
+                );
+                
+             
+
+                console.log(params);
+                console.log(this.state.normadescripcion);
+                console.log(response);
+                
+            })
+            toast.success(
+                `${this.props.intl.formatMessage({
+                    id: 'component.normas.modal.msg.success.crear'
+                })}`
+            );
+     
+    }
+    publishToWorkflow = () => {
+        const normaId = this.props.norma.id;
+
+        let formData = new FormData();
+        formData.append('file', this.state.pdfFile);
+
+        this.normaService.uploadNormaFile(normaId, 'pdf', formData).then(result => {
+            formData = new FormData();
+            formData.append('file', this.state.cadFile);
+
+            this.normaService
+                .uploadNormaFile(normaId, 'cad', formData)
+                .then(result => {
+                    toast.success(
+                        `${this.props.intl.formatMessage({
+                            id: 'component.normas.modal.edit.success'
+                        })}`
+                    );
+
+                    this.props.toggle();
+                });
+        });
+    };
+    onChangeCodigo = (e) => {
+        this.setState({
+            codigoNorma: e.target.value
+
+        })
+    }
+    onChangeNombre = (e) => {
+        this.setState({
+            nombreNorma: e.target.value
+
+        })
+    }
+    onChangeDescripcion = (e) => {
+        this.setState({
+            normadescripcion: e.target.value
+
+        })
+    }
     searchNormas() {
+        const estadoNorma = 'PUBLICADA';
         this.setState({
             loadingInformation: true
         });
-
-        this.normaService.get().then(
+       
+        this.normaService.estadoNormas(estadoNorma).then(
             response => {
                 this.setState({
-                    rowData: response !== null ? response.data : [],
+                    rowData: response !== null ? response.data :   [],
                     loadingInformation: false
+                   
                 });
             },
             () => {
@@ -145,23 +267,41 @@ class NormasComponent extends React.Component {
                 });
             }
         );
+      
     }
+
+    FiltroEstado() {
+
+        var estadoFilterComponent = this.gridApi.getFilterInstance("estado");
+    
+         var model = {
+          type: "set",
+          values: ["Publicada"]
+        };
+    
+        estadoFilterComponent.setModel(model);
+        this.gridApi.onFilterChanged();
+     
+      }
+      
 
     componentDidMount() {
         this.searchNormas();
     }
+  
 
     render() {
         return [
+            
             <NormasContext.Provider value={this}>
 
 
                 <DetalleNormaModal
                     norma={this.state.selectedNorma}
-                    isOpen={this.state.modalComments}
+                    isOpen={this.state.modalDetalle}
                     toggle={() => {
                         this.setState({
-                            modalComments: !this.state.modalComments
+                            modalDetalle: !this.state.modalDetalle
                         });
                     }}
                 />
@@ -208,18 +348,20 @@ class NormasComponent extends React.Component {
 
                                         <Fa icon="plus" />
                                     </MDBBtn>
-                                    <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
+                                    <MDBModal isOpen={this.state.modal} toggle={this.toggle}  
+                                    
+                                    >
                                         <MDBModalHeader toggle={this.toggle}>Crear Norma</MDBModalHeader>
                                         <MDBModalBody>
-
+                                            <form>
                                             <div className="form-group">
                                                 <label htmlFor="formGroupExampleInput">Codigo de Norma</label>
                                                 <input
                                                     type="text"
                                                     className="form-control"
                                                     id="formGroupExampleInput"
-                                                    defaultValue= ''
-                                                    onChange={this.handleChange}
+                                                    defaultValue={this.state.codigoNorma}
+                                                    onChange={this.onChangeCodigo}
                                                 />
 
                                                 <label htmlFor="formGroupExampleInput">Nombre Norma</label>
@@ -227,8 +369,8 @@ class NormasComponent extends React.Component {
                                                     type="text"
                                                     className="form-control"
                                                     id="formGroupExampleInput"
-                                                    defaultValue=''
-                                                    onChange={this.handleChange}
+                                                    defaultValue={this.state.nombreNorma}
+                                                    onChange={this.onChangeNombre}
                                                 />
 
                                                 <label htmlFor="formGroupExampleInput">Descripcion Norma</label>
@@ -236,59 +378,60 @@ class NormasComponent extends React.Component {
                                                     type="text"
                                                     className="form-control"
                                                     id="formGroupExampleInput"
-                                                    defaultValue=''
-
-                                                    onChange=
-                                                        {event => {
-                                                            this.setState({
-                                                                normadesc: event.target.value
-                                                            });
-                                                        }}
-                                                    onKeyPress={event => {
-                                                        if (event.key === 'Enter') {
-                                                            this.saveNorma();
-                                                        }
-                                                    }}
+                                                    value={this.state.normadescripcion}
+                                                    onChange={this.onChangeDescripcion}
 
 
-                                                    readOnly={this.state.savingNorma}
+
                                                 />
+                                                 
                                                 <label>PDF</label>
-                                                <MDBFileInput />
+                                                <MDBFileInput
+                                                    getValue={files => {
+                                                        this.setState({
+                                                            pdfFile: files[0]
+                                                        });
+                                                    }}
+                                                />
                                                 <label>CAD</label>
-                                                <MDBFileInput />
+                                                <MDBFileInput
+                                                    getValue={files => {
+                                                        this.setState({
+                                                            cadFile: files[0]
+                                                        });
+                                                    }}
+                                                />
                                             </div>
-
+                                            </form>
 
                                         </MDBModalBody>
                                         <MDBModalFooter>
                                             <MDBBtn color="secondary" onClick={this.toggle}> Cerrar </MDBBtn>
-                                            <MDBBtn color="primary" onClick={this.toggle}
-                                                disabled={this.props.publishing}> Enviar a workflow</MDBBtn>
+                                            <Button color="primary"
+
+                                                disabled={this.state.savingNorma}
+                                                color="primary"
+                                                onClick={this.publishToWorkflow, this.saveNorma}
+                                                                       
+                                            > Enviar a workflow</Button>
                                         </MDBModalFooter>
                                     </MDBModal>
                                 </Col>
                             </Row>
-
+                                            
+                            
                             <DataGridComponent
                                 isLoading={this.state.loadingInformation}
                                 classContainer="grid-container"
-                                onPaginationChange={pagination => {
-                                    this.setState(
-                                        {
-                                            pagination: pagination
-                                        },
-                                        () => {
-                                            // search workflows
-                                        }
-                                    );
-                                }}
                                 columnDefs={this.state.columnDefs}
                                 rowData={this.state.rowData}
-                                pagination={this.state.pagination}
+                                pagination={true}
                                 enableColResize={true}
                                 quickFilter={this.state.quickFilter}
+                                
+                                
                             />
+
                         </PanelComponent>
                     </Col>
                 </Row>

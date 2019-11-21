@@ -101,6 +101,7 @@
 
     "component.normas.title.EditModal": "Editar Norma",
     "component.normas.modal.btn.edit": "Modificar",
+    "component.normas.modal.btn.editWorkflow": "Enviar a flujo",
     "component.normas.modal.edit.error": "Ocurrió un problema al modificar la norma",
     "component.normas.modal.edit.success": "Datos registrados correctamente",
     
@@ -121,9 +122,11 @@
     "component.normas.modal.msg.success": "Norma publicada correctamente!",
     "component.normas.modal.msg.error": "Ocurrió un problema al publicar la norma",
     "component.normas.modal.comment.error": "Ocurrió un problema al agregar el comentario",
-    
     "component.normas.modal.btn.save": "Publicar",
-
+    "component.normas.modal.msg.success.crear": "Norma enviada correctamente a workflow!",
+    
+    "component.normasInternacionales": "Normas Internacionales",
+    "component.normasInternacionales.administracion": "Subir norma internacional",
 
 
     "end": "end"
