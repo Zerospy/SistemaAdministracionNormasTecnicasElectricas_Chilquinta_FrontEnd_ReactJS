@@ -20,7 +20,7 @@ public interface NormaRepository extends PagingAndSortingRepository<NormaEntity,
     @Query("SELECT Count(n) FROM NormaEntity n")
     Integer getNormasQuantity();
 
-    @Query("SELECT Count(n) FROM NormaEntity n WHERE n.estado.id = idEstadoNorma")
+    @Query("SELECT Count(n) FROM NormaEntity n WHERE n.estado.id = :idEstadoNorma")
     Integer getNormasPublished(@Param("idEstadoNorma") Long idEstadoNorma);
 
     @Query("SELECT Count(n) FROM NormaEntity n WHERE n.id IN :idsNormasWithFiles")
@@ -32,4 +32,6 @@ public interface NormaRepository extends PagingAndSortingRepository<NormaEntity,
     @Query("SELECT Count(n) FROM NormaEntity n WHERE n.id IN :idsNormasWithComments")
     Integer getNormasCommentsQuantity(@Param("idsNormasWithComments") List<Integer> idsNormasWithComments);
 
+    @Query("SELECT Count(n) FROM NormaEntity n WHERE n.estado.id <> :idEstadoNorma")
+    Integer getCantidadNormasEnWorkflow(@Param("idEstadoNorma") Long idEstadoNorma);
 }

@@ -6,9 +6,7 @@ import cl.desagen.chilquinta.entities.NormaEntity;
 import cl.desagen.chilquinta.entities.UsuarioEntity;
 import cl.desagen.chilquinta.enums.EstadoNorma;
 import cl.desagen.chilquinta.exceptions.BusinessException;
-import cl.desagen.chilquinta.repositories.EstadosRepository;
-import cl.desagen.chilquinta.repositories.NormaRepository;
-import cl.desagen.chilquinta.repositories.UsuarioRepository;
+import cl.desagen.chilquinta.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +22,12 @@ public class NormaService {
 
     @Autowired
     private NormaRepository normaRepository;
+
+    @Autowired
+    private ObservacionNormaRepository observacionNormaRepository;
+
+    @Autowired
+    private FileNormaRepository fileNormaRepository;
 
     @Autowired
     private EstadosRepository estadosRepository;
@@ -139,11 +143,12 @@ public class NormaService {
 
         Integer normasQuantity = normaRepository.getNormasQuantity();
         Integer normasPublished = normaRepository.getNormasPublished(Long.valueOf(EstadoNorma.PUBLICADA.value));
-        Integer fileNormasQuantity = normaRepository.getFileNormasQuantity(Arrays.asList(1));
+        Integer fileNormasQuantity = normaRepository.getFileNormasQuantity(fileNormaRepository.getIdsNormasWithFiles());
         Integer normasDownloaded = normaRepository.getNormasDownloaded();
-        Integer normasCommentsQuantity = normaRepository.getNormasCommentsQuantity(Arrays.asList(1));
+        Integer normasCommentsQuantity = normaRepository.getNormasCommentsQuantity(observacionNormaRepository.getIdsNormasWithComments());
+        Integer cantidadNormasEnWorkflow = normaRepository.getCantidadNormasEnWorkflow(Long.valueOf(EstadoNorma.PUBLICADA.value));
 
-        return new DashboardDto(normasQuantity, normasPublished, fileNormasQuantity, normasDownloaded, normasCommentsQuantity);
+        return new DashboardDto(normasQuantity, normasPublished, fileNormasQuantity, normasDownloaded, normasCommentsQuantity, cantidadNormasEnWorkflow);
 
     }
 }
