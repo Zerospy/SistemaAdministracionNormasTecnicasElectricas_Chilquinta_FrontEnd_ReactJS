@@ -34,48 +34,7 @@ class normasInternacionales extends React.Component {
         this.normaService = new NormaService();
 
         this.state = {
-            columnDefs: [
-                {
-                    field: "athlete",
-                    width: 150
-                },
-                {
-                    field: "age",
-                    width: 90
-                },
-                {
-                    field: "country",
-                    width: 120
-                },
-                {
-                    field: "year",
-                    width: 90
-                },
-                {
-                    field: "date",
-                    width: 110
-                },
-                {
-                    field: "sport",
-                    width: 110
-                },
-                {
-                    field: "gold",
-                    width: 100
-                },
-                {
-                    field: "silver",
-                    width: 100
-                },
-                {
-                    field: "bronze",
-                    width: 100
-                },
-                {
-                    field: "total",
-                    width: 100
-                }
-            ],
+            columnDefs: [],
             defaultColDef: {
                 width: 100,
                 headerCheckboxSelection: isFirstColumn,
@@ -178,9 +137,21 @@ class normasInternacionales extends React.Component {
                                 id: 'component.CrearNormas.title'
                             })}`}
                         >
-                            <Col size="4">
+                          
                          
-                    </Col>
+
+                            <DataGridComponent
+                                isLoading={this.state.loadingInformation}
+                                classContainer="grid-container"
+                                columnDefs={this.state.columnDefs}
+                                rowData={this.state.rowData}
+                                pagination={true}
+                                enableColResize={true}
+                                quickFilter={this.state.quickFilter}
+                                
+                                
+                            />
+                
                     </PanelComponent>
                     </Col>
                 </Row>

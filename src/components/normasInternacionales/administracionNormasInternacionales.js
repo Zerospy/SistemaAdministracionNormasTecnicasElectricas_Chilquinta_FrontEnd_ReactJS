@@ -179,7 +179,11 @@ class administracionNormasInternacionales extends React.Component {
                             })}`}
                         >
                             <Col size="4">
-                  
+
+                                <label> Seleccione norma internacional</label>
+                            <MDBFileInput   name="Test"
+                                             getValue={this.onChangeHandleFile}        
+                                             />
                             </Col>
                         </PanelComponent>
                     </Col>

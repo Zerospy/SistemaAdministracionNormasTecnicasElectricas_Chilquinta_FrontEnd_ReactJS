@@ -9,9 +9,11 @@ import Constantes from 'Constantes';
 import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import NormaService from 'services/NormaService';
+import UserService from 'services/UserService';
 import { toast } from 'react-toastify';
 import DetalleEditarNormaModal from './DetalleEditarNormaModal';
 import Moment from 'moment';
+import Select from 'react-select2-wrapper';
 
 class NormasComponent extends React.Component {
     showSettings(event) {
@@ -32,6 +34,7 @@ class NormasComponent extends React.Component {
         super(props);
 
         this.normaService = new NormaService();
+        this.userService = new UserService();
 
         const columnDefs = [
             {
@@ -127,7 +130,10 @@ class NormasComponent extends React.Component {
                     id: 0
 
             },
-            estadoNorma: ''
+            estadoNorma: '',
+            fecha: {  
+             fecha: ''
+            }
         };
     }
 
@@ -150,6 +156,24 @@ class NormasComponent extends React.Component {
             });
         });
     }
+
+    getUsuarios(usuario) {
+   
+    
+        this.userService.get(usuario).then(response => {
+            const data = response.data;
+
+
+            this.setState({
+                rowData: response !== null ? response.data : [],
+
+                loadingInformation: false
+                
+            });
+        });
+        
+    }
+
     
     setEstadoModel() {
 
@@ -164,19 +188,42 @@ class NormasComponent extends React.Component {
   }
 
     saveNorma = () => {
-
+        const {rowData, fecha} = this.state;
         const { onSaveNorma, norma } = this.props;
         const normaId = '1';
         console.log(normaId);
+        var a = Moment().toObject();
+         var b = { year: a.years, month: a.months + 1, day: a.date+1, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds};  
+         console.log(a);
+        var c = b.year.toString()+"-"+b.month.toString()+"-"+b.day.toString();
+        console.log(c);
+
         let params = {
             codNorma: this.state.codigoNorma, nombre: this.state.nombreNorma,
             descripcion: this.state.normadescripcion,
-            estado: { descripcion: '' , id: '1'}
-                
+            estado: { descripcion: '' , id: '1'},  fecha: c,
+
+
+            day: a.day,
+            hours: a.hours,
+            minutes: a.minutes,
+            month: a.months + 1,
+            nanos: a.nanos,
+            seconds: a.seconds,
+            time: a.time,
+            timezoneOffset: a.timezoneOffset,
+            year: a.years
+
         }
-      
         
+
+
+
+
         this.normaService
+
+
+
             .post( params
             )
             .then(response => {
@@ -184,10 +231,15 @@ class NormasComponent extends React.Component {
                 
                 data.createdAt = new Moment(data.createdAt).format(
                     Constantes.DATETIME_FORMAT
+                ); 
+               
+                this.setState (  
+                    { }
+
                 );
                 
              
-
+                console.log(data);
                 console.log(params);
                 console.log(this.state.normadescripcion);
                 console.log(response);
@@ -384,7 +436,7 @@ class NormasComponent extends React.Component {
 
 
                                                 />
-                                                 
+                                                
                                                 <label>PDF</label>
                                                 <MDBFileInput
                                                     getValue={files => {
