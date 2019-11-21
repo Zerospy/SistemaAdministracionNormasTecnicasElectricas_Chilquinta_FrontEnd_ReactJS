@@ -19,6 +19,9 @@ import DashboardService from 'services/DashboardService';
 import PanelComponent from 'components/commons/panels/PanelComponent';
 import LoadingComponent from 'components/commons/base/LoadingComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
+import {toast} from 'react-toastify';
+import Moment from 'moment';
+import DashboardModal from 'components/home/DashboardModal';
 
 class DashboardComponent extends React.Component {
     showSettings(event) {
@@ -32,21 +35,21 @@ class DashboardComponent extends React.Component {
 
         const columnDefs = [
             {
-                headerName: `Cliente`,
+                headerName: 'Cliente',
                 field: 'codNorma',
                 width: 120
             },
             {
-                headerName: `Orden N°`,
+                headerName: 'Orden N°',
                 field: 'nombre',
                 width: 380
             },
             {
-                headerName: `Solicitada`,
+                headerName: 'Solicitada',
                 field: 'descripcion',
                 width: 360
             }
-           
+
         ];
 
         this.state = {
@@ -59,6 +62,7 @@ class DashboardComponent extends React.Component {
             startPoint: 0,
             duration: 3,
             isLoading: false,
+            modalNormas: false,
             rowData: [],
             columnDefs: columnDefs
         };
@@ -100,7 +104,44 @@ class DashboardComponent extends React.Component {
         return (
             <DashboardContext.Provider value={this}>
                 {/* Hidden div with print info */}
+                <DashboardModal
+                    title={''}
+                    norma={this.state.selectedNorma}
+                    isOpen={this.state.modalNormas}
+                    toggle={() => {
+                        this.setState({
+                            modalNormas: !this.state.modalNormas
+                        });
+                    }}
+                    onSaveComment={norma => {
+                        console.log(norma);
 
+                        const rowData = this.state.rowData;
+
+                        if (rowData !== null && rowData.length > 0) {
+                            this.normaService.getById(norma.id).then(
+                                response => {
+                                    rowData.some((item, index) => {
+                                        if (item.id === norma.id) {
+                                            rowData[index].estado = response.data.estado;
+                                            return true;
+                                        }
+                                    });
+                                    this.gridApi.setRowData(rowData);
+                                },
+                                errorResponse => {
+                                    console.error(errorResponse);
+                                    toast.error(
+                                        `${this.props.intl.formatMessage({
+                                            id: 'component.workflow.modal.msg.error'
+                                        })}`
+                                    );
+                                }
+                            );
+                        }
+                    }}
+
+                />
                 <div className="dashboard">
                     <HeaderComponent print={false} />
                     <LoadingComponent loading={this.state.isLoading} />
@@ -276,8 +317,8 @@ class DashboardComponent extends React.Component {
                                         <PanelComponent
                                             title={'Actividad workflow'}
                                         >
-                                        <div className="vertical-timeline-wrapper p-3">
-                                            <div className="timeline-vertical dashboard-timeline">
+                                            <div className="vertical-timeline-wrapper p-3">
+                                                <div className="timeline-vertical dashboard-timeline">
                                                     <div className="activity-log">
                                                         <p className="log-name">Pablo emilio escobar</p>
                                                         <div className="log-details">Comento<span className="text-primary ml-1"> Esta norma esta erronea</span></div>
@@ -295,12 +336,12 @@ class DashboardComponent extends React.Component {
                                                     <div className="activity-log">
                                                         <p className="log-name">Juan Perez</p>
                                                         <div className="log-details">Comento<div className="text-primary ml-1"> Excelente! </div>
-                                                        <small className="log-time">2019-11-20 19:00:00</small>
-                                                    </div>
+                                                            <small className="log-time">2019-11-20 19:00:00</small>
+                                                        </div>
 
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         </PanelComponent>
                                     </div>
                                 </div>
