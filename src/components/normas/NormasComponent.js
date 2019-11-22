@@ -13,7 +13,7 @@ import UserService from 'services/UserService';
 import { toast } from 'react-toastify';
 import DetalleEditarNormaModal from './DetalleEditarNormaModal';
 import Moment from 'moment';
-import Select from 'react-select2-wrapper';
+
 
 class NormasComponent extends React.Component {
     showSettings(event) {
@@ -322,19 +322,6 @@ class NormasComponent extends React.Component {
       
     }
 
-    FiltroEstado() {
-
-        var estadoFilterComponent = this.gridApi.getFilterInstance("estado");
-    
-         var model = {
-          type: "set",
-          values: ["Publicada"]
-        };
-    
-        estadoFilterComponent.setModel(model);
-        this.gridApi.onFilterChanged();
-     
-      }
       
 
     componentDidMount() {
@@ -390,12 +377,21 @@ class NormasComponent extends React.Component {
                                     }}
                                 />
                             </Col>
+                           
 
                             <Row>
                                 <Col className="offset-10" size="2">
+                                <Button
+                                        size="sm"
+                                        onClick={() => {
+                                            this.searchNormas();
+                                        }}
+                                    >
+                                        {' '}
+                                        <Fa icon="sync" />
+                                    </Button>
                                     <MDBBtn onClick={this.toggle}
                                         size="sm"
-
                                     >
 
                                         <Fa icon="plus" />
@@ -458,10 +454,15 @@ class NormasComponent extends React.Component {
 
                                         </MDBModalBody>
                                         <MDBModalFooter>
-                                            <MDBBtn color="secondary" onClick={this.toggle}> Cerrar </MDBBtn>
+                                            <MDBBtn color="secondary"  onClick={  
+                                                this.toggle
+                                       
+                                        }  > Cerrar </MDBBtn>
+
                                             <Button color="primary"
 
-                                                disabled={this.state.savingNorma}
+                                                disabled={!this.state.nombreNorma|| !this.state.codigoNorma||!this.state.normadescripcion 
+                                                    ||!this.state.pdfFile || !this.state.cadFile}
                                                 color="primary"
                                                 onClick={this.publishToWorkflow, this.saveNorma}
                                                                        
