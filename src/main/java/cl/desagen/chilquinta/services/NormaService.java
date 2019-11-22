@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -143,12 +142,35 @@ public class NormaService {
 
         Integer normasQuantity = normaRepository.getNormasQuantity();
         Integer normasPublished = normaRepository.getNormasPublished(Long.valueOf(EstadoNorma.PUBLICADA.value));
-        Integer fileNormasQuantity = normaRepository.getFileNormasQuantity(fileNormaRepository.getIdsNormasWithFiles());
-        Integer normasDownloaded = normaRepository.getNormasDownloaded();
-        Integer normasCommentsQuantity = normaRepository.getNormasCommentsQuantity(observacionNormaRepository.getIdsNormasWithComments());
+
+        List<Integer> idsNormasWithFiles = fileNormaRepository.getIdsNormasWithFiles();
+        Integer fileNormasQuantity = idsNormasWithFiles != null && !idsNormasWithFiles.isEmpty() ? normaRepository.getFileNormasQuantity(idsNormasWithFiles) : 0;
+
+        Integer normasDownloaded = normaRepository.getCountNormasDownloaded();
+
+        List<Integer> idsNormasWithComments = observacionNormaRepository.getIdsNormasWithComments();
+        Integer normasCommentsQuantity = idsNormasWithComments != null && !idsNormasWithComments.isEmpty() ? normaRepository.getNormasCommentsQuantity(idsNormasWithComments) : 0;
+
         Integer cantidadNormasEnWorkflow = normaRepository.getCantidadNormasEnWorkflow(Long.valueOf(EstadoNorma.PUBLICADA.value));
 
         return new DashboardDto(normasQuantity, normasPublished, fileNormasQuantity, normasDownloaded, normasCommentsQuantity, cantidadNormasEnWorkflow);
 
     }
+
+    public Iterable<NormaEntity> getAllWithFiles() {
+        return normaRepository.findAllById(fileNormaRepository.getIdsNormasWithFiles());
+    }
+
+    public Iterable<NormaEntity> getNormasDownloaded() {
+        return normaRepository.getNormasDownloaded();
+    }
+
+    public Iterable<NormaEntity> getNormasWithComment() {
+        return normaRepository.getNormasWithComment(observacionNormaRepository.getIdsNormasWithComments());
+    }
+
+    public Iterable<NormaEntity> getNormasEnWorkflow() {
+        return normaRepository.getNormasEnWorkflow(Long.valueOf(EstadoNorma.PUBLICADA.value));
+    }
+
 }

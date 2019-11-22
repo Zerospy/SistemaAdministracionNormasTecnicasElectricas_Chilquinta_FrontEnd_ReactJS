@@ -57,7 +57,7 @@ public class ObservacionNormaService {
     }
 
     public Iterable<ObservacionNormaEntity> findAllByNormaId(Integer normaId) {
-        return observacionnormaRepository.findAllByNormaId(normaId);
+        return observacionnormaRepository.findAllByNormaEntityId(normaId);
     }
 
 
@@ -114,7 +114,7 @@ public class ObservacionNormaService {
 
         NormaEntity normaEntity = normaEntityOptional.isPresent() ? normaEntityOptional.get() : null;
 
-        if(normaEntity == null) {
+        if (normaEntity == null) {
             throw new BusinessException("Norma entity not found");
         }
 
@@ -122,7 +122,7 @@ public class ObservacionNormaService {
         normaEntity.setEstado(normaEstado.orElse(null));
         normaRepository.save(normaEntity);
 
-        observacionNormaEntity.setNormaId(normaEntity.getId());
+        observacionNormaEntity.setNormaEntity(normaEntity);
 
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
@@ -130,7 +130,7 @@ public class ObservacionNormaService {
         Optional<UsuarioEntity> usuarioEntityOptional = usuarioRepository.findById(1);
         UsuarioEntity usuarioEntity = usuarioEntityOptional.orElse(null);
 
-        if(usuarioEntity == null) {
+        if (usuarioEntity == null) {
             throw new BusinessException("User not found");
         }
 

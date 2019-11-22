@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface ObservacionNormaRepository extends PagingAndSortingRepository<ObservacionNormaEntity, Long> {
 
-    Iterable<ObservacionNormaEntity> findAllByNormaId(Integer normaId);
+    Iterable<ObservacionNormaEntity> findAllByNormaEntityId(Integer normaId);
 
-    @Query("SELECT o.normaId FROM ObservacionNormaEntity o GROUP BY o.normaId")
+    @Query("SELECT o.normaEntity.id FROM ObservacionNormaEntity o GROUP BY o.normaEntity.id")
     List<Integer> getIdsNormasWithComments();
 }
