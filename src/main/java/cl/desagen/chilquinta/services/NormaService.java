@@ -142,9 +142,15 @@ public class NormaService {
 
         Integer normasQuantity = normaRepository.getNormasQuantity();
         Integer normasPublished = normaRepository.getNormasPublished(Long.valueOf(EstadoNorma.PUBLICADA.value));
-        Integer fileNormasQuantity = normaRepository.getFileNormasQuantity(fileNormaRepository.getIdsNormasWithFiles());
+
+        List<Integer> idsNormasWithFiles = fileNormaRepository.getIdsNormasWithFiles();
+        Integer fileNormasQuantity = idsNormasWithFiles != null && !idsNormasWithFiles.isEmpty() ? normaRepository.getFileNormasQuantity(idsNormasWithFiles) : 0;
+
         Integer normasDownloaded = normaRepository.getCountNormasDownloaded();
-        Integer normasCommentsQuantity = normaRepository.getNormasCommentsQuantity(observacionNormaRepository.getIdsNormasWithComments());
+
+        List<Integer> idsNormasWithComments = observacionNormaRepository.getIdsNormasWithComments();
+        Integer normasCommentsQuantity = idsNormasWithComments != null && !idsNormasWithComments.isEmpty() ? normaRepository.getNormasCommentsQuantity(idsNormasWithComments) : 0;
+
         Integer cantidadNormasEnWorkflow = normaRepository.getCantidadNormasEnWorkflow(Long.valueOf(EstadoNorma.PUBLICADA.value));
 
         return new DashboardDto(normasQuantity, normasPublished, fileNormasQuantity, normasDownloaded, normasCommentsQuantity, cantidadNormasEnWorkflow);
