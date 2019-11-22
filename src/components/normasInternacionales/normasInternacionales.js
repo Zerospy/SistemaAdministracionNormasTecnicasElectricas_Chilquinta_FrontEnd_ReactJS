@@ -30,22 +30,63 @@ class normasInternacionales extends React.Component {
 
     constructor(props) {
         super(props);
+     
 
         this.normaService = new NormaService();
-
-        this.state = {
-            columnDefs: [],
-            defaultColDef: {
-                width: 100,
-                headerCheckboxSelection: isFirstColumn,
-                checkboxSelection: isFirstColumn,
-                resizable: true
+        const columnDefs = [
+            {
+                headerName: `${props.intl.formatMessage({
+                    id: 'component.normasInternacionales.datagrid.codigo'
+                })}`,
+                field: 'CodNorma',
+                width: 200
             },
-            rowSelection: "multiple",
-            rowData: []
-        };
-    }
-
+            {
+                headerName: `${props.intl.formatMessage({
+                    id: 'component.normasInternacionales.datagrid.NombreI'
+                })}`,
+                field: 'NombreI',
+                width: 420
+            },
+            {
+                headerName: `${props.intl.formatMessage({
+                    id: 'component.normasInternacionales.datagrid.NombreE'
+                })}`,
+                field: 'NombreE',
+                width: 420
+            },
+            {
+                headerName: `${props.intl.formatMessage({
+                    id: 'component.normasInternacionales.datagrid.Solicitar'
+                })}`,
+                cellRenderer: 'DetailButtonGridEmail' ,
+                onClick: () => {
+                        window.location.href = `mailto:${this.props.email}`
+                    },
+                field: 'Solicitar',
+                width: 190
+            }
+        ];
+      
+        
+        this.state = {
+            pagination: {
+                PageIndex: 1,
+                RowsPerPage: Constantes.DEFAULT_PAGE_SIZE
+            },
+            columnDefs: columnDefs,
+            email: "esteffens@chilquinta.cl",
+            rowData: [     
+                   { CodNorma: "NI-001", NombreI: "Natural resources consumption",
+                   NombreE:"Consumo de recursos naturales", Solicitar: "0" },
+            { CodNorma: "NI-002", NombreI: "Joule losses in conductors, transformers, no-load losses of transformers",
+            NombreE:" Pérdidas de Joule en conductores, transformadores, pérdidas sin carga de transformadores.", Solicitar: 0 },
+            { CodNorma: "NI-003", NombreI: "Mass and type of insulation material, presence of hazardous material.",
+            NombreE:"Masa y tipo de material de aislamiento, presencia de material peligroso.", Solicitar: "  CLIC " }
+        ],
+            loadingInformation: false
+    }; }
+    
 
 
     onGridReady = params => {
@@ -112,13 +153,9 @@ class normasInternacionales extends React.Component {
             );
     };
 
-    onQuickFilterChanged() {
-        this.gridApi.setQuickFilter(document.getElementById("quickFilter").value);
-    }
-
-
+  
     render() {
-        return (
+        return [
             <NormasContext.Provider value={this}>
                 <convocarModal
                     norma={this.state.selectedNorma}
@@ -137,10 +174,22 @@ class normasInternacionales extends React.Component {
                                 id: 'component.CrearNormas.title'
                             })}`}
                         >
-                          
+                              <Col size="4">
+                                <Input
+                                    label={`${this.props.intl.formatMessage({
+                                        id: 'component.normas.datagrid.search'
+                                    })}`}
+                                    value={this.state.quickFilter}
+                                    onChange={event => {
+                                        this.setState({
+                                            quickFilter: event.target.value
+                                        });
+                                    }}
+                                />
+                            </Col>
                          
-
-                            <DataGridComponent
+     
+                          <DataGridComponent
                                 isLoading={this.state.loadingInformation}
                                 classContainer="grid-container"
                                 columnDefs={this.state.columnDefs}
@@ -151,20 +200,16 @@ class normasInternacionales extends React.Component {
                                 
                                 
                             />
+
                 
                     </PanelComponent>
                     </Col>
                 </Row>
             </NormasContext.Provider>
-        );
+        ];
     }
 }
-function isFirstColumn(params) {
-    var displayedColumns = params.columnApi.getAllDisplayedColumns();
-    var thisIsFirstColumn = displayedColumns[0] === params.column;
-    return thisIsFirstColumn;
-}
-
+    
 
 export default injectIntl(normasInternacionales);
 

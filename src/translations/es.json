@@ -128,7 +128,10 @@
     "component.normasInternacionales": "Normas Internacionales",
     "component.normasInternacionales.administracion": "Subir norma internacional",
 
-
+    "component.normasInternacionales.datagrid.codigo": "Codigo norma",
+    "component.normasInternacionales.datagrid.NombreI": "Nombre norma internacional Ingles",
+    "component.normasInternacionales.datagrid.NombreE": "Nombre norma internacional Español",
+    "component.normasInternacionales.datagrid.Solicitar": "Solicitar",
     "end": "end"
 
 }
