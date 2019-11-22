@@ -13,7 +13,6 @@ import UserService from 'services/UserService';
 import { toast } from 'react-toastify';
 import DetalleEditarNormaModal from './DetalleEditarNormaModal';
 import Moment from 'moment';
-import Select from 'react-select2-wrapper';
 
 class NormasComponent extends React.Component {
     showSettings(event) {

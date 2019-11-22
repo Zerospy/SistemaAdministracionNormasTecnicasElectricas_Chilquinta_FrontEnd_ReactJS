@@ -68,6 +68,12 @@ class DashboardComponent extends React.Component {
         };
     }
 
+    displayModalNormas = () => {
+        this.setState({
+            modalNormas: true
+        });
+    }
+
     componentDidMount() {
         this.setState({
             isLoading: true
@@ -192,11 +198,14 @@ class DashboardComponent extends React.Component {
                                                             </MDBCardTitle>
                                                             <MDBCardText className="text-justify">
                                                                 <h2>
+                                                                    <a onClick={this.displayModalNormas}>
                                                                     <CountUp
                                                                         start={this.state.startPoint}
                                                                         end={this.state.normasDownloaded}
                                                                         duration={this.state.duration}
                                                                     />
+                                                                    </a>
+                                                                   
                                                                 </h2>
                                                             </MDBCardText>
                                                         </MDBCardBody>
@@ -214,11 +223,13 @@ class DashboardComponent extends React.Component {
                                                             </MDBCardTitle>
                                                             <MDBCardText className="text-justify">
                                                                 <h2>
+                                                                <a onClick={this.displayModalNormas}>
                                                                     <CountUp
                                                                         start={this.state.startPoint}
                                                                         end={this.state.filesQuantity}
                                                                         duration={this.state.duration}
                                                                     />
+                                                                </a>
                                                                 </h2>
                                                             </MDBCardText>
                                                         </MDBCardBody>
@@ -236,11 +247,13 @@ class DashboardComponent extends React.Component {
                                                             </MDBCardTitle>
                                                             <MDBCardText className="text-justify">
                                                                 <h2>
+                                                                <a onClick={this.displayModalNormas}>
                                                                     <CountUp
                                                                         start={this.state.startPoint}
                                                                         end={this.state.normasWorkFlow}
                                                                         duration={this.state.duration}
                                                                     />
+                                                                    </a>
                                                                 </h2>
                                                             </MDBCardText>
                                                         </MDBCardBody>
@@ -258,11 +271,13 @@ class DashboardComponent extends React.Component {
                                                             </MDBCardTitle>
                                                             <MDBCardText className="text-justify">
                                                                 <h2>
+                                                                <a onClick={this.displayModalNormas}>
                                                                     <CountUp
                                                                         start={this.state.startPoint}
                                                                         end={this.state.cantidadNormasPublicadas}
                                                                         duration={this.state.duration}
                                                                     />
+                                                                </a>
                                                                 </h2>
                                                             </MDBCardText>
                                                         </MDBCardBody>
@@ -280,11 +295,13 @@ class DashboardComponent extends React.Component {
                                                             </MDBCardTitle>
                                                             <MDBCardText className="text-justify">
                                                                 <h2>
+                                                                <a onClick={this.displayModalNormas}>
                                                                     <CountUp
                                                                         start={this.state.startPoint}
                                                                         end={this.state.cantidadNormasComentadas}
                                                                         duration={this.state.duration}
                                                                     />
+                                                                    </a>
                                                                 </h2>
                                                             </MDBCardText>
                                                         </MDBCardBody>
@@ -320,13 +337,13 @@ class DashboardComponent extends React.Component {
                                             <div className="vertical-timeline-wrapper p-3">
                                                 <div className="timeline-vertical dashboard-timeline">
                                                     <div className="activity-log">
-                                                        <p className="log-name">Pablo emilio escobar</p>
+                                                        <p className="log-name">Daniel Sanchez</p>
                                                         <div className="log-details">Comento<span className="text-primary ml-1"> Esta norma esta erronea</span></div>
                                                         <small className="log-time">2019-11-20 17:00:00</small>
                                                     </div>
 
                                                     <div className="activity-log">
-                                                        <p className="log-name">Daniel Xianxi</p>
+                                                        <p className="log-name">Daniel Cianci</p>
                                                         <div className="log-details">Comento<div className="text-primary ml-1"> ¿Ese componente esta corresponde? </div>
 
                                                         </div>

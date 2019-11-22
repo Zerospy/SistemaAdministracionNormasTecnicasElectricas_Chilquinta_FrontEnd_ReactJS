@@ -177,18 +177,13 @@ class DashboardModal extends React.Component {
   }
 
   render() {
-      const {toggle, isOpen, onSave, norma} = this.props;
-
-      const canPublish = norma !== null && norma.estado.id !== 3;
+      const {toggle, isOpen, norma} = this.props;
 
       return (
           <Container>
               <Modal isOpen={isOpen} size="lg">
-                  <ModalHeader toggle={toggle}>
-                      {this.props.title}
-                  </ModalHeader>
+                  <ModalHeader toggle={toggle}>{this.props.title}</ModalHeader>
                   <ModalBody>
-
                       <DataGridComponent
                           isLoading={this.state.loadingInformation}
                           classContainer="grid-container"
@@ -201,15 +196,11 @@ class DashboardModal extends React.Component {
                               this.gridApi = params.api;
                           }}
                       />
-
                   </ModalBody>
                   <ModalFooter>
                       <Row>
                           <Col className="d-flex justify-content-end">
-                              <Button
-                                  color="info"
-                                  onClick={toggle}
-                              >
+                              <Button color="info" onClick={toggle}>
                                   {' '}
                                   <FormattedMessage id="app.general.btn.cancel" />
                               </Button>
