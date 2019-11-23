@@ -70,15 +70,15 @@ public class ObservacionNormaService {
     }
 
 
-    public Optional<ObservacionNormaEntity> findById(Long id) {
+    public Optional<ObservacionNormaEntity> findById(Integer id) {
         return observacionnormaRepository.findById(id);
     }
 
-    public boolean existsById(Long id) {
+    public boolean existsById(Integer id) {
         return observacionnormaRepository.existsById(id);
     }
 
-    public Iterable<ObservacionNormaEntity> findAllById(Iterable<Long> ids) {
+    public Iterable<ObservacionNormaEntity> findAllById(Iterable<Integer> ids) {
         return observacionnormaRepository.findAllById(ids);
     }
 
@@ -86,7 +86,7 @@ public class ObservacionNormaService {
         return observacionnormaRepository.count();
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         observacionnormaRepository.deleteById(id);
     }
 
@@ -143,5 +143,9 @@ public class ObservacionNormaService {
         emailService.sendEmail(mailTo, String.format(mailCommentSubject, normaEntity.getCodNorma()), String.format(mailCommentBody, normaEntity.getCodNorma(), usuarioEntity.getFullName()));
 
         return observacionNormaEntity;
+    }
+
+    public Iterable<ObservacionNormaEntity> getLastComment() {
+        return observacionnormaRepository.findAllByNormaEntityIdIn(observacionnormaRepository.getIdsNormasWithComments());
     }
 }

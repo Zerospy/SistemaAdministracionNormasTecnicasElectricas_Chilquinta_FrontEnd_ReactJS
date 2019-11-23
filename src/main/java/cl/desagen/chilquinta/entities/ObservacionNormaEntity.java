@@ -14,7 +14,7 @@ import java.util.Objects;
 @Table(name = "observacion_norma", schema = "dbo", catalog = "NORMAS")
 public class ObservacionNormaEntity {
 
-    private Long id;
+    private Integer id;
 
     private NormaEntity normaEntity;
 
@@ -36,16 +36,16 @@ public class ObservacionNormaEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     @JsonProperty
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "norma_id")
     public NormaEntity getNormaEntity() {
         return normaEntity;

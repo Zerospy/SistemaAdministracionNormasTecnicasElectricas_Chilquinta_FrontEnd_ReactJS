@@ -35,7 +35,7 @@ public class ObservacionNormaController {
     }
 
     @GetMapping(value = "/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
-    public Optional<ObservacionNormaEntity> findById(@PathVariable Long id) {
+    public Optional<ObservacionNormaEntity> findById(@PathVariable Integer id) {
         return observacionnormaService.findById(id);
     }
 
@@ -77,7 +77,7 @@ public class ObservacionNormaController {
     }
 
     @DeleteMapping(value = "/{id}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable Integer id) {
 
         try {
             observacionnormaService.deleteById(id);
