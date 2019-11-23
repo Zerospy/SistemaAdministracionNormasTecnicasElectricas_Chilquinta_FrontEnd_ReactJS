@@ -13,6 +13,7 @@ import cl.desagen.chilquinta.repositories.ObservacionNormaRepository;
 import cl.desagen.chilquinta.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,9 @@ public class ObservacionNormaService {
 
     @Value("${spring.mail.comment.body}")
     private String mailCommentBody;
+
+    @Value("${spring.last-comments}")
+    private Integer lastCommentsQty;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -106,7 +110,7 @@ public class ObservacionNormaService {
         return observacionnormaRepository.findAll(sort);
     }
 
-    public ObservacionNormaEntity saveComment(Integer id, CommentRequestDto comment) throws BusinessException {
+    public ObservacionNormaEntity saveComment(Integer id, CommentRequestDto comment, String username) throws BusinessException {
 
         ObservacionNormaEntity observacionNormaEntity = new ObservacionNormaEntity();
 
@@ -127,7 +131,7 @@ public class ObservacionNormaService {
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
 
-        Optional<UsuarioEntity> usuarioEntityOptional = usuarioRepository.findById(1);
+        Optional<UsuarioEntity> usuarioEntityOptional = usuarioRepository.findByUsuario(username);
         UsuarioEntity usuarioEntity = usuarioEntityOptional.orElse(null);
 
         if (usuarioEntity == null) {
@@ -146,6 +150,7 @@ public class ObservacionNormaService {
     }
 
     public Iterable<ObservacionNormaEntity> getLastComment() {
-        return observacionnormaRepository.findAllByNormaEntityIdIn(observacionnormaRepository.getIdsNormasWithComments());
+        Pageable pageable = PageRequest.of(0, lastCommentsQty);
+        return observacionnormaRepository.findAllByNormaEntityId(pageable);
     }
 }

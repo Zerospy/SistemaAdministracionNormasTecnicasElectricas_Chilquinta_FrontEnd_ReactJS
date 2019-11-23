@@ -48,9 +48,9 @@ public class ObservacionNormaController {
     public ResponseEntity save(HttpServletRequest httpServletRequest, @PathVariable Integer id, @RequestBody CommentRequestDto comment) {
 
         try {
-            String tokenFromRequest = jwtTokenUtil.getTokenFromRequest(httpServletRequest);
+            String username = jwtTokenUtil.getUsernameFromRequest(httpServletRequest);
 
-            ObservacionNormaEntity observacionnormaResult = observacionnormaService.saveComment(id, comment);
+            ObservacionNormaEntity observacionnormaResult = observacionnormaService.saveComment(id, comment, username);
             return new ResponseEntity(observacionnormaResult, HttpStatus.OK);
         } catch (Exception e) {
             if (log.isErrorEnabled()) {

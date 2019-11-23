@@ -12,8 +12,8 @@ public interface ObservacionNormaRepository extends PagingAndSortingRepository<O
 
     Iterable<ObservacionNormaEntity> findAllByNormaEntityId(Integer normaId);
 
-    @Query("SELECT o FROM ObservacionNormaEntity o WHERE o.normaEntity.id IN (:normaIds)")
-    Iterable<ObservacionNormaEntity> findAllByNormaEntityIdIn(@Param("normaIds") List<Integer> normaIds);
+    @Query("SELECT o FROM ObservacionNormaEntity o order by o.createdAt desc")
+    List<ObservacionNormaEntity> findAllByNormaEntityId(Pageable pageable);
 
     @Query("SELECT o.normaEntity.id FROM ObservacionNormaEntity o GROUP BY o.normaEntity.id")
     List<Integer> getIdsNormasWithComments();

@@ -99,7 +99,7 @@ public class NormaService {
         return normaRepository.findAll(sort);
     }
 
-    public void publishNorma(Integer id) throws BusinessException {
+    public void publishNorma(Integer id, String username) throws BusinessException {
 
         Optional<NormaEntity> normaEntityOptional = normaRepository.findById(id);
 
@@ -109,7 +109,7 @@ public class NormaService {
             NormaEntity normaEntity = normaEntityOptional.get();
             normaEntity.setEstado(normaEstado.orElse(null));
 
-            Optional<UsuarioEntity> usuarioEntityOptional = usuarioRepository.findById(1);
+            Optional<UsuarioEntity> usuarioEntityOptional = usuarioRepository.findByUsuario(username);
 
             UsuarioEntity usuarioEntity = usuarioEntityOptional.orElse(null);
 

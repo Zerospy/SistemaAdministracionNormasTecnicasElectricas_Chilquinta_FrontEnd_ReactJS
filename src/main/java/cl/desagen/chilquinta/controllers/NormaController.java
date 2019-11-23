@@ -3,6 +3,7 @@ package cl.desagen.chilquinta.controllers;
 import cl.desagen.chilquinta.commons.Constants;
 import cl.desagen.chilquinta.entities.NormaEntity;
 import cl.desagen.chilquinta.enums.EstadoNorma;
+import cl.desagen.chilquinta.security.JwtTokenUtil;
 import cl.desagen.chilquinta.services.NormaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +26,9 @@ public class NormaController {
 
     @Autowired
     private NormaService normaService;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @GetMapping(value = "/", produces = APPLICATION_JSON_UTF8_VALUE)
     public Iterable<NormaEntity> findAll() {
@@ -86,10 +91,12 @@ public class NormaController {
     }
 
     @PostMapping(value = "/publish/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity publishNorma(@PathVariable Integer id) {
+    public ResponseEntity publishNorma(HttpServletRequest httpServletRequest, @PathVariable Integer id) {
 
         try {
-            normaService.publishNorma(id);
+            String username = jwtTokenUtil.getUsernameFromRequest(httpServletRequest);
+
+            normaService.publishNorma(id, username);
             return new ResponseEntity(HttpStatus.OK);
         } catch (Exception e) {
             if (log.isErrorEnabled()) {
