@@ -310,7 +310,7 @@ class DataGridComponent extends React.Component {
 
       return (
           <Container fluid={true}>
-              <LoadingComponent loading={this.props.isLoading} />
+              <LoadingComponent loading={this.props.isLoading} noBackground={this.props.loadingNoBackground} />
               <div className={this.props.classContainer}>
                   <div id={this.state.id} className={'ag-theme-balham h-100'}>
                       <AgGridReact
@@ -435,6 +435,7 @@ DataGridComponent.propTypes = {
     gridOptions: PropTypes.any,
     rowData: PropTypes.array,
     isLoading: PropTypes.bool,
+    loadingNoBackground: PropTypes.bool,
     forceLoadColumns: PropTypes.bool,
     onGridLoad: PropTypes.func,
     onRowSelection: PropTypes.func,

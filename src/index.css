@@ -22731,6 +22731,9 @@ footer ul li a {
   .dashboard-card h2 {
     text-align: center;
     margin-top: 15px; }
+    .dashboard-card h2 a:hover {
+      color: #007bff8a !important;
+      text-shadow: 0px 0px 2px darkblue; }
 
 /* Timeline */
 .timeline-vertical {

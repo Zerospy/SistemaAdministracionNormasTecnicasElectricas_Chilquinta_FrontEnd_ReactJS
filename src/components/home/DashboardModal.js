@@ -16,7 +16,7 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import Constantes from 'Constantes';
-import CommentsService from 'services/CommentsService';
+import DashboardService from 'services/DashboardService';
 import {toast} from 'react-toastify';
 import AvatarImage from 'assets/img/avatar.jpg';
 import Moment from 'moment';
@@ -25,7 +25,7 @@ class DashboardModal extends React.Component {
     constructor(props) {
         super(props);
 
-        this.commentService = new CommentsService();
+        this.dashboardService = new DashboardService();
 
         const columnDefs = [
             {
@@ -89,95 +89,71 @@ class DashboardModal extends React.Component {
             columnDefs: columnDefs,
             rowData: [],
             loadingInformation: false,
-            loadingComments: false,
-            savingComment: false,
             newComment: ''
         };
     }
 
-    getComments(norma) {
-        this.setState({
-            modalComments: true,
-            loadingComments: true
-        });
+  getNormas = modalType => {
+      this.setState({loadingInformation: true});
 
-        this.commentService.get(norma.id).then(response => {
-            const data = response.data;
-
-            response.data.forEach(item => {
-                item.createdAt = new Moment(item.fecha).format(
-                    Constantes.DATETIME_FORMAT
-                );
-            });
-
-            this.setState({
-                rowData: data
-            });
-        });
-    }
-
-  saveComment = () => {
-      const {rowData} = this.state;
-      const normaId = this.props.norma.id;
-      const {onSaveComment, norma} = this.props;
-
-      this.setState({
-          savingComment: true
-      });
-
-      this.commentService
-          .post(normaId, {
-              comment: this.state.newComment
-          })
-          .then(
-              response => {
-                  const data = response.data;
-
-                  data.createdAt = new Moment(data.createdAt).format(
-                      Constantes.DATETIME_FORMAT
-                  );
-
-                  onSaveComment(norma);
-                  this.setState(
-                      {
-                          rowData: [...rowData, data],
-                          savingComment: false
-                      },
-                      () => {
-                          this.setState({
-                              newComment: ''
-                          });
-                      }
-                  );
-              },
-              () => {
-                  toast.error(
-                      `${this.props.intl.formatMessage({
-                          id: 'component.normas.modal.comment.error'
-                      })}`
-                  );
-
-                  this.setState({
-                      savingComment: false
-                  });
-              }
-          );
+      if (modalType == 0) {
+          this.dashboardService.getDownloaded().then(response => {
+              const {data} = response;
+              this.setState({
+                  rowData: data,
+                  loadingInformation: false
+              });
+          });
+      } else if (modalType == 1) {
+          this.dashboardService.getAllWithFiles().then(response => {
+              const {data} = response;
+              this.setState({
+                  rowData: data,
+                  loadingInformation: false
+              });
+          });
+      } else if (modalType == 2) {
+          this.dashboardService.getEnWorkflow().then(response => {
+              const {data} = response;
+              this.setState({
+                  rowData: data,
+                  loadingInformation: false
+              });
+          });
+      } else if (modalType == 3) {
+          this.dashboardService.getAllPublished().then(response => {
+              const {data} = response;
+              this.setState({
+                  rowData: data,
+                  loadingInformation: false
+              });
+          });
+      } else if (modalType == 4) {
+          this.dashboardService.getWithComment().then(response => {
+              const {data} = response;
+              this.setState({
+                  rowData: data,
+                  loadingInformation: false
+              });
+          });
+      }
   };
+
   componentDidUpdate(prevProps) {
       if (
           this.props !== null &&
-      this.props.norma !== null &&
-      this.props.norma !== prevProps.norma
+      this.props.modalType !== null &&
+      this.props.modalType !== prevProps.modalType
       ) {
           this.setState({
               rowData: []
           });
-          this.getComments(this.props.norma);
+          this.getNormas(this.props.modalType);
       }
   }
 
   render() {
-      const {toggle, isOpen, norma} = this.props;
+      const {toggle, isOpen} = this.props;
 
       return (
           <Container>
@@ -186,6 +162,7 @@ class DashboardModal extends React.Component {
                   <ModalBody>
                       <DataGridComponent
                           isLoading={this.state.loadingInformation}
+                          loadingNoBackground={true}
                           classContainer="grid-container"
                           columnDefs={this.state.columnDefs}
                           rowData={this.state.rowData}
@@ -217,11 +194,9 @@ export default injectIntl(DashboardModal);
 
 DashboardModal.propTypes = {
     toggle: PropTypes.func,
-    onSave: PropTypes.func,
-    onSaveComment: PropTypes.func,
     isOpen: PropTypes.bool,
-    publishing: PropTypes.bool,
     intl: PropTypes.any,
     norma: PropTypes.any,
-    title: PropTypes.string
+    title: PropTypes.string,
+    modalType: PropTypes.any
 };

@@ -22,6 +22,7 @@ import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import {toast} from 'react-toastify';
 import Moment from 'moment';
 import DashboardModal from 'components/home/DashboardModal';
+import Constantes from 'Constantes';
 
 class DashboardComponent extends React.Component {
     showSettings(event) {
@@ -52,6 +53,8 @@ class DashboardComponent extends React.Component {
 
         ];
 
+        this.modalTitles = ['Normas descargadas', 'Documentos subidos', 'Normas en workflow', 'Normas publicadas', 'Normas comentadas'];
+
         this.state = {
             normasQuantity: 0,
             normasDownloaded: 0,
@@ -63,20 +66,31 @@ class DashboardComponent extends React.Component {
             duration: 3,
             isLoading: false,
             modalNormas: false,
+            titleModalNormas: '',
+            modalType: null,
             rowData: [],
-            columnDefs: columnDefs
+            columnDefs: columnDefs,
+            lastComments: []
         };
     }
 
-    displayModalNormas = () => {
+    displayModalNormas = (modalType) => {
         this.setState({
-            modalNormas: true
+            modalNormas: true,
+            titleModalNormas: this.modalTitles[modalType],
+            modalType: modalType            
         });
     }
 
     componentDidMount() {
         this.setState({
             isLoading: true
+        });
+
+        this.dashboardService.getLastComment().then(response => {
+            this.setState({
+                lastComments: response.data
+            })
         });
 
         this.dashboardService.get().then(response => {
@@ -111,7 +125,7 @@ class DashboardComponent extends React.Component {
             <DashboardContext.Provider value={this}>
                 {/* Hidden div with print info */}
                 <DashboardModal
-                    title={''}
+                    title={this.state.titleModalNormas}
                     norma={this.state.selectedNorma}
                     isOpen={this.state.modalNormas}
                     toggle={() => {
@@ -119,33 +133,7 @@ class DashboardComponent extends React.Component {
                             modalNormas: !this.state.modalNormas
                         });
                     }}
-                    onSaveComment={norma => {
-                        console.log(norma);
-
-                        const rowData = this.state.rowData;
-
-                        if (rowData !== null && rowData.length > 0) {
-                            this.normaService.getById(norma.id).then(
-                                response => {
-                                    rowData.some((item, index) => {
-                                        if (item.id === norma.id) {
-                                            rowData[index].estado = response.data.estado;
-                                            return true;
-                                        }
-                                    });
-                                    this.gridApi.setRowData(rowData);
-                                },
-                                errorResponse => {
-                                    console.error(errorResponse);
-                                    toast.error(
-                                        `${this.props.intl.formatMessage({
-                                            id: 'component.workflow.modal.msg.error'
-                                        })}`
-                                    );
-                                }
-                            );
-                        }
-                    }}
+                    modalType={this.state.modalType}
 
                 />
                 <div className="dashboard">
@@ -198,7 +186,7 @@ class DashboardComponent extends React.Component {
                                                             </MDBCardTitle>
                                                             <MDBCardText className="text-justify">
                                                                 <h2>
-                                                                    <a onClick={this.displayModalNormas}>
+                                                                    <a onClick={this.displayModalNormas.bind(this, 0)}>
                                                                     <CountUp
                                                                         start={this.state.startPoint}
                                                                         end={this.state.normasDownloaded}
@@ -223,7 +211,7 @@ class DashboardComponent extends React.Component {
                                                             </MDBCardTitle>
                                                             <MDBCardText className="text-justify">
                                                                 <h2>
-                                                                <a onClick={this.displayModalNormas}>
+                                                                <a onClick={this.displayModalNormas.bind(this, 1)}>
                                                                     <CountUp
                                                                         start={this.state.startPoint}
                                                                         end={this.state.filesQuantity}
@@ -247,7 +235,7 @@ class DashboardComponent extends React.Component {
                                                             </MDBCardTitle>
                                                             <MDBCardText className="text-justify">
                                                                 <h2>
-                                                                <a onClick={this.displayModalNormas}>
+                                                                <a onClick={this.displayModalNormas.bind(this, 2)}>
                                                                     <CountUp
                                                                         start={this.state.startPoint}
                                                                         end={this.state.normasWorkFlow}
@@ -271,7 +259,7 @@ class DashboardComponent extends React.Component {
                                                             </MDBCardTitle>
                                                             <MDBCardText className="text-justify">
                                                                 <h2>
-                                                                <a onClick={this.displayModalNormas}>
+                                                                <a onClick={this.displayModalNormas.bind(this, 3)}>
                                                                     <CountUp
                                                                         start={this.state.startPoint}
                                                                         end={this.state.cantidadNormasPublicadas}
@@ -295,7 +283,7 @@ class DashboardComponent extends React.Component {
                                                             </MDBCardTitle>
                                                             <MDBCardText className="text-justify">
                                                                 <h2>
-                                                                <a onClick={this.displayModalNormas}>
+                                                                <a onClick={this.displayModalNormas.bind(this, 4)}>
                                                                     <CountUp
                                                                         start={this.state.startPoint}
                                                                         end={this.state.cantidadNormasComentadas}
@@ -334,31 +322,17 @@ class DashboardComponent extends React.Component {
                                         <PanelComponent
                                             title={'Actividad workflow'}
                                         >
-                                            <div className="vertical-timeline-wrapper p-3">
+                                            {this.state.lastComments && this.state.lastComments.length > 0 ? <div className="vertical-timeline-wrapper p-3">
                                                 <div className="timeline-vertical dashboard-timeline">
-                                                    <div className="activity-log">
-                                                        <p className="log-name">Daniel Sanchez</p>
-                                                        <div className="log-details">Comento<span className="text-primary ml-1"> Esta norma esta erronea</span></div>
-                                                        <small className="log-time">2019-11-20 17:00:00</small>
-                                                    </div>
-
-                                                    <div className="activity-log">
-                                                        <p className="log-name">Daniel Cianci</p>
-                                                        <div className="log-details">Comento<div className="text-primary ml-1"> ¿Ese componente esta corresponde? </div>
-
-                                                        </div>
-                                                        <small className="log-time">2019-11-20 18:00:00</small>
-                                                    </div>
-
-                                                    <div className="activity-log">
-                                                        <p className="log-name">Juan Perez</p>
-                                                        <div className="log-details">Comento<div className="text-primary ml-1"> Excelente! </div>
-                                                            <small className="log-time">2019-11-20 19:00:00</small>
-                                                        </div>
-
-                                                    </div>
+                                                    {this.state.lastComments.map(comment => <div className="activity-log">
+                                                        <p className="log-name">{comment.normaEntity.codNorma} - {comment.usuarioEntity.fullName}</p>
+                                                        <div className="log-details"><span className="text-primary ml-1">{comment.observacion}</span></div>
+                                                        <small className="log-time">{new Moment(comment.createdAt).format(
+                                                            Constantes.DATETIME_FORMAT
+                                                        )}</small>
+                                                    </div>)}
                                                 </div>
-                                            </div>
+                                            </div> : <div className="text-center"><span>Sin comentarios</span></div>}
                                         </PanelComponent>
                                     </div>
                                 </div>
