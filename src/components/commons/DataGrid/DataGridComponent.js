@@ -6,6 +6,7 @@ import React from 'react';
 import HeaderGroupComponent from 'components/commons/DataGrid/HeaderGroupComponent';
 import DetailButtonGridRenderer from 'components/commons/DataGrid/DetailButtonGridRenderer';
 import DetailButtonGridEdit from 'components/commons/DataGrid/DetailButtonGridEdit';
+import DetailButtonGridEmail from 'components/commons/DataGrid/DetailButtonGridEmail';
 import DetailAlergenButtonGridRenderer from 'components/commons/DataGrid/DetailAlergenButtonGridRenderer';
 import CustomCheckboxRenderer from 'components/commons/DataGrid/CustomCheckboxRenderer';
 import GenerateExpButtonGridRenderer from 'components/commons/DataGrid/GenerateExpButtonGridRenderer';
@@ -32,6 +33,7 @@ class DataGridComponent extends React.Component {
                 customHeaderGroupComponent: HeaderGroupComponent,
                 DetailButtonGridRenderer: DetailButtonGridRenderer,
                 DetailButtonGridEdit: DetailButtonGridEdit,
+                DetailButtonGridEmail: DetailButtonGridEmail,
                 DetailAlergenButtonGridRenderer: DetailAlergenButtonGridRenderer,
                 CustomCheckboxRenderer: CustomCheckboxRenderer,
                 GenerateExpButtonGridRenderer: GenerateExpButtonGridRenderer,
@@ -85,16 +87,37 @@ class DataGridComponent extends React.Component {
     }
 
   onGridReady = params => {
+
       const {onGridLoad} = this.props;
       this.gridApi = params.api;
       this.gridColumnApi = params.columnApi;
 
       this.displayOverlay();
 
+
+     
+  
+
       if (onGridLoad && typeof onGridLoad === 'function') {
           onGridLoad(params);
       }
   };
+
+
+FiltroEstado() {
+
+    var estadoFilterComponent = this.gridApi.getFilterInstance("estado");
+
+     var model = {
+      type: "set",
+      values: ["Publicada"]
+    };
+
+    estadoFilterComponent.setModel(model);
+    this.gridApi.onFilterChanged();
+ 
+  }
+  
 
   componentDidMount() {}
 
