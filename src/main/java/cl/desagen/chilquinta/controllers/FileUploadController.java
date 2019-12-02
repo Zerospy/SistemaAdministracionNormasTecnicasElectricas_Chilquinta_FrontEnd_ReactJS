@@ -52,7 +52,7 @@ public class FileUploadController {
 
     }
 
-    @PostMapping("download/{normaId}/{fileType}")
+    @GetMapping("download/{normaId}/{fileType}")
     @ResponseBody
     public ResponseEntity<byte[]> getFile(@PathVariable Integer normaId, @PathVariable FileExtension fileType) {
 

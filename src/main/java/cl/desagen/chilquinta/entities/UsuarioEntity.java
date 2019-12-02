@@ -19,6 +19,7 @@ public class UsuarioEntity {
     private String email;
     private String claveTextoPlano;
     private String urlAvatar;
+    private Boolean administrador;
 
 
     @Id
@@ -121,6 +122,16 @@ public class UsuarioEntity {
 
     public void setUrlAvatar(String urlAvatar) {
         this.urlAvatar = urlAvatar;
+    }
+
+    @Basic
+    @Column(name = "administrador")
+    public Boolean getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(Boolean administrador) {
+        this.administrador = administrador;
     }
 
     @Transient

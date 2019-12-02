@@ -1,5 +1,6 @@
 package cl.desagen.chilquinta.services;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,8 @@ public class EmailService {
         msg.setFrom(mailFrom);
 
         msg.setSubject(mailSubject);
-
-        msg.setText(mailBody);
+        String mailBodyEscape = StringEscapeUtils.escapeHtml4(mailBody);
+        msg.setText(mailBodyEscape);
 
         javaMailSender.send(msg);
 

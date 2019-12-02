@@ -1,5 +1,6 @@
 package cl.desagen.chilquinta.entities;
 
+import cl.desagen.chilquinta.enums.TipoNorma;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -54,6 +55,15 @@ public class NormaEntity {
     @JsonProperty
     @Column(name = "download_counter")
     private Integer downloadCounter;
+
+    @JsonProperty
+    @Column(name = "tipo_norma")
+    @Enumerated(EnumType.STRING)
+    private TipoNorma tipoNorma;
+
+    @JsonProperty
+    @Column(name = "nombre_ingles")
+    private String nombreIngles;
 
     @Override
     public boolean equals(Object o) {
