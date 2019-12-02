@@ -6,6 +6,7 @@ import React from 'react';
 import HeaderGroupComponent from 'components/commons/DataGrid/HeaderGroupComponent';
 import DetailButtonGridRenderer from 'components/commons/DataGrid/DetailButtonGridRenderer';
 import DetailButtonGridEdit from 'components/commons/DataGrid/DetailButtonGridEdit';
+import DardeBajaButton from 'components/commons/DataGrid/DardeBajaButton';
 import DetailButtonGridEmail from 'components/commons/DataGrid/DetailButtonGridEmail';
 import DetailAlergenButtonGridRenderer from 'components/commons/DataGrid/DetailAlergenButtonGridRenderer';
 import CustomCheckboxRenderer from 'components/commons/DataGrid/CustomCheckboxRenderer';
@@ -33,6 +34,7 @@ class DataGridComponent extends React.Component {
                 customHeaderGroupComponent: HeaderGroupComponent,
                 DetailButtonGridRenderer: DetailButtonGridRenderer,
                 DetailButtonGridEdit: DetailButtonGridEdit,
+                DardeBajaButton: DardeBajaButton,
                 DetailButtonGridEmail: DetailButtonGridEmail,
                 DetailAlergenButtonGridRenderer: DetailAlergenButtonGridRenderer,
                 CustomCheckboxRenderer: CustomCheckboxRenderer,

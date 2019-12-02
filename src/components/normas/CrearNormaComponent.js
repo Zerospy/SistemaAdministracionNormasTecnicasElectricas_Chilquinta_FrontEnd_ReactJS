@@ -2,7 +2,7 @@
 import HeaderComponent from 'components/commons/HeaderComponent';
 import { NormasContext } from 'components/normas/NormasContext';
 import DetalleNormaModal from 'components/normas/DetalleNormaModal';
-import { Col, Row, Input, Btn } from 'mdbreact';
+import { Col, Row, Input, Button } from 'mdbreact';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -13,7 +13,7 @@ import NormaService from 'services/NormaService';
 import { toast } from 'react-toastify';
 import { MDBCard, MDBCardTitle, MDBCardText, MDBFileInput, MDBInput, MDBBtn, MDBContainer, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from "mdbreact";
 import GridUsuarios from 'components/normas/GridUsuarios';
-
+import Moment from 'moment';
 class CrearNormaComponent extends React.Component {
 
     showSettings(event) {
@@ -34,142 +34,91 @@ class CrearNormaComponent extends React.Component {
         this.normaService = new NormaService();
 
         this.state = {
-            columnDefs: [
-                {
-                    field: "athlete",
-                    width: 150
-                },
-                {
-                    field: "age",
-                    width: 90
-                },
-                {
-                    field: "country",
-                    width: 120
-                },
-                {
-                    field: "year",
-                    width: 90
-                },
-                {
-                    field: "date",
-                    width: 110
-                },
-                {
-                    field: "sport",
-                    width: 110
-                },
-                {
-                    field: "gold",
-                    width: 100
-                },
-                {
-                    field: "silver",
-                    width: 100
-                },
-                {
-                    field: "bronze",
-                    width: 100
-                },
-                {
-                    field: "total",
-                    width: 100
-                }
-            ],
-            defaultColDef: {
-                width: 100,
-                headerCheckboxSelection: isFirstColumn,
-                checkboxSelection: isFirstColumn,
-                resizable: true
-            },
-            rowSelection: "multiple",
-            rowData: []
+
+            codigoNorma: '',
+            nombreNorma: '',
+            normaDescripcion: '',
+            estado: {
+                    descripcion: 'En Revisión',
+                    id: 0
+
+            }
+           
         };
     }
 
 
+    publishToWorkflow = () => {
+        const normaId = "1";
+        var a = Moment().toObject();
+        var b = { year: a.years, month: a.months + 1, day: a.date+1, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds};  
+        console.log(a);
+       var c = b.year.toString()+"-"+b.month.toString()+"-"+b.day.toString();
+       console.log(c);
 
-    onGridReady = params => {
-        this.gridApi = params.api;
-        this.gridColumnApi = params.columnApi;
+       let params = {
+           codNorma: this.state.codigoNorma, nombre: this.state.nombreNorma,
+           descripcion: this.state.normadescripcion,
+           estado: { descripcion: '' , id: '1'},  fecha: c}
 
-        const httpRequest = new XMLHttpRequest();
-        const updateData = data => {
-            this.setState({ rowData: data });
-        };
+        this.normaService
+        .post(params)
+            .then(response => {
+                const data = response.data;
+                
+                data.createdAt = new Moment(data.createdAt).format(
+                    Constantes.DATETIME_FORMAT
+                ); 
 
-
-        httpRequest.open(
-            "GET",
-            "https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/olympicWinnersSmall.json"
-        );
-        httpRequest.send();
-        httpRequest.onreadystatechange = () => {
-            if (httpRequest.readyState === 4 && httpRequest.status === 200) {
-                updateData(JSON.parse(httpRequest.responseText));
-            }
-        };
-    };
-
-    saveComment = () => {
-        const { rowData } = this.state;
-        const normaId = this.props.norma.id;
-
-        this.setState({
-            savingComment: true
-        });
-
-        this.commentService
-            .post(normaId, {
-                comment: this.state.newComment
             })
-            .then(
-                response => {
-                    const data = response.data;
+            toast.success(
+                `${this.props.intl.formatMessage({
+                    id: 'component.normas.modal.msg.success.crear'
+                })}`
+            );
+        let formData = new FormData();
+        formData.append('file', this.state.pdfFile);
 
-                    this.setState(
-                        {
-                            rowData: [...rowData, data],
-                            savingComment: false
-                        },
-                        () => {
-                            this.setState({
-                                newComment: ''
-                            });
-                        }
-                    );
-                },
-                () => {
-                    toast.error(
+        this.normaService.uploadNormaFile(normaId, 'pdf', formData).then(result => {
+            formData = new FormData();
+            formData.append('file', this.state.cadFile);
+
+            this.normaService
+                .uploadNormaFile(normaId, 'cad', formData)
+                .then(result => {
+                    toast.success(
                         `${this.props.intl.formatMessage({
-                            id: 'component.normas.modal.comment.error'
+                            id: 'component.normas.modal.edit.success'
                         })}`
                     );
 
-                    this.setState({
-                        savingComment: false
-                    });
-                }
-            );
+                    this.props.toggle();
+                });
+        });
     };
+    onChangeCodigo = (e) => {
+        this.setState({
+            codigoNorma: e.target.value
 
-    onQuickFilterChanged() {
-        this.gridApi.setQuickFilter(document.getElementById("quickFilter").value);
+        })
+    }   
+     onChangeNombre = (e) => {
+        this.setState({
+            nombreNorma: e.target.value
+
+        })
+    }
+    onChangeDescripcion = (e) => {
+        this.setState({
+            normaDescripcion: e.target.value
+
+        })
     }
 
 
     render() {
         return (
             <NormasContext.Provider value={this}>
-                <convocarModal
-                    norma={this.state.selectedNorma}
-                    isOpen={this.state.modalComments}
-                    toggle={() => {
-                        this.setState({
-                            modalComments: !this.state.modalComments
-                        });
-                    }}
-                />
                 <HeaderComponent />
                 <Row>
                     <Col size="12">
@@ -189,8 +138,9 @@ class CrearNormaComponent extends React.Component {
                                             <MDBInput
                                                 material
                                                 containerClassName="mb-2 mt-0"
-                                                label="Nombre Norma"
+                                                label="Codigo de norma"
                                                 prepend="Default"
+                                                onChange={this.onChangeCodigo}
                                             />
 
 
@@ -199,16 +149,33 @@ class CrearNormaComponent extends React.Component {
                                             <MDBInput
                                                 material
                                                 containerClassName="mb-2 mt-0"
-                                                label="Codigo Norma"
+                                                label="Nombre Norma"
                                                 prepend="Default"
+                                                onChange={this.onChangeNombre}
                                             />
-                                            <MDBInput type="textarea" label="Descripcion de la norma" rows="5" />
+                                            <MDBInput type="textarea"
+                                             label="Descripcion de la norma" 
+                                             rows="5" 
+                                             onChange={this.onChangeDescripcion}/>
                                             <label>PDF</label>
-                                            <MDBFileInput />
+                                            <MDBFileInput  getValue={files => {
+                                                        this.setState({
+                                                            pdfFile: files[0]
+                                                        });
+                                                    }}/>
                                             <label>CAD</label>
-                                            <MDBFileInput />
+                                            <MDBFileInput  getValue={files => {
+                                                        this.setState({
+                                                            cadFile: files[0]
+                                                        });
+                                                    }}/>
                                             <Col className="offset-9" size="4">
-                                            <MDBBtn> Enviar a workflow </MDBBtn>
+                                            <Button 
+                                             disabled={!this.state.nombreNorma|| !this.state.codigoNorma||!this.state.normaDescripcion 
+                                                ||!this.state.pdfFile || !this.state.cadFile}
+                                            color="primary"
+                                            onClick={this.publishToWorkflow}
+                                            > Enviar a workflow</Button>
                                             </Col>
                                         </form>
                                     </MDBCard>

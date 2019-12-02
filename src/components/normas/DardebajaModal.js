@@ -22,7 +22,7 @@ import pdf from 'assets/img/pdf.png';
 import cad from 'assets/img/cad.png';
 import { Link } from 'react-router-dom';
 
-class DetalleEditarNormaModal extends React.Component {
+class DardebajaModal extends React.Component {
     state = {
         id: null
     };
@@ -197,97 +197,47 @@ class DetalleEditarNormaModal extends React.Component {
                 .join('');
             const normafecha = normafecha0.split('"}').join('');
 
-            const normaDesc = JSON.stringify(this.props.norma, ['id']);
+            const normaNumId = JSON.stringify(this.props.norma, ['id']);
 
             return (
 
                 <Container>
-                    <Modal isOpen={isOpen} size="lg">
+                    <Modal isOpen={isOpen} size="lg" centered>
                         <ModalHeader toggle={toggle}>
-                            <FormattedMessage id="component.normas.title.EditModal" />
+                            <FormattedMessage id="component.dataGrid.DardeBajaGrid" />
                         </ModalHeader>
                         <ModalBody>
                             <Row>
                                 <Col size="12">
 
                                     <form>
-                                    <div className="form-group">
-                                        <label htmlFor="formGroupExampleInput">Codigo de Norma</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="formGroupExampleInput"
-                                            defaultValue={this.state.codigoNorma}
-                                            onChange={this.handleChange}
-                                        />
-
-                                        <label htmlFor="formGroupExampleInput">Nombre Norma</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="formGroupExampleInput"
-                                            defaultValue={this.state.nombreNorma}
-                                            onChange={this.handleChange}
-                                        />
-
-                                        <label htmlFor="formGroupExampleInput">
-                                            Descripcion Norma
-                                  </label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="formGroupExampleInput"
-                                            value={this.state.normadescripcion}
-
-                                            onChange={this.onChangeDescripcion}
-                                            readOnly={this.state.savingNorma}
-                                        />
+                                 
                                        
-                                        <label>PDF</label>
-                                        <MDBFileInput
-                                            getValue={files => {
-                                                this.setState({
-                                                    pdfFile: files[0]
-                                                });
-                                            }}
-                                        />
-                                        <label>CAD</label>
-                                        <MDBFileInput
-                                            getValue={files => {
-                                                this.setState({
-                                                    cadFile: files[0]
-                                                });
-                                            }}
-                                        />
-                                    </div>
+            <h4>¿Desea dar de baja la siguiente norma? </h4>
+           
+           <h5>{normaname} </h5>
+           
+            <h5> Codigo : {normaid} </h5>
+                                  
+                                  
                                     </form>
                                 </Col>
                             </Row>
                             <Row>
-                                <Col size="9"></Col>
+                                <Col size="12"></Col>
                             </Row>
                             <Row>
-                                <Col className="d-flex justify-content-end">
-                                    <Button
-                                        disabled={!this.state.pdfFile || !this.state.cadFile}
-                                        color="primary"
-                                        onClick={this.publishToWorkflow, this.saveNorma}
-                                    >
-                                        {this.state.savingNorma ? (
-                                            <Fa icon="spinner" className="fa-1x fa-spin" />
-                                        ) : (
-                                                <FormattedMessage id="component.normas.modal.btn.editWorkflow" />
-                                            )}
-                                    </Button>
+                                <Col className="d-flex justify-content-center">
+                               
                                     <Button
                                         disabled={this.state.savingNorma}
-                                        color="primary"
+                                        color="warning"
                                         onClick={this.saveNorma}
                                     >
                                         {this.state.savingNorma ? (
                                             <Fa icon="spinner" className="fa-1x fa-spin" />
                                         ) : (
-                                                <FormattedMessage id="component.normas.modal.btn.edit" />
+                                                <FormattedMessage id="component.dataGrid.DardeBajaGrid" />
                                             )}
                                     </Button>
                                     <Button
@@ -307,9 +257,9 @@ class DetalleEditarNormaModal extends React.Component {
         }
     }
 
-    export default injectIntl(DetalleEditarNormaModal);
+    export default injectIntl(DardebajaModal);
 
-    DetalleEditarNormaModal.propTypes = {
+    DardebajaModal.propTypes = {
         toggle: PropTypes.func,
         onSave: PropTypes.func,
         isOpen: PropTypes.bool,

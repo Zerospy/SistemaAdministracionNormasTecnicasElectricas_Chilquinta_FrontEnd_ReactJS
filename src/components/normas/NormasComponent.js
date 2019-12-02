@@ -13,6 +13,8 @@ import UserService from 'services/UserService';
 import { toast } from 'react-toastify';
 import DetalleEditarNormaModal from './DetalleEditarNormaModal';
 import Moment from 'moment';
+import {saveAs} from 'file-saver';
+import DardebajaModal from './DardebajaModal';
 
 class NormasComponent extends React.Component {
     showSettings(event) {
@@ -105,7 +107,23 @@ class NormasComponent extends React.Component {
                 editable: false,
                 colId: 'id',
                 width: 80
-            }
+            },
+            {
+                headerName: `${props.intl.formatMessage({
+                    id: 'component.dataGrid.DardeBajaGrid'
+                })}`,
+                field: 'dardeBaja',
+                cellRenderer: 'DardeBajaButton',
+                onClick: norma => {
+                    this.setState({
+                        selectedNorma: norma,
+                        DardebajaModal: true
+                    });
+                },
+                editable: false,
+                colId: 'id',
+                width: 120
+            },
         ];
 
         this.state = {
@@ -115,6 +133,7 @@ class NormasComponent extends React.Component {
             },
             columnDefs: columnDefs,
             rowData: [],
+            idData: [],
             loadingInformation: false,
             modalDetalle: false,
             modalEdit: false,
@@ -136,6 +155,8 @@ class NormasComponent extends React.Component {
         };
     }
 
+
+/*
     getNorma(norma) {
    
         this.setState({
@@ -145,7 +166,7 @@ class NormasComponent extends React.Component {
 
         this.normaService.get(norma.id).then(response => {
             const data = response.data;
-
+                
 
             this.setState({
                 rowData: response !== null ? response.data : [],
@@ -154,7 +175,10 @@ class NormasComponent extends React.Component {
 
             });
         });
+
+       
     }
+     */
 
     getUsuarios(usuario) {
    
@@ -173,7 +197,7 @@ class NormasComponent extends React.Component {
         
     }
 
-    
+    /*
     setEstadoModel() {
 
     var EstadoFilterComponent = this.normaService.getFilterInstance("estado");
@@ -184,75 +208,30 @@ class NormasComponent extends React.Component {
     EstadoFilterComponent.setModel(model);
     this.gridApi.onFilterChanged();
 
-  }
+  } */
 
-    saveNorma = () => {
-        const {rowData, fecha} = this.state;
-        const { onSaveNorma, norma } = this.props;
-        const normaId = '1';
-        console.log(normaId);
-        var a = Moment().toObject();
-         var b = { year: a.years, month: a.months + 1, day: a.date+1, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds};  
-         console.log(a);
-        var c = b.year.toString()+"-"+b.month.toString()+"-"+b.day.toString();
-        console.log(c);
-
-        let params = {
-            codNorma: this.state.codigoNorma, nombre: this.state.nombreNorma,
-            descripcion: this.state.normadescripcion,
-            estado: { descripcion: '' , id: '1'},  fecha: c,
-
-
-            day: a.day,
-            hours: a.hours,
-            minutes: a.minutes,
-            month: a.months + 1,
-            nanos: a.nanos,
-            seconds: a.seconds,
-            time: a.time,
-            timezoneOffset: a.timezoneOffset,
-            year: a.years
-
-        }
+    publishToWorkflow = () => {
+        const normaId = "1";
         
+        var a = Moment().toObject();
+        var b = { year: a.years, month: a.months + 1, day: a.date+1, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds};  
+        
+       var c = b.year.toString()+"-"+b.month.toString()+"-"+b.day.toString();
+  
 
-
-
-
-        this.normaService
-
-
-
-            .post( params
-            )
+       let params = {
+           codNorma: this.state.codigoNorma, nombre: this.state.nombreNorma,
+           descripcion: this.state.normadescripcion,
+           estado: { descripcion: '' , id: '1'},  fecha: c  }
+          
+           this.normaService.post( params )
             .then(response => {
                 const data = response.data;
                 
                 data.createdAt = new Moment(data.createdAt).format(
                     Constantes.DATETIME_FORMAT
                 ); 
-               
-                this.setState (  
-                    { }
-
-                );
-                
-             
-                console.log(data);
-                console.log(params);
-                console.log(this.state.normadescripcion);
-                console.log(response);
-                
             })
-            toast.success(
-                `${this.props.intl.formatMessage({
-                    id: 'component.normas.modal.msg.success.crear'
-                })}`
-            );
-     
-    }
-    publishToWorkflow = () => {
-        const normaId = this.props.norma.id;
 
         let formData = new FormData();
         formData.append('file', this.state.pdfFile);
@@ -271,8 +250,16 @@ class NormasComponent extends React.Component {
                     );
 
                     this.props.toggle();
-                });
-        });
+                } );
+        }),
+      
+
+        toast.success(
+            `${this.props.intl.formatMessage({
+                id: 'component.normas.modal.msg.success.crear' 
+            })}`,
+            this.toggle()
+        ); 
     };
     onChangeCodigo = (e) => {
         this.setState({
@@ -294,10 +281,11 @@ class NormasComponent extends React.Component {
     }
     searchNormas() {
         const estadoNorma = 'PUBLICADA';
+        var norma = "";
         this.setState({
             loadingInformation: true
         });
-       
+        
         this.normaService.estadoNormas(estadoNorma).then(
             response => {
                 this.setState({
@@ -318,19 +306,36 @@ class NormasComponent extends React.Component {
                 });
             }
         );
-      
+       this.normaService.get(norma)
+       console.log(norma.map);
     }
 
-      
+      getNorma(norma){
+
+        this.normaService.get(norma)
+        .then((res) => {  
+
+          const data = res.data;
+          
+          this.setState({
+
+            idData : res.data !== null ? res.data:[]
+
+          });
+          } )
+      }
 
     componentDidMount() {
+       
+         
         this.searchNormas();
     }
-  
 
     render() {
+        const idData = this.state.idData;
+        const {norma} = this.props;
+      
         return [
-            
             <NormasContext.Provider value={this}>
 
 
@@ -343,7 +348,8 @@ class NormasComponent extends React.Component {
                         });
                     }}
                 />
-
+                  
+                                       
 
                 <DetalleEditarNormaModal
                     norma={this.state.selectedNorma}
@@ -351,6 +357,16 @@ class NormasComponent extends React.Component {
                     toggle={() => {
                         this.setState({
                             modalEdit: !this.state.modalEdit
+                        });
+                    }}
+                />
+                
+                <DardebajaModal
+                    norma={this.state.selectedNorma}
+                    isOpen={this.state.DardebajaModal}
+                    toggle={() => {
+                        this.setState({
+                            DardebajaModal: !this.state.DardebajaModal
                         });
                     }}
                 />
@@ -400,6 +416,7 @@ class NormasComponent extends React.Component {
                                     >
                                         <MDBModalHeader toggle={this.toggle}>Crear Norma</MDBModalHeader>
                                         <MDBModalBody>
+
                                             <form>
                                             <div className="form-group">
                                                 <label htmlFor="formGroupExampleInput">Codigo de Norma</label>
@@ -452,6 +469,7 @@ class NormasComponent extends React.Component {
                                             </form>
 
                                         </MDBModalBody>
+
                                         <MDBModalFooter>
                                             <MDBBtn color="secondary"  onClick={  
                                                 this.toggle
@@ -463,10 +481,11 @@ class NormasComponent extends React.Component {
                                                 disabled={!this.state.nombreNorma|| !this.state.codigoNorma||!this.state.normadescripcion 
                                                     ||!this.state.pdfFile || !this.state.cadFile}
                                                 color="primary"
-                                                onClick={this.publishToWorkflow, this.saveNorma}
+                                                onClick={this.publishToWorkflow}
                                                                        
                                             > Enviar a workflow</Button>
                                         </MDBModalFooter>
+
                                     </MDBModal>
                                 </Col>
                             </Row>
@@ -480,8 +499,7 @@ class NormasComponent extends React.Component {
                                 pagination={true}
                                 enableColResize={true}
                                 quickFilter={this.state.quickFilter}
-                                
-                                
+
                             />
 
                         </PanelComponent>

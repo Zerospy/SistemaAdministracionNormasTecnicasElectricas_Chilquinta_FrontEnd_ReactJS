@@ -39,7 +39,7 @@
 
     "menu.help": "Ayuda",
     "menu.help.userManual": "Manual de usuario",
-    
+
     "menu.user.management": "Administración de usuarios",
     "menu.user.administration": "Usuarios",
 
@@ -49,6 +49,11 @@
     "component.dataGrid.loading": "Cargando... Por favor, espere..",
     "component.dataGrid.detail": "Ver detalle",
     "component.dataGrid.EditarNorma":"Editar Norma",
+
+    "component.dataGrid.DardeBaja":"Dar de Baja",
+    "component.dataGrid.DardeBajaGrid":"Dar de baja",
+    "component.dataGrid.DardeBajaButton":"Dar de baja",
+
     "component.dataGrid.validateIfra": "Validar IFRA",
     "component.dataGrid.comments": "Agregar comentarios",
     "component.dataGrid.genExperimental": "Generar experimental",
