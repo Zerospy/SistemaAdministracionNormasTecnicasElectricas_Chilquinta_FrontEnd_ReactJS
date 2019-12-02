@@ -7,24 +7,20 @@ export default class NormaService {
 
   getFilter = (id, estado) => axios.get(`/norma/${estado}`);
 
-  post = ( params ) => axios.post(`/norma/`, 
-  params);
+  post = params => axios.post('/norma/', params);
 
   /*
-  postNorma = (normaId, params) => axios.post(`/norma/${normaId}`, 
+  postNorma = (normaId, params) => axios.post(`/norma/${normaId}`,
   params);
 */
 
-    estadoNormas = (estadoNorma) => axios.get(`/norma/findByStatus/${estadoNorma}`); 
+  estadoNormas = estadoNorma => axios.get(`/norma/findByStatus/${estadoNorma}`);
 
+  downloadNormaFile = (normaId, fileType) =>
+      axios.get(`/norma-files/download/${normaId}/${fileType}`, null, {
+          responseType: 'arraybuffer'
+      });
 
-    downloadNormaFile = (normaId, fileType) =>
-      axios.post(`/norma-files/download/${normaId}/${fileType}`, null, {responseType: 'arraybuffer'});
-
-
-    uploadNormaFile = (normaId, fileType, formData) =>
+  uploadNormaFile = (normaId, fileType, formData) =>
       axios.post(`/norma-files/upload/${normaId}/${fileType}`, formData);
-
-
-
 }

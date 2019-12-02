@@ -39,6 +39,9 @@
 
     "menu.help": "Ayuda",
     "menu.help.userManual": "Manual de usuario",
+    
+    "menu.user.management": "Administración de usuarios",
+    "menu.user.administration": "Usuarios",
 
     "component.messages.loading": "Cargando...",
     

@@ -101,8 +101,6 @@ class SidebarComponent extends React.Component {
                               <Fa icon="plus" />
                               <FormattedMessage id="component.normas.crear" />
                           </SideNavLink>
-
-                     
                       </SideNavCat>
 
                       <SideNavCat
@@ -131,10 +129,7 @@ class SidebarComponent extends React.Component {
                               <Fa icon="cloud-upload-alt" />
                               <FormattedMessage id="component.normasInternacionales.administracion" />
                           </SideNavLink>
-                     
                       </SideNavCat>
-
-
 
                       <SideNavCat
                           id="workflow"
@@ -156,6 +151,19 @@ class SidebarComponent extends React.Component {
                       </SideNavCat>
 
                       <SideNavCat
+                          id="userManagement"
+                          name={`${this.props.intl.formatMessage({
+                              id: 'menu.user.management'
+                          })}`}
+                          icon="user-cog"
+                      >
+                          <SideNavLink to="/users-management">
+                              <Fa icon="users" />
+                              <FormattedMessage id="menu.user.administration" />
+                          </SideNavLink>
+                      </SideNavCat>
+
+                      <SideNavCat
                           id="session"
                           name={`${this.props.intl.formatMessage({
                               id: 'menu.account'
@@ -169,12 +177,12 @@ class SidebarComponent extends React.Component {
                                   window.location.reaload(true);
                               }}
                           >
-                              <Fa icon="users" />
+                              <Fa icon="sign-out-altZ" />
                               <FormattedMessage id="menu.account.logout" />
                           </SideNavLink>
                       </SideNavCat>
 
-                      <SideNavCat
+                      {/* <SideNavCat
                           id="ayuda"
                           name={`${this.props.intl.formatMessage({
                               id: 'menu.help'
@@ -185,7 +193,7 @@ class SidebarComponent extends React.Component {
                               <Fa icon="book" />
                               <FormattedMessage id="menu.help.userManual" />
                           </a>
-                      </SideNavCat>
+                      </SideNavCat> */}
                   </SideNavNav>
               </SideNav>
           </div>
