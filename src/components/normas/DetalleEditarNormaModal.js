@@ -200,7 +200,6 @@ class DetalleEditarNormaModal extends React.Component {
             const normaDesc = JSON.stringify(this.props.norma, ['id']);
 
             return (
-
                 <Container>
                     <Modal isOpen={isOpen} size="lg">
                         <ModalHeader toggle={toggle}>
@@ -217,7 +216,7 @@ class DetalleEditarNormaModal extends React.Component {
                                             type="text"
                                             className="form-control"
                                             id="formGroupExampleInput"
-                                            defaultValue={this.state.codigoNorma}
+                                            defaultValue={normaid}
                                             onChange={this.handleChange}
                                         />
 
@@ -226,7 +225,7 @@ class DetalleEditarNormaModal extends React.Component {
                                             type="text"
                                             className="form-control"
                                             id="formGroupExampleInput"
-                                            defaultValue={this.state.nombreNorma}
+                                            defaultValue={normaname}
                                             onChange={this.handleChange}
                                         />
 
@@ -237,8 +236,7 @@ class DetalleEditarNormaModal extends React.Component {
                                             type="text"
                                             className="form-control"
                                             id="formGroupExampleInput"
-                                            value={this.state.normadescripcion}
-
+                                            defaultValue={normadesc}
                                             onChange={this.onChangeDescripcion}
                                             readOnly={this.state.savingNorma}
                                         />
