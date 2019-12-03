@@ -44,7 +44,6 @@ public class NormaController {
     public List<NormaEntity> findByStatus(@PathVariable EstadoNorma estadoNorma) {
         return normaService.findByStatus(estadoNorma);
     }
-
     @PostMapping(value = "/", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity save(@RequestBody NormaEntity normaEntity) {
 
@@ -59,6 +58,7 @@ public class NormaController {
         }
 
     }
+
 
     @DeleteMapping(value = "/", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity delete(@RequestBody NormaEntity normaEntity) {
@@ -97,6 +97,23 @@ public class NormaController {
             String username = jwtTokenUtil.getUsernameFromRequest(httpServletRequest);
 
             normaService.publishNorma(id, username);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            if (log.isErrorEnabled()) {
+                log.error(Constants.BAD_REQUEST_MESSAGE, e.getMessage(), e);
+            }
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @PostMapping(value = "/dardebaja/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity dardeBajaNorma(HttpServletRequest httpServletRequest, @PathVariable Integer id) {
+
+        try {
+            String username = jwtTokenUtil.getUsernameFromRequest(httpServletRequest);
+
+            normaService.dardeBajaNorma(id, username);
             return new ResponseEntity(HttpStatus.OK);
         } catch (Exception e) {
             if (log.isErrorEnabled()) {

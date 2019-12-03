@@ -46,6 +46,12 @@ public class NormaService {
     @Value("${spring.mail.publish.body}")
     private String mailPublishBody;
 
+    @Value("${spring.mail.dardebaja.subject}")
+    private String maildardeBajaSubject;
+
+    @Value("${spring.mail.dardebaja.body}")
+    private String maildardeBajaBody;
+
     public Iterable<NormaEntity> findAll() {
         return normaRepository.findAll();
     }
@@ -120,6 +126,31 @@ public class NormaService {
             emailService.sendEmail(mailTo, String.format(mailPublishSubject, normaEntity.getCodNorma()), String.format(mailPublishBody, normaEntity.getCodNorma(), usuarioEntity.getFullName()));
 
             normaRepository.save(normaEntity);
+        }
+
+    }
+    public void dardeBajaNorma(Integer id, String username) throws BusinessException {
+
+        Optional<NormaEntity> normaEntityOptional = normaRepository.findById(id);
+
+        if (normaEntityOptional.isPresent()) {
+            Optional<EstadosEntity> normaEstado = estadosRepository.findById(Long.valueOf(EstadoNorma.ANTIGUA.value));
+
+            NormaEntity normaEntity = normaEntityOptional.get();
+            normaEntity.setEstado(normaEstado.orElse(null));
+
+            Optional<UsuarioEntity> usuarioEntityOptional = usuarioRepository.findByUsuario(username);
+
+            UsuarioEntity usuarioEntity = usuarioEntityOptional.orElse(null);
+
+            if (usuarioEntity == null) {
+                throw new BusinessException("User not found");
+            }
+
+            emailService.sendEmail(mailTo, String.format(maildardeBajaSubject, normaEntity.getCodNorma()), String.format(maildardeBajaBody, normaEntity.getCodNorma(), usuarioEntity.getFullName()));
+
+            normaRepository.save(normaEntity);
+
         }
 
     }
