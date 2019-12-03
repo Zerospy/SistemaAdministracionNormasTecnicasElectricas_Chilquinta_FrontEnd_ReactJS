@@ -52,6 +52,12 @@ public class NormaService {
     @Value("${spring.mail.dardebaja.body}")
     private String maildardeBajaBody;
 
+    @Value("${spring.mail.toworkflow.subject}")
+    private String mailtoWorkflowSubject;
+
+    @Value("${spring.mail.toworkflow.body}")
+    private String mailtoWorkflowBody;
+
     public Iterable<NormaEntity> findAll() {
         return normaRepository.findAll();
     }
@@ -62,6 +68,9 @@ public class NormaService {
 
     public NormaEntity save(NormaEntity normaEntity) {
         return normaRepository.save(normaEntity);
+
+        emailService.sendEmail(mailTo, String.format(maildardeBajaSubject, normaEntity.getCodNorma()), String.format(mailtoWorkflowBody, normaEntity.getCodNorma(), usuarioEntity.getFullName()));
+
     }
 
     public Iterable<NormaEntity> saveAll(Iterable<NormaEntity> normaEntities) {
