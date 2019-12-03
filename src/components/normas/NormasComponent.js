@@ -214,10 +214,18 @@ class NormasComponent extends React.Component {
         const normaId = "1";
         
         var a = Moment().toObject();
-        var b = { year: a.years, month: a.months + 1, day: a.date+1, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds};  
-        
+        var b = { year: a.years, month: a.months + 1, day: a.date, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds};  
+        if(b.day<10) {
+            b.day='0'+b.day;
+                } 
+
+            if(b.month<10) {
+                        b.month='0'+b.month;
+                        } 
        var c = b.year.toString()+"-"+b.month.toString()+"-"+b.day.toString();
-  
+            
+
+           
 
        let params = {
            codNorma: this.state.codigoNorma, nombre: this.state.nombreNorma,
@@ -231,6 +239,7 @@ class NormasComponent extends React.Component {
                 data.createdAt = new Moment(data.createdAt).format(
                     Constantes.DATETIME_FORMAT
                 ); 
+                console.log(response.data);
             })
 
         let formData = new FormData();
@@ -348,9 +357,6 @@ class NormasComponent extends React.Component {
                         });
                     }}
                 />
-                  
-                                       
-
                 <DetalleEditarNormaModal
                     norma={this.state.selectedNorma}
                     isOpen={this.state.modalEdit}
@@ -369,6 +375,71 @@ class NormasComponent extends React.Component {
                             DardebajaModal: !this.state.DardebajaModal
                         });
                     }}
+                        /* */
+                        onDarBaja={norma => {
+                            console.log(norma);
+    
+                        const rowData = this.state.rowData;
+
+                        if (rowData !== null && rowData.length > 0) {
+                            this.normaService.getById(norma.id).then(
+                                response => {
+                                    rowData.some((item, index) => {
+                                        if (item.id === norma.id) {
+                                            rowData[index].estado = response.data.estado;
+                                            return true;
+                                        }
+                                    });
+                                    this.gridApi.setRowData(rowData);
+                                },
+                                errorResponse => {
+                                    console.error(errorResponse);
+                                    toast.error(
+                                        `${this.props.intl.formatMessage({
+                                            id: 'component.workflow.modal.msg.error'
+                                        })}`
+                                    );
+                                }
+                            );
+                        }
+                    }}
+                        onSave={norma => {
+                            this.setState({
+                                publishing: true
+                            });
+    
+                            this.normaService.dardeBaja(norma.id).then(
+                                () => {
+                                    this.setState(
+                                        {
+                                            publishing: false,
+                                            DardebajaModal: false
+                                        },
+                                        () => {
+                                            this.searchNormas();
+                                        }
+                                    );
+                                    toast.success(
+                                        `${this.props.intl.formatMessage({
+                                            id: 'component.workflow.modal.msg.success'
+                                        })}`
+                                    );
+                                },
+                                () => {
+                                    this.setState({
+                                        publishing: false,
+                                        DardebajaModal: false
+                                    });
+    
+                                    toast.error(
+                                        `${this.props.intl.formatMessage({
+                                            id: 'component.workflow.modal.msg.error'
+                                        })}`
+                                    );
+                                }
+                            );
+                        }}
+
                 />
 
                 <HeaderComponent />

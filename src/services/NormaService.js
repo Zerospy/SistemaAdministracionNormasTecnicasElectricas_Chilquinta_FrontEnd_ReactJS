@@ -7,13 +7,15 @@ export default class NormaService {
 
   getFilter = (id, estado) => axios.get(`/norma/${estado}`);
 
-  post = params => axios.post('/norma/', params);
+  post = params => axios.post(`/norma/`, params);
 
+  
   /*
   postNorma = (normaId, params) => axios.post(`/norma/${normaId}`,
   params);
 */
 
+  dardeBaja = id => axios.post(`/norma/dardebaja/${id}`);
   estadoNormas = estadoNorma => axios.get(`/norma/findByStatus/${estadoNorma}`);
 
   downloadNormaFile = (normaId, fileType) =>

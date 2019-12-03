@@ -51,10 +51,17 @@ class CrearNormaComponent extends React.Component {
     publishToWorkflow = () => {
         const normaId = "1";
         var a = Moment().toObject();
-        var b = { year: a.years, month: a.months + 1, day: a.date+1, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds};  
-        console.log(a);
-       var c = b.year.toString()+"-"+b.month.toString()+"-"+b.day.toString();
-       console.log(c);
+        var b = { year: a.years, month: a.months + 1, day: a.date, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds};  
+        
+        if(b.day<10) {
+            b.day='0'+b.day;
+                } 
+
+            if(b.month<10) {
+                        b.month='0'+b.month;
+                        } 
+         var c = b.year.toString()+"-"+b.month.toString()+"-"+b.day.toString();
+     
 
        let params = {
            codNorma: this.state.codigoNorma, nombre: this.state.nombreNorma,

@@ -150,7 +150,40 @@ class DardebajaModal extends React.Component {
                     });
             });
         };
+     /*     dardeBaja(){
 
+            this.normaService.dardeBaja(norma.id).then(
+                () => {
+                    this.setState(
+                        {
+                            publishing: false,
+                            modalComments: false
+                        },
+                        () => {
+                            this.searchNormas();
+                        }
+                    );
+                    toast.success(
+                        `${this.props.intl.formatMessage({
+                            id: 'component.workflow.modal.msg.success'
+                        })}`
+                    );
+                },
+                () => {
+                    this.setState({
+                        publishing: false,
+                        modalComments: false
+                    });
+
+                    toast.error(
+                        `${this.props.intl.formatMessage({
+                            id: 'component.workflow.modal.msg.error'
+                        })}`
+                    );
+                }
+            );
+
+        }  */
         componentDidUpdate(prevProps) {
             if (
                 this.props !== null &&
@@ -176,6 +209,7 @@ class DardebajaModal extends React.Component {
 
         render() {
             const { toggle, isOpen, onSave, norma } = this.props;
+           const  canPublish = norma !== null && norma.estado.id !== 3;
 
             const normaid0 = JSON.stringify(this.props.norma, ['codNorma'])
                 .split('{"codNorma":"')
@@ -229,10 +263,18 @@ class DardebajaModal extends React.Component {
                             <Row>
                                 <Col className="d-flex justify-content-center">
                                
+
+
+                                
+                               
                                     <Button
                                         disabled={this.state.savingNorma}
                                         color="warning"
-                                        onClick={this.saveNorma}
+                                        onClick={() => {
+                                            if (typeof onSave === 'function') {
+                                                onSave(this.props.norma);
+                                            }
+                                        }}
                                     >
                                         {this.state.savingNorma ? (
                                             <Fa icon="spinner" className="fa-1x fa-spin" />
@@ -240,6 +282,7 @@ class DardebajaModal extends React.Component {
                                                 <FormattedMessage id="component.dataGrid.DardeBajaGrid" />
                                             )}
                                     </Button>
+                                    
                                     <Button
                                         color="cancel"
                                         onClick={toggle}
