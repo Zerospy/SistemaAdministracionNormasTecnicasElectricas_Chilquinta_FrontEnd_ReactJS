@@ -69,8 +69,6 @@ public class NormaService {
     public NormaEntity save(NormaEntity normaEntity) {
         return normaRepository.save(normaEntity);
 
-        emailService.sendEmail(mailTo, String.format(maildardeBajaSubject, normaEntity.getCodNorma()), String.format(mailtoWorkflowBody, normaEntity.getCodNorma(), usuarioEntity.getFullName()));
-
     }
 
     public Iterable<NormaEntity> saveAll(Iterable<NormaEntity> normaEntities) {
