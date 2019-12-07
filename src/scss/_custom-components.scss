@@ -1084,7 +1084,25 @@ footer {
 
 /*DASHBOARD*/
 .dashboard-card {
-  min-height: 120px;
+  min-height: 80px;
+  flex: 1;
+  border-color: #ff35478a !important;
+  .badge-counter-disabled {
+    background-color: transparent;
+    color: black;
+  }
+  .badge-counter {
+    transition: 400ms all;
+    font-size: 17px;
+    font-weight: 400;
+  }
+  .badge-counter:hover {
+    background-color: #da0a0a33 !important;
+    cursor: pointer;
+  }
+  .card-text {
+    font-size: 14px !important;
+  }
   h2 {
     text-align: center;
     margin-top: 15px;

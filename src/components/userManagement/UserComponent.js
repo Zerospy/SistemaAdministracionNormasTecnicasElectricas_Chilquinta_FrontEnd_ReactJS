@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import HeaderComponent from 'components/commons/HeaderComponent';
 import {UserContext} from 'components/userManagement/UserContext';
-import CommentsModal from 'components/workflow/CommentsModal';
+import EditUserModal from 'components/userManagement/EditUserModal';
 import {Col, Row, Input, Button, Fa} from 'mdbreact';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -47,10 +47,16 @@ class UserComponent extends React.Component {
                 width: 140
             },
             {
-                headerName: 'Administrador',
+                headerName: 'Editar',
                 field: 'id',
-                cellRenderer: 'CustomCheckboxRenderer',
-                onClick: user => {},
+                cellRenderer: 'EditButtonGridRenderer',
+                onClick: user => {
+                    console.log(user);
+                    this.setState({
+                        selectedUser: user,
+                        modalUsers: true
+                    });
+                },
                 editable: false,
                 colId: 'id',
                 width: 150
@@ -65,9 +71,9 @@ class UserComponent extends React.Component {
             columnDefs: columnDefs,
             rowData: [],
             loadingInformation: false,
-            modalComments: false,
-            loadingComments: false,
-            selectedNorma: null,
+            modalUsers: false,
+            loadingUsers: false,
+            selectedUser: null,
             quickFilter: ''
         };
     }
@@ -105,6 +111,15 @@ class UserComponent extends React.Component {
     render() {
         return [
             <UserContext.Provider value={this}>
+                <EditUserModal
+                    user={this.state.selectedUser}
+                    isOpen={this.state.modalUsers}
+                    toggle={() => {
+                        this.setState({
+                            modalUsers: !this.state.modalUsers
+                        });
+                    }}
+                />
                 <HeaderComponent />
                 <Row>
                     <Col size="12">

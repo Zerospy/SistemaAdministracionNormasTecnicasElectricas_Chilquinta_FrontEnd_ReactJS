@@ -48,6 +48,7 @@
     "component.dataGrid.noRows": "No hay registros que mostrar",
     "component.dataGrid.loading": "Cargando... Por favor, espere..",
     "component.dataGrid.detail": "Ver detalle",
+    "component.dataGrid.edit": "Editar",
     "component.dataGrid.EditarNorma":"Editar Norma",
 
     "component.dataGrid.DardeBaja":"Dar de Baja",

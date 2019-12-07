@@ -4,7 +4,7 @@ import {
     Fa,
     Input,
     MDBCard,
-    MDBCardHeader,
+    MDBCardFooter,
     MDBCardBody,
     MDBCardText,
     MDBCardTitle
@@ -23,6 +23,35 @@ import {toast} from 'react-toastify';
 import Moment from 'moment';
 import DashboardModal from 'components/home/DashboardModal';
 import Constantes from 'Constantes';
+import {Line} from 'react-chartjs-2';
+
+const data = {
+    //labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+      {
+        //label: 'My First dataset',
+        fill: false,
+        lineTension: 0.1,
+        borderCapStyle: 'none',
+        /*backgroundColor: 'none',
+        borderColor: 'none',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(75,192,192,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,*/
+        data: [65, 59, 80, 81, 56, 55, 40]
+      }
+    ]
+  };
 
 class DashboardComponent extends React.Component {
     showSettings(event) {
@@ -144,7 +173,7 @@ class DashboardComponent extends React.Component {
                             <div className="content-viewport">
                                 <div className="row">
                                     <div className="col-12 m-3">
-                                        <h4>Dashboard</h4>
+                                        <h4 className="">Dashboard</h4>
                                         <p className="text-gray">Bienvenido</p>
                                     </div>
                                 </div>
@@ -156,61 +185,70 @@ class DashboardComponent extends React.Component {
                                                     <MDBCard
                                                         border="danger"
                                                         className="m-2 dashboard-card"
-                                                        style={{maxWidth: '18rem'}}
                                                     >
                                                         <MDBCardBody className="text-danger">
-                                                            <MDBCardTitle tag="h5">
-                                Normas en el sistema
-                                                            </MDBCardTitle>
-                                                            <MDBCardText className="text-justify">
-                                                                <h2>
-                                                                    <CountUp
-                                                                        start={this.state.startPoint}
-                                                                        end={this.state.normasQuantity}
-                                                                        duration={this.state.duration}
-                                                                    />
-                                                                </h2>
+                                                            <MDBCardText className="">
+                                                                  <Row>
+                                                                <Col className="col-8">Normas en el sistema</Col>
+                                                                <Col className="col-4">
+                                                                    <span className="badge-counter badge-counter-disabled">
+                                                                        <CountUp
+                                                                            start={this.state.startPoint}
+                                                                            end={this.state.normasQuantity}
+                                                                            duration={this.state.duration}
+                                                                        />
+                                                                    </span>
+                                                                </Col>
+                                                            </Row>
                                                             </MDBCardText>
                                                         </MDBCardBody>
+                                                        <MDBCardFooter></MDBCardFooter>
                                                     </MDBCard>
                                                 </div>
                                                 <div className="col-md-2 col-xs-12">
                                                     <MDBCard
                                                         border="danger"
                                                         className="m-2 dashboard-card"
-                                                        style={{maxWidth: '18rem'}}
                                                     >
                                                         <MDBCardBody className="text-danger">
-                                                            <MDBCardTitle tag="h5">
-                                Normas descargadas
-                                                            </MDBCardTitle>
-                                                            <MDBCardText className="text-justify">
-                                                                <h2>
-                                                                    <a onClick={this.displayModalNormas.bind(this, 0)}>
-                                                                    <CountUp
-                                                                        start={this.state.startPoint}
-                                                                        end={this.state.normasDownloaded}
-                                                                        duration={this.state.duration}
-                                                                    />
-                                                                    </a>
-                                                                   
-                                                                </h2>
+                                                            <MDBCardText className="">
+                                                                <Row>
+                                                                    <Col className="col-8">Normas descargadas</Col>
+                                                                    <Col className="col-4">
+                                                                        <span className="badge badge-light badge-counter">
+                                                                        <a onClick={this.displayModalNormas.bind(this, 0)}>
+                                                                        <CountUp
+                                                                            start={this.state.startPoint}
+                                                                            end={this.state.normasDownloaded}
+                                                                            duration={this.state.duration}
+                                                                        />
+                                                                        </a>
+                                                                    </span>
+                                                                    </Col>
+                                                                </Row>
                                                             </MDBCardText>
-                                                        </MDBCardBody>
+                                                                </MDBCardBody>
+                                                            <MDBCardFooter>
+                                                                {/* <Line 
+                                                                    data={data} 
+                                                                    legend = {{ 
+                                                                        display: false
+                                                                    }}
+                                                                /> */}
+                                                            </MDBCardFooter>
                                                     </MDBCard>
                                                 </div>
                                                 <div className="col-md-2 col-xs-12">
                                                     <MDBCard
                                                         border="danger"
                                                         className="m-2 dashboard-card"
-                                                        style={{maxWidth: '18rem'}}
                                                     >
                                                         <MDBCardBody className="text-danger">
-                                                            <MDBCardTitle tag="h5">
-                                Documentos subidos
-                                                            </MDBCardTitle>
-                                                            <MDBCardText className="text-justify">
-                                                                <h2>
+                                                            <MDBCardText className="">
+                                                                  <Row>
+                                                                <Col className="col-8">Documentos subidos</Col>
+                                                                <Col className="col-4">
+                                                                    <span className="badge badge-light badge-counter">
                                                                 <a onClick={this.displayModalNormas.bind(this, 1)}>
                                                                     <CountUp
                                                                         start={this.state.startPoint}
@@ -218,23 +256,26 @@ class DashboardComponent extends React.Component {
                                                                         duration={this.state.duration}
                                                                     />
                                                                 </a>
-                                                                </h2>
+                                                                </span>
+                                                                </Col>
+                                                            </Row>
+                                                                
                                                             </MDBCardText>
                                                         </MDBCardBody>
+                                                        <MDBCardFooter></MDBCardFooter>
                                                     </MDBCard>
                                                 </div>
                                                 <div className="col-md-2 col-xs-12">
                                                     <MDBCard
                                                         border="danger"
                                                         className="m-2 dashboard-card"
-                                                        style={{maxWidth: '18rem'}}
                                                     >
                                                         <MDBCardBody className="text-danger">
-                                                            <MDBCardTitle tag="h5">
-                                Normas en workflow
-                                                            </MDBCardTitle>
-                                                            <MDBCardText className="text-justify">
-                                                                <h2>
+                                                            <MDBCardText className="">
+                                                                  <Row>
+                                                                <Col className="col-8">Normas en workflow</Col>
+                                                                <Col className="col-4">
+                                                                    <span className="badge badge-light badge-counter">
                                                                 <a onClick={this.displayModalNormas.bind(this, 2)}>
                                                                     <CountUp
                                                                         start={this.state.startPoint}
@@ -242,23 +283,26 @@ class DashboardComponent extends React.Component {
                                                                         duration={this.state.duration}
                                                                     />
                                                                     </a>
-                                                                </h2>
+                                                                </span>
+                                                                </Col>
+                                                            </Row>
+                                                                
                                                             </MDBCardText>
                                                         </MDBCardBody>
+                                                        <MDBCardFooter></MDBCardFooter>
                                                     </MDBCard>
                                                 </div>
                                                 <div className="col-md-2 col-xs-12">
                                                     <MDBCard
                                                         border="danger"
                                                         className="m-2 dashboard-card"
-                                                        style={{maxWidth: '18rem'}}
                                                     >
                                                         <MDBCardBody className="text-danger">
-                                                            <MDBCardTitle tag="h5">
-                                Normas Publicadas
-                                                            </MDBCardTitle>
-                                                            <MDBCardText className="text-justify">
-                                                                <h2>
+                                                            <MDBCardText className="">
+                                                                  <Row>
+                                                                <Col className="col-8">Normas Publicadas</Col>
+                                                                <Col className="col-4">
+                                                                    <span className="badge badge-light badge-counter">
                                                                 <a onClick={this.displayModalNormas.bind(this, 3)}>
                                                                     <CountUp
                                                                         start={this.state.startPoint}
@@ -266,23 +310,26 @@ class DashboardComponent extends React.Component {
                                                                         duration={this.state.duration}
                                                                     />
                                                                 </a>
-                                                                </h2>
+                                                                </span>
+                                                                </Col>
+                                                            </Row>
+                                                                
                                                             </MDBCardText>
                                                         </MDBCardBody>
+                                                        <MDBCardFooter></MDBCardFooter>
                                                     </MDBCard>
                                                 </div>
                                                 <div className="col-md-2 col-xs-12">
                                                     <MDBCard
                                                         border="danger"
                                                         className="m-2 dashboard-card"
-                                                        style={{maxWidth: '18rem'}}
                                                     >
                                                         <MDBCardBody className="text-danger">
-                                                            <MDBCardTitle tag="h5">
-                                Normas Comentadas
-                                                            </MDBCardTitle>
-                                                            <MDBCardText className="text-justify">
-                                                                <h2>
+                                                            <MDBCardText className="">
+                                                                  <Row>
+                                                                <Col className="col-8">Normas Comentadas</Col>
+                                                                <Col className="col-4">
+                                                                    <span className="badge badge-light badge-counter">
                                                                 <a onClick={this.displayModalNormas.bind(this, 4)}>
                                                                     <CountUp
                                                                         start={this.state.startPoint}
@@ -290,9 +337,13 @@ class DashboardComponent extends React.Component {
                                                                         duration={this.state.duration}
                                                                     />
                                                                     </a>
-                                                                </h2>
+                                                                </span>
+                                                                </Col>
+                                                            </Row>
+                                                                
                                                             </MDBCardText>
                                                         </MDBCardBody>
+                                                        <MDBCardFooter></MDBCardFooter>
                                                     </MDBCard>
                                                 </div>
                                             </div>

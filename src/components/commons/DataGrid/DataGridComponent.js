@@ -17,6 +17,7 @@ import RemoveIconGridRenderer from 'components/commons/DataGrid/RemoveIconGridRe
 import RemoveButtonGridRenderer from 'components/commons/DataGrid/RemoveButtonGridRenderer';
 import ShareButtonGridRenderer from 'components/commons/DataGrid/ShareButtonGridRenderer';
 import AddMaterialButtonRenderer from 'components/commons/DataGrid/AddMaterialButtonRenderer';
+import EditButtonGridRenderer from 'components/commons/DataGrid/EditButtonGridRenderer';
 import MaterialBannedComponent from 'components/commons/DataGrid/MaterialBannedComponent';
 import LoadingComponent from 'components/commons/base/LoadingComponent';
 import {FormattedMessage, injectIntl} from 'react-intl';
@@ -45,7 +46,8 @@ class DataGridComponent extends React.Component {
                 ShareButtonGridRenderer: ShareButtonGridRenderer,
                 RemoveButtonGridRenderer: RemoveButtonGridRenderer,
                 AddMaterialButtonRenderer: AddMaterialButtonRenderer,
-                MaterialBannedComponent: MaterialBannedComponent
+                MaterialBannedComponent: MaterialBannedComponent,
+                EditButtonGridRenderer: EditButtonGridRenderer
             },
             selectedRowsPerPage: [],
             selectedRows: []
@@ -89,37 +91,28 @@ class DataGridComponent extends React.Component {
     }
 
   onGridReady = params => {
-
       const {onGridLoad} = this.props;
       this.gridApi = params.api;
       this.gridColumnApi = params.columnApi;
 
       this.displayOverlay();
 
-
-     
-  
-
       if (onGridLoad && typeof onGridLoad === 'function') {
           onGridLoad(params);
       }
   };
 
+  FiltroEstado() {
+      let estadoFilterComponent = this.gridApi.getFilterInstance('estado');
 
-FiltroEstado() {
+      let model = {
+          type: 'set',
+          values: ['Publicada']
+      };
 
-    var estadoFilterComponent = this.gridApi.getFilterInstance("estado");
-
-     var model = {
-      type: "set",
-      values: ["Publicada"]
-    };
-
-    estadoFilterComponent.setModel(model);
-    this.gridApi.onFilterChanged();
- 
+      estadoFilterComponent.setModel(model);
+      this.gridApi.onFilterChanged();
   }
-  
 
   componentDidMount() {}
 
@@ -335,7 +328,10 @@ FiltroEstado() {
 
       return (
           <Container fluid={true}>
-              <LoadingComponent loading={this.props.isLoading} noBackground={this.props.loadingNoBackground} />
+              <LoadingComponent
+                  loading={this.props.isLoading}
+                  noBackground={this.props.loadingNoBackground}
+              />
               <div className={this.props.classContainer}>
                   <div id={this.state.id} className={'ag-theme-balham h-100'}>
                       <AgGridReact
