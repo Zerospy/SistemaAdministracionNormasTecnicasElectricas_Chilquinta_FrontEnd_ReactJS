@@ -152,13 +152,13 @@ class DashboardComponent extends React.Component {
                                     <div className="col-12 m-2">
                                         <PanelComponent title={'Resumen de actividades'}>
                                             <div className="row">
-                                                <div className="col-2">
+                                                <div className="col-md-2 col-xs-12">
                                                     <MDBCard
-                                                        border="primary"
+                                                        border="danger"
                                                         className="m-2 dashboard-card"
                                                         style={{maxWidth: '18rem'}}
                                                     >
-                                                        <MDBCardBody className="text-primary">
+                                                        <MDBCardBody className="text-danger">
                                                             <MDBCardTitle tag="h5">
                                 Normas en el sistema
                                                             </MDBCardTitle>
@@ -174,13 +174,13 @@ class DashboardComponent extends React.Component {
                                                         </MDBCardBody>
                                                     </MDBCard>
                                                 </div>
-                                                <div className="col-2">
+                                                <div className="col-md-2 col-xs-12">
                                                     <MDBCard
-                                                        border="primary"
+                                                        border="danger"
                                                         className="m-2 dashboard-card"
                                                         style={{maxWidth: '18rem'}}
                                                     >
-                                                        <MDBCardBody className="text-primary">
+                                                        <MDBCardBody className="text-danger">
                                                             <MDBCardTitle tag="h5">
                                 Normas descargadas
                                                             </MDBCardTitle>
@@ -199,13 +199,13 @@ class DashboardComponent extends React.Component {
                                                         </MDBCardBody>
                                                     </MDBCard>
                                                 </div>
-                                                <div className="col-2">
+                                                <div className="col-md-2 col-xs-12">
                                                     <MDBCard
-                                                        border="primary"
+                                                        border="danger"
                                                         className="m-2 dashboard-card"
                                                         style={{maxWidth: '18rem'}}
                                                     >
-                                                        <MDBCardBody className="text-primary">
+                                                        <MDBCardBody className="text-danger">
                                                             <MDBCardTitle tag="h5">
                                 Documentos subidos
                                                             </MDBCardTitle>
@@ -223,13 +223,13 @@ class DashboardComponent extends React.Component {
                                                         </MDBCardBody>
                                                     </MDBCard>
                                                 </div>
-                                                <div className="col-2">
+                                                <div className="col-md-2 col-xs-12">
                                                     <MDBCard
-                                                        border="primary"
+                                                        border="danger"
                                                         className="m-2 dashboard-card"
                                                         style={{maxWidth: '18rem'}}
                                                     >
-                                                        <MDBCardBody className="text-primary">
+                                                        <MDBCardBody className="text-danger">
                                                             <MDBCardTitle tag="h5">
                                 Normas en workflow
                                                             </MDBCardTitle>
@@ -247,13 +247,13 @@ class DashboardComponent extends React.Component {
                                                         </MDBCardBody>
                                                     </MDBCard>
                                                 </div>
-                                                <div className="col-2">
+                                                <div className="col-md-2 col-xs-12">
                                                     <MDBCard
-                                                        border="primary"
+                                                        border="danger"
                                                         className="m-2 dashboard-card"
                                                         style={{maxWidth: '18rem'}}
                                                     >
-                                                        <MDBCardBody className="text-primary">
+                                                        <MDBCardBody className="text-danger">
                                                             <MDBCardTitle tag="h5">
                                 Normas Publicadas
                                                             </MDBCardTitle>
@@ -271,13 +271,13 @@ class DashboardComponent extends React.Component {
                                                         </MDBCardBody>
                                                     </MDBCard>
                                                 </div>
-                                                <div className="col-2">
+                                                <div className="col-md-2 col-xs-12">
                                                     <MDBCard
-                                                        border="primary"
+                                                        border="danger"
                                                         className="m-2 dashboard-card"
                                                         style={{maxWidth: '18rem'}}
                                                     >
-                                                        <MDBCardBody className="text-primary">
+                                                        <MDBCardBody className="text-danger">
                                                             <MDBCardTitle tag="h5">
                                 Normas Comentadas
                                                             </MDBCardTitle>
@@ -321,12 +321,13 @@ class DashboardComponent extends React.Component {
                                     <div className="col-5">
                                         <PanelComponent
                                             title={'Actividad workflow'}
+                                            className="vertical-timeline-wrapper"
                                         >
-                                            {this.state.lastComments && this.state.lastComments.length > 0 ? <div className="vertical-timeline-wrapper p-3">
+                                            {this.state.lastComments && this.state.lastComments.length > 0 ? <div className="p-3">
                                                 <div className="timeline-vertical dashboard-timeline">
                                                     {this.state.lastComments.map(comment => <div className="activity-log">
                                                         <p className="log-name">{comment.normaEntity.codNorma} - {comment.usuarioEntity.fullName}</p>
-                                                        <div className="log-details"><span className="text-primary ml-1">{comment.observacion}</span></div>
+                                                        <div className="log-details"><span className="text-danger ml-1">{comment.observacion}</span></div>
                                                         <small className="log-time">{new Moment(comment.createdAt).format(
                                                             Constantes.DATETIME_FORMAT
                                                         )}</small>

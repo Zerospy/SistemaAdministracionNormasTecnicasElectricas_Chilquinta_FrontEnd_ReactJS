@@ -9,7 +9,7 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 import Constantes from 'Constantes';
 import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
-import NormaService from 'services/NormaService';
+import UserService from 'services/UserService';
 import {toast} from 'react-toastify';
 import Moment from 'moment';
 
@@ -23,59 +23,37 @@ class UserComponent extends React.Component {
 
         this.gridApi = null;
 
-        this.normaService = new NormaService();
+        this.userService = new UserService();
 
         const columnDefs = [
             {
-                headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.codNorma'
-                })}`,
-                field: 'codNorma',
+                headerName: '#',
+                field: 'id',
                 width: 120
             },
             {
-                headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.nombre'
-                })}`,
-                field: 'nombre',
+                headerName: 'Nombres',
+                field: 'nombres',
                 width: 380
             },
             {
-                headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.descripcion'
-                })}`,
-                field: 'descripcion',
+                headerName: 'Apellidos',
+                field: 'apellidos',
                 width: 360
             },
             {
-                headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.estado'
-                })}`,
-                field: 'estado.descripcion',
+                headerName: 'Email',
+                field: 'email',
                 width: 140
             },
             {
-                headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.fecha'
-                })}`,
-                field: 'fecha',
-                width: 180
-            },
-            {
-                headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.actions'
-                })}`,
+                headerName: 'Administrador',
                 field: 'id',
-                cellRenderer: 'CommentsButtonGridRenderer',
-                onClick: norma => {
-                    this.setState({
-                        selectedNorma: norma,
-                        modalComments: true
-                    });
-                },
+                cellRenderer: 'CustomCheckboxRenderer',
+                onClick: user => {},
                 editable: false,
                 colId: 'id',
-                width: 50
+                width: 150
             }
         ];
 
@@ -94,19 +72,15 @@ class UserComponent extends React.Component {
         };
     }
 
-    searchNormas() {
+    searchUsers() {
         this.setState({
             loadingInformation: true
         });
 
-        this.normaService.get().then(
+        this.userService.getUsers().then(
             response => {
                 if (response.data && response.data.length > 0) {
-                    response.data.forEach(item => {
-                        item.fecha = new Moment(item.fecha).format(
-                            Constantes.DATETIME_FORMAT
-                        );
-                    });
+                    response.data.forEach(item => {});
                 }
 
                 this.setState({
@@ -115,11 +89,7 @@ class UserComponent extends React.Component {
                 });
             },
             () => {
-                toast.info(
-                    `${this.props.intl.formatMessage({
-                        id: 'component.workflow.title'
-                    })}`
-                );
+                toast.info('Ocurrió un problema al consultar los usuarios');
 
                 this.setState({
                     loadingInformation: false
@@ -129,93 +99,16 @@ class UserComponent extends React.Component {
     }
 
     componentDidMount() {
-        this.searchNormas();
+        this.searchUsers();
     }
 
     render() {
         return [
             <UserContext.Provider value={this}>
-                <CommentsModal
-                    norma={this.state.selectedNorma}
-                    isOpen={this.state.modalComments}
-                    publishing={this.state.publishing}
-                    toggle={() => {
-                        this.setState({
-                            modalComments: !this.state.modalComments
-                        });
-                    }}
-                    onSaveComment={norma => {
-                        console.log(norma);
-
-                        const rowData = this.state.rowData;
-
-                        if (rowData !== null && rowData.length > 0) {
-                            this.normaService.getById(norma.id).then(
-                                response => {
-                                    rowData.some((item, index) => {
-                                        if (item.id === norma.id) {
-                                            rowData[index].estado = response.data.estado;
-                                            return true;
-                                        }
-                                    });
-                                    this.gridApi.setRowData(rowData);
-                                },
-                                errorResponse => {
-                                    console.error(errorResponse);
-                                    toast.error(
-                                        `${this.props.intl.formatMessage({
-                                            id: 'component.workflow.modal.msg.error'
-                                        })}`
-                                    );
-                                }
-                            );
-                        }
-                    }}
-                    onSave={norma => {
-                        this.setState({
-                            publishing: true
-                        });
-
-                        this.normaService.publish(norma.id).then(
-                            () => {
-                                this.setState(
-                                    {
-                                        publishing: false,
-                                        modalComments: false
-                                    },
-                                    () => {
-                                        this.searchNormas();
-                                    }
-                                );
-                                toast.success(
-                                    `${this.props.intl.formatMessage({
-                                        id: 'component.workflow.modal.msg.success'
-                                    })}`
-                                );
-                            },
-                            () => {
-                                this.setState({
-                                    publishing: false,
-                                    modalComments: false
-                                });
-
-                                toast.error(
-                                    `${this.props.intl.formatMessage({
-                                        id: 'component.workflow.modal.msg.error'
-                                    })}`
-                                );
-                            }
-                        );
-                    }}
-                />
                 <HeaderComponent />
                 <Row>
                     <Col size="12">
-                        <PanelComponent
-                            title={`${this.props.intl.formatMessage({
-                                id: 'component.workflow.title'
-                            })}`}
-                        >
+                        <PanelComponent title={'Listado de usuarios'}>
                             <Row>
                                 <Col size="4">
                                     <Input
@@ -236,7 +129,7 @@ class UserComponent extends React.Component {
                                     <Button
                                         size="sm"
                                         onClick={() => {
-                                            this.searchNormas();
+                                            this.searchUsers();
                                         }}
                                     >
                                         {' '}

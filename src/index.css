@@ -22732,8 +22732,8 @@ footer ul li a {
     text-align: center;
     margin-top: 15px; }
     .dashboard-card h2 a:hover {
-      color: #007bff8a !important;
-      text-shadow: 0px 0px 2px darkblue; }
+      color: #ff06068a !important;
+      text-shadow: 0px 0px 2px darkred; }
 
 /* Timeline */
 .timeline-vertical {
@@ -22762,14 +22762,16 @@ footer ul li a {
     .timeline-vertical .activity-log:before {
       content: "";
       position: absolute;
-      top: 5px;
+      top: 7px;
       left: -4px;
-      background: #007bff;
-      border: 4px solid silver;
-      width: 15px;
-      height: 15px;
+      background: #ff0000a1;
+      width: 10px;
+      height: 10px;
       border-radius: 100px;
-      z-index: 1; }
+      z-index: 1;
+      -webkit-box-shadow: 0 0 8px 2px rgba(255, 0, 0, 0.4);
+      -moz-box-shadow: 0 0 8px 2px rgba(255, 0, 0, 0.4);
+      box-shadow: 0 0 8px 2px rgba(255, 0, 0, 0.4); }
     .timeline-vertical .activity-log .log-name {
       font-weight: 500;
       line-height: 1.2;
@@ -22792,7 +22794,9 @@ footer ul li a {
       line-height: 1; }
 
 .vertical-timeline-wrapper {
-  overflow: hidden; }
+  max-height: 337px;
+  overflow-y: auto;
+  overflow-x: hidden; }
 
 .background-login-form {
   /*background-image: url("./assets/img/fondocalidad.jpg");*/
