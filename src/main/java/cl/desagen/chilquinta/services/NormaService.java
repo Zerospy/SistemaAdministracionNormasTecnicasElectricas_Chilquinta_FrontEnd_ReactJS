@@ -5,6 +5,7 @@ import cl.desagen.chilquinta.entities.EstadosEntity;
 import cl.desagen.chilquinta.entities.NormaEntity;
 import cl.desagen.chilquinta.entities.UsuarioEntity;
 import cl.desagen.chilquinta.enums.EstadoNorma;
+import cl.desagen.chilquinta.enums.TipoNorma;
 import cl.desagen.chilquinta.exceptions.BusinessException;
 import cl.desagen.chilquinta.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +70,16 @@ public class NormaService {
     }
 
     public NormaEntity save(NormaEntity normaEntity) {
+
+        if (normaEntity != null && normaEntity.getId() != null) {
+            Timestamp tsFromInstant = Timestamp.from(Instant.now());
+            normaEntity.setFecha(tsFromInstant);
+            normaEntity.setDownloadCounter(0);
+            normaEntity.setTipoNorma(TipoNorma.NACIONAL);
+            Optional<EstadosEntity> normaEstado = estadosRepository.findById(Long.valueOf(EstadoNorma.EN_REVISION.value));
+            normaEntity.setEstado(normaEstado.get());
+        }
+
         return normaRepository.save(normaEntity);
 
     }
@@ -136,6 +149,7 @@ public class NormaService {
         }
 
     }
+
     public void dardeBajaNorma(Integer id, String username) throws BusinessException {
 
         Optional<NormaEntity> normaEntityOptional = normaRepository.findById(id);
