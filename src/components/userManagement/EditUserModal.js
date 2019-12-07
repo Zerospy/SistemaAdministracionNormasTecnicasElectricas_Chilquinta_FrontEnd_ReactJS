@@ -7,6 +7,9 @@ import {
     ModalHeader,
     ModalFooter,
     Input,
+    MDBSwitch,
+    MDBInput,
+    MDBFileInput,
     Fa,
     Row,
     Col
@@ -21,7 +24,6 @@ import {toast} from 'react-toastify';
 import pdf from 'assets/img/pdf.png';
 import cad from 'assets/img/cad.png';
 import {Link} from 'react-router-dom';
-import {saveAs} from 'file-saver';
 
 class EditUserModal extends React.Component {
     constructor(props) {
@@ -50,7 +52,48 @@ class EditUserModal extends React.Component {
                     <ModalHeader toggle={toggle}>
             Agregar/Modificar Información de usuario
                     </ModalHeader>
-                    <ModalBody></ModalBody>
+                    <ModalBody>
+                        <Row>
+                            <Col>
+                                <MDBInput label="Nombres" />
+                            </Col>
+                            <Col>
+                                <MDBInput label="Apellidos" />
+                            </Col>
+                            <Col>
+                                <MDBInput label="Usuario" />
+                            </Col>
+                            <Col>
+                                <MDBInput label="Clave" />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <MDBInput label="Email" />
+                            </Col>
+                            <Col>
+                                <MDBFileInput
+                                    btnTitle={'Cargar'}
+                                    textFieldTitle={'Imagen Avantar'}
+                                    btnColor={'primary'}
+                                />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <div>
+                                    <label>Activo</label>
+                                    <MDBSwitch labelRight="Sí" labelLeft="No" />
+                                </div>
+                            </Col>
+                            <Col>
+                                <div>
+                                    <label>Administrador</label>
+                                    <MDBSwitch labelRight="Sí" labelLeft="No" />
+                                </div>
+                            </Col>
+                        </Row>
+                    </ModalBody>
                     <ModalFooter></ModalFooter>
                 </Modal>
             </Container>
