@@ -50,7 +50,7 @@ class DetalleEditarNormaModal extends React.Component {
             rowData: [],
             loadingInformation: false,
             modalEdit: false,
-            codigoNorma: '',
+            codigoNorma:  '',
             nombreNorma: '',
             normadescripcion: ''
             
@@ -76,25 +76,74 @@ class DetalleEditarNormaModal extends React.Component {
         });
     }
     
+    
     saveNorma = () => {
-        const normaId = this.props.norma.id;
+       
         const {onSaveNorma, norma} = this.props;
-        let params = {
-                codNorma: this.state.codigoNorma, nombre: this.state.nombreNorma,
-                descripcion: this.state.normadescripcion
-            }
-        this.normaService
-            .post(normaId, {params}
-            )
-            .then(response => {
-                const data = response.data;
-              
-                  console.log(params);
-                  console.log(this.state.normadescripcion);
-                    console.log(response);
-            })}
-          
+        const id = this.props.norma.id;
+        const normaId = this.props.norma.id;
+        const codNorma = this.props.norma.codNorma;
 
+        if(this.state.codigoNorma === '' || this.state.codigoNorma === null){
+
+            this.state.codigoNorma =  JSON.stringify(this.props.norma, ['codNorma'])
+            .split('{"codNorma":"')
+            .join('');
+            this.state.codigoNorma = this.state.codigoNorma.split('"}').join('');
+        } 
+        if(this.state.nombreNorma === '' || this.state.nombreNorma === null){
+
+            this.state.nombreNorma =  JSON.stringify(this.props.norma,  ['nombre'])
+            .split('{"nombre":"')
+            .join('');
+            this.state.nombreNorma = this.state.nombreNorma.split('"}').join('');
+             
+        }
+        if(this.state.normadescripcion === '' || this.state.normadescripcion === null){
+
+            this.state.normadescripcion =  JSON.stringify(this.props.norma, ['descripcion'])
+            .split('{"descripcion":"')
+            .join('');
+            this.state.normadescripcion = this.state.normadescripcion.split('"}').join('');
+        }
+        let params = { 
+            codNorma: this.state.codigoNorma, nombre: this.state.nombreNorma ,descripcion : this.state.normadescripcion }
+        
+       
+        this.normaService
+        .updateNorma(id,params
+        )
+        .then(response => {
+            const data = response.data;
+          
+              console.log(params);
+              console.log(this.state.normadescripcion);
+                console.log(response);
+                this.props.toggle();
+                this.search
+                toast.success(
+                    `${this.props.intl.formatMessage({
+                        id: 'component.normas.modal.edit.success'
+                    })}`
+                );
+    
+               
+        },() => {
+            toast.error(
+                `${this.props.intl.formatMessage({
+                    id: 'component.normas.modal.edit.error'
+                })}`
+            );
+
+            this.setState({
+                savingNorma: false
+            });
+        }
+    );
+        
+        } 
+          
+       
         /*
         .then(
             response => {
@@ -128,7 +177,9 @@ class DetalleEditarNormaModal extends React.Component {
 };
 */
         publishToWorkflow = () => {
+            const id = this.props.norma.id;
             const normaId = this.props.norma.id;
+
 
             let formData = new FormData();
             formData.append('file', this.state.pdfFile);
@@ -161,36 +212,52 @@ class DetalleEditarNormaModal extends React.Component {
                     rowData: []
                 });
                 this.getNorma(this.props.norma);
+             
             }
         }
         handleChange(event) {
             this.setState({ value: event.target.value });
         }
 
-        onChangeDescripcion = (e) => {
+        onChangeDescripcion = (f) => {
             this.setState({
-                normadescripcion: e.target.value
+               
+                normadescripcion: f.target.value
+               
+              
+            })
+        }
+        onChangeCodNorma = (e) => {
+            this.setState({
+                codigoNorma: e.target.value,
+                  
+
 
             })
         }
+        onChangeNombreNorma = (g) => {
+            this.setState({
+                nombreNorma: g.target.value
 
+            })
+        }
         render() {
             const { toggle, isOpen, onSave, norma } = this.props;
 
             const normaid0 = JSON.stringify(this.props.norma, ['codNorma'])
                 .split('{"codNorma":"')
                 .join('');
-            const normaid = normaid0.split('"}').join('');
+            const codigoNorma = normaid0.split('"}').join('');
 
             const normaname0 = JSON.stringify(this.props.norma, ['nombre'])
                 .split('{"nombre":"')
                 .join('');
-            const normaname = normaname0.split('"}').join('');
+            const nombreNorma = normaname0.split('"}').join('');
 
             const normadesc0 = JSON.stringify(this.props.norma, ['descripcion'])
                 .split('{"descripcion":"')
                 .join('');
-            const normadesc = normadesc0.split('"}').join('');
+            const normadescripcion = normadesc0.split('"}').join('');
 
             const normafecha0 = JSON.stringify(this.props.norma, ['fecha'])
                 .split('{"fecha":"')
@@ -216,8 +283,8 @@ class DetalleEditarNormaModal extends React.Component {
                                             type="text"
                                             className="form-control"
                                             id="formGroupExampleInput"
-                                            defaultValue={normaid}
-                                            onChange={this.handleChange}
+                                            defaultValue={codigoNorma}
+                                            onChange={this.onChangeCodNorma}
                                         />
 
                                         <label htmlFor="formGroupExampleInput">Nombre Norma</label>
@@ -225,8 +292,8 @@ class DetalleEditarNormaModal extends React.Component {
                                             type="text"
                                             className="form-control"
                                             id="formGroupExampleInput"
-                                            defaultValue={normaname}
-                                            onChange={this.handleChange}
+                                            defaultValue={nombreNorma}
+                                            onChange={this.onChangeNombreNorma}
                                         />
 
                                         <label htmlFor="formGroupExampleInput">
@@ -236,9 +303,9 @@ class DetalleEditarNormaModal extends React.Component {
                                             type="text"
                                             className="form-control"
                                             id="formGroupExampleInput"
-                                            defaultValue={normadesc}
+                                            defaultValue={normadescripcion}
                                             onChange={this.onChangeDescripcion}
-                                            readOnly={this.state.savingNorma}
+                                            
                                         />
                                        
                                         <label>PDF</label>
@@ -269,7 +336,7 @@ class DetalleEditarNormaModal extends React.Component {
                                     <Button
                                         disabled={!this.state.pdfFile || !this.state.cadFile}
                                         color="primary"
-                                        onClick={this.publishToWorkflow, this.saveNorma}
+                                        onClick={this.publishToWorkflow}
                                     >
                                         {this.state.savingNorma ? (
                                             <Fa icon="spinner" className="fa-1x fa-spin" />
@@ -280,7 +347,9 @@ class DetalleEditarNormaModal extends React.Component {
                                     <Button
                                         disabled={this.state.savingNorma}
                                         color="primary"
-                                        onClick={this.saveNorma}
+                                        onClick={this.saveNorma
+                                        }
+                                        
                                     >
                                         {this.state.savingNorma ? (
                                             <Fa icon="spinner" className="fa-1x fa-spin" />

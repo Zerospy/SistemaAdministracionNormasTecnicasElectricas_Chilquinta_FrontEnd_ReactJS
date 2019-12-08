@@ -366,8 +366,10 @@ class NormasComponent extends React.Component {
                     isOpen={this.state.modalEdit}
                     toggle={() => {
                         this.setState({
-                            modalEdit: !this.state.modalEdit
+                            modalEdit: !this.state.modalEdit 
+                            
                         });
+                        this.searchNormas();
                     }}
                 />
                 
@@ -425,7 +427,7 @@ class NormasComponent extends React.Component {
                                     );
                                     toast.success(
                                         `${this.props.intl.formatMessage({
-                                            id: 'component.workflow.modal.msg.success'
+                                            id: 'component.modal.succes.baja'
                                         })}`
                                     );
                                 },
