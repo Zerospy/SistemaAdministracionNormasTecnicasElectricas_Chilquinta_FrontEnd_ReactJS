@@ -17,15 +17,16 @@ public class SessionUser extends org.springframework.security.core.userdetails.U
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column
+    private String fullName;
+
     private String username;
 
-    @Column
     @JsonIgnore
     private String password;
 
-    @Column
     private Boolean admin;
+
+    private String jwttoken;
 
     public SessionUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
@@ -38,4 +39,5 @@ public class SessionUser extends org.springframework.security.core.userdetails.U
         this.username = username;
         this.password = password;
     }
+
 }

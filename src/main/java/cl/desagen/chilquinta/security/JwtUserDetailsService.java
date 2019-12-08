@@ -32,6 +32,7 @@ public class JwtUserDetailsService implements UserDetailsService {
             UsuarioEntity usuarioEntity = usuarioEntityOptional.get();
             sessionUser = new SessionUser(usuarioEntity.getUsuario(), bcryptEncoder.encode(usuarioEntity.getClave()), new ArrayList<>());
             sessionUser.setId(usuarioEntity.getId());
+            sessionUser.setFullName(usuarioEntity.getFullName());
             sessionUser.setAdmin(usuarioEntity.getAdministrador());
         }
 
