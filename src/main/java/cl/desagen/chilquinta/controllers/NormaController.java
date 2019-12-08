@@ -3,6 +3,7 @@ package cl.desagen.chilquinta.controllers;
 import cl.desagen.chilquinta.commons.Constants;
 import cl.desagen.chilquinta.entities.NormaEntity;
 import cl.desagen.chilquinta.enums.EstadoNorma;
+import cl.desagen.chilquinta.repositories.NormaRepository;
 import cl.desagen.chilquinta.security.JwtTokenUtil;
 import cl.desagen.chilquinta.services.NormaService;
 import org.slf4j.Logger;
@@ -29,6 +30,9 @@ public class NormaController {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private NormaRepository normaRepository;
 
     @GetMapping(value = "/", produces = APPLICATION_JSON_UTF8_VALUE)
     public Iterable<NormaEntity> findAll() {
@@ -107,7 +111,7 @@ public class NormaController {
 
     }
 
-    @PostMapping(value = "/dardebaja/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value ="/dardebaja/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity dardeBajaNorma(HttpServletRequest httpServletRequest, @PathVariable Integer id) {
 
         try {
@@ -124,4 +128,29 @@ public class NormaController {
 
     }
 
+
+             @PostMapping(value ="/updateNorma/{id}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+            public ResponseEntity<NormaEntity> updateNorma(HttpServletRequest httpServletRequest, @PathVariable Integer id, @RequestBody NormaEntity normaEntity){
+
+                 try {
+
+                 String username = jwtTokenUtil.getUsernameFromRequest(httpServletRequest);
+                 NormaEntity normaUpdated = normaRepository.save(normaEntity);
+
+
+
+                  normaService.updateNorma(id, normaEntity, username);
+
+
+
+                 return new ResponseEntity<NormaEntity>(normaUpdated, HttpStatus.OK);
+                 } catch (Exception e) {
+                     if (log.isErrorEnabled()) {
+                         log.error(Constants.BAD_REQUEST_MESSAGE, e.getMessage(), e);
+                     }
+                     return new ResponseEntity(HttpStatus.BAD_REQUEST);
+                 }
+
+
+           }
 }

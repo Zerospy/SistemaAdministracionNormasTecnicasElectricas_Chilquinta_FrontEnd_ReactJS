@@ -12,6 +12,7 @@ public class ComponenteEntity {
     private String codNorma;
     private String tipo;
     private Integer estado;
+    private String descripcion;
 
     @Id
     @Column(name = "id")
@@ -50,6 +51,7 @@ public class ComponenteEntity {
     }
 
     public void setCodNorma(String codNorma) {
+
         this.codNorma = codNorma;
     }
 
@@ -72,6 +74,15 @@ public class ComponenteEntity {
     public void setEstado(Integer estado) {
         this.estado = estado;
     }
+    @Basic
+    @Column(name = "descripcion")
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -83,12 +94,13 @@ public class ComponenteEntity {
                 Objects.equals(nombre, that.nombre) &&
                 Objects.equals(codNorma, that.codNorma) &&
                 Objects.equals(tipo, that.tipo) &&
+                Objects.equals(descripcion, that.descripcion) &&
                 Objects.equals(estado, that.estado);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, codSap, nombre, codNorma, tipo, estado);
+        return Objects.hash(id, codSap, nombre, codNorma, tipo, estado, descripcion);
     }
 }
