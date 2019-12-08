@@ -19,9 +19,6 @@ public class JwtUserDetailsService implements UserDetailsService {
     private PasswordEncoder bcryptEncoder;
 
     @Autowired
-    private JwtUserDetailsService userDetailsService;
-
-    @Autowired
     private UsuarioService usuarioService;
 
     @Override
@@ -29,16 +26,19 @@ public class JwtUserDetailsService implements UserDetailsService {
 
         Optional<UsuarioEntity> usuarioEntityOptional = usuarioService.findByUsuario(username);
 
-        SessionUser sessionUser = new SessionUser();
-        sessionUser.setUsername(username);
+        SessionUser sessionUser = null;
 
-        usuarioEntityOptional.ifPresent(usuarioEntity -> sessionUser.setPassword(bcryptEncoder.encode(usuarioEntity.getClave())));
+        if (usuarioEntityOptional.isPresent()) {
+            UsuarioEntity usuarioEntity = usuarioEntityOptional.get();
+            sessionUser = new SessionUser(usuarioEntity.getUsuario(), bcryptEncoder.encode(usuarioEntity.getClave()), new ArrayList<>());
+            sessionUser.setId(usuarioEntity.getId());
+            sessionUser.setAdmin(usuarioEntity.getAdministrador());
+        }
 
         if (username == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        return new org.springframework.security.core.userdetails.User(sessionUser.getUsername(), sessionUser.getPassword(),
-                new ArrayList<>());
+        return sessionUser;
     }
 
 }

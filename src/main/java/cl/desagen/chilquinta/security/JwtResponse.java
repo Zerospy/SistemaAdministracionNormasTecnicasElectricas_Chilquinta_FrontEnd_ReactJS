@@ -1,16 +1,17 @@
 package cl.desagen.chilquinta.security;
 
-import java.io.Serializable;
+import lombok.Data;
 
-public class JwtResponse implements Serializable {
-    private static final long serialVersionUID = -8091879091924046844L;
+@Data
+public class JwtResponse extends SessionUser {
+
     private final String jwttoken;
 
-    public JwtResponse(String jwttoken) {
+    public JwtResponse(SessionUser userDetails, String jwttoken) {
+        super(userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
+        this.setId(userDetails.getId());
+        this.setAdmin(userDetails.getAdmin());
         this.jwttoken = jwttoken;
     }
 
-    public String getToken() {
-        return this.jwttoken;
-    }
 }

@@ -1,10 +1,7 @@
 package cl.desagen.chilquinta.controllers;
 
 import cl.desagen.chilquinta.entities.UsuarioEntity;
-import cl.desagen.chilquinta.security.JwtRequest;
-import cl.desagen.chilquinta.security.JwtResponse;
-import cl.desagen.chilquinta.security.JwtTokenUtil;
-import cl.desagen.chilquinta.security.JwtUserDetailsService;
+import cl.desagen.chilquinta.security.*;
 import cl.desagen.chilquinta.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.bind.DatatypeConverter;
@@ -39,10 +35,10 @@ public class JwtAuthenticationController {
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-        final UserDetails userDetails = userDetailsService
+        final SessionUser userDetails = (SessionUser) userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(token));
+        return ResponseEntity.ok(new JwtResponse(userDetails, token));
     }
 
     private void authenticate(String username, String password) throws Exception {
@@ -62,7 +58,7 @@ public class JwtAuthenticationController {
 
             UsuarioEntity usuarioEntity = usuarioEntityOptional.get();
 
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, usuarioEntity.getClave()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuarioEntity.getUsuario(), usuarioEntity.getClave()));
 
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
