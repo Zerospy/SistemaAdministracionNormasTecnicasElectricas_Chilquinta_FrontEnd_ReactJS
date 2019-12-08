@@ -174,7 +174,6 @@ class DashboardComponent extends React.Component {
                                 <div className="row">
                                     <div className="col-12 m-3">
                                         <h4 className="">Dashboard</h4>
-                                        <p className="text-gray">Bienvenido</p>
                                     </div>
                                 </div>
                                 <div className="row">

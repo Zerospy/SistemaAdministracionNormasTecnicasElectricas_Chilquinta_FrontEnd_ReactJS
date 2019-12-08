@@ -5,6 +5,7 @@ import SidebarComponent from 'components/commons/SidebarComponent';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import LoginService from 'services/LoginService';
 
 class HeaderComponent extends React.Component {
     showSettings(event) {
@@ -13,6 +14,9 @@ class HeaderComponent extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.loginService = new LoginService();
+        this.sessionInformation = this.loginService.getSessionInformation();
 
         this.state = {
             pageTitle: <FormattedMessage id="app.title" />
@@ -34,10 +38,14 @@ class HeaderComponent extends React.Component {
                         noPrint: this.props.print === false
                     })}
                 />
-                <div className="col-10 page-title mt-3">
+                <div className="col-8 page-title mt-3">
                     <h4 className="text-center text-bold mt-2">{this.state.pageTitle}</h4>
                 </div>
-                <div className="col-1" />
+                <div className="col-3 page-title mt-3">
+                    <span className="text-gray text-center user-welcome">
+            Bienvenido, <span>{this.sessionInformation.fullName}</span>
+                    </span>
+                </div>
             </Row>
         );
     }
