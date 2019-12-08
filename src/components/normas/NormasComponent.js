@@ -15,6 +15,7 @@ import DetalleEditarNormaModal from './DetalleEditarNormaModal';
 import Moment from 'moment';
 import {saveAs} from 'file-saver';
 import DardebajaModal from './DardebajaModal';
+import LoginService from 'services/LoginService';
 
 class NormasComponent extends React.Component {
     showSettings(event) {
@@ -37,6 +38,9 @@ class NormasComponent extends React.Component {
         this.normaService = new NormaService();
         this.userService = new UserService();
 
+        this.loginService = new LoginService();
+        this.sessionInformation = this.loginService.getSessionInformation();
+        
         const columnDefs = [
             {
                 headerName: `${props.intl.formatMessage({
@@ -478,6 +482,7 @@ class NormasComponent extends React.Component {
                                     </Button>
                                     <MDBBtn onClick={this.toggle}
                                         size="sm"
+                                        disabled={!this.sessionInformation.admin}
                                     >
 
                                         <Fa icon="plus" />

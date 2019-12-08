@@ -6,10 +6,11 @@ import {injectIntl} from 'react-intl';
 class EditButtonGridRenderer extends Component {
     render() {
         const {onClick} = this.props.colDef;
-        const {node} = this.props;
+        const {node, colDef} = this.props;
         const {data} = node;
         return (
             <Button
+                disabled={data === null || !colDef.enabled}
                 color={'info'}
                 className="btn-grid"
                 onClick={onClick.bind(this, node)}

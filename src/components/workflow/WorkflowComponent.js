@@ -10,6 +10,7 @@ import Constantes from 'Constantes';
 import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import NormaService from 'services/NormaService';
+import LoginService from 'services/LoginService';
 import {toast} from 'react-toastify';
 import Moment from 'moment';
 
@@ -24,6 +25,9 @@ class WorkflowComponent extends React.Component {
         this.gridApi = null;
 
         this.normaService = new NormaService();
+
+        this.loginService = new LoginService();
+        this.sessionInformation = this.loginService.getSessionInformation();
 
         const columnDefs = [
             {
@@ -73,6 +77,7 @@ class WorkflowComponent extends React.Component {
                         modalComments: true
                     });
                 },
+                enabled: this.sessionInformation.admin,
                 editable: false,
                 colId: 'id',
                 width: 50
@@ -137,7 +142,7 @@ class WorkflowComponent extends React.Component {
             <WorkflowContext.Provider value={this}>
                 <CommentsModal
                     norma={this.state.selectedNorma}
-                    isOpen={this.state.modalComments}
+                    isOpen={this.state.modalComments && this.sessionInformation.admin}
                     publishing={this.state.publishing}
                     toggle={() => {
                         this.setState({

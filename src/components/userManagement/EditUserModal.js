@@ -7,7 +7,6 @@ import {
     ModalHeader,
     ModalFooter,
     Input,
-    MDBSwitch,
     MDBInput,
     MDBFileInput,
     Fa,
@@ -17,6 +16,7 @@ import {
 import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import PanelComponent from 'components/commons/panels/PanelComponent';
+import InputSwitch from 'components/commons/base/InputSwitch';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import Constantes from 'Constantes';
 import NormaService from 'services/NormaService';
@@ -30,7 +30,16 @@ class EditUserModal extends React.Component {
         super(props);
 
         this.state = {
-            loadingInformation: false
+            loadingInformation: false,
+            name: '',
+            lastName: '',
+            username: '',
+            password: '',
+            email: '',
+            avatar: '',
+            enabled: false,
+            admin: false,
+            user: null
         };
     }
 
@@ -40,6 +49,32 @@ class EditUserModal extends React.Component {
       this.props.user !== null &&
       this.props.user !== prevProps.user
         ) {
+            /**
+                administrador: false
+                apellidos: "Steffens Aburto"
+                clave: "cf9e7ac87e8a11e68b98b093d21625d0"
+                claveTextoPlano: null
+                email: "steffen@chilquinta.cl"
+                estado: 1
+                fullName: "Enrique Steffens Aburto"
+                id: 1
+                nombres: "Enrique"
+                timestamp: null
+                urlAvatar: null
+                usuario: "esteffen"
+             */
+            const {data} = this.props.user;
+            this.setState({
+                id: data.id,
+                name: data.nombres,
+                lastName: data.apellidos,
+                username: data.usuario,
+                password: '',
+                email: data.email,
+                avatar: data.urlAvatar,
+                enabled: data.estado,
+                admin: data.administrador
+            });
         }
     }
 
@@ -55,27 +90,62 @@ class EditUserModal extends React.Component {
                     <ModalBody>
                         <Row>
                             <Col>
-                                <MDBInput label="Nombres" />
+                                <MDBInput
+                                    label="Nombres"
+                                    value={this.state.name}
+                                    onChange={event => {
+                                        this.setState({name: event.target.value});
+                                    }}
+                                />
                             </Col>
                             <Col>
-                                <MDBInput label="Apellidos" />
+                                <MDBInput
+                                    label="Apellidos"
+                                    value={this.state.lastName}
+                                    onChange={event => {
+                                        this.setState({lastName: event.target.value});
+                                    }}
+                                />
                             </Col>
                             <Col>
-                                <MDBInput label="Usuario" />
+                                <MDBInput
+                                    label="Usuario"
+                                    value={this.state.username}
+                                    onChange={event => {
+                                        this.setState({username: event.target.value});
+                                    }}
+                                />
                             </Col>
                             <Col>
-                                <MDBInput label="Clave" />
+                                <MDBInput
+                                    label="Clave"
+                                    value={this.state.password}
+                                    onChange={event => {
+                                        this.setState({password: event.target.value});
+                                    }}
+                                />
                             </Col>
                         </Row>
                         <Row>
                             <Col>
-                                <MDBInput label="Email" />
+                                <MDBInput
+                                    label="Email"
+                                    value={this.state.email}
+                                    onChange={event => {
+                                        this.setState({email: event.target.value});
+                                    }}
+                                />
                             </Col>
                             <Col>
                                 <MDBFileInput
                                     btnTitle={'Cargar'}
                                     textFieldTitle={'Imagen Avantar'}
                                     btnColor={'primary'}
+                                    value={this.state.avatar}
+                                    onChange={event => {
+                                        this.setState({avatar: event.target.value});
+                                    }}
+                                    accept="image/png, image/jpeg"
                                 />
                             </Col>
                         </Row>
@@ -83,13 +153,27 @@ class EditUserModal extends React.Component {
                             <Col>
                                 <div>
                                     <label>Activo</label>
-                                    <MDBSwitch labelRight="Sí" labelLeft="No" />
+                                    <InputSwitch
+                                        rightText="Sí"
+                                        leftText="No"
+                                        value={this.state.enabled}
+                                        onChange={event => {
+                                            this.setState({enabled: event.target.checked});
+                                        }}
+                                    />
                                 </div>
                             </Col>
                             <Col>
                                 <div>
                                     <label>Administrador</label>
-                                    <MDBSwitch labelRight="Sí" labelLeft="No" />
+                                    <InputSwitch
+                                        rightText="Sí"
+                                        leftText="No"
+                                        value={this.state.admin}
+                                        onChange={event => {
+                                            this.setState({admin: event.target.checked});
+                                        }}
+                                    />
                                 </div>
                             </Col>
                         </Row>

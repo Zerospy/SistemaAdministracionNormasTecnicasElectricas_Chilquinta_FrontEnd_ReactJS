@@ -26,9 +26,9 @@ export default class HttpServiceConfig {
             config => {
                 const sessionInformation = this.LoginService.getSessionInformation();
 
-                if (sessionInformation && sessionInformation.token) {
+                if (sessionInformation && sessionInformation.jwttoken) {
                     config.headers = {
-                        Authorization: `Bearer ${sessionInformation.token}`
+                        Authorization: `Bearer ${sessionInformation.jwttoken}`
                     };
                 }
 
