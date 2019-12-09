@@ -46,10 +46,26 @@ class CrearNormaComponent extends React.Component {
            
         };
     }
+    getNorma(norma){
+
+        this.normaService.get(norma)
+        .then((res) => {  
+
+          const data = res.data;
+          
+          this.setState({
+
+            idData : res.data !== null ? res.data:[]
+
+          });
+          } )
+      }
 
 
     publishToWorkflow = () => {
-        const normaId = "1";
+        const normaId = '721';
+         
+
         var a = Moment().toObject();
         var b = { year: a.years, month: a.months + 1, day: a.date, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds};  
         
@@ -83,6 +99,7 @@ class CrearNormaComponent extends React.Component {
                     id: 'component.normas.modal.msg.success.crear'
                 })}`
             );
+
         let formData = new FormData();
         formData.append('file', this.state.pdfFile);
 
@@ -117,7 +134,7 @@ class CrearNormaComponent extends React.Component {
     }
     onChangeDescripcion = (e) => {
         this.setState({
-            normaDescripcion: e.target.value
+            normadescripcion: e.target.value
 
         })
     }
@@ -178,7 +195,7 @@ class CrearNormaComponent extends React.Component {
                                                     }}/>
                                             <Col className="offset-9" size="4">
                                             <Button 
-                                             disabled={!this.state.nombreNorma|| !this.state.codigoNorma||!this.state.normaDescripcion 
+                                             disabled={!this.state.nombreNorma|| !this.state.codigoNorma||!this.state.normadescripcion 
                                                 ||!this.state.pdfFile || !this.state.cadFile}
                                             color="primary"
                                             onClick={this.publishToWorkflow}

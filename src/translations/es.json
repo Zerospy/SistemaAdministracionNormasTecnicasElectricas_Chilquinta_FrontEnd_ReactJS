@@ -55,6 +55,7 @@
     "component.dataGrid.DardeBaja":"Dar de Baja",
     "component.dataGrid.DardeBajaGrid":"Dar de baja",
     "component.dataGrid.DardeBajaButton":"Dar de baja",
+    "component.modal.succes.baja":"Norma dada de baja correctamente",
 
     "component.dataGrid.validateIfra": "Validar IFRA",
     "component.dataGrid.comments": "Agregar comentarios",
