@@ -10,6 +10,7 @@ import Constantes from 'Constantes';
 import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import UserService from 'services/UserService';
+import LoginService from 'services/LoginService';
 import {toast} from 'react-toastify';
 import Moment from 'moment';
 
@@ -24,6 +25,8 @@ class UserComponent extends React.Component {
         this.gridApi = null;
 
         this.userService = new UserService();
+        this.loginService = new LoginService();
+        this.sessionInformation = this.loginService.getSessionInformation();
 
         const columnDefs = [
             {
@@ -57,7 +60,7 @@ class UserComponent extends React.Component {
                         modalUsers: true
                     });
                 },
-                editable: false,
+                enabled: this.sessionInformation.admin,
                 colId: 'id',
                 width: 150
             }
@@ -78,99 +81,100 @@ class UserComponent extends React.Component {
         };
     }
 
-    searchUsers() {
-        this.setState({
-            loadingInformation: true
-        });
+  searchUsers = () => {
+      this.setState({
+          loadingInformation: true
+      });
 
-        this.userService.getUsers().then(
-            response => {
-                if (response.data && response.data.length > 0) {
-                    response.data.forEach(item => {});
-                }
+      this.userService.getUsers().then(
+          response => {
+              if (response.data && response.data.length > 0) {
+                  response.data.forEach(item => {});
+              }
 
-                this.setState({
-                    rowData: response !== null ? response.data : [],
-                    loadingInformation: false
-                });
-            },
-            () => {
-                toast.info('Ocurrió un problema al consultar los usuarios');
+              this.setState({
+                  rowData: response !== null ? response.data : [],
+                  loadingInformation: false
+              });
+          },
+          () => {
+              toast.info('Ocurrió un problema al consultar los usuarios');
 
-                this.setState({
-                    loadingInformation: false
-                });
-            }
-        );
-    }
+              this.setState({
+                  loadingInformation: false
+              });
+          }
+      );
+  };
 
-    componentDidMount() {
-        this.searchUsers();
-    }
+  componentDidMount() {
+      this.searchUsers();
+  }
 
-    render() {
-        return [
-            <UserContext.Provider value={this}>
-                <EditUserModal
-                    user={this.state.selectedUser}
-                    isOpen={this.state.modalUsers}
-                    toggle={() => {
-                        this.setState({
-                            modalUsers: !this.state.modalUsers
-                        });
-                    }}
-                />
-                <HeaderComponent />
-                <Row>
-                    <Col size="12">
-                        <PanelComponent title={'Listado de usuarios'}>
-                            <Row>
-                                <Col size="4">
-                                    <Input
-                                        size="sm"
-                                        label={`${this.props.intl.formatMessage({
-                                            id: 'component.workflow.datagrid.search'
-                                        })}`}
-                                        value={this.state.quickFilter}
-                                        onChange={event => {
-                                            this.setState({
-                                                quickFilter: event.target.value
-                                            });
-                                        }}
-                                    />
-                                </Col>
+  render() {
+      return [
+          <UserContext.Provider value={this}>
+              <EditUserModal
+                  user={this.state.selectedUser}
+                  isOpen={this.state.modalUsers}
+                  toggle={() => {
+                      this.setState({
+                          modalUsers: !this.state.modalUsers
+                      });
+                  }}
+                  searchUsers={this.searchUsers}
+              />
+              <HeaderComponent />
+              <Row>
+                  <Col size="12">
+                      <PanelComponent title={'Listado de usuarios'}>
+                          <Row>
+                              <Col size="4">
+                                  <Input
+                                      size="sm"
+                                      label={`${this.props.intl.formatMessage({
+                                          id: 'component.workflow.datagrid.search'
+                                      })}`}
+                                      value={this.state.quickFilter}
+                                      onChange={event => {
+                                          this.setState({
+                                              quickFilter: event.target.value
+                                          });
+                                      }}
+                                  />
+                              </Col>
 
-                                <Col className="offset-6" size="2">
-                                    <Button
-                                        size="sm"
-                                        onClick={() => {
-                                            this.searchUsers();
-                                        }}
-                                    >
-                                        {' '}
-                                        <Fa icon="sync" />
-                                    </Button>
-                                </Col>
-                            </Row>
+                              <Col className="offset-6" size="2">
+                                  <Button
+                                      size="sm"
+                                      onClick={() => {
+                                          this.searchUsers();
+                                      }}
+                                  >
+                                      {' '}
+                                      <Fa icon="sync" />
+                                  </Button>
+                              </Col>
+                          </Row>
 
-                            <DataGridComponent
-                                isLoading={this.state.loadingInformation}
-                                classContainer="grid-container"
-                                columnDefs={this.state.columnDefs}
-                                rowData={this.state.rowData}
-                                pagination={true}
-                                enableColResize={true}
-                                quickFilter={this.state.quickFilter}
-                                onGridLoad={params => {
-                                    this.gridApi = params.api;
-                                }}
-                            />
-                        </PanelComponent>
-                    </Col>
-                </Row>
-            </UserContext.Provider>
-        ];
-    }
+                          <DataGridComponent
+                              isLoading={this.state.loadingInformation}
+                              classContainer="grid-container"
+                              columnDefs={this.state.columnDefs}
+                              rowData={this.state.rowData}
+                              pagination={true}
+                              enableColResize={true}
+                              quickFilter={this.state.quickFilter}
+                              onGridLoad={params => {
+                                  this.gridApi = params.api;
+                              }}
+                          />
+                      </PanelComponent>
+                  </Col>
+              </Row>
+          </UserContext.Provider>
+      ];
+  }
 }
 
 export default injectIntl(UserComponent);

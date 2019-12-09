@@ -3,6 +3,7 @@
 
     "app.general.btn.accept": "Aceptar",
     "app.general.btn.cancel": "Cerrar",
+    "app.general.btn.save": "Guardar",
     
     "legend.ban.mp": "Materias Primas Prohibidas",
     "legend.alergen.mp": "Materias Primas con Componentes Alergenos",
