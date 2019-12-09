@@ -163,7 +163,7 @@ public class NormaService {
         Optional<NormaEntity> normaEntityOptional = normaRepository.findById(id);
 
         if (normaEntityOptional.isPresent()) {
-            Optional<EstadosEntity> normaEstado = estadosRepository.findById(Long.valueOf(EstadoNorma.ANTIGUA.value));
+            Optional<EstadosEntity> normaEstado = estadosRepository.findById(Long.valueOf(EstadoNorma.DADA_DE_BAJA.value));
 
             NormaEntity normaEntity = normaEntityOptional.get();
             normaEntity.setEstado(normaEstado.orElse(null));

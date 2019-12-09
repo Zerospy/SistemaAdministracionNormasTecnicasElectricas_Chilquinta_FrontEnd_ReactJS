@@ -5,7 +5,7 @@ public enum EstadoNorma {
     EN_REVISION(1),
     CON_COMENTARIOS(2),
     PUBLICADA(3),
-    ANTIGUA(4);
+    DADA_DE_BAJA(4);
 
     public final Integer value;
 
