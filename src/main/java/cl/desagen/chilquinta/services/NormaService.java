@@ -40,6 +40,7 @@ public class NormaService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+
     @Value("${spring.mail.to}")
     private String[] mailTo;
 
@@ -60,6 +61,13 @@ public class NormaService {
 
     @Value("${spring.mail.toworkflow.body}")
     private String mailtoWorkflowBody;
+
+    @Value("${spring.mail.normaeditada.subject}")
+    private String mailNormaEditadaSubject;
+
+    @Value("${spring.mail.normaeditada.body}")
+    private String mailNormaEditadaBody;
+
 
     public Iterable<NormaEntity> findAll() {
         return normaRepository.findAll();
@@ -155,7 +163,7 @@ public class NormaService {
         Optional<NormaEntity> normaEntityOptional = normaRepository.findById(id);
 
         if (normaEntityOptional.isPresent()) {
-            Optional<EstadosEntity> normaEstado = estadosRepository.findById(Long.valueOf(EstadoNorma.ANTIGUA.value));
+            Optional<EstadosEntity> normaEstado = estadosRepository.findById(Long.valueOf(EstadoNorma.DADA_DE_BAJA.value));
 
             NormaEntity normaEntity = normaEntityOptional.get();
             normaEntity.setEstado(normaEstado.orElse(null));
@@ -173,6 +181,36 @@ public class NormaService {
             normaRepository.save(normaEntity);
 
         }
+
+    }
+    public NormaEntity updateNorma(Integer id, NormaEntity normaEntity, String username ) throws BusinessException {
+        Optional<NormaEntity> normaEntityOptional = normaRepository.findById(id);
+
+
+        if (normaEntityOptional.isPresent()) {
+
+            NormaEntity newEntity = normaEntityOptional.get();
+            newEntity.setCodNorma(normaEntity.getCodNorma());
+            newEntity.setNombre(normaEntity.getNombre());
+            newEntity.setDescripcion(normaEntity.getDescripcion());
+            newEntity = normaRepository.save(newEntity);
+
+
+
+            Optional<UsuarioEntity> usuarioEntityOptional = usuarioRepository.findByUsuario(username);
+            UsuarioEntity usuarioEntity = usuarioEntityOptional.orElse(null);
+
+            if (usuarioEntity == null) {
+                throw new BusinessException("User not found");
+            }
+            emailService.sendEmail(mailTo, String.format(mailNormaEditadaSubject, normaEntity.getCodNorma()), String.format(mailNormaEditadaBody, normaEntity.getCodNorma(), usuarioEntity.getFullName()));
+
+            return newEntity;
+
+        }else {
+            normaEntity = normaRepository.save(normaEntity);
+
+            return normaEntity;}
 
     }
 
