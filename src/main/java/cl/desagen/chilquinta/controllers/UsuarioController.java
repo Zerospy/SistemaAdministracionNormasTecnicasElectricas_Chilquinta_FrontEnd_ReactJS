@@ -89,6 +89,9 @@ public class UsuarioController {
             return new ResponseEntity(HttpStatus.OK);
 
         } catch (Exception e) {
+            if (log.isErrorEnabled()) {
+                log.error(Constants.BAD_REQUEST_MESSAGE, e.getMessage(), e);
+            }
             return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
         }
 

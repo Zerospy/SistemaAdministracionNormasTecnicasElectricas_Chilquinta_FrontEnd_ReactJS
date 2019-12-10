@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.File;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
@@ -31,7 +32,13 @@ public class UsuarioService {
 
     public UsuarioEntity save(UsuarioEntity usuarioEntity) throws NoSuchAlgorithmException {
 
-        Optional<UsuarioEntity> usuarioEntityToSaveOptional = usuarioRepository.findById(usuarioEntity.getId());
+        Optional<UsuarioEntity> usuarioEntityToSaveOptional = null;
+
+        if (usuarioEntity.getId() != null && usuarioEntity.getId() > 0) {
+            usuarioEntityToSaveOptional = usuarioRepository.findById(usuarioEntity.getId());
+        } else {
+            usuarioEntityToSaveOptional = Optional.of(new UsuarioEntity());
+        }
 
         UsuarioEntity usuarioEntityToSave;
 
@@ -65,7 +72,7 @@ public class UsuarioService {
 
     }
 
-    public UsuarioEntity saveAvatar(Integer userId, MultipartFile multipartFile) throws NoSuchAlgorithmException {
+    public UsuarioEntity saveAvatar(Integer userId, MultipartFile multipartFile) throws IOException {
 
         Optional<UsuarioEntity> usuarioEntityToSaveOptional = usuarioRepository.findById(userId);
 
@@ -74,7 +81,7 @@ public class UsuarioService {
         if (usuarioEntityToSaveOptional.isPresent()) {
             usuarioEntityToSave = usuarioEntityToSaveOptional.get();
 
-            File avatarImage = new File(multipartFile.getOriginalFilename());
+            File avatarImage = FileUtil.convert(multipartFile);
             String base64 = FileUtil.encodeFileToBase64(avatarImage);
 
             usuarioEntityToSave.setAvatarBase64(base64);

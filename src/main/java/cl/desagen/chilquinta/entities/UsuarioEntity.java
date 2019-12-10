@@ -115,7 +115,8 @@ public class UsuarioEntity {
     }
 
     @Basic
-    @Column(name = "urlAvatar")
+    @Lob
+    @Column(name = "avatarBase64")
     public String getAvatarBase64() {
         return avatarBase64;
     }
