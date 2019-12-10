@@ -2,12 +2,13 @@ import axios from 'axios';
 
 export default class NormaService {
   get = () => axios.get('/norma/');
+  getInternational = () => axios.get('/norma/internacional/all');
   getById = id => axios.get(`/norma/${id}`);
   publish = id => axios.post(`/norma/publish/${id}`);
 
   getFilter = (id, estado) => axios.get(`/norma/${estado}`);
 
-  post = params => axios.post(`/norma/`, params);
+  post = params => axios.post('/norma/', params);
 
   updateNorma = (id, params) => axios.post(`/norma/updateNorma/${id}`, params);
 
