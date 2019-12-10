@@ -220,7 +220,7 @@ class NormasComponent extends React.Component {
                         })}`
                     );
 
-                    this.props.toggle();
+                    this.toggle();
                 });
         }),
 
