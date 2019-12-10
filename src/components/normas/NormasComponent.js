@@ -266,7 +266,7 @@ class NormasComponent extends React.Component {
                     data.forEach(item => {
         
                         item.fechaStr = new Moment(item.fecha).format(
-                            Constantes.DATETIME
+                            Constantes.DATE_FORMAT
                         );
                     });
                 }
