@@ -92,6 +92,21 @@ public class NormaService {
 
     }
 
+    public NormaEntity saveInternacional(NormaEntity normaEntity) {
+
+        if (normaEntity != null && normaEntity.getId() != null) {
+            Timestamp tsFromInstant = Timestamp.from(Instant.now());
+            normaEntity.setFecha(tsFromInstant);
+            normaEntity.setDownloadCounter(0);
+            normaEntity.setTipoNorma(TipoNorma.INTERNACIONAL);
+            Optional<EstadosEntity> normaEstado = estadosRepository.findById(Long.valueOf(EstadoNorma.EN_REVISION.value));
+            normaEntity.setEstado(normaEstado.get());
+        }
+
+        return normaRepository.save(normaEntity);
+
+    }
+
     public Iterable<NormaEntity> saveAll(Iterable<NormaEntity> normaEntities) {
         return normaRepository.saveAll(normaEntities);
     }

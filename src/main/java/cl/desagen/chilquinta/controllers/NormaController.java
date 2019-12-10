@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +56,28 @@ public class NormaController {
         try {
             NormaEntity normaEntityResult = normaService.save(normaEntity);
             return new ResponseEntity(normaEntityResult, HttpStatus.OK);
+        } catch (Exception e) {
+            if (log.isErrorEnabled()) {
+                log.error(Constants.BAD_REQUEST_MESSAGE, e.getMessage(), e);
+            }
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @PostMapping(value = "/norma-internacional", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity save(@RequestBody List<NormaEntity> normaEntities) {
+
+        try {
+            List<NormaEntity> normaEntitiesResult = new ArrayList<>();
+
+            if(normaEntities != null && !normaEntities.isEmpty()){
+                normaEntities.forEach(norma -> {
+                    NormaEntity normaEntityResult = normaService.saveInternacional(norma);
+                    normaEntitiesResult.add(normaEntityResult);
+                });
+            }
+            return new ResponseEntity(normaEntitiesResult, HttpStatus.OK);
         } catch (Exception e) {
             if (log.isErrorEnabled()) {
                 log.error(Constants.BAD_REQUEST_MESSAGE, e.getMessage(), e);
