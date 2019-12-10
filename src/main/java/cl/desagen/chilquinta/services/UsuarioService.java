@@ -1,13 +1,16 @@
 package cl.desagen.chilquinta.services;
 
+import cl.desagen.chilquinta.commons.FileUtil;
 import cl.desagen.chilquinta.entities.UsuarioEntity;
 import cl.desagen.chilquinta.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.xml.bind.DatatypeConverter;
+import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
@@ -54,6 +57,27 @@ public class UsuarioService {
 
             usuarioEntityToSave.setEstado(usuarioEntity.getEstado());
             usuarioEntityToSave.setAdministrador(usuarioEntity.getAdministrador());
+
+            return usuarioRepository.save(usuarioEntityToSave);
+        }
+
+        return null;
+
+    }
+
+    public UsuarioEntity saveAvatar(Integer userId, MultipartFile multipartFile) throws NoSuchAlgorithmException {
+
+        Optional<UsuarioEntity> usuarioEntityToSaveOptional = usuarioRepository.findById(userId);
+
+        UsuarioEntity usuarioEntityToSave;
+
+        if (usuarioEntityToSaveOptional.isPresent()) {
+            usuarioEntityToSave = usuarioEntityToSaveOptional.get();
+
+            File avatarImage = new File(multipartFile.getOriginalFilename());
+            String base64 = FileUtil.encodeFileToBase64(avatarImage);
+
+            usuarioEntityToSave.setAvatarBase64(base64);
 
             return usuarioRepository.save(usuarioEntityToSave);
         }

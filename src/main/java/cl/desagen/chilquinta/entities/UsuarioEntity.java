@@ -14,11 +14,11 @@ public class UsuarioEntity {
     private String apellidos;
     private String usuario;
     private String clave;
-    private Integer estado;
+    private Boolean estado;
     private Timestamp timestamp;
     private String email;
     private String claveTextoPlano;
-    private String urlAvatar;
+    private String avatarBase64;
     private Boolean administrador;
 
 
@@ -76,11 +76,11 @@ public class UsuarioEntity {
 
     @Basic
     @Column(name = "estado")
-    public Integer getEstado() {
+    public Boolean getEstado() {
         return estado;
     }
 
-    public void setEstado(Integer estado) {
+    public void setEstado(Boolean estado) {
         this.estado = estado;
     }
 
@@ -116,12 +116,12 @@ public class UsuarioEntity {
 
     @Basic
     @Column(name = "urlAvatar")
-    public String getUrlAvatar() {
-        return urlAvatar;
+    public String getAvatarBase64() {
+        return avatarBase64;
     }
 
-    public void setUrlAvatar(String urlAvatar) {
-        this.urlAvatar = urlAvatar;
+    public void setAvatarBase64(String avatarBase64) {
+        this.avatarBase64 = avatarBase64;
     }
 
     @Basic

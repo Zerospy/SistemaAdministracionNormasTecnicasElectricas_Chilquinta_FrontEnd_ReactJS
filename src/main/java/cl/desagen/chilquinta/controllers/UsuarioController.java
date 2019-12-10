@@ -2,6 +2,7 @@ package cl.desagen.chilquinta.controllers;
 
 import cl.desagen.chilquinta.commons.Constants;
 import cl.desagen.chilquinta.entities.UsuarioEntity;
+import cl.desagen.chilquinta.enums.FileExtension;
 import cl.desagen.chilquinta.services.UsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -74,6 +76,20 @@ public class UsuarioController {
                 log.error(Constants.BAD_REQUEST_MESSAGE, e.getMessage(), e);
             }
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @PostMapping("uploadAvatar/{userId}")
+    public ResponseEntity handleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable Integer userId) {
+
+        try {
+
+            usuarioService.saveAvatar(userId, file);
+            return new ResponseEntity(HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
         }
 
     }
