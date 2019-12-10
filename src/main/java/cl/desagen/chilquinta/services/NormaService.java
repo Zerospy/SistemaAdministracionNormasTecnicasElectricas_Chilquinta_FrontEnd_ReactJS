@@ -70,7 +70,11 @@ public class NormaService {
 
 
     public Iterable<NormaEntity> findAll() {
-        return normaRepository.findAll();
+        return normaRepository.findByTipoNorma(TipoNorma.NACIONAL);
+    }
+
+    public Iterable<NormaEntity> findAllIntenational() {
+        return normaRepository.findByTipoNorma(TipoNorma.INTERNACIONAL);
     }
 
     public Iterable<NormaEntity> findAll(Pageable pageable) {

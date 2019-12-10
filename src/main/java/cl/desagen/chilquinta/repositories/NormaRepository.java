@@ -1,6 +1,7 @@
 package cl.desagen.chilquinta.repositories;
 
 import cl.desagen.chilquinta.entities.NormaEntity;
+import cl.desagen.chilquinta.enums.TipoNorma;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -18,6 +19,9 @@ public interface NormaRepository extends PagingAndSortingRepository<NormaEntity,
 
     @Query("SELECT n FROM NormaEntity n WHERE n.estado.id = :idEstadoNorma")
     List<NormaEntity> findByStatus(@Param("idEstadoNorma") Long idEstadoNorma);
+
+    @Query("SELECT n FROM NormaEntity n WHERE n.tipoNorma = :tipoNorma")
+    List<NormaEntity> findByTipoNorma(@Param("tipoNorma") TipoNorma tipoNorma);
 
     @Query("SELECT Count(n) FROM NormaEntity n")
     Integer getNormasQuantity();

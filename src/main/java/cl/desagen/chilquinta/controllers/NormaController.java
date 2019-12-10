@@ -40,6 +40,11 @@ public class NormaController {
         return normaService.findAll();
     }
 
+    @GetMapping(value = "/internacional", produces = APPLICATION_JSON_UTF8_VALUE)
+    public Iterable<NormaEntity> findAllInternacional() {
+        return normaService.findAllIntenational();
+    }
+
     @GetMapping(value = "/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
     public Optional<NormaEntity> findById(@PathVariable Integer id) {
         return normaService.findById(id);
