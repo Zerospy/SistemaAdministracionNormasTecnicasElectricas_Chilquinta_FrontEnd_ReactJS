@@ -40,7 +40,7 @@ public class NormaController {
         return normaService.findAll();
     }
 
-    @GetMapping(value = "/internacional", produces = APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/internacional/all", produces = APPLICATION_JSON_UTF8_VALUE)
     public Iterable<NormaEntity> findAllInternacional() {
         return normaService.findAllIntenational();
     }
