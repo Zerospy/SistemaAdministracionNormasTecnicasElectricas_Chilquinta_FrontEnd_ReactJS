@@ -81,7 +81,7 @@ class NormasComponent extends React.Component {
                 headerName: `${props.intl.formatMessage({
                     id: 'component.normas.datagrid.fecha'
                 })}`,
-                field: 'fecha',
+                field: 'fechaStr',
                 width: 150
             },
             {
@@ -160,31 +160,6 @@ class NormasComponent extends React.Component {
         };
     }
 
-
-    /*
-    getNorma(norma) {
-
-        this.setState({
-            modalEdit: true,
-            loadingComments: true
-        });
-
-        this.normaService.get(norma.id).then(response => {
-            const data = response.data;
-
-
-            this.setState({
-                rowData: response !== null ? response.data : [],
-
-                loadingInformation: false
-
-            });
-        });
-
-
-    }
-     */
-
     getUsuarios(usuario) {
         this.userService.get(usuario).then(response => {
             const data = response.data;
@@ -198,19 +173,6 @@ class NormasComponent extends React.Component {
             });
         });
     }
-
-    /*
-    setEstadoModel() {
-
-    var EstadoFilterComponent = this.normaService.getFilterInstance("estado");
-    var model = {
-      type: "set",
-      values: ['Publicada']
-    };
-    EstadoFilterComponent.setModel(model);
-    this.gridApi.onFilterChanged();
-
-  } */
 
     publishToWorkflow = () => {
         const normaId = '1';
@@ -297,6 +259,18 @@ class NormasComponent extends React.Component {
 
         this.normaService.estadoNormas(estadoNorma).then(
             response => {
+
+                const {data} = response;
+
+                if(data !== null && data.length > 0 ) {
+                    data.forEach(item => {
+        
+                        item.fechaStr = new Moment(item.fecha).format(
+                            Constantes.DATETIME_FORMAT
+                        );
+                    });
+                }
+
                 this.setState({
                     rowData: response !== null ? response.data : [],
                     loadingInformation: false
