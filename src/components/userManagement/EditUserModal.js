@@ -47,7 +47,7 @@ class EditUserModal extends React.Component {
 
     saveAvatarUser = () => {
         const formData = new FormData();
-        formData.append('file', this.state.pdfFile);
+        formData.append('file', this.state.avatar);
 
         return this.userService.uploadUserAvatar(this.state.id, formData);
     }
@@ -70,6 +70,12 @@ class EditUserModal extends React.Component {
 
         this.userService.saveUser(userToSave).then(
             response => {
+                if (this.state.id === undefined) {
+                    this.setState({
+                        id: response.data.id
+                    });
+                }
+
                 if (this.state.avatar !== null) {
                     this.saveAvatarUser().then(() => {
                         this.setState(
@@ -82,6 +88,13 @@ class EditUserModal extends React.Component {
                                 this.props.searchUsers();
                             }
                         );
+                    }, response => {
+                        console.error(response);
+                        toast.error('Ocurrió un problema al guardar la información');
+                        this.setState(
+                            {
+                                saving: false
+                            });
                     });
                 } else {
                     this.setState(

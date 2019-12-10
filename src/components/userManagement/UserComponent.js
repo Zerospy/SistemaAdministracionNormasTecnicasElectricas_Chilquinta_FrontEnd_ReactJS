@@ -45,6 +45,11 @@ class UserComponent extends React.Component {
                 width: 360
             },
             {
+                headerName: 'Usuario',
+                field: 'usuario',
+                width: 250
+            },
+            {
                 headerName: 'Email',
                 field: 'email',
                 width: 140
