@@ -3,6 +3,8 @@ package cl.desagen.chilquinta.controllers;
 import cl.desagen.chilquinta.enums.FileExtension;
 import cl.desagen.chilquinta.storage.StorageFileNotFoundException;
 import cl.desagen.chilquinta.storage.StorageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 public class FileUploadController {
 
     private final StorageService storageService;
+    private static final Logger log = LoggerFactory.getLogger(FileUploadController.class);
 
     @Autowired
     public FileUploadController(StorageService storageService) {
@@ -47,6 +50,9 @@ public class FileUploadController {
             return new ResponseEntity(HttpStatus.OK);
 
         } catch (Exception e) {
+            if (log.isErrorEnabled()) {
+                log.error("Error", e);
+            }
             return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
         }
 

@@ -76,6 +76,7 @@ public class FileSystemStorageService implements StorageService {
                 //Delete previous file
                 if (fileNormaEntityOptional.isPresent()) {
                     FileNormaEntity fileNormaEntity = fileNormaEntityOptional.get();
+
                     Path pathToFile = this.rootLocation.resolve(fileNormaEntity.getUrlFileLocation());
 
                     Resource resource = new UrlResource(pathToFile.toUri());
@@ -85,8 +86,6 @@ public class FileSystemStorageService implements StorageService {
 
                     fileNormaService.delete(fileNormaEntity);
                 }
-
-                normaService.downloadCount(normaId);
 
                 Files.copy(inputStream, this.rootLocation.resolve(finalFileName),
                         StandardCopyOption.REPLACE_EXISTING);
@@ -98,9 +97,13 @@ public class FileSystemStorageService implements StorageService {
 
                 Optional<NormaEntity> normaEntityOptional = normaService.findById(normaId);
                 normaEntityOptional.ifPresent(fileNormaEntity::setNormaEntity);
+                NormaEntity normaEntity = normaEntityOptional.get();
+                normaEntity.setDownloadCounter(0);
 
                 fileNormaEntity.setOriginalFileName(filename);
                 fileNormaEntity.setUrlFileLocation(finalFileName);
+
+                normaService.save(normaEntity);
 
                 fileNormaService.save(fileNormaEntity);
             }
@@ -133,6 +136,9 @@ public class FileSystemStorageService implements StorageService {
 
             if (fileNormaEntityOptional.isPresent()) {
                 FileNormaEntity fileNormaEntity = fileNormaEntityOptional.get();
+
+                normaService.downloadCount(normaId);
+
                 urlFileLocation = fileNormaEntity.getUrlFileLocation();
                 file = rootLocation.resolve(urlFileLocation);
             } else {
