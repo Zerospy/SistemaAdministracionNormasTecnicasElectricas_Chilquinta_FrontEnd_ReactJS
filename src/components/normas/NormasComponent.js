@@ -1,16 +1,16 @@
 import HeaderComponent from 'components/commons/HeaderComponent';
-import { NormasContext } from 'components/normas/NormasContext';
+import {NormasContext} from 'components/normas/NormasContext';
 import DetalleNormaModal from 'components/normas/DetalleNormaModal';
-import { Col, Row, Input, Fa, Button, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBModal, MDBBtn, MDBFileInput } from 'mdbreact';
+import {Col, Row, Input, Fa, Button, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBModal, MDBBtn, MDBFileInput} from 'mdbreact';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import Constantes from 'Constantes';
 import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import NormaService from 'services/NormaService';
 import UserService from 'services/UserService';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import DetalleEditarNormaModal from './DetalleEditarNormaModal';
 import Moment from 'moment';
 import {saveAs} from 'file-saver';
@@ -40,7 +40,7 @@ class NormasComponent extends React.Component {
 
         this.loginService = new LoginService();
         this.sessionInformation = this.loginService.getSessionInformation();
-        
+
         const columnDefs = [
             {
                 headerName: `${props.intl.formatMessage({
@@ -109,6 +109,7 @@ class NormasComponent extends React.Component {
                     });
                 },
                 editable: false,
+                enabled: this.sessionInformation.admin,
                 colId: 'id',
                 width: 80
             },
@@ -127,7 +128,7 @@ class NormasComponent extends React.Component {
                 editable: false,
                 colId: 'id',
                 width: 120
-            },
+            }
         ];
 
         this.state = {
@@ -148,21 +149,21 @@ class NormasComponent extends React.Component {
             nombreNorma: '',
             normadescripcion: '',
             estado: {
-                    descripcion: 'En Revisión',
-                    id: 0
+                descripcion: 'En Revisión',
+                id: 0
 
             },
             estadoNorma: '',
-            fecha: {  
-             fecha: ''
+            fecha: {
+                fecha: ''
             }
         };
     }
 
 
-/*
+    /*
     getNorma(norma) {
-   
+
         this.setState({
             modalEdit: true,
             loadingComments: true
@@ -170,7 +171,7 @@ class NormasComponent extends React.Component {
 
         this.normaService.get(norma.id).then(response => {
             const data = response.data;
-                
+
 
             this.setState({
                 rowData: response !== null ? response.data : [],
@@ -180,13 +181,11 @@ class NormasComponent extends React.Component {
             });
         });
 
-       
+
     }
      */
 
     getUsuarios(usuario) {
-   
-    
         this.userService.get(usuario).then(response => {
             const data = response.data;
 
@@ -195,10 +194,9 @@ class NormasComponent extends React.Component {
                 rowData: response !== null ? response.data : [],
 
                 loadingInformation: false
-                
+
             });
         });
-        
     }
 
     /*
@@ -215,36 +213,34 @@ class NormasComponent extends React.Component {
   } */
 
     publishToWorkflow = () => {
-        const normaId = "1";
-        
-        var a = Moment().toObject();
-        var b = { year: a.years, month: a.months + 1, day: a.date, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds};  
-        if(b.day<10) {
-            b.day='0'+b.day;
-                } 
+        const normaId = '1';
 
-            if(b.month<10) {
-                        b.month='0'+b.month;
-                        } 
-       var c = b.year.toString()+"-"+b.month.toString()+"-"+b.day.toString();
-            
+        const a = Moment().toObject();
+        const b = {year: a.years, month: a.months + 1, day: a.date, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds};
+        if (b.day < 10) {
+            b.day = `0${b.day}`;
+        }
 
-           
+        if (b.month < 10) {
+            b.month = `0${b.month}`;
+        }
+        const c = `${b.year.toString()}-${b.month.toString()}-${b.day.toString()}`;
 
-       let params = {
-           codNorma: this.state.codigoNorma, nombre: this.state.nombreNorma,
-           descripcion: this.state.normadescripcion,
-           estado: { descripcion: '' , id: '1'},  fecha: c  }
-          
-           this.normaService.post( params )
+
+        const params = {
+            codNorma: this.state.codigoNorma, nombre: this.state.nombreNorma,
+            descripcion: this.state.normadescripcion,
+            estado: {descripcion: '', id: '1'}, fecha: c};
+
+        this.normaService.post(params)
             .then(response => {
                 const data = response.data;
-                
+
                 data.createdAt = new Moment(data.createdAt).format(
                     Constantes.DATETIME_FORMAT
-                ); 
+                );
                 console.log(response.data);
-            })
+            });
 
         let formData = new FormData();
         formData.append('file', this.state.pdfFile);
@@ -263,48 +259,48 @@ class NormasComponent extends React.Component {
                     );
 
                     this.props.toggle();
-                } );
+                });
         }),
-      
+
 
         toast.success(
             `${this.props.intl.formatMessage({
-                id: 'component.normas.modal.msg.success.crear' 
+                id: 'component.normas.modal.msg.success.crear'
             })}`,
             this.toggle()
-        ); 
+        );
     };
-    onChangeCodigo = (e) => {
+    onChangeCodigo = e => {
         this.setState({
             codigoNorma: e.target.value
 
-        })
+        });
     }
-    onChangeNombre = (e) => {
+    onChangeNombre = e => {
         this.setState({
             nombreNorma: e.target.value
 
-        })
+        });
     }
-    onChangeDescripcion = (e) => {
+    onChangeDescripcion = e => {
         this.setState({
             normadescripcion: e.target.value
 
-        })
+        });
     }
     searchNormas() {
         const estadoNorma = 'PUBLICADA';
-        var norma = "";
+        const norma = '';
         this.setState({
             loadingInformation: true
         });
-        
+
         this.normaService.estadoNormas(estadoNorma).then(
             response => {
                 this.setState({
-                    rowData: response !== null ? response.data :   [],
+                    rowData: response !== null ? response.data : [],
                     loadingInformation: false
-                   
+
                 });
             },
             () => {
@@ -319,35 +315,31 @@ class NormasComponent extends React.Component {
                 });
             }
         );
-       this.normaService.get(norma)
-       console.log(norma.map);
+        this.normaService.get(norma);
+        console.log(norma.map);
     }
 
-      getNorma(norma){
-
+    getNorma(norma) {
         this.normaService.get(norma)
-        .then((res) => {  
+            .then(res => {
+                const data = res.data;
 
-          const data = res.data;
-          
-          this.setState({
+                this.setState({
 
-            idData : res.data !== null ? res.data:[]
+                    idData: res.data !== null ? res.data : []
 
-          });
-          } )
-      }
+                });
+            });
+    }
 
     componentDidMount() {
-       
-         
         this.searchNormas();
     }
 
     render() {
         const idData = this.state.idData;
         const {norma} = this.props;
-      
+
         return [
             <NormasContext.Provider value={this}>
 
@@ -360,19 +352,20 @@ class NormasComponent extends React.Component {
                             modalDetalle: !this.state.modalDetalle
                         });
                     }}
+                    enabled={this.sessionInformation.admin}
                 />
                 <DetalleEditarNormaModal
                     norma={this.state.selectedNorma}
                     isOpen={this.state.modalEdit}
                     toggle={() => {
                         this.setState({
-                            modalEdit: !this.state.modalEdit 
-                            
+                            modalEdit: !this.state.modalEdit
+
                         });
                         this.searchNormas();
                     }}
                 />
-                
+
                 <DardebajaModal
                     norma={this.state.selectedNorma}
                     isOpen={this.state.DardebajaModal}
@@ -381,10 +374,10 @@ class NormasComponent extends React.Component {
                             DardebajaModal: !this.state.DardebajaModal
                         });
                     }}
-                        /* */
-                        onDarBaja={norma => {
-                            console.log(norma);
-    
+                    /* */
+                    onDarBaja={norma => {
+                        console.log(norma);
+
                         const rowData = this.state.rowData;
 
                         if (rowData !== null && rowData.length > 0) {
@@ -409,42 +402,42 @@ class NormasComponent extends React.Component {
                             );
                         }
                     }}
-                        onSave={norma => {
-                            this.setState({
-                                publishing: true
-                            });
-    
-                            this.normaService.dardeBaja(norma.id).then(
-                                () => {
-                                    this.setState(
-                                        {
-                                            publishing: false,
-                                            DardebajaModal: false
-                                        },
-                                        () => {
-                                            this.searchNormas();
-                                        }
-                                    );
-                                    toast.success(
-                                        `${this.props.intl.formatMessage({
-                                            id: 'component.modal.succes.baja'
-                                        })}`
-                                    );
-                                },
-                                () => {
-                                    this.setState({
+                    onSave={norma => {
+                        this.setState({
+                            publishing: true
+                        });
+
+                        this.normaService.dardeBaja(norma.id).then(
+                            () => {
+                                this.setState(
+                                    {
                                         publishing: false,
                                         DardebajaModal: false
-                                    });
-    
-                                    toast.error(
-                                        `${this.props.intl.formatMessage({
-                                            id: 'component.workflow.modal.msg.error'
-                                        })}`
-                                    );
-                                }
-                            );
-                        }}
+                                    },
+                                    () => {
+                                        this.searchNormas();
+                                    }
+                                );
+                                toast.success(
+                                    `${this.props.intl.formatMessage({
+                                        id: 'component.modal.succes.baja'
+                                    })}`
+                                );
+                            },
+                            () => {
+                                this.setState({
+                                    publishing: false,
+                                    DardebajaModal: false
+                                });
+
+                                toast.error(
+                                    `${this.props.intl.formatMessage({
+                                        id: 'component.workflow.modal.msg.error'
+                                    })}`
+                                );
+                            }
+                        );
+                    }}
 
                 />
 
@@ -469,11 +462,11 @@ class NormasComponent extends React.Component {
                                     }}
                                 />
                             </Col>
-                           
+
 
                             <Row>
                                 <Col className="offset-10" size="2">
-                                <Button
+                                    <Button
                                         size="sm"
                                         onClick={() => {
                                             this.searchNormas();
@@ -489,86 +482,85 @@ class NormasComponent extends React.Component {
 
                                         <Fa icon="plus" />
                                     </MDBBtn>
-                                    <MDBModal isOpen={this.state.modal} toggle={this.toggle}  
-                                    
+                                    <MDBModal isOpen={this.state.modal} toggle={this.toggle}
+
                                     >
                                         <MDBModalHeader toggle={this.toggle}>Crear Norma</MDBModalHeader>
                                         <MDBModalBody>
 
                                             <form>
-                                            <div className="form-group">
-                                                <label htmlFor="formGroupExampleInput">Codigo de Norma</label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="formGroupExampleInput"
-                                                    defaultValue={this.state.codigoNorma}
-                                                    onChange={this.onChangeCodigo}
-                                                />
+                                                <div className="form-group">
+                                                    <label htmlFor="formGroupExampleInput">Codigo de Norma</label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="formGroupExampleInput"
+                                                        defaultValue={this.state.codigoNorma}
+                                                        onChange={this.onChangeCodigo}
+                                                    />
 
-                                                <label htmlFor="formGroupExampleInput">Nombre Norma</label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="formGroupExampleInput"
-                                                    defaultValue={this.state.nombreNorma}
-                                                    onChange={this.onChangeNombre}
-                                                />
+                                                    <label htmlFor="formGroupExampleInput">Nombre Norma</label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="formGroupExampleInput"
+                                                        defaultValue={this.state.nombreNorma}
+                                                        onChange={this.onChangeNombre}
+                                                    />
 
-                                                <label htmlFor="formGroupExampleInput">Descripcion Norma</label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="formGroupExampleInput"
-                                                    value={this.state.normadescripcion}
-                                                    onChange={this.onChangeDescripcion}
+                                                    <label htmlFor="formGroupExampleInput">Descripcion Norma</label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="formGroupExampleInput"
+                                                        value={this.state.normadescripcion}
+                                                        onChange={this.onChangeDescripcion}
 
 
+                                                    />
 
-                                                />
-                                                
-                                                <label>PDF</label>
-                                                <MDBFileInput
-                                                    getValue={files => {
-                                                        this.setState({
-                                                            pdfFile: files[0]
-                                                        });
-                                                    }}
-                                                />
-                                                <label>CAD</label>
-                                                <MDBFileInput
-                                                    getValue={files => {
-                                                        this.setState({
-                                                            cadFile: files[0]
-                                                        });
-                                                    }}
-                                                />
-                                            </div>
+                                                    <label>PDF</label>
+                                                    <MDBFileInput
+                                                        getValue={files => {
+                                                            this.setState({
+                                                                pdfFile: files[0]
+                                                            });
+                                                        }}
+                                                    />
+                                                    <label>CAD</label>
+                                                    <MDBFileInput
+                                                        getValue={files => {
+                                                            this.setState({
+                                                                cadFile: files[0]
+                                                            });
+                                                        }}
+                                                    />
+                                                </div>
                                             </form>
 
                                         </MDBModalBody>
 
                                         <MDBModalFooter>
-                                            <MDBBtn color="secondary"  onClick={  
+                                            <MDBBtn color="secondary" onClick={
                                                 this.toggle
-                                       
-                                        }  > Cerrar </MDBBtn>
+
+                                            } > Cerrar </MDBBtn>
 
                                             <Button color="primary"
 
-                                                disabled={!this.state.nombreNorma|| !this.state.codigoNorma||!this.state.normadescripcion 
-                                                    ||!this.state.pdfFile || !this.state.cadFile}
+                                                disabled={!this.state.nombreNorma || !this.state.codigoNorma || !this.state.normadescripcion
+                                                    || !this.state.pdfFile || !this.state.cadFile}
                                                 color="primary"
                                                 onClick={this.publishToWorkflow}
-                                                                       
+
                                             > Enviar a workflow</Button>
                                         </MDBModalFooter>
 
                                     </MDBModal>
                                 </Col>
                             </Row>
-                                            
-                            
+
+
                             <DataGridComponent
                                 isLoading={this.state.loadingInformation}
                                 classContainer="grid-container"

@@ -107,6 +107,12 @@ class UserComponent extends React.Component {
       );
   };
 
+  toggleModalUser = () => {
+      this.setState({
+          modalUsers: !this.state.modalUsers
+      });
+  }
+
   componentDidMount() {
       this.searchUsers();
   }
@@ -117,11 +123,7 @@ class UserComponent extends React.Component {
               <EditUserModal
                   user={this.state.selectedUser}
                   isOpen={this.state.modalUsers}
-                  toggle={() => {
-                      this.setState({
-                          modalUsers: !this.state.modalUsers
-                      });
-                  }}
+                  toggle={this.toggleModalUser}
                   searchUsers={this.searchUsers}
               />
               <HeaderComponent />
@@ -154,6 +156,13 @@ class UserComponent extends React.Component {
                                       {' '}
                                       <Fa icon="sync" />
                                   </Button>
+                                  {this.sessionInformation.admin ? <Button
+                                      size="sm"
+                                      onClick={this.toggleModalUser}
+                                  >
+                                      {' '}
+                                      <Fa icon="plus" />
+                                  </Button> : null}
                               </Col>
                           </Row>
 

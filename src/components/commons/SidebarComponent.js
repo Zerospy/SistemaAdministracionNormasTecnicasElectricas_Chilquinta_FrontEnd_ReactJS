@@ -16,6 +16,9 @@ class SidebarComponent extends React.Component {
         this.state = {
             toggleState: false
         };
+
+        this.loginService = new LoginService();
+        this.sessionInformation = this.loginService.getSessionInformation();
     }
 
     // Slide out buttons event handlers
@@ -92,7 +95,7 @@ class SidebarComponent extends React.Component {
                               <FormattedMessage id="component.normas.title" />
                           </SideNavLink>
 
-                          <SideNavLink
+                          {this.sessionInformation.admin ? <SideNavLink
                               to="CrearNorma"
                               onClick={() => {
                                   window.location.reaload();
@@ -100,10 +103,10 @@ class SidebarComponent extends React.Component {
                           >
                               <Fa icon="plus" />
                               <FormattedMessage id="component.normas.crear" />
-                          </SideNavLink>
+                          </SideNavLink> : null}
                       </SideNavCat>
 
-                      <SideNavCat
+                      {this.sessionInformation.admin ? <SideNavCat
                           id="component.normasInternacionales"
                           name={`${this.props.intl.formatMessage({
                               id: 'component.normasInternacionales'
@@ -129,7 +132,7 @@ class SidebarComponent extends React.Component {
                               <Fa icon="cloud-upload-alt" />
                               <FormattedMessage id="component.normasInternacionales.administracion" />
                           </SideNavLink>
-                      </SideNavCat>
+                      </SideNavCat> : []}
 
                       <SideNavCat
                           id="workflow"
@@ -150,7 +153,7 @@ class SidebarComponent extends React.Component {
                           </SideNavLink>
                       </SideNavCat>
 
-                      <SideNavCat
+                      {this.sessionInformation.admin ? <SideNavCat
                           id="userManagement"
                           name={`${this.props.intl.formatMessage({
                               id: 'menu.user.management'
@@ -161,7 +164,7 @@ class SidebarComponent extends React.Component {
                               <Fa icon="users" />
                               <FormattedMessage id="menu.user.administration" />
                           </SideNavLink>
-                      </SideNavCat>
+                      </SideNavCat> : []}
 
                       <SideNavCat
                           id="session"

@@ -22817,6 +22817,9 @@ footer ul li a {
   .user-welcome span {
     font-size: 20px; }
 
+.modal-xl {
+  max-width: 95% !important; }
+
 .background-login-form {
   /*background-image: url("./assets/img/fondocalidad.jpg");*/
   background-repeat: no-repeat;

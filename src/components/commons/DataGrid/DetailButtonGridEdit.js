@@ -6,10 +6,11 @@ import {injectIntl} from 'react-intl';
 class DetailButtonGridEdit extends Component {
     render() {
         const {onClick} = this.props.colDef;
-        const {data} = this.props;
+        const {data, colDef} = this.props;
 
         return (
             <Button
+                disabled={!colDef.enabled}
                 color="primary"
                 className="btn-grid"
                 onClick={onClick ? onClick.bind(this, data) : null}

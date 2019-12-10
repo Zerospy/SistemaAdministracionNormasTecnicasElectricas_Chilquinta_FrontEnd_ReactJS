@@ -202,7 +202,7 @@ class DetalleNormaModal extends React.Component {
                               >
                                   <h5>{normafecha.substring(0, 10)}</h5>
                               </PanelComponent>
-                              <PanelComponent
+                              {this.props.enabled ? <PanelComponent
                                   title={`${this.props.intl.formatMessage({
                                       id: 'component.vernormas.descarga.Modal'
                                   })}`}
@@ -231,7 +231,7 @@ class DetalleNormaModal extends React.Component {
                                           ></img>
                                       </td>{' '}
                                   </h5>
-                              </PanelComponent>
+                              </PanelComponent> : null}
                           </Col>
                       </Row>
                       <Row>
@@ -263,6 +263,7 @@ DetalleNormaModal.propTypes = {
     onSave: PropTypes.func,
     isOpen: PropTypes.bool,
     publishing: PropTypes.bool,
+    enabled: PropTypes.bool,
     intl: PropTypes.any,
     norma: PropTypes.any
 };
