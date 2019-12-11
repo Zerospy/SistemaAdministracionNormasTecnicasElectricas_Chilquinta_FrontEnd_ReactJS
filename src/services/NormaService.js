@@ -22,4 +22,8 @@ export default class NormaService {
 
   uploadNormaFile = (normaId, fileType, formData) =>
       axios.post(`/norma-files/upload/${normaId}/${fileType}`, formData);
+
+      normaInternacional = (params) => 
+      axios.post (`norma/norma-internacional`, params);
+
 }

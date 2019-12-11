@@ -148,6 +148,7 @@ class NormasComponent extends React.Component {
             codigoNorma: '',
             nombreNorma: '',
             normadescripcion: '',
+            normaId: '',
             estado: {
                 descripcion: 'En Revisión',
                 id: 0
@@ -175,7 +176,7 @@ class NormasComponent extends React.Component {
     }
 
     publishToWorkflow = () => {
-        const normaId = '1';
+        let normaId = '';
 
         const a = Moment().toObject();
         const b = {year: a.years, month: a.months + 1, day: a.date, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds};
@@ -201,18 +202,23 @@ class NormasComponent extends React.Component {
                 data.createdAt = new Moment(data.createdAt).format(
                     Constantes.DATETIME_FORMAT
                 );
-                console.log(response.data);
-            });
+                console.log(response.data); 
+                console.log(response.data.id);
+                 this.setState({
+                        normaId: response.data.id       
 
+                });
+            
+                console.log(response.data.id);
         let formData = new FormData();
         formData.append('file', this.state.pdfFile);
 
-        this.normaService.uploadNormaFile(normaId, 'pdf', formData).then(result => {
+        this.normaService.uploadNormaFile(response.data.id, 'pdf', formData).then(result => {
             formData = new FormData();
             formData.append('file', this.state.cadFile);
 
             this.normaService
-                .uploadNormaFile(normaId, 'cad', formData)
+                .uploadNormaFile(response.data.id, 'cad', formData)
                 .then(result => {
                     toast.success(
                         `${this.props.intl.formatMessage({
@@ -222,7 +228,7 @@ class NormasComponent extends React.Component {
 
                     this.toggle();
                 });
-        }),
+        }) }),
 
 
         toast.success(
@@ -280,7 +286,7 @@ class NormasComponent extends React.Component {
             () => {
                 toast.info(
                     `${this.props.intl.formatMessage({
-                        id: 'component.norma.title'
+                        id: 'component.normas.title'
                     })}`
                 );
 

@@ -34,7 +34,8 @@ class CrearNormaComponent extends React.Component {
         this.normaService = new NormaService();
 
         this.state = {
-
+            pdfFile: '',
+            cadFile: '',
             codigoNorma: '',
             nombreNorma: '',
             normaDescripcion: '',
@@ -62,53 +63,50 @@ class CrearNormaComponent extends React.Component {
       }
 
 
-    publishToWorkflow = () => {
-        const normaId = '721';
-         
+      publishToWorkflow = () => {
+        let normaId = '';
 
-        var a = Moment().toObject();
-        var b = { year: a.years, month: a.months + 1, day: a.date, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds};  
-        
-        if(b.day<10) {
-            b.day='0'+b.day;
-                } 
+        const a = Moment().toObject();
+        const b = {year: a.years, month: a.months + 1, day: a.date, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds};
+        if (b.day < 10) {
+            b.day = `0${b.day}`;
+        }
 
-            if(b.month<10) {
-                        b.month='0'+b.month;
-                        } 
-         var c = b.year.toString()+"-"+b.month.toString()+"-"+b.day.toString();
-     
+        if (b.month < 10) {
+            b.month = `0${b.month}`;
+        }
+        const c = `${b.year.toString()}-${b.month.toString()}-${b.day.toString()}`;
 
-       let params = {
-           codNorma: this.state.codigoNorma, nombre: this.state.nombreNorma,
-           descripcion: this.state.normadescripcion,
-           estado: { descripcion: '' , id: '1'},  fecha: c}
 
-        this.normaService
-        .post(params)
+        const params = {
+            codNorma: this.state.codigoNorma, nombre: this.state.nombreNorma,
+            descripcion: this.state.normadescripcion,
+            estado: {descripcion: '', id: '1'}, fecha: c};
+
+        this.normaService.post(params)
             .then(response => {
                 const data = response.data;
-                
+
                 data.createdAt = new Moment(data.createdAt).format(
                     Constantes.DATETIME_FORMAT
-                ); 
+                );
+                console.log(response.data); 
+                console.log(response.data.id);
+                 this.setState({
+                        normaId: response.data.id       
 
-            })
-            toast.success(
-                `${this.props.intl.formatMessage({
-                    id: 'component.normas.modal.msg.success.crear'
-                })}`
-            );
-
+                });
+            
+                console.log(response.data.id);
         let formData = new FormData();
         formData.append('file', this.state.pdfFile);
 
-        this.normaService.uploadNormaFile(normaId, 'pdf', formData).then(result => {
+        this.normaService.uploadNormaFile(response.data.id, 'pdf', formData).then(result => {
             formData = new FormData();
             formData.append('file', this.state.cadFile);
 
             this.normaService
-                .uploadNormaFile(normaId, 'cad', formData)
+                .uploadNormaFile(response.data.id, 'cad', formData)
                 .then(result => {
                     toast.success(
                         `${this.props.intl.formatMessage({
@@ -116,9 +114,15 @@ class CrearNormaComponent extends React.Component {
                         })}`
                     );
 
-                    this.props.toggle();
+                    
                 });
-        });
+        }) }),
+        toast.success(
+            `${this.props.intl.formatMessage({
+                id: 'component.normas.modal.msg.success.crear'
+            })}`,
+       
+        );
     };
     onChangeCodigo = (e) => {
         this.setState({
