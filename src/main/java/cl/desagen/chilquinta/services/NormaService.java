@@ -83,14 +83,12 @@ public class NormaService {
 
     public NormaEntity save(NormaEntity normaEntity) {
 
-        if (normaEntity != null && normaEntity.getId() != null) {
-            Timestamp tsFromInstant = Timestamp.from(Instant.now());
-            normaEntity.setFecha(tsFromInstant);
-            normaEntity.setDownloadCounter(0);
-            normaEntity.setTipoNorma(TipoNorma.NACIONAL);
-            Optional<EstadosEntity> normaEstado = estadosRepository.findById(Long.valueOf(EstadoNorma.EN_REVISION.value));
-            normaEntity.setEstado(normaEstado.get());
-        }
+        Timestamp tsFromInstant = Timestamp.from(Instant.now());
+        normaEntity.setFecha(tsFromInstant);
+        normaEntity.setDownloadCounter(0);
+        normaEntity.setTipoNorma(TipoNorma.NACIONAL);
+        Optional<EstadosEntity> normaEstado = estadosRepository.findById(Long.valueOf(EstadoNorma.EN_REVISION.value));
+        normaEntity.setEstado(normaEstado.get());
 
         return normaRepository.save(normaEntity);
 
@@ -98,14 +96,12 @@ public class NormaService {
 
     public NormaEntity saveInternacional(NormaEntity normaEntity) {
 
-        if (normaEntity != null && normaEntity.getId() != null) {
-            Timestamp tsFromInstant = Timestamp.from(Instant.now());
-            normaEntity.setFecha(tsFromInstant);
-            normaEntity.setDownloadCounter(0);
-            normaEntity.setTipoNorma(TipoNorma.INTERNACIONAL);
-            Optional<EstadosEntity> normaEstado = estadosRepository.findById(Long.valueOf(EstadoNorma.EN_REVISION.value));
-            normaEntity.setEstado(normaEstado.get());
-        }
+        Timestamp tsFromInstant = Timestamp.from(Instant.now());
+        normaEntity.setFecha(tsFromInstant);
+        normaEntity.setDownloadCounter(0);
+        normaEntity.setTipoNorma(TipoNorma.INTERNACIONAL);
+        Optional<EstadosEntity> normaEstado = estadosRepository.findById(Long.valueOf(EstadoNorma.EN_REVISION.value));
+        normaEntity.setEstado(normaEstado.get());
 
         return normaRepository.save(normaEntity);
 
@@ -202,7 +198,8 @@ public class NormaService {
         }
 
     }
-    public NormaEntity updateNorma(Integer id, NormaEntity normaEntity, String username ) throws BusinessException {
+
+    public NormaEntity updateNorma(Integer id, NormaEntity normaEntity, String username) throws BusinessException {
         Optional<NormaEntity> normaEntityOptional = normaRepository.findById(id);
 
 
@@ -215,7 +212,6 @@ public class NormaService {
             newEntity = normaRepository.save(newEntity);
 
 
-
             Optional<UsuarioEntity> usuarioEntityOptional = usuarioRepository.findByUsuario(username);
             UsuarioEntity usuarioEntity = usuarioEntityOptional.orElse(null);
 
@@ -226,10 +222,11 @@ public class NormaService {
 
             return newEntity;
 
-        }else {
+        } else {
             normaEntity = normaRepository.save(normaEntity);
 
-            return normaEntity;}
+            return normaEntity;
+        }
 
     }
 
