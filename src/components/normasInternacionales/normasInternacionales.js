@@ -31,6 +31,7 @@ class normasInternacionales extends React.Component {
   }
   state = {
     modal: false
+  
   };
   toggle = () => {
     this.setState({
@@ -69,8 +70,17 @@ class normasInternacionales extends React.Component {
           id: "component.normasInternacionales.datagrid.Solicitar"
         })}`,
         cellRenderer: "DetailButtonGridEmail",
-        onClick: () => {
-          window.location.href = `mailto:`;
+        onClick: norma => {
+            this.setState({
+              selectedNorma: norma
+
+            });
+                console.log(norma);
+              
+            
+          window.location.href = `mailto:esteffens@chilquinta.cl?subject=[Solicitud]%20Norma%20Internacional%20[Especifique Norma]%20
+          solicitada&body=Solicito%20Norma%20Internacional%20Codigo:%20[Especifique Codigo]
+          nombre%20español:%20[Especifique norma en español]`;
         },
         field: "Solicitar",
         width: 190
@@ -85,7 +95,10 @@ class normasInternacionales extends React.Component {
       columnDefs: columnDefs,
       email: "esteffens@chilquinta.cl",
       rowData: [],
-      loadingInformation: false
+      loadingInformation: false,
+      normaId: "NORMA GENIAL",
+      selectedNorma: null,
+      codNorma: ""
     };
   }
 
@@ -110,47 +123,23 @@ class normasInternacionales extends React.Component {
     };
   };
 
-  saveComment = () => {
-    const { rowData } = this.state;
-    const normaId = this.props.norma.id;
+ 
+  getNorma = (norma) => {
+    const codNorma = this.props.norma.codNorma;
+    this.normaService.get(norma.id).then(response => {
+        const data = response.data;
 
-    this.setState({
-      savingComment: true
+        this.setState({
+             rowData: response !== null ? response.data : [],
+             loadingInformation: false,
+             codNorma: response.data.codNorma
+        });
+
+        this.props.norma.map((normaSeleccionada) => {console.log(normaSeleccionada)});
+       
     });
+}
 
-    this.commentService
-      .post(normaId, {
-        comment: this.state.newComment
-      })
-      .then(
-        response => {
-          const data = response.data;
-
-          this.setState(
-            {
-              rowData: [...rowData, data],
-              savingComment: false
-            },
-            () => {
-              this.setState({
-                newComment: ""
-              });
-            }
-          );
-        },
-        () => {
-          toast.error(
-            `${this.props.intl.formatMessage({
-              id: "component.normas.modal.comment.error"
-            })}`
-          );
-
-          this.setState({
-            savingComment: false
-          });
-        }
-      );
-  };
 
   searchNormas = () => {
     this.setState({

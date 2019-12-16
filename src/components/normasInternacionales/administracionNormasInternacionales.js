@@ -13,6 +13,10 @@ import NormaService from 'services/NormaService';
 import { toast } from 'react-toastify';
 import { MDBCard, MDBCardTitle, MDBCardText, MDBFileInput, MDBInput, MDBBtn, MDBContainer, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from "mdbreact";
 import GridUsuarios from 'components/normas/GridUsuarios';
+import { ExcelRenderer } from "react-excel-renderer";
+import { Table, Button, Popconfirm, Icon, Upload } from "antd";
+import Moment from 'moment';
+import LoadingComponent from 'components/commons/base/LoadingComponent';
 
 class administracionNormasInternacionales extends React.Component {
 
@@ -34,6 +38,7 @@ class administracionNormasInternacionales extends React.Component {
         this.normaService = new NormaService();
 
         this.state = {
+           
             columnDefs: [
                 {
                     field: "athlete",
@@ -83,11 +88,138 @@ class administracionNormasInternacionales extends React.Component {
                 resizable: true
             },
             rowSelection: "multiple",
-            rowData: []
+            rowData: [],
+            isLoading: false
         };
     }
 
+    checkFile(file) {
+        let errorMessage = "";
+        if (!file || !file[0]) {
+          return;
+        }
+        const isExcel =
+          file[0].type === "application/vnd.ms-excel" ||
+          file[0].type ===
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        if (!isExcel) {
+          errorMessage = "You can only upload Excel file!";
+        }
+        console.log("file", file[0].type);
+        const isLt2M = file[0].size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+          errorMessage = "File must be smaller than 2MB!";
+        }
+        console.log("errorMessage", errorMessage);
+        return errorMessage;
+      }
+      fileHandler = fileList => {
+        console.log("fileList", fileList)
+        let fileObj = fileList
+        if (!fileObj) {
+          this.setState({
+            errorMessage: "No file uploaded!",
+          })
+          return false
+        }
+        console.log("fileObj.type:", fileObj.type)
+        if (
+          !(
+            fileObj.type === "application/vnd.ms-excel" ||
+            fileObj.type ===
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          )
+        ) {
+          this.setState({
+            errorMessage: "Unknown file format. Only Excel files are uploaded!",
+          })
+          return false
+        }
+        //just pass the fileObj as parameter
+        ExcelRenderer(fileObj, (err, resp) => {
+          if (err) {
+            console.log(err)
+          } else {
+            let newRows = []
+            resp.rows.slice(1).map((row, index) => {
+              if (row && row !== "undefined") {
+                newRows.push({
+                  /* id: index, */
+                  codNorma: row[0],
+                  nombreIngles: row[2],
+                  nombre: row[1],
+                  tipo_norma: 'INTERNACIONAL',
+                })
+              }
+            })
+            if (newRows.length === 0) {
+              this.setState({
+                errorMessage: "No data found in file!",
+              })
+              return false
+            } else {
+              this.setState({
+                cols: resp.cols,
+                rows: newRows,
+                errorMessage: null,
+              })
+            }
+          }
+        })
+        return false
+      }
+      
 
+      handleSubmit = async () => {
+        console.log("submitting: ", this.state.rows)
+        //submit to API
+        //if successful, banigate and clear the data
+        this.setState({ rows: [] })
+        const data = this.state.rows;
+        console.log(JSON.stringify(data));
+       
+        const params = [this.state.rows];
+        
+        // normas.map((rowData, i) =>   ) 
+                    console.log(params);
+         
+        const normaId = this.props.normaId;
+
+
+        this.setState({
+          isLoading: true
+      });
+        this.normaService.normaInternacional(data)
+            .then(response => {
+                const data = response.data;
+
+                data.createdAt = new Moment(data.createdAt).format(
+                    Constantes.DATETIME_FORMAT
+                );
+                this.setState({
+                  isLoading: false
+              });
+                toast.success(
+                  `${this.props.intl.formatMessage({
+                      id: 'component.normasInternacionales.succes'
+                  })}`
+              );
+              window.location.reload();
+            },() => {
+              this.setState({
+                isLoading: false
+            });
+              toast.error(
+                  `${this.props.intl.formatMessage({
+                      id: 'component.normasInternacionales.error'
+                  })}`
+              );
+  
+              this.setState({
+                  savingNorma: false
+              });
+          });   
+      }
 
     onGridReady = params => {
         this.gridApi = params.api;
@@ -111,47 +243,10 @@ class administracionNormasInternacionales extends React.Component {
         };
     };
 
-    saveComment = () => {
-        const { rowData } = this.state;
-        const normaId = this.props.norma.id;
-
-        this.setState({
-            savingComment: true
-        });
-
-        this.commentService
-            .post(normaId, {
-                comment: this.state.newComment
-            })
-            .then(
-                response => {
-                    const data = response.data;
-
-                    this.setState(
-                        {
-                            rowData: [...rowData, data],
-                            savingComment: false
-                        },
-                        () => {
-                            this.setState({
-                                newComment: ''
-                            });
-                        }
-                    );
-                },
-                () => {
-                    toast.error(
-                        `${this.props.intl.formatMessage({
-                            id: 'component.normas.modal.comment.error'
-                        })}`
-                    );
-
-                    this.setState({
-                        savingComment: false
-                    });
-                }
-            );
-    };
+ 
+           
+    
+    
 
     onQuickFilterChanged() {
         this.gridApi.setQuickFilter(document.getElementById("quickFilter").value);
@@ -159,7 +254,10 @@ class administracionNormasInternacionales extends React.Component {
 
 
     render() {
+    
+ 
         return (
+            
             <NormasContext.Provider value={this}>
                 <convocarModal
                     norma={this.state.selectedNorma}
@@ -179,11 +277,31 @@ class administracionNormasInternacionales extends React.Component {
                             })}`}
                         >
                             <Col size="4">
+                                     <h1>Importar componente Excel</h1>
+                                <label> Seleccione Archivo excel de norma internacional</label>
+                           <div>
+  <Upload
+    name="file"
+    beforeUpload={this.fileHandler}
+    onRemove={() => this.setState({ rows: [] })}
+    multiple={false}
+  >
+    <Button>
+      <Icon type="upload" /> Click para subir Excel
+    </Button>
 
-                                <label> Seleccione norma internacional</label>
-                            <MDBFileInput   name="Test"
-                                             getValue={this.onChangeHandleFile}        
-                                             />
+  </Upload>
+  <Button
+          onClick={this.handleSubmit }
+          size="large"
+          type="primary"
+          style={{ marginBottom: 16, marginLeft: 10 }}
+        >
+            <LoadingComponent loading={this.state.isLoading} />
+          Enviar
+        </Button>
+</div>
+                          
                             </Col>
                         </PanelComponent>
                     </Col>

@@ -143,6 +143,8 @@
     "component.normasInternacionales.datagrid.NombreI": "Nombre norma internacional Ingles",
     "component.normasInternacionales.datagrid.NombreE": "Nombre norma internacional Español",
     "component.normasInternacionales.datagrid.Solicitar": "Solicitar",
+    "component.normasInternacionales.succes": "Normas Internacionales agregadas exitosamente",
+    "component.normasInternacionales.error": "Error en el archivo, revise orden de columnas",
     "end": "end"
 
 }
