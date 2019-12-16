@@ -92,7 +92,6 @@ class administracionNormasInternacionales extends React.Component {
             isLoading: false
         };
     }
-
     checkFile(file) {
         let errorMessage = "";
         if (!file || !file[0]) {
