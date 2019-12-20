@@ -142,40 +142,7 @@ class DetalleEditarNormaModal extends React.Component {
     );
         
         } 
-          
-       
-        /*
-        .then(
-            response => {
-                const data = response.data;
-              
-                onSaveNorma(norma);
-                this.setState(
-                    {
-                        rowData: [...rowData, data],
-                        savingNorma: false
-                    },
-                    () => {
-                        this.setState({
-                            normaDescripcion: ''
-                        });
-                    }
-                );
-            },
-            () => {
-                toast.error(
-                    `${this.props.intl.formatMessage({
-                        id: 'component.normas.modal.edit.error'
-                    })}`
-                );
-
-                this.setState({
-                    savingNorma: false
-                });
-            }
-        );
-};
-*/
+ 
         publishToWorkflow = () => {
             const id = this.props.norma.id;
             const normaId = this.props.norma.id;
@@ -183,6 +150,8 @@ class DetalleEditarNormaModal extends React.Component {
 
             let formData = new FormData();
             formData.append('file', this.state.pdfFile);
+
+            if(this.state.pdfFile.size != 0 && this.state.pdfFile.size != null && this.state.cadFile.size != 0 && this.state.cadFile.size != null ){
 
             this.normaService.uploadNormaFile(normaId, 'pdf', formData).then(result => {
                 formData = new FormData();
@@ -198,8 +167,30 @@ class DetalleEditarNormaModal extends React.Component {
                         );
 
                         this.props.toggle();
-                    });
+                    }),() => {
+                        toast.error(
+                            `${this.props.intl.formatMessage({
+                                id: 'component.normas.modal.edit.error'
+                            })}`
+                        );
+            
+                        this.setState({
+                            savingNorma: false
+                        });
+                    }
             });
+
+        }else{
+
+            toast.error(
+                `${this.props.intl.formatMessage({
+                    id: 'component.normas.modal.error.upload'
+                })}`
+            );         
+
+        } 
+
+        
         };
 
         componentDidUpdate(prevProps) {

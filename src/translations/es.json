@@ -115,7 +115,8 @@
     "component.normas.modal.btn.editWorkflow": "Enviar PDF y Cad a flujo",
     "component.normas.modal.edit.error": "Ocurrió un problema al modificar la norma",
     "component.normas.modal.edit.success": "Datos registrados correctamente",
-    
+    "component.normas.modal.error.upload": "Sus documentos deben llevar contenido, revise y suba nuevamente",
+
     "component.CrearNormas.title":"Subir una nueva norma",
 
     "component.vernormas.CodNorma.Modal": "Codigo identificador de la Norma",
