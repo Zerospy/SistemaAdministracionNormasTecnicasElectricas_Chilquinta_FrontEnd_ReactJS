@@ -12,6 +12,7 @@ import NormaService from 'services/NormaService';
 import UserService from 'services/UserService';
 import {toast} from 'react-toastify';
 import DetalleEditarNormaModal from './DetalleEditarNormaModal';
+import CommentRequestModal from './DetalleEditarNormaModal';
 import Moment from 'moment';
 import {saveAs} from 'file-saver';
 import DardebajaModal from './DardebajaModal';
@@ -128,6 +129,23 @@ class NormasComponent extends React.Component {
                 editable: false,
                 colId: 'id',
                 width: 120
+            },
+            {
+                headerName: `${props.intl.formatMessage({
+                    id: 'component.workflow.datagrid.actions'
+                })}`,
+                field: 'id',
+                cellRenderer: 'CommentsButtonGridRenderer',
+                onClick: norma => {
+                    this.setState({
+                        selectedNorma: norma,
+                        modalCommentRequest: true
+                    });
+                },
+                enabled: this.sessionInformation.admin,
+                editable: false,
+                colId: 'id',
+                width: 50
             }
         ];
 
@@ -142,6 +160,7 @@ class NormasComponent extends React.Component {
             loadingInformation: false,
             modalDetalle: false,
             modalEdit: false,
+            modalCommentRequest: false,
             loadingDetalles: false,
             selectedNorma: null,
             quickFilter: '',
@@ -176,7 +195,7 @@ class NormasComponent extends React.Component {
     }
 
     publishToWorkflow = () => {
-        let normaId = '';
+        const normaId = '';
 
         const a = Moment().toObject();
         const b = {year: a.years, month: a.months + 1, day: a.date, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds};
@@ -195,61 +214,57 @@ class NormasComponent extends React.Component {
             descripcion: this.state.normadescripcion,
             estado: {descripcion: '', id: '1'}, fecha: c};
 
-        if(this.state.pdfFile.size != 0 && this.state.pdfFile.size != null && this.state.cadFile.size != 0 && this.state.cadFile.size != null ){
+        if (this.state.pdfFile.size != 0 && this.state.pdfFile.size != null && this.state.cadFile.size != 0 && this.state.cadFile.size != null) {
+            this.normaService.post(params)
+                .then(response => {
+                    const data = response.data;
 
-        this.normaService.post(params)
-            .then(response => {
-                const data = response.data;
-
-                data.createdAt = new Moment(data.createdAt).format(
-                    Constantes.DATETIME_FORMAT
-                );
-                console.log(response.data); 
-                console.log(response.data.id);
-                 this.setState({
-                        normaId: response.data.id       
-
-                });
-            
-                console.log(response.data.id);
-        let formData = new FormData();
-        formData.append('file', this.state.pdfFile);
-        console.log(this.state.pdfFile.size);
-                  
-        this.normaService.uploadNormaFile(response.data.id, 'pdf', formData).then(result => {
-            formData = new FormData();
-            formData.append('file', this.state.cadFile);
-                
-            this.normaService
-                .uploadNormaFile(response.data.id, 'cad', formData)
-                .then(result => {
-                    toast.success(
-                        `${this.props.intl.formatMessage({
-                            id: 'component.normas.modal.edit.success'
-                        })}`
+                    data.createdAt = new Moment(data.createdAt).format(
+                        Constantes.DATETIME_FORMAT
                     );
+                    console.log(response.data);
+                    console.log(response.data.id);
+                    this.setState({
+                        normaId: response.data.id
 
-                    this.toggle();
-                });
-        }) }), 
+                    });
+
+                    console.log(response.data.id);
+                    let formData = new FormData();
+                    formData.append('file', this.state.pdfFile);
+                    console.log(this.state.pdfFile.size);
+
+                    this.normaService.uploadNormaFile(response.data.id, 'pdf', formData).then(result => {
+                        formData = new FormData();
+                        formData.append('file', this.state.cadFile);
+
+                        this.normaService
+                            .uploadNormaFile(response.data.id, 'cad', formData)
+                            .then(result => {
+                                toast.success(
+                                    `${this.props.intl.formatMessage({
+                                        id: 'component.normas.modal.edit.success'
+                                    })}`
+                                );
+
+                                this.toggle();
+                            });
+                    });
+                }),
 
 
-        toast.success(
-            `${this.props.intl.formatMessage({
-                id: 'component.normas.modal.msg.success.crear'
-            })}`,
-            this.toggle()
-        ); 
-
-
-        }else{
-
+            toast.success(
+                `${this.props.intl.formatMessage({
+                    id: 'component.normas.modal.msg.success.crear'
+                })}`,
+                this.toggle()
+            );
+        } else {
             toast.error(
                 `${this.props.intl.formatMessage({
                     id: 'component.normas.modal.error.upload'
                 })}`
-            );         
-
+            );
         }
     };
     onChangeCodigo = e => {
@@ -279,12 +294,10 @@ class NormasComponent extends React.Component {
 
         this.normaService.estadoNormas(estadoNorma).then(
             response => {
-
                 const {data} = response;
 
-                if(data !== null && data.length > 0 ) {
+                if (data !== null && data.length > 0) {
                     data.forEach(item => {
-        
                         item.fechaStr = new Moment(item.fecha).format(
                             Constantes.DATE_FORMAT
                         );
@@ -354,6 +367,18 @@ class NormasComponent extends React.Component {
                     toggle={() => {
                         this.setState({
                             modalEdit: !this.state.modalEdit
+
+                        });
+                        this.searchNormas();
+                    }}
+                />
+
+                <CommentRequestModal
+                    norma={this.state.selectedNorma}
+                    isOpen={this.state.modalCommentRequest}
+                    toggle={() => {
+                        this.setState({
+                            modalCommentRequest: !this.state.modalCommentRequest
 
                         });
                         this.searchNormas();
@@ -528,7 +553,7 @@ class NormasComponent extends React.Component {
                                                                 cadFile: files[0]
                                                             });
                                                         }}
-                                                        
+
                                                     />
                                                 </div>
                                             </form>
