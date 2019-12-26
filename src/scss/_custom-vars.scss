@@ -1,0 +1,30 @@
+// Your custom variables
+$image-path: "./assets/img";
+$roboto-font-path: "./assets/font/roboto/";
+$icomoon-font-path: "./assets/font/icons" !default;
+
+// custom vars 
+$modal-dialog-margin:               .5rem;
+$modal-dialog-margin-y-sm-up:       0rem;
+$modal-header-padding:              0.1rem 1rem ;
+
+
+// custom classes
+html {
+  font-size: 14px;
+  height: 100%;
+}
+body {
+  height: 100%;
+}
+.modal-header{
+  background-color: #FBFCFD;
+  color: black !important;
+}
+.modal-header .close{
+  color: black !important;
+  opacity: 10;
+}
+$icomoon-font-family: "cramer" !default;
+
+$icon-fingerprint: "\e900";

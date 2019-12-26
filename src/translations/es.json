@@ -1,0 +1,151 @@
+{
+    "app.title": "Chilquinta",
+
+    "app.general.btn.accept": "Aceptar",
+    "app.general.btn.cancel": "Cerrar",
+    "app.general.btn.save": "Guardar",
+    
+    "legend.ban.mp": "Materias Primas Prohibidas",
+    "legend.alergen.mp": "Materias Primas con Componentes Alergenos",
+    "legend.alergen.formula": "Fórmula con Materias Primas con Componentes Alergenos",
+    "legend.alergen.al.free": "Fórmula libre de  Componentes Alergenos",
+    "legend.ban.form.mp": "Fórmula con Materias Primas Prohibidas",
+
+    "login.username": "Usuario",
+    "login.password": "Clave",
+    "login.language": "Seleccione el idioma",
+    "login.btnLogin": "iniciar sesión",
+    "login.formTitle": "Iniciar sesión",
+
+    "login.verificationModal.title": "Ingrese código de verificación",
+    "login.verificationModal.hint": "Hemos enviado el código de verificación a su correo.",
+    "login.verificationModal.btn.save": "Enviar",
+    "login.verificationModal.btn.cancel": "Cancelar",
+
+    "login.message.success": "Bienvenido",
+    "login.message.verificationInput": "Código de verificación",
+    "login.message.emptyData": "El usuario o la clave no deben estar vacíos",
+    "login.message.invalidUser": "Usuario y/o clave incorrectos",
+    "login.message.invalidVerificationCode": "Código de verificación incorrecto",
+    "login.message.emptyVerificationCode": "El código no puede estar vacío.",
+
+    "menu.home": "Inicio",
+    "menu.home.dashboard": "Home",
+
+    "menu.workflow": "Workflow",
+    "menu.workflow.item": "Publicar Normas",
+
+    "menu.account": "Cuenta",
+    "menu.account.logout": "Cerrar sesión",
+
+    "menu.help": "Ayuda",
+    "menu.help.userManual": "Manual de usuario",
+
+    "menu.user.management": "Administración de usuarios",
+    "menu.user.administration": "Usuarios",
+
+    "component.messages.loading": "Cargando...",
+    
+    "component.dataGrid.noRows": "No hay registros que mostrar",
+    "component.dataGrid.loading": "Cargando... Por favor, espere..",
+    "component.dataGrid.detail": "Ver detalle",
+    "component.dataGrid.edit": "Editar",
+    "component.dataGrid.EditarNorma":"Editar Norma",
+
+    "component.dataGrid.DardeBaja":"Dar de Baja",
+    "component.dataGrid.DardeBajaGrid":"Dar de baja",
+    "component.dataGrid.DardeBajaButton":"Dar de baja",
+    "component.modal.succes.baja":"Norma dada de baja correctamente",
+
+    "component.dataGrid.validateIfra": "Validar IFRA",
+    "component.dataGrid.comments": "Agregar comentarios",
+    "component.dataGrid.genExperimental": "Generar experimental",
+    "component.dataGrid.genExperimentalHint": "Debes validar IFRA antes de generar la fórmula experimental.",
+    "component.dataGrid.deleteTrial": "Eliminar trial",
+    "component.dataGrid.shareTrial": "Compartir trial",
+    "component.dataGrid.page.from": "Página",
+    "component.dataGrid.page.to": "de",
+    
+    "dashboard.panel.title": "Dashboard",
+
+    "demo.label": "Demo label",
+    "demo.message": "Demo message",
+
+    "component.workflow.title": "Workflow",
+    "component.workflow.datagrid.search": "Búsqueda rápida",
+    "component.workflow.datagrid.id": "Id",
+    "component.workflow.datagrid.codNorma": "Cod. Norma",
+    "component.workflow.datagrid.nombre": "Nombre",
+    "component.workflow.datagrid.descripcion": "Desc",
+    "component.workflow.datagrid.estado": "Estado",
+    "component.workflow.datagrid.fecha": "Fecha",
+    "component.workflow.datagrid.tipoTabla": "Tipo",
+    "component.workflow.datagrid.urlPdf": "UrlPdf",
+    "component.workflow.datagrid.urlCad": "UrlCad",
+    "component.workflow.datagrid.actions": "#",
+
+    "component.workflow.modal.title": "Comentarios",
+    "component.workflow.modal.grid.id": "Id",
+    "component.workflow.modal.grid.comment": "Comentario",
+    "component.workflow.modal.grid.user": "Usuario",
+    "component.workflow.modal.msg.success": "Norma publicada correctamente!",
+    
+    "component.workflow.modal.btn.save": "Publicar",
+
+    "component.normas": "Normas",
+    "component.normas.title": "Listado de Normas",
+    "component.normas.crear": "Crear Norma",
+    "component.normas.title.name": "Nombre Norma",
+    "component.normas.datagrid.search": "Búsqueda rápida",
+    "component.normas.datagrid.id": "Id",
+    "component.normas.datagrid.codNorma": "Cod. Norma",
+    "component.normas.datagrid.nombre": "Nombre",
+    "component.normas.datagrid.descripcion": "Desc",
+    "component.normas.datagrid.estado": "Estado",
+    "component.normas.datagrid.fecha": "Fecha",
+    "component.normas.datagrid.tipoTabla": "Tipo",
+    "component.normas.datagrid.urlPdf": "UrlPdf",
+    "component.normas.datagrid.urlCad": "UrlCad",
+    "component.normas.datagrid.actions": "#",
+    "component.normas.title.detalles": "Ver Norma",
+
+
+    "component.normas.title.EditModal": "Editar Norma",
+    "component.normas.modal.btn.edit": "Modificar",
+    "component.normas.modal.btn.editWorkflow": "Enviar PDF y Cad a flujo",
+    "component.normas.modal.edit.error": "Ocurrió un problema al modificar la norma",
+    "component.normas.modal.edit.success": "Datos registrados correctamente",
+    "component.normas.modal.error.upload": "Sus documentos deben llevar contenido, revise y suba nuevamente",
+
+    "component.CrearNormas.title":"Subir una nueva norma",
+
+    "component.vernormas.CodNorma.Modal": "Codigo identificador de la Norma",
+    "component.vernormas.title.Modal": "Nombre norma",
+    "component.vernormas.descripcion.Modal": "Descripcion de la norma",
+    "component.vernormas.fp.Modal": "Fecha de publicacion de la norma",
+    "component.vernormas.descarga.Modal": "Descarga y visualizacion de la norma",
+
+    "component.normas.modal.title": "Comentarios",
+    "component.normas.modal.grid.id": "Id", 
+    "component.normas.modal.grid.comment": "Comentario",
+    "component.normas.modal.input.placeholder": "Agregar comentarios...",
+    "component.normas.modal.btn.send": "Enviar",
+    "component.normas.modal.grid.user": "Usuario",
+    "component.normas.modal.msg.success": "Norma publicada correctamente!",
+    "component.normas.modal.msg.error": "Ocurrió un problema al publicar la norma",
+    "component.normas.modal.comment.error": "Ocurrió un problema al agregar el comentario",
+    "component.normas.modal.btn.save": "Publicar",
+    "component.normas.modal.msg.success.crear": "Norma enviada correctamente a workflow!",
+    
+    "component.normasInternacionales": "Normas Internacionales",
+    "component.normasInternacionales.administracion": "Subir norma internacional",
+
+    "component.normasInternacionales.datagrid.codigo": "Codigo norma",
+    "component.normasInternacionales.datagrid.NombreI": "Nombre norma internacional Ingles",
+    "component.normasInternacionales.datagrid.NombreE": "Nombre norma internacional Español",
+    "component.normasInternacionales.datagrid.Solicitar": "Solicitar",
+    "component.normasInternacionales.succes": "Normas Internacionales agregadas exitosamente",
+    "component.normasInternacionales.error": "Error en el archivo, revise orden de columnas",
+    "end": "end"
+
+}
