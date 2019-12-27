@@ -17,6 +17,7 @@ import Moment from 'moment';
 import {saveAs} from 'file-saver';
 import DardebajaModal from './DardebajaModal';
 import LoginService from 'services/LoginService';
+import Select from 'react-select';
 
 class NormasComponent extends React.Component {
     showSettings(event) {
@@ -129,23 +130,6 @@ class NormasComponent extends React.Component {
                 editable: false,
                 colId: 'id',
                 width: 120
-            },
-            {
-                headerName: `${props.intl.formatMessage({
-                    id: 'component.workflow.datagrid.actions'
-                })}`,
-                field: 'id',
-                cellRenderer: 'CommentsButtonGridRenderer',
-                onClick: norma => {
-                    this.setState({
-                        selectedNorma: norma,
-                        modalCommentRequest: true
-                    });
-                },
-                enabled: this.sessionInformation.admin,
-                editable: false,
-                colId: 'id',
-                width: 50
             }
         ];
 
@@ -168,6 +152,8 @@ class NormasComponent extends React.Component {
             nombreNorma: '',
             normadescripcion: '',
             normaId: '',
+            usersOptions: [],
+            selectedUsers: [],
             estado: {
                 descripcion: 'En Revisión',
                 id: 0
@@ -184,12 +170,8 @@ class NormasComponent extends React.Component {
         this.userService.get(usuario).then(response => {
             const data = response.data;
 
-
             this.setState({
-                rowData: response !== null ? response.data : [],
-
-                loadingInformation: false
-
+                usersOptions: response !== null ? data : []
             });
         });
     }
@@ -341,6 +323,22 @@ class NormasComponent extends React.Component {
 
     componentDidMount() {
         this.searchNormas();
+
+        this.userService.getUsers().then(
+            response => {
+                if (response.data && response.data.length > 0) {
+                    response.data.forEach(item => {});
+                }
+
+                this.setState({
+                    rowData: response !== null ? response.data : [],
+                    loadingInformation: false
+                });
+            },
+            () => {
+                toast.info('Ocurrió un problema al consultar los usuarios');
+            }
+        );
     }
 
     render() {
@@ -367,18 +365,6 @@ class NormasComponent extends React.Component {
                     toggle={() => {
                         this.setState({
                             modalEdit: !this.state.modalEdit
-
-                        });
-                        this.searchNormas();
-                    }}
-                />
-
-                <CommentRequestModal
-                    norma={this.state.selectedNorma}
-                    isOpen={this.state.modalCommentRequest}
-                    toggle={() => {
-                        this.setState({
-                            modalCommentRequest: !this.state.modalCommentRequest
 
                         });
                         this.searchNormas();
@@ -536,6 +522,20 @@ class NormasComponent extends React.Component {
                                                         onChange={this.onChangeDescripcion}
 
 
+                                                    />
+
+                                                    <label>Usuarios que pueden comentar</label>
+                                                    <Select
+                                                        options = {this.state.usersOptions}
+                                                        onChange = {selectedOptions => {
+                                                            this.setState({
+                                                                selectedUsers: selectedOptions
+                                                            });
+                                                        }}
+                                                        value={this.state.selectedUsers}
+                                                        isMulti
+                                                        isSearchable
+                                                        placeholder={'Listado de usuarios'}
                                                     />
 
                                                     <label>PDF</label>
