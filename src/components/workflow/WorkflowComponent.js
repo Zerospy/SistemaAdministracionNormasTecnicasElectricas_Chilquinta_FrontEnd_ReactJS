@@ -13,6 +13,7 @@ import NormaService from 'services/NormaService';
 import LoginService from 'services/LoginService';
 import {toast} from 'react-toastify';
 import Moment from 'moment';
+import DetalleNormaModal from 'components/normas/DetalleNormaModal';
 
 class WorkflowComponent extends React.Component {
     showSettings(event) {
@@ -64,6 +65,20 @@ class WorkflowComponent extends React.Component {
                 })}`,
                 field: 'fecha',
                 width: 180
+            },
+            {
+                headerName: 'Ver',
+                field: 'id',
+                cellRenderer: 'DetailButtonGridRenderer',
+                onClick: norma => {
+                    this.setState({
+                        selectedNorma: norma,
+                        modalDetalle: true
+                    });
+                },
+                editable: false,
+                colId: 'id',
+                width: 80
             },
             {
                 headerName: `${props.intl.formatMessage({
@@ -140,6 +155,16 @@ class WorkflowComponent extends React.Component {
     render() {
         return [
             <WorkflowContext.Provider value={this}>
+                     <DetalleNormaModal
+                    norma={this.state.selectedNorma}
+                    isOpen={this.state.modalDetalle}
+                    toggle={() => {
+                        this.setState({
+                            modalDetalle: !this.state.modalDetalle
+                        });
+                    }}
+                    enabled={this.sessionInformation.admin}
+                />
                 <CommentsModal
                     norma={this.state.selectedNorma}
                     isOpen={this.state.modalComments && this.sessionInformation.admin}
