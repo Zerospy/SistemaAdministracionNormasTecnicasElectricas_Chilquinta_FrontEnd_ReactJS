@@ -166,13 +166,22 @@ class NormasComponent extends React.Component {
         };
     }
 
-    getUsuarios(usuario) {
-        this.userService.get(usuario).then(response => {
+    getUsuarios= () => {
+        this.userService.getUsers().then(response => {
             const data = response.data;
+
+            if (data && data.length > 0) {
+                data.forEach(user => {
+                    user.label = `${user.nombres} ${user.apellidos}`;
+                    user.value = user.id;
+                });
+            }
 
             this.setState({
                 usersOptions: response !== null ? data : []
             });
+        }, () => {
+            toast.info('Ocurrió un problema al consultar los usuarios');
         });
     }
 
@@ -323,22 +332,7 @@ class NormasComponent extends React.Component {
 
     componentDidMount() {
         this.searchNormas();
-
-        this.userService.getUsers().then(
-            response => {
-                if (response.data && response.data.length > 0) {
-                    response.data.forEach(item => {});
-                }
-
-                this.setState({
-                    rowData: response !== null ? response.data : [],
-                    loadingInformation: false
-                });
-            },
-            () => {
-                toast.info('Ocurrió un problema al consultar los usuarios');
-            }
-        );
+        this.getUsuarios();
     }
 
     render() {
