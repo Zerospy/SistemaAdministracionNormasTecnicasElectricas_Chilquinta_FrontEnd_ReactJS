@@ -155,7 +155,7 @@ class WorkflowComponent extends React.Component {
     render() {
         return [
             <WorkflowContext.Provider value={this}>
-                     <DetalleNormaModal
+                <DetalleNormaModal
                     norma={this.state.selectedNorma}
                     isOpen={this.state.modalDetalle}
                     toggle={() => {

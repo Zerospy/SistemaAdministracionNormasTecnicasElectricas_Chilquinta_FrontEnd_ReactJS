@@ -146,12 +146,12 @@ class NormasComponent extends React.Component {
             modalEdit: false,
             modalCommentRequest: false,
             loadingDetalles: false,
-            selectedNorma: null,
             quickFilter: '',
             codigoNorma: '',
             nombreNorma: '',
             normadescripcion: '',
             normaId: '',
+            selectedNorma: null,
             usersOptions: [],
             selectedUsers: [],
             estado: {
@@ -204,6 +204,19 @@ class NormasComponent extends React.Component {
             codNorma: this.state.codigoNorma, nombre: this.state.nombreNorma,
             descripcion: this.state.normadescripcion,
             estado: {descripcion: '', id: '1'}, fecha: c};
+
+        if(this.state.selectedUsers && this.state.selectedUsers.length > 0){
+            params.usersToComment =  [];
+
+            this.state.selectedUsers.forEach(user => {
+                params.usersToComment.push({
+                    usuarioRecibeEntity: {
+                        id: user.id
+                    }
+                });
+            });
+            
+        }
 
         if (this.state.pdfFile.size != 0 && this.state.pdfFile.size != null && this.state.cadFile.size != 0 && this.state.cadFile.size != null) {
             this.normaService.post(params)
@@ -531,7 +544,7 @@ class NormasComponent extends React.Component {
                                                         isSearchable
                                                         placeholder={'Listado de usuarios'}
                                                     />
-
+                                                    <br/>
                                                     <label>PDF</label>
                                                     <MDBFileInput
                                                         getValue={files => {
