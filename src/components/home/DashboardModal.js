@@ -82,41 +82,84 @@ class DashboardModal extends React.Component {
 
       if (modalType == 0) {
           this.dashboardService.getDownloaded().then(response => {
+
+            if (response.data && response.data.length > 0) {
+                response.data.forEach(item => {
+                    item.fecha = new Moment(item.fecha).format(
+                        Constantes.DATETIME_FORMAT
+                    );
+                });
+            }
+
               const {data} = response;
               this.setState({
-                  rowData: data,
+                  rowData: data ? response.data : [],
                   loadingInformation: false
               });
           });
       } else if (modalType == 1) {
           this.dashboardService.getAllWithFiles().then(response => {
+
+            if (response.data && response.data.length > 0) {
+                response.data.forEach(item => {
+                    item.fecha = new Moment(item.fecha).format(
+                        Constantes.DATETIME_FORMAT
+                    );
+                });
+            }
+
               const {data} = response;
               this.setState({
-                  rowData: data,
+                  rowData: data ? response.data : [],
                   loadingInformation: false
               });
           });
       } else if (modalType == 2) {
           this.dashboardService.getEnWorkflow().then(response => {
+
+            if (response.data && response.data.length > 0) {
+                response.data.forEach(item => {
+                    item.fecha = new Moment(item.fecha).format(
+                        Constantes.DATETIME_FORMAT
+                    );
+                });
+            }
+
               const {data} = response;
               this.setState({
-                  rowData: data,
+                  rowData: data ? response.data : [],
                   loadingInformation: false
               });
           });
       } else if (modalType == 3) {
           this.dashboardService.getAllPublished().then(response => {
+
+            if (response.data && response.data.length > 0) {
+                response.data.forEach(item => {
+                    item.fecha = new Moment(item.fecha).format(
+                        Constantes.DATETIME_FORMAT
+                    );
+                });
+            }
               const {data} = response;
               this.setState({
-                  rowData: data,
+                  rowData: data ? response.data : [],
                   loadingInformation: false
               });
           });
       } else if (modalType == 4) {
           this.dashboardService.getWithComment().then(response => {
+
+            if (response.data && response.data.length > 0) {
+                response.data.forEach(item => {
+                    item.fecha = new Moment(item.fecha).format(
+                        Constantes.DATETIME_FORMAT
+                    );
+                });
+            }
               const {data} = response;
               this.setState({
-                  rowData: data,
+                  rowData: data ? response.data : [],
                   loadingInformation: false
               });
           });
