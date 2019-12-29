@@ -142,7 +142,7 @@ class CommentsModal extends React.Component {
   render() {
       const {toggle, isOpen, onSave, norma} = this.props;
 
-      const canPublish = norma !== null && norma.estado.id !== 3;
+      const canPublish = norma !== null && norma.estado && norma.estado.id !== 3;
 
       return (
           <Container>

@@ -23,6 +23,7 @@ import pdf from 'assets/img/pdf.png';
 import cad from 'assets/img/cad.png';
 import {Link} from 'react-router-dom';
 import Select from 'react-select';
+import LoadingComponent from 'components/commons/base/LoadingComponent';
 
 class DetalleEditarNormaModal extends React.Component {
   state = {
@@ -65,22 +66,29 @@ class DetalleEditarNormaModal extends React.Component {
 
   getNorma(norma) {
       this.setState({
-          modalEdit: true,
-          loadingComments: true
+          modalEdit: true
       });
 
-      this.normaService.get(norma.id).then(response => {
+      this.normaService.getById(norma.id).then(response => {
           const data = response.data;
 
-          this.setState({
-              rowData: response !== null ? response.data : [],
+          data.usersToComment.forEach(user => {
+              user.value = user.id;
+              user.label = `${user.usuarioRecibeEntity.nombres} ${user.usuarioRecibeEntity.apellidos}`;
+          });
 
+          this.setState({
+              selectedUsers: data.usersToComment,
               loadingInformation: false
           });
       });
   }
 
   getUsuarios = () => {
+      this.setState({
+          loadingInformation: true
+      });
+
       this.userService.getUsers().then(
           response => {
               const data = response.data;
@@ -93,10 +101,14 @@ class DetalleEditarNormaModal extends React.Component {
               }
 
               this.setState({
+                  loadingInformation: false,
                   usersOptions: response !== null ? data : []
               });
           },
           () => {
+              this.setState({
+                  loadingInformation: false
+              });
               toast.info('Ocurrió un problema al consultar los usuarios');
           }
       );
@@ -159,7 +171,6 @@ class DetalleEditarNormaModal extends React.Component {
               console.log(this.state.normadescripcion);
               console.log(response);
               this.props.toggle();
-              this.search;
               toast.success(
                   `${this.props.intl.formatMessage({
                       id: 'component.normas.modal.edit.success'
@@ -241,9 +252,6 @@ class DetalleEditarNormaModal extends React.Component {
       this.props.norma !== null &&
       this.props.norma !== prevProps.norma
       ) {
-          this.setState({
-              rowData: []
-          });
           this.getNorma(this.props.norma);
       }
   }
@@ -298,6 +306,10 @@ class DetalleEditarNormaModal extends React.Component {
                       <FormattedMessage id="component.normas.title.EditModal" />
                   </ModalHeader>
                   <ModalBody>
+                      <LoadingComponent
+                          loading={this.state.loadingInformation}
+                          noBackground={true}
+                      />
                       <Row>
                           <Col size="12">
                               <form>

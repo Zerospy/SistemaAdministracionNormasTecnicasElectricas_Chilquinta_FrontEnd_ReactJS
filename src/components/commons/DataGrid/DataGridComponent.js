@@ -103,9 +103,9 @@ class DataGridComponent extends React.Component {
   };
 
   FiltroEstado() {
-      let estadoFilterComponent = this.gridApi.getFilterInstance('estado');
+      const estadoFilterComponent = this.gridApi.getFilterInstance('estado');
 
-      let model = {
+      const model = {
           type: 'set',
           values: ['Publicada']
       };
