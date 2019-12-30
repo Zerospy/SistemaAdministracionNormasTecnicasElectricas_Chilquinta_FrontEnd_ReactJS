@@ -35,20 +35,6 @@ class subirDocumento extends React.Component {
     }
   state = {
       modal: false,
-      options: [
-        {
-          text: "Distribucion",
-          value: "1"
-        },
-        {
-          text: "Subestaciones de poder",
-          value: "2"
-        },
-        {
-          text: "Lineas de transmision",
-          value: "3"
-        }
-      ]
   };
   toggle = () => {
       this.setState({
@@ -209,13 +195,13 @@ class subirDocumento extends React.Component {
                                       }}
                                   >
                                       <form>
-                                      <MDBSelect
-                                                       options={this.state.options}
-                                                       selected="1"
-                                                       label="Seleccione una categoria"
-                                                       onChange={this.onChangeCodigo}
-                                                      />
 
+                                                <select className="browser-default custom-select">
+                                                <option>Seleccione una categoria</option>
+                                                <option value="1">Subestaciones de poder</option>
+                                                <option value="2">Distribucion</option>
+                                                <option value="3">Lineas de transmision</option>
+                                                </select>
                                           <br />
 
                                           <MDBInput
