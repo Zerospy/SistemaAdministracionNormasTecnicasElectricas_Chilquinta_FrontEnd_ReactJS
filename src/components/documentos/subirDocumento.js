@@ -34,7 +34,21 @@ class subirDocumento extends React.Component {
         event.preventDefault();
     }
   state = {
-      modal: false
+      modal: false,
+      options: [
+        {
+          text: "Distribucion",
+          value: "1"
+        },
+        {
+          text: "Subestaciones de poder",
+          value: "2"
+        },
+        {
+          text: "Lineas de transmision",
+          value: "3"
+        }
+      ]
   };
   toggle = () => {
       this.setState({
@@ -60,20 +74,7 @@ class subirDocumento extends React.Component {
           },
           usersOptions: [],
           selectedUsers: [],
-          options: [
-            {
-              text: "Distribucion",
-              value: "1"
-            },
-            {
-              text: "Subestaciones de poder",
-              value: "2"
-            },
-            {
-              text: "Lineas de transmision",
-              value: "3"
-            }
-          ]
+   
       };
 
      
