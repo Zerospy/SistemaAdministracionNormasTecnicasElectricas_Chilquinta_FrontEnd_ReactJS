@@ -59,25 +59,25 @@ class subirDocumento extends React.Component {
               id: 0
           },
           usersOptions: [],
-          selectedUsers: []
+          selectedUsers: [],
+          options: [
+            {
+              text: "Distribucion",
+              value: "1"
+            },
+            {
+              text: "Subestaciones de poder",
+              value: "2"
+            },
+            {
+              text: "Lineas de transmision",
+              value: "3"
+            }
+          ]
       };
 
-      state = {
-        options: [
-          {
-            text: "Distribucion",
-            value: "1"
-          },
-          {
-            text: "Subestaciones de poder",
-            value: "2"
-          },
-          {
-            text: "Lineas de transmision",
-            value: "3"
-          }
-        ]
-      };
+     
+     
   }
   getNorma(norma) {
       this.normaService.get(norma).then(res => {
