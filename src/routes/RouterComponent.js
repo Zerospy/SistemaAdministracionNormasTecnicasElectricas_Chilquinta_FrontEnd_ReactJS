@@ -14,6 +14,8 @@ import normasInternacionales from 'components/normasInternacionales/normasIntern
 import administracionNormasInternacionales from 'components/normasInternacionales/administracionNormasInternacionales';
 import UserComponent from 'components/userManagement/UserComponent';
 import GridUsuarios from 'components/normas/GridUsuarios';
+import documentosComponent from '../components/documentos/documentosComponent';
+import subirDocumento from '../components/documentos/subirDocumento';
 
 class RouterComponent extends React.Component {
     constructor(props) {
@@ -64,6 +66,16 @@ class RouterComponent extends React.Component {
                     exact
                     path="/administracionNormasInternacionales"
                     component={administracionNormasInternacionales}
+                />
+                   <Route
+                    exact
+                    path="/documentosComponent"
+                    component={documentosComponent}
+                />
+                   <Route
+                    exact
+                    path="/subirDocumento"
+                    component={subirDocumento}
                 />
                 <Route exact path="/users-management" component={UserComponent} />
                 <Route component={NotFoundComponent} />

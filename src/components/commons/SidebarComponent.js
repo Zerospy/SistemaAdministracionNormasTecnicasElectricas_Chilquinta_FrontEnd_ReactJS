@@ -153,6 +153,35 @@ class SidebarComponent extends React.Component {
                           </SideNavLink>
                       </SideNavCat>
 
+
+                      <SideNavCat
+                          id="Documentos"
+                          name={`${this.props.intl.formatMessage({
+                              id: 'menu.documentos'
+                          })}`}
+                          icon="folder"
+                          startOpen={true}
+                      >
+                          <SideNavLink
+                              to="/documentosComponent"
+                              onClick={() => {
+                                  window.location.reaload();
+                              }}
+                          >
+                              <Fa icon="network-wired" />
+                              <FormattedMessage id="menu.documentos.item" />
+                          </SideNavLink>
+                          <SideNavLink
+                              to="/subirDocumento"
+                              onClick={() => {
+                                  window.location.reaload();
+                              }}
+                          >
+                              <Fa icon="network-wired" />
+                              <FormattedMessage id="menu.documentos.subir" />
+                          </SideNavLink>
+                      </SideNavCat>
+
                       {this.sessionInformation.admin ? <SideNavCat
                           id="userManagement"
                           name={`${this.props.intl.formatMessage({

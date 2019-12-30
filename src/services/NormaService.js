@@ -3,6 +3,7 @@ import axios from 'axios';
 export default class NormaService {
   get = () => axios.get('/norma/');
   getInternational = () => axios.get('/norma/internacional/all');
+  getDocumentos = () => axios.get('/norma/documentos/all');
   getById = id => axios.get(`/norma/${id}`);
   publish = id => axios.post(`/norma/publish/${id}`);
 
@@ -25,5 +26,9 @@ export default class NormaService {
 
       normaInternacional = (params) => 
       axios.post (`norma/norma-internacional`, params);
+
+
+  normaDocumentos = id => 
+      axios.post(`norma/normadocumentos/${id}`);
 
 }

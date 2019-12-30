@@ -146,6 +146,14 @@
     "component.normasInternacionales.datagrid.Solicitar": "Solicitar",
     "component.normasInternacionales.succes": "Normas Internacionales agregadas exitosamente",
     "component.normasInternacionales.error": "Error en el archivo, revise orden de columnas",
+
+    "menu.documentos": "Documentos",
+    "menu.documentos.title": "Listado de Documentos",
+    "menu.documentos.item": "Documentacion en sistema",
+    "menu.documentos.subir":"Subir Documento",
+    "menu.documentos.categoria":"Categoria",
+  
+
     "end": "end"
 
 }
