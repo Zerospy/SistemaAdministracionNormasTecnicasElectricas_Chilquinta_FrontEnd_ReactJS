@@ -15,7 +15,6 @@ import { MDBSelect } from "mdbreact";
 import Moment from 'moment';
 import {saveAs} from 'file-saver';
 import LoginService from 'services/LoginService';
-import Select from 'react-select';
 
 
 class NormasComponent extends React.Component {
@@ -125,22 +124,7 @@ class NormasComponent extends React.Component {
                 fecha: ''
             }
         };
-        state = {
-            options: [
-              {
-                text: "Distribucion",
-                value: "1"
-              },
-              {
-                text: "Subestaciones de poder",
-                value: "2"
-              },
-              {
-                text: "Lineas de transmision",
-                value: "3"
-              }
-            ]
-          };
+    
 
     }
 
@@ -319,19 +303,7 @@ class NormasComponent extends React.Component {
 
                                                     />
 
-                                                    <label>Usuarios que pueden comentar</label>
-                                                    <Select
-                                                        options = {this.state.usersOptions}
-                                                        onChange = {selectedOptions => {
-                                                            this.setState({
-                                                                selectedUsers: selectedOptions
-                                                            });
-                                                        }}
-                                                        value={this.state.selectedUsers}
-                                                        isMulti
-                                                        isSearchable
-                                                        placeholder={'Listado de usuarios'}
-                                                    />
+                                  
                                                     <br/>
                                                     <label>PDF</label>
                                                     <MDBFileInput

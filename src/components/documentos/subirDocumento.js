@@ -11,7 +11,6 @@ import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import NormaService from 'services/NormaService';
 import UserService from 'services/UserService';
 import {toast} from 'react-toastify';
-import Select from 'react-select';
 import {
     MDBCard,
     MDBCardTitle,
@@ -63,8 +62,6 @@ class subirDocumento extends React.Component {
    
       };
 
-     
-     
   }
   getNorma(norma) {
       this.normaService.get(norma).then(res => {
