@@ -193,11 +193,12 @@ class subirDocumento extends React.Component {
                                   >
                                       <form>
 
-                                                <select className="browser-default custom-select">
-                                                <option>Seleccione una categoria</option>
-                                                <option value="1">Subestaciones de poder</option>
-                                                <option value="2">Distribucion</option>
-                                                <option value="3">Lineas de transmision</option>
+                                                <select className="browser-default custom-select" 
+                                                >
+                                                <option> Seleccione una categoria</option>
+                                                <option value="Subestaciones de poder" onChange={this.onChangeCodigo}  >Subestaciones de poder</option>
+                                                <option value="Distribucion" onChange={this.onChangeCodigo}>Distribucion</option>
+                                                <option value="Lineas de transmision" onChange={this.onChangeCodigo} >Lineas de transmision</option>
                                                 </select>
                                           <br />
 
@@ -227,7 +228,6 @@ class subirDocumento extends React.Component {
                                               <Button
                                                   disabled={
                                                       !this.state.nombreNorma ||
-                            !this.state.codigoNorma ||
                             !this.state.normadescripcion ||
                             !this.state.pdfFile
                                                   }
