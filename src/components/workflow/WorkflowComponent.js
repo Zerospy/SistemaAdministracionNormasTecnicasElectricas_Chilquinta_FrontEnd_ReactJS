@@ -14,6 +14,7 @@ import LoginService from 'services/LoginService';
 import {toast} from 'react-toastify';
 import Moment from 'moment';
 import DetalleNormaModal from 'components/normas/DetalleNormaModal';
+import DetalleEditarNormaModal from 'components/normas/DetalleEditarNormaModal';
 
 class WorkflowComponent extends React.Component {
     showSettings(event) {
@@ -77,6 +78,21 @@ class WorkflowComponent extends React.Component {
                     });
                 },
                 editable: false,
+                colId: 'id',
+                width: 80
+            },
+            {
+                headerName: 'Editar',
+                field: 'id',
+                cellRenderer: 'DetailButtonGridEdit',
+                onClick: norma => {
+                    this.setState({
+                        selectedNorma: norma,
+                        modalEdit: true
+                    });
+                },
+                editable: false,
+                enabled: this.sessionInformation.admin,
                 colId: 'id',
                 width: 80
             },
@@ -165,6 +181,18 @@ class WorkflowComponent extends React.Component {
                     }}
                     enabled={this.sessionInformation.admin}
                 />
+                    <DetalleEditarNormaModal
+                    norma={this.state.selectedNorma}
+                    isOpen={this.state.modalEdit}
+                    toggle={() => {
+                        this.setState({
+                            modalEdit: !this.state.modalEdit
+
+                        });
+                        this.searchNormas();
+                    }}
+                />
+
                 <CommentsModal
                     norma={this.state.selectedNorma}
                     isOpen={this.state.modalComments && this.sessionInformation.admin}
