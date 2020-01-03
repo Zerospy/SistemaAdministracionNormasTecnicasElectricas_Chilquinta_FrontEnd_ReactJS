@@ -15,6 +15,7 @@ import { MDBSelect } from "mdbreact";
 import Moment from 'moment';
 import {saveAs} from 'file-saver';
 import LoginService from 'services/LoginService';
+import Downloadclic from 'components/documentos/downloadclic';
 
 
 class NormasComponent extends React.Component {
@@ -44,17 +45,10 @@ class NormasComponent extends React.Component {
         const columnDefs = [
             {
                 headerName: `${props.intl.formatMessage({
-                    id: 'component.normas.datagrid.id'
-                })}`,
-                field: 'id',
-                width: 50
-            },
-            {
-                headerName: `${props.intl.formatMessage({
                     id: 'menu.documentos.categoria'
                 })}`,
                 field: 'codNorma',
-                width: 100
+                width: 300
             },
             {
                 headerName: `${props.intl.formatMessage({
@@ -74,7 +68,7 @@ class NormasComponent extends React.Component {
                 headerName: `${props.intl.formatMessage({
                     id: 'component.normas.datagrid.fecha'
                 })}`,
-                field: 'fechaStr',
+                field: 'fecha',
                 width: 150
             },
             {
@@ -84,9 +78,11 @@ class NormasComponent extends React.Component {
                 onClick: norma => {
                     this.setState({
                         selectedNorma: norma,
-                        modalDetalle: true
+                        downloadclic: true
+                    
                     });
-                },
+                }
+                ,
                 editable: false,
                 colId: 'id',
                 width: 150
@@ -102,8 +98,7 @@ class NormasComponent extends React.Component {
             rowData: [],
             idData: [],
             loadingInformation: false,
-            modalDetalle: false,
-            modalEdit: false,
+            modalDownload: false,
             modalCommentRequest: false,
             loadingDetalles: false,
             quickFilter: '',
@@ -112,6 +107,7 @@ class NormasComponent extends React.Component {
             normadescripcion: '',
             normaId: '',
             selectedNorma: null,
+            downloadclic: false,
             usersOptions: [],
             selectedUsers: [],
             estado: {
@@ -147,6 +143,17 @@ class NormasComponent extends React.Component {
         });
     }
 
+    downloadPdf = () => {
+        const {id, codNorma} = this.props.norma;
+        this.normaService.downloadNormaFile(id, 'pdf').then(response => {
+            saveAs(
+                new Blob([response.data], {
+                    type: 'application/pdf'
+                }),
+                `${codNorma}.pdf`
+            );
+        });
+    }
    
     onChangeCodigo = e => {
         this.setState({
@@ -190,7 +197,7 @@ class NormasComponent extends React.Component {
       () => {
         toast.info(
           `${this.props.intl.formatMessage({
-            id: "component.workflow.title"
+            id: "menu.documentos.title"
           })}`
         );
 
@@ -212,6 +219,13 @@ class NormasComponent extends React.Component {
                 });
             });
     }
+    
+    downloadCad = () => {
+        const {id, codNorma} = this.props.norma;
+        this.normaService.downloadNormaFile(id, 'cad').then(response => {
+            saveAs(new Blob([response.data]), `${codNorma}.cad`);
+        });
+    };
 
     componentDidMount() {
         this.searchNormas();
@@ -225,10 +239,16 @@ class NormasComponent extends React.Component {
         return [
             <NormasContext.Provider value={this}>
 
-
-         
-          
-
+            <Downloadclic
+                              norma={this.state.selectedNorma}
+                              isOpen={this.state.modalDownload}
+                              toggle={() => {
+                                  this.setState({
+                                      modalDownload: !this.state.modalDetalle
+                                  });
+                              }}
+                          
+                             /> 
 
                 <HeaderComponent />
                 <Row>
@@ -251,93 +271,7 @@ class NormasComponent extends React.Component {
                                     }}
                                 />
                             </Col>
-
-
-                            <Row>
-                                <Col className="offset-10" size="2">
-                                    <Button
-                                        size="sm"
-                                        onClick={() => {
-                                            this.searchNormas();
-                                        }}
-                                    >
-                                        {' '}
-                                        <Fa icon="sync" />
-                                    </Button>
-                                   
-                                    <MDBModal isOpen={this.state.modal} toggle={this.toggle}
-
-                                    >
-                                        <MDBModalHeader toggle={this.toggle}>Crear Norma</MDBModalHeader>
-                                        <MDBModalBody>
-
-                                            <form>
-                                                <div className="form-group">
-                                                    <label htmlFor="formGroupExampleInput">Categoria de documento</label>
-                                                
-                                                      <MDBSelect
-                                                       options={this.state.options}
-                                                       selected="1"
-                                                       label="Seleccione una categoria"
-                                                       onChange={this.onChangeCodigo}
-                                                      />
-
-
-                                                    <label htmlFor="formGroupExampleInput">Nombre Norma</label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        id="formGroupExampleInput"
-                                                        defaultValue={this.state.nombreNorma}
-                                                        onChange={this.onChangeNombre}
-                                                    />
-
-                                                    <label htmlFor="formGroupExampleInput">Descripcion Norma</label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        id="formGroupExampleInput"
-                                                        value={this.state.normadescripcion}
-                                                        onChange={this.onChangeDescripcion}
-
-
-                                                    />
-
-                                  
-                                                    <br/>
-                                                    <label>PDF</label>
-                                                    <MDBFileInput
-                                                        getValue={files => {
-                                                            this.setState({
-                                                                pdfFile: files[0]
-                                                            });
-                                                        }}
-                                                    />
-                                               
-                                                </div>
-                                            </form>
-
-                                        </MDBModalBody>
-
-                                        <MDBModalFooter>
-                                            <MDBBtn color="secondary" onClick={
-                                                this.toggle
-
-                                            } > Cerrar </MDBBtn>
-
-                                            <Button color="primary"
-
-                                                disabled={!this.state.nombreNorma || !this.state.codigoNorma || !this.state.normadescripcion
-                                                    || !this.state.pdfFile || !this.state.cadFile}
-                                                color="primary"
-                                                onClick={this.publishToWorkflow}
-
-                                            > Enviar a workflow</Button>
-                                        </MDBModalFooter>
-
-                                    </MDBModal>
-                                </Col>
-                            </Row>
+                           
 
 
                             <DataGridComponent
