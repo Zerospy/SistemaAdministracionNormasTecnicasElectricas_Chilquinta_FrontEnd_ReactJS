@@ -105,9 +105,6 @@ class subirDocumento extends React.Component {
           fecha: c,
           tipoNorma: 'DOCUMENTO'
       };
-
-       
-       
               this.normaService.post(params).then(response => {
           const data = response.data;
 
@@ -123,8 +120,7 @@ class subirDocumento extends React.Component {
           console.log(response.data.id);
           let formData = new FormData();
           formData.append('file', this.state.pdfFile);
-          this.normaService.normaDocumentos(normaId).then(res => { 
-
+  
             this.setState({
 
               normaId: response.data.id
@@ -136,12 +132,7 @@ class subirDocumento extends React.Component {
                 formData = new FormData();
                 formData.append('file', this.state.cadFile); 
 
-              
             });
-          });  
-        
-
-            
       }),
       toast.success(
           `${this.props.intl.formatMessage({
@@ -192,14 +183,16 @@ class subirDocumento extends React.Component {
                                       }}
                                   >
                                       <form>
-
+                                      <div>
                                                 <select className="browser-default custom-select" 
+                                                value={this.state.codigoNorma} onChange={this.onChangeCodigo}>
                                                 >
                                                 <option> Seleccione una categoria</option>
-                                                <option value="Subestaciones de poder" onChange={this.onChangeCodigo}  >Subestaciones de poder</option>
-                                                <option value="Distribucion" onChange={this.onChangeCodigo}>Distribucion</option>
-                                                <option value="Lineas de transmision" onChange={this.onChangeCodigo} >Lineas de transmision</option>
+                                                <option codigoNorma="Subestaciones de poder">Subestaciones de poder</option>
+                                                <option codigoNorma="Distribucion" >Distribucion</option>
+                                                <option codigoNorma="Lineas de transmision" >Lineas de transmision</option>
                                                 </select>
+                                        </div>
                                           <br />
 
                                           <MDBInput
