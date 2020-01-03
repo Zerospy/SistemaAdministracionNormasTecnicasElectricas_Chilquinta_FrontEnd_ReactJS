@@ -22733,7 +22733,11 @@ footer ul li a {
   .dashboard-card .badge-counter-disabled {
     background-color: white;
     border: 1px solid silver;
-    color: black !important; }
+    color: black !important;
+    font-size: 17px;
+    font-weight: 400; }
+  .dashboard-card .badge-counter-disabled:hover {
+    cursor: default; }
   .dashboard-card .badge-counter {
     transition: 400ms all;
     font-size: 17px;

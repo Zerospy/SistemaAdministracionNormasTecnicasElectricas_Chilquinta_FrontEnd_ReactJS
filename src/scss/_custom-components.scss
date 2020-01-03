@@ -1091,6 +1091,11 @@ footer {
     background-color: white;
     border: 1px solid silver;
     color: black !important;
+    font-size: 17px;
+    font-weight: 400;
+  }
+  .badge-counter-disabled:hover {
+    cursor: default;
   }
   .badge-counter {
     transition: 400ms all;

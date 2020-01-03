@@ -196,7 +196,7 @@ class DashboardComponent extends React.Component {
                                     Normas en el sistema
                                                                   </Col>
                                                                   <Col className="col-4">
-                                                                      <span className="badge badge-counter badge-counter-disabled">
+                                                                      <span className="badge badge-counter-disabled">
                                                                           <CountUp
                                                                               start={this.state.startPoint}
                                                                               end={this.state.normasQuantity}
