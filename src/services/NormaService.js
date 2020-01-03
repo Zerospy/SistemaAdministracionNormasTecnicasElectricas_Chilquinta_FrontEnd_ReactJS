@@ -17,8 +17,8 @@ export default class NormaService {
   estadoNormas = estadoNorma => axios.get(`/norma/findByStatus/${estadoNorma}`);
 
   downloadNormaFile = (normaId, fileType) =>
-      axios.get(`/norma-files/download/${normaId}/${fileType}`, null, {
-          responseType: 'arraybuffer'
+      axios.get(`/norma-files/download/${normaId}/${fileType}`, {
+          responseType: 'blob'
       });
 
   uploadNormaFile = (normaId, fileType, formData) =>

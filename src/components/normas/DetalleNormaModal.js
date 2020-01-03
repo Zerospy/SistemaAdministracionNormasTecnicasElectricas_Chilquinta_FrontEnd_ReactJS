@@ -202,36 +202,38 @@ class DetalleNormaModal extends React.Component {
                               >
                                   <h5>{normafecha.substring(0, 10)}</h5>
                               </PanelComponent>
-                              {this.props.enabled ? <PanelComponent
-                                  title={`${this.props.intl.formatMessage({
-                                      id: 'component.vernormas.descarga.Modal'
-                                  })}`}
-                              >
-                                  <h5>
-                                      {' '}
-                                      <td onClick={this.downloadPdf}>
+                              {this.props.enabled ? (
+                                  <PanelComponent
+                                      title={`${this.props.intl.formatMessage({
+                                          id: 'component.vernormas.descarga.Modal'
+                                      })}`}
+                                  >
+                                      <h5>
                                           {' '}
-                                          <img
-                                              style={{
-                                                  width: 70,
-                                                  height: 70,
-                                                  cursor: 'pointer',
-                                                  marginRight: '8px'
-                                              }}
-                                              title="Descargar Pdf de la norma"
-                                              src={pdf}
-                                          ></img>
-                                      </td>{' '}
-                                      <td onClick={this.downloadCad}>
-                                          {' '}
-                                          <img
-                                              style={{width: 70, height: 70, cursor: 'pointer'}}
-                                              src={cad}
-                                              title="Descargar Cad de la norma"
-                                          ></img>
-                                      </td>{' '}
-                                  </h5>
-                              </PanelComponent> : null}
+                                          <td onClick={this.downloadPdf}>
+                                              {' '}
+                                              <img
+                                                  style={{
+                                                      width: 70,
+                                                      height: 70,
+                                                      cursor: 'pointer',
+                                                      marginRight: '8px'
+                                                  }}
+                                                  title="Descargar Pdf de la norma"
+                                                  src={pdf}
+                                              ></img>
+                                          </td>{' '}
+                                          <td onClick={this.downloadCad}>
+                                              {' '}
+                                              <img
+                                                  style={{width: 70, height: 70, cursor: 'pointer'}}
+                                                  src={cad}
+                                                  title="Descargar Cad de la norma"
+                                              ></img>
+                                          </td>{' '}
+                                      </h5>
+                                  </PanelComponent>
+                              ) : null}
                           </Col>
                       </Row>
                       <Row>
