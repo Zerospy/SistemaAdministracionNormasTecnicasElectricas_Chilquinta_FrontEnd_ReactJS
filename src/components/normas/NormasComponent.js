@@ -236,26 +236,18 @@ class NormasComponent extends React.Component {
                     console.log(response.data.id);
                     let formData = new FormData();
                     formData.append('file', this.state.pdfFile);
-                    console.log(this.state.pdfFile.size);
 
                     this.normaService.uploadNormaFile(response.data.id, 'pdf', formData).then(result => {
                         formData = new FormData();
                         formData.append('file', this.state.cadFile);
-
+                        console.log(result);   
                         this.normaService
                             .uploadNormaFile(response.data.id, 'cad', formData)
                             .then(result => {
-                                toast.success(
-                                    `${this.props.intl.formatMessage({
-                                        id: 'component.normas.modal.edit.success'
-                                    })}`
-                                );
-
-                                this.toggle();
+                                console.log(result);   
                             });
                     });
                 }),
-
 
             toast.success(
                 `${this.props.intl.formatMessage({
@@ -326,8 +318,7 @@ class NormasComponent extends React.Component {
                 });
             }
         );
-        this.normaService.get(norma);
-        console.log(norma.map);
+
     }
 
     getNorma(norma) {

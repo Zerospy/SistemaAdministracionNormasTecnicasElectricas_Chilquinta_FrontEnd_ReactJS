@@ -163,19 +163,26 @@ class DetalleEditarNormaModal extends React.Component {
           });
       }
 
+      this.setState({
+          savingNorma: true
+      });
+
       this.normaService.updateNorma(id, params).then(
           response => {
               const data = response.data;
 
-              console.log(params);
-              console.log(this.state.normadescripcion);
-              console.log(response);
-              this.props.toggle();
-              toast.success(
-                  `${this.props.intl.formatMessage({
-                      id: 'component.normas.modal.edit.success'
-                  })}`
-              );
+              if (!this.state.pdfFile && !this.state.cadFile) {
+                  this.props.toggle();
+                  toast.success(
+                      `${this.props.intl.formatMessage({
+                          id: 'component.normas.modal.edit.success'
+                      })}`
+                  );
+
+                  this.setState({
+                      savingNorma: false
+                  });
+              }
           },
           () => {
               toast.error(
@@ -189,6 +196,55 @@ class DetalleEditarNormaModal extends React.Component {
               });
           }
       );
+
+      if (
+          this.state.pdfFile &&
+      this.state.cadFile &&
+      this.state.pdfFile.size != 0 &&
+      this.state.pdfFile.size != null &&
+      this.state.cadFile.size != 0 &&
+      this.state.cadFile.size != null
+      ) {
+          this.setState({
+              savingNorma: true
+          });
+
+          let formData = new FormData();
+          formData.append('file', this.state.pdfFile);
+
+          this.normaService
+              .uploadNormaFile(normaId, 'pdf', formData)
+              .then(result => {
+                  formData = new FormData();
+                  formData.append('file', this.state.cadFile);
+
+                  this.normaService
+                      .uploadNormaFile(normaId, 'cad', formData)
+                      .then(result => {
+                          this.props.toggle();
+                          toast.success(
+                              `${this.props.intl.formatMessage({
+                                  id: 'component.normas.modal.edit.success'
+                              })}`
+                          );
+
+                          this.setState({
+                              savingNorma: false
+                          });
+                      }),
+                  () => {
+                      toast.error(
+                          `${this.props.intl.formatMessage({
+                              id: 'component.normas.modal.edit.error'
+                          })}`
+                      );
+
+                      this.setState({
+                          savingNorma: false
+                      });
+                  };
+              });
+      }
   };
 
   publishToWorkflow = () => {
@@ -204,6 +260,9 @@ class DetalleEditarNormaModal extends React.Component {
       this.state.cadFile.size != 0 &&
       this.state.cadFile.size != null
       ) {
+          this.setState({
+              savingNorma: true
+          });
           this.normaService
               .uploadNormaFile(normaId, 'pdf', formData)
               .then(result => {
@@ -213,6 +272,10 @@ class DetalleEditarNormaModal extends React.Component {
                   this.normaService
                       .uploadNormaFile(normaId, 'cad', formData)
                       .then(result => {
+                          this.setState({
+                              savingNorma: false
+                          });
+
                           toast.success(
                               `${this.props.intl.formatMessage({
                                   id: 'component.normas.modal.edit.success'
@@ -386,7 +449,11 @@ class DetalleEditarNormaModal extends React.Component {
                       <Row>
                           <Col className="d-flex justify-content-end">
                               <Button
-                                  disabled={!this.state.pdfFile || !this.state.cadFile}
+                                  disabled={
+                                      !this.state.pdfFile ||
+                    !this.state.cadFile ||
+                    this.state.savingNorma
+                                  }
                                   color="primary"
                                   onClick={this.publishToWorkflow}
                               >

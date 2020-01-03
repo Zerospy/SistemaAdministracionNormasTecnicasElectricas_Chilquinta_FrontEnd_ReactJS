@@ -1088,8 +1088,9 @@ footer {
   flex: 1;
   border-color: #ff35478a !important;
   .badge-counter-disabled {
-    background-color: transparent;
-    color: black;
+    background-color: white;
+    border: 1px solid silver;
+    color: black !important;
   }
   .badge-counter {
     transition: 400ms all;
