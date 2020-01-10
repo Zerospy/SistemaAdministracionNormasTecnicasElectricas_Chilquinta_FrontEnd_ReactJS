@@ -114,7 +114,7 @@ class DetalleNormaModal extends React.Component {
               new Blob([response.data], {
                   type: 'application/pdf'
               }),
-              `${codNorma}.pdf`
+              `${codNorma}`
           );
       });
   };
@@ -122,7 +122,7 @@ class DetalleNormaModal extends React.Component {
   downloadCad = () => {
       const {id, codNorma} = this.props.norma;
       this.normaService.downloadNormaFile(id, 'cad').then(response => {
-          saveAs(new Blob([response.data]), `${codNorma}.cad`);
+          saveAs(new Blob([response.data]), `${codNorma}`);
       });
   };
 
