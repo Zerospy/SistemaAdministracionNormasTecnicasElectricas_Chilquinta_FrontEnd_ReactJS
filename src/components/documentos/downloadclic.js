@@ -68,8 +68,10 @@ class downloadclic extends React.Component {
       const {id, codNorma} = this.props.norma;
       this.normaService.downloadNormaFile(id, 'pdf').then(response => {
           saveAs(
-              new Blob([response.data],
-                `${codNorma}-${this.state.normaInfo.pdfFileName}`
+              new Blob(
+                  [response.data],
+                  `${codNorma}-${this.state.normaInfo.pdfFileName}`
+              )
           );
       });
   };
