@@ -47,74 +47,28 @@ class DetalleNormaModal extends React.Component {
               RowsPerPage: Constantes.DEFAULT_PAGE_SIZE
           },
           columnDefs: columnDefs,
-          rowData: [],
+          normaInfo: {},
           loadingInformation: false
       };
   }
 
   getNorma(norma) {
-      this.normaService.get(norma.id).then(response => {
+      this.normaService.getById(norma.id).then(response => {
           const data = response.data;
 
           this.setState({
-              rowData: response !== null ? response.data : [],
-
+              normaInfo: data,
               loadingInformation: false
           });
       });
   }
-  saveComment = () => {
-      const {rowData} = this.state;
-      const normaId = this.props.norma.id;
-      const {onSaveComment, norma} = this.props;
-
-      this.setState({
-          savingComment: true
-      });
-
-      this.commentService
-          .post(normaId, {
-              comment: this.state.newComment
-          })
-          .then(
-              response => {
-                  const data = response.data;
-
-                  onSaveComment(norma);
-                  this.setState(
-                      {
-                          rowData: [...rowData, data],
-                          savingComment: false
-                      },
-                      () => {
-                          this.setState({
-                              newComment: ''
-                          });
-                      }
-                  );
-              },
-              () => {
-                  toast.error(
-                      `${this.props.intl.formatMessage({
-                          id: 'component.normas.modal.comment.error'
-                      })}`
-                  );
-
-                  this.setState({
-                      savingComment: false
-                  });
-              }
-          );
-  };
 
   downloadPdf = () => {
       const {id, codNorma} = this.props.norma;
       this.normaService.downloadNormaFile(id, 'pdf').then(response => {
           saveAs(
-              new Blob([response.data], {
-                  type: 'application/pdf'
-              }),
-              `${codNorma}.pdf`
+              new Blob([response.data.file]),
+              `${codNorma}-${this.state.normaInfo.pdfFileName}`
           );
       });
   };
@@ -122,7 +76,10 @@ class DetalleNormaModal extends React.Component {
   downloadCad = () => {
       const {id, codNorma} = this.props.norma;
       this.normaService.downloadNormaFile(id, 'cad').then(response => {
-          saveAs(new Blob([response.data]), `${codNorma}.cad`);
+          saveAs(
+              new Blob([response.data]),
+              `${codNorma}-${this.state.normaInfo.cadFileName}`
+          );
       });
   };
 
@@ -133,7 +90,7 @@ class DetalleNormaModal extends React.Component {
       this.props.norma !== prevProps.norma
       ) {
           this.setState({
-              rowData: []
+              normaInfo: {}
           });
           this.getNorma(this.props.norma);
       }
