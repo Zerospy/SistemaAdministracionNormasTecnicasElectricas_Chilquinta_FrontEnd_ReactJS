@@ -66,7 +66,7 @@ class DetalleNormaModal extends React.Component {
   downloadPdf = () => {
       const {id, codNorma, urlPdf, estado} = this.props.norma;
 
-      if (estado !== null && estado.id === 3) {
+      if (urlPdf !== null && estado !== null && estado.id === 3) {
           saveAs(
               urlPdf,
               `${codNorma}-${this.state.normaInfo.pdfFileName}`
@@ -84,7 +84,7 @@ class DetalleNormaModal extends React.Component {
   downloadCad = () => {
       const {id, codNorma, urlCad, estado} = this.props.norma;
 
-      if (estado !== null && estado.id === 3) {
+      if (urlCad !== null && estado !== null && estado.id === 3) {
           saveAs(
               urlCad,
               `${codNorma}-${this.state.normaInfo.cadFileName}`
