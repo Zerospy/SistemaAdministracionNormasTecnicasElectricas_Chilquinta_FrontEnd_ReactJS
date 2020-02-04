@@ -151,16 +151,6 @@ class NormasComponent extends React.Component {
       );
   };
 
-  downloadPdf = () => {
-      const {id, codNorma} = this.props.norma;
-      this.normaService.downloadNormaFile(id, 'pdf').then(response => {
-          saveAs(
-              new Blob([response.data]),
-              `${codNorma}-${this.state.normaInfo.pdfFileName}`
-          );
-      });
-  };
-
   onChangeCodigo = e => {
       this.setState({
           codigoNorma: e.target.value

@@ -64,23 +64,39 @@ class DetalleNormaModal extends React.Component {
   }
 
   downloadPdf = () => {
-      const {id, codNorma} = this.props.norma;
-      this.normaService.downloadNormaFile(id, 'pdf').then(response => {
+      const {id, codNorma, urlPdf, estado} = this.props.norma;
+
+      if (estado !== null && estado.id === 3) {
           saveAs(
-              new Blob([response.data.file]),
+              urlPdf,
               `${codNorma}-${this.state.normaInfo.pdfFileName}`
           );
-      });
+      } else {
+          this.normaService.downloadNormaFile(id, 'pdf').then(response => {
+              saveAs(
+                  new Blob([response.data.file]),
+                  `${codNorma}-${this.state.normaInfo.pdfFileName}`
+              );
+          });
+      }
   };
 
   downloadCad = () => {
-      const {id, codNorma} = this.props.norma;
-      this.normaService.downloadNormaFile(id, 'cad').then(response => {
+      const {id, codNorma, urlCad, estado} = this.props.norma;
+
+      if (estado !== null && estado.id === 3) {
           saveAs(
-              new Blob([response.data]),
+              urlCad,
               `${codNorma}-${this.state.normaInfo.cadFileName}`
           );
-      });
+      } else {
+          this.normaService.downloadNormaFile(id, 'cad').then(response => {
+              saveAs(
+                  new Blob([response.data]),
+                  `${codNorma}-${this.state.normaInfo.cadFileName}`
+              );
+          });
+      }
   };
 
   componentDidUpdate(prevProps) {

@@ -167,7 +167,22 @@ class CrearNormaComponent extends React.Component {
                           );
                       });
               });
-      }),
+      });
+
+      this.setState({
+          pdfFile: '',
+          cadFile: '',
+          codigoNorma: '',
+          nombreNorma: '',
+          normaDescripcion: '',
+          estado: {
+              descripcion: 'En Revisión',
+              id: 0
+          },
+          usersOptions: [],
+          selectedUsers: []
+      });
+
       toast.success(
           `${this.props.intl.formatMessage({
               id: 'component.normas.modal.msg.success.crear'
