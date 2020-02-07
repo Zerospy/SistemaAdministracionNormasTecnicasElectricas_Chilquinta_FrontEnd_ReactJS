@@ -70,13 +70,13 @@ class downloadclic extends React.Component {
       if (urlPdf !== null && estado !== null && estado.id === 3) {
           saveAs(
               urlPdf,
-              `${codNorma}-${this.state.normaInfo.pdfFileName}`
+              `${codNorma}-${this.props.norma.pdfFileName}`
           );
       } else {
           this.normaService.downloadNormaFile(id, 'pdf').then(response => {
               saveAs(
                   new Blob([response.data]),
-                  `${codNorma}-${this.state.normaInfo.pdfFileName}`
+                  `${codNorma}-${this.props.norma.pdfFileName}`
               );
           });
       }
@@ -88,13 +88,13 @@ downloadCad = () => {
     if (urlCad !== null && estado !== null && estado.id === 3) {
         saveAs(
             urlCad,
-            `${codNorma}-${this.state.normaInfo.cadFileName}`
+            `${codNorma}-${this.props.norma.cadFileName}`
         );
     } else {
         this.normaService.downloadNormaFile(id, 'cad').then(response => {
             saveAs(
                 new Blob([response.data]),
-                `${codNorma}-${this.state.normaInfo.cadFileName}`
+                `${codNorma}-${this.props.norma.cadFileName}`
             );
         });
     }

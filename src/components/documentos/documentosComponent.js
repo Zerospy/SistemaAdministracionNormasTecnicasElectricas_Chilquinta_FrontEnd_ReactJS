@@ -215,7 +215,7 @@ class NormasComponent extends React.Component {
       this.normaService.downloadNormaFile(id, 'cad').then(response => {
           saveAs(
               new Blob([response.data]),
-              `${codNorma}-${this.state.normaInfo.cadFileName}`
+              `${codNorma}-${this.props.norma.cadFileName}`
           );
       });
   };
