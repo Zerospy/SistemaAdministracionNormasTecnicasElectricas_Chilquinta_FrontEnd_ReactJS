@@ -229,7 +229,7 @@ class NormasComponent extends React.Component {
       const idData = this.state.idData;
       const {norma} = this.props;
 
-      return [
+      return (
           <NormasContext.Provider value={this}>
               <Downloadclic
                   norma={this.state.selectedNorma}
@@ -276,7 +276,7 @@ class NormasComponent extends React.Component {
                   </Col>
               </Row>
           </NormasContext.Provider>
-      ];
+      );
   }
 }
 
