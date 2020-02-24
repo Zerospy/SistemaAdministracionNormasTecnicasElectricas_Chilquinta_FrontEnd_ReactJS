@@ -128,6 +128,7 @@ class NormasComponent extends React.Component {
                     });
                 },
                 editable: false,
+                enabled: this.sessionInformation.admin,
                 colId: 'id',
                 width: 120
             }
@@ -366,7 +367,8 @@ class NormasComponent extends React.Component {
 
                         });
                         this.searchNormas();
-                    }}
+                    }}  
+                    
                 />
 
                 <DardebajaModal
@@ -441,7 +443,7 @@ class NormasComponent extends React.Component {
                             }
                         );
                     }}
-
+                   
                 />
 
                 <HeaderComponent />

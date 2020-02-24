@@ -372,7 +372,7 @@ class DashboardComponent extends React.Component {
 
                                   <div className="col-4">
                                       <PanelComponent
-                                          title={'Actividad workflow'}
+                                          title={'Últimas actividades'}
                                           className="vertical-timeline-wrapper"
                                       >
                                           {this.state.lastComments &&
