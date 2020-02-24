@@ -104,9 +104,11 @@ class SidebarComponent extends React.Component {
                               <Fa icon="plus" />
                               <FormattedMessage id="component.normas.crear" />
                           </SideNavLink> : null}
+
+                          
                       </SideNavCat>
 
-                      {this.sessionInformation.admin ? <SideNavCat
+                      <SideNavCat
                           id="component.normasInternacionales"
                           name={`${this.props.intl.formatMessage({
                               id: 'component.normasInternacionales'
@@ -123,7 +125,7 @@ class SidebarComponent extends React.Component {
                               <Fa icon="passport" />
                               <FormattedMessage id="component.normasInternacionales" />
                           </SideNavLink>
-                          <SideNavLink
+                          {this.sessionInformation.admin ?  <SideNavLink
                               to="administracionNormasInternacionales"
                               onClick={() => {
                                   window.location.reaload();
@@ -131,8 +133,8 @@ class SidebarComponent extends React.Component {
                           >
                               <Fa icon="cloud-upload-alt" />
                               <FormattedMessage id="component.normasInternacionales.administracion" />
-                          </SideNavLink>
-                      </SideNavCat> : []}
+                          </SideNavLink> : []}
+                      </SideNavCat> 
 
                       <SideNavCat
                           id="workflow"

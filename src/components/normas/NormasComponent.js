@@ -370,8 +370,8 @@ class NormasComponent extends React.Component {
                     }}  
                     
                 />
-
-                <DardebajaModal
+ 
+ {this.sessionInformation.admin ?  <DardebajaModal
                     norma={this.state.selectedNorma}
                     isOpen={this.state.DardebajaModal}
                     toggle={() => {
@@ -444,7 +444,7 @@ class NormasComponent extends React.Component {
                         );
                     }}
                     enabled={this.sessionInformation.admin}
-                />
+                /> : []}
 
                 <HeaderComponent />
                 <Row>
