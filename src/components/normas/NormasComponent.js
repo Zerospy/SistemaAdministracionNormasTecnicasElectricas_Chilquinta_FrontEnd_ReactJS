@@ -443,7 +443,7 @@ class NormasComponent extends React.Component {
                             }
                         );
                     }}
-                   
+                    enabled={this.sessionInformation.admin}
                 />
 
                 <HeaderComponent />
