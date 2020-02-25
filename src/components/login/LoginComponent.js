@@ -7,7 +7,7 @@ import {toast} from 'react-toastify';
 import {GeneralContext} from 'GeneralContext';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import VerificationCodeModal from 'components/login/VerificationCodeModal';
-import LoginService from 'services/LoginService';
+
 
 class LoginComponent extends React.Component {
     constructor(props) {
