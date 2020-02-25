@@ -39,9 +39,9 @@ class LoginComponent extends React.Component {
 
   redirectHome = () => {
     if(this.sessionInformation.admin === true){
-      this.props.history.push('/dashboard');
+      this.props.history.push('/normas');
     }else{ 
-        this.props.history.push('/normas');
+        this.props.history.push('/dashboard');
 
     }
   };
