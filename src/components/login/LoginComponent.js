@@ -7,6 +7,7 @@ import {toast} from 'react-toastify';
 import {GeneralContext} from 'GeneralContext';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import VerificationCodeModal from 'components/login/VerificationCodeModal';
+import LoginService from 'services/LoginService';
 
 class LoginComponent extends React.Component {
     constructor(props) {
@@ -31,10 +32,18 @@ class LoginComponent extends React.Component {
         this.passwordInputRef = React.createRef();
 
         this.loginService = new LoginService();
+
+
+        this.sessionInformation = this.loginService.getSessionInformation();
     }
 
   redirectHome = () => {
+    if(this.sessionInformation.admin === true){
       this.props.history.push('/dashboard');
+    }else{ 
+        this.props.history.push('/normas');
+
+    }
   };
 
   login = () => {
