@@ -187,7 +187,7 @@ class DetalleNormaModal extends React.Component {
                               >
                                   <h5>{normafecha.substring(0, 10)}</h5>
                               </PanelComponent>
-                              {this.props.enabled ? (
+                          
                                   <PanelComponent
                                       title={`${this.props.intl.formatMessage({
                                           id: 'component.vernormas.descarga.Modal'
@@ -220,7 +220,7 @@ class DetalleNormaModal extends React.Component {
                                           </td> : []} {' '} 
                                       </h5>
                                   </PanelComponent>
-                              ) : null}
+                            
                           </Col>
                       </Row>
                       <Row>
