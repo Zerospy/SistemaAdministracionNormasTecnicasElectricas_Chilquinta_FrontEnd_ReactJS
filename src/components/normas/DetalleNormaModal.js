@@ -19,6 +19,7 @@ import NormaService from 'services/NormaService';
 import {toast} from 'react-toastify';
 import pdf from 'assets/img/pdf.png';
 import cad from 'assets/img/cad.png';
+
 import {Link} from 'react-router-dom';
 import {saveAs} from 'file-saver';
 
@@ -30,7 +31,8 @@ class DetalleNormaModal extends React.Component {
       super(props);
 
       this.normaService = new NormaService();
-
+      this.loginService = new LoginService();
+      this.sessionInformation = this.loginService.getSessionInformation();
       const columnDefs = [
           {
               headerName: `${props.intl.formatMessage({
@@ -50,8 +52,9 @@ class DetalleNormaModal extends React.Component {
           normaInfo: {},
           loadingInformation: false
       };
+      
   }
-
+  
   getNorma(norma) {
       this.normaService.getById(norma.id).then(response => {
           const data = response.data;
@@ -99,6 +102,8 @@ class DetalleNormaModal extends React.Component {
       }
   };
 
+
+
   componentDidUpdate(prevProps) {
       if (
           this.props !== null &&
@@ -111,6 +116,8 @@ class DetalleNormaModal extends React.Component {
           this.getNorma(this.props.norma);
       }
   }
+
+  
 
   render() {
       const {toggle, isOpen, onSave, norma} = this.props;
@@ -136,7 +143,12 @@ class DetalleNormaModal extends React.Component {
       const normafecha = normafecha0.split('"}').join('');
 
       const normaDesc = JSON.stringify(this.props.norma, ['id']);
-
+        let imageCad = "";
+            if(this.sessionInformation.admin === true){
+            imageCad = pdf
+            } else {
+                imageCad = cad
+            }
       return (
           <Container>
               <Modal isOpen={isOpen} size="lg">
@@ -196,14 +208,16 @@ class DetalleNormaModal extends React.Component {
                                                   src={pdf}
                                               ></img>
                                           </td>{' '}
-                                          <td onClick={this.downloadCad}>
+                                          {this.sessionInformation.admin ?  <td onClick={this.downloadCad}>
                                               {' '}
+                                            
                                               <img
                                                   style={{width: 70, height: 70, cursor: 'pointer'}}
                                                   src={cad}
                                                   title="Descargar Cad de la norma"
                                               ></img>
-                                          </td>{' '}
+                                         
+                                          </td> : []} {' '} 
                                       </h5>
                                   </PanelComponent>
                               ) : null}
