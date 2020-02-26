@@ -276,11 +276,7 @@ class CrearUserModal extends React.Component {
                                   ) : (
                                       <FormattedMessage id="app.general.btn.save" />
                                   )}
-                                {   this.setState({email: '', name: '',  lastName:'',
-                                
-                            id: '', lastName: '',  username: '', password: '', 
-                            email: '',avatar: ''})
-                                }
+
                               </Button>
                           </Col>
                       </Row>

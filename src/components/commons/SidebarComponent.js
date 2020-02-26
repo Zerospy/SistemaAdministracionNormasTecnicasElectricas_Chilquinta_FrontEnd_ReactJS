@@ -173,7 +173,7 @@ class SidebarComponent extends React.Component {
                               <Fa icon="network-wired" />
                               <FormattedMessage id="menu.documentos.item" />
                           </SideNavLink>
-                          <SideNavLink
+                          {this.sessionInformation.admin ? <SideNavLink
                               to="/subirDocumento"
                               onClick={() => {
                                   window.location.reaload();
@@ -181,7 +181,7 @@ class SidebarComponent extends React.Component {
                           >
                               <Fa icon="network-wired" />
                               <FormattedMessage id="menu.documentos.subir" />
-                          </SideNavLink>
+                          </SideNavLink> : []}
                       </SideNavCat>
 
                       {this.sessionInformation.admin ? <SideNavCat
@@ -208,6 +208,7 @@ class SidebarComponent extends React.Component {
                               to="/login"
                               onClick={() => {
                                   new LoginService().logOut();
+                                  this.props.history.push(this.props.match.url)
                                   window.location.reaload(true);
                               }}
                           >
