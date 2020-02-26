@@ -38,14 +38,11 @@ class LoginComponent extends React.Component {
     }
 
   redirectHome = () => {
-    if(this.sessionInformation.admin == true) {
+   
       this.props.history.push('/dashboard');
             console.log(this.sessionInformation.admin);
-    }else {
-        this.props.history.push('/normas');
-        console.log(this.sessionInformation.admin);
-    }
-    console.log(this.sessionInformation.admin);
+    
+  
   };
 
   login = () => {

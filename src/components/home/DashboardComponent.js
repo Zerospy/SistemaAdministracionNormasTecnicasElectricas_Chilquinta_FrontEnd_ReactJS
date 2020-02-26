@@ -24,6 +24,7 @@ import Moment from 'moment';
 import DashboardModal from 'components/home/DashboardModal';
 import Constantes from 'Constantes';
 import {Line} from 'react-chartjs-2';
+import LoginService from 'services/LoginService';
 
 const data = {
     // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -62,6 +63,8 @@ class DashboardComponent extends React.Component {
         super(props);
 
         this.dashboardService = new DashboardService();
+        this.loginService = new LoginService();
+        this.sessionInformation = this.loginService.getSessionInformation();
 
         const columnDefs = [
             {
@@ -177,12 +180,16 @@ class DashboardComponent extends React.Component {
                           <div className="content-viewport">
                               <div className="row">
                                   <div className="col-12 m-3">
-                                      <h4 className="">Dashboard</h4>
+
+                                       {this.sessionInformation.admin ? <h4 className="">Dashboard</h4> :  
+                                       <h4 className="">Bienvenido al Sistema de normas tecnicas, <span>{this.sessionInformation.fullName}</span> </h4> 
+                                       }
+                                      
                                   </div>
                               </div>
                               <div className="row">
                                   <div className="col-8">
-                                      <PanelComponent title={'Resumen de actividades'}>
+                                  {this.sessionInformation.admin ?       <PanelComponent title={'Resumen de actividades'}>
                                           <div className="row">
                                               <div className="col-md-4 col-xs-12">
                                                   <MDBCard
@@ -367,11 +374,11 @@ class DashboardComponent extends React.Component {
                                                     </MDBCard>
                                                 </div>
                                           </div>
-                                      </PanelComponent>
+                                      </PanelComponent> : null }
                                   </div>
 
                                   <div className="col-4">
-                                      <PanelComponent
+                                  {this.sessionInformation.admin ?    <PanelComponent
                                           title={'Últimas actividades'}
                                           className="vertical-timeline-wrapper"
                                       >
@@ -404,7 +411,7 @@ class DashboardComponent extends React.Component {
                                                       <span>Sin comentarios</span>
                                                   </div>
                                               )}
-                                      </PanelComponent>
+                                      </PanelComponent> : null }
                                   </div>
                               </div>
                               {/* <div className="row mt-3 mb-5">
