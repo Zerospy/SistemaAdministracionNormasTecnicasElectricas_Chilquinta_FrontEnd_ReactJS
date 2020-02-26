@@ -42,7 +42,7 @@ class LoginComponent extends React.Component {
       this.props.history.push('/dashboard');
     }
         this.props.history.push('/normas');
-
+            console.log(this.sessionInformation.admin);
   };
 
   login = () => {
