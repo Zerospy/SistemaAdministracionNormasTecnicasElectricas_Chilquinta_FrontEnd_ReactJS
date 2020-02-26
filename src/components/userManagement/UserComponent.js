@@ -2,6 +2,7 @@
 import HeaderComponent from 'components/commons/HeaderComponent';
 import {UserContext} from 'components/userManagement/UserContext';
 import EditUserModal from 'components/userManagement/EditUserModal';
+import CrearUserModal from 'components/userManagement/CrearUserModal';
 import {Col, Row, Input, Button, Fa} from 'mdbreact';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -80,6 +81,7 @@ class UserComponent extends React.Component {
             rowData: [],
             loadingInformation: false,
             modalUsers: false,
+            modalCrearUsers: false,
             loadingUsers: false,
             selectedUser: null,
             quickFilter: ''
@@ -117,6 +119,11 @@ class UserComponent extends React.Component {
           modalUsers: !this.state.modalUsers
       });
   }
+  toggleModalCrearUser = () => {
+    this.setState({
+        modalCrearUsers: !this.state.modalCrearUsers
+    });
+}
 
   componentDidMount() {
       this.searchUsers();
@@ -129,6 +136,12 @@ class UserComponent extends React.Component {
                   user={this.state.selectedUser}
                   isOpen={this.state.modalUsers}
                   toggle={this.toggleModalUser}
+                  searchUsers={this.searchUsers}
+              />
+                   <CrearUserModal
+                  user={this.state.selectedUser}
+                  isOpen={this.state.modalCrearUsers}
+                  toggle={this.toggleModalCrearUser}
                   searchUsers={this.searchUsers}
               />
               <HeaderComponent />
@@ -163,7 +176,7 @@ class UserComponent extends React.Component {
                                   </Button>
                                   {this.sessionInformation.admin ? <Button
                                       size="sm"
-                                      onClick={this.toggleModalUser}
+                                      onClick={this.toggleModalCrearUser}
                                   >
                                       {' '}
                                       <Fa icon="plus" />

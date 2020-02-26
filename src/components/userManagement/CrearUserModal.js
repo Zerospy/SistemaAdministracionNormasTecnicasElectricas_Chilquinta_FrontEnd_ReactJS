@@ -153,7 +153,7 @@ class EditUserModal extends React.Component {
           <Container>
               <Modal isOpen={isOpen} size="lg" centered>
                   <ModalHeader toggle={toggle}>
-            Modificar Información de usuario
+             Crear usuario
                   </ModalHeader>
                   <ModalBody>
                       <Row>
@@ -276,6 +276,11 @@ class EditUserModal extends React.Component {
                                   ) : (
                                       <FormattedMessage id="app.general.btn.save" />
                                   )}
+                                {   this.setState({email: '', name: '',  lastName:'',
+                                
+                            id: '', lastName: '',  username: '', password: '', 
+                            email: '',avatar: ''})
+                                }
                               </Button>
                           </Col>
                       </Row>
@@ -286,9 +291,9 @@ class EditUserModal extends React.Component {
   }
 }
 
-export default injectIntl(EditUserModal);
+export default injectIntl(CrearUserModal);
 
-EditUserModal.propTypes = {
+CrearUserModal.propTypes = {
     toggle: PropTypes.func,
     searchUsers: PropTypes.func,
     isOpen: PropTypes.bool,
