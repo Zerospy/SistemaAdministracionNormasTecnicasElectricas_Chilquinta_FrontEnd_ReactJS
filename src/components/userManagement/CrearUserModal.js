@@ -26,7 +26,7 @@ import cad from 'assets/img/cad.png';
 import {Link} from 'react-router-dom';
 import UserService from 'services/UserService';
 
-class EditUserModal extends React.Component {
+class CrearUserModal extends React.Component {
     constructor(props) {
         super(props);
 
