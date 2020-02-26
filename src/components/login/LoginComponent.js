@@ -40,7 +40,7 @@ class LoginComponent extends React.Component {
   redirectHome = () => {
    
       this.props.history.push('/dashboard');
-            console.log(this.sessionInformation.admin);
+          
     
   
   };

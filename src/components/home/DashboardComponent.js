@@ -182,7 +182,7 @@ class DashboardComponent extends React.Component {
                                   <div className="col-12 m-3">
 
                                        {this.sessionInformation.admin ? <h4 className="">Dashboard</h4> :  
-                                       <h4 className="">Bienvenido al Sistema de normas tecnicas, <span>{this.sessionInformation.fullName}</span> </h4> 
+                                        <div className="col-8"> <h4 className="">Bienvenido al Sistema de normas tecnicas, <span>{this.sessionInformation.fullName}</span> </h4> </div> 
                                        }
                                       
                                   </div>
