@@ -211,7 +211,7 @@ class DetalleEditarNormaModal extends React.Component {
 
           let formData = new FormData();
           formData.append('file', this.state.pdfFile);
-
+          /* */
           this.normaService
               .uploadNormaFile(normaId, 'pdf', formData)
               .then(result => {
@@ -364,7 +364,7 @@ class DetalleEditarNormaModal extends React.Component {
 
       return (
           <Container>
-              <Modal isOpen={isOpen} size="lg">
+              <Modal isOpen={isOpen} size="lg" centered>
                   <ModalHeader toggle={toggle}>
                       <FormattedMessage id="component.normas.title.EditModal" />
                   </ModalHeader>
@@ -450,8 +450,6 @@ class DetalleEditarNormaModal extends React.Component {
                           <Col className="d-flex justify-content-end">
                               <Button
                                   disabled={
-                                      !this.state.pdfFile ||
-                    !this.state.cadFile ||
                     this.state.savingNorma
                                   }
                                   color="primary"

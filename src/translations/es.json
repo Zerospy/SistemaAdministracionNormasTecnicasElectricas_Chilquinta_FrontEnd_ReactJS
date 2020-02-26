@@ -111,7 +111,7 @@
 
 
     "component.normas.title.EditModal": "Editar Norma",
-    "component.normas.modal.btn.edit": "Modificar",
+    "component.normas.modal.btn.edit": "Modificar campos",
     "component.normas.modal.btn.editWorkflow": "Enviar PDF y Cad a flujo",
     "component.normas.modal.edit.error": "Ocurrió un problema al modificar la norma",
     "component.normas.modal.edit.success": "Datos registrados correctamente",

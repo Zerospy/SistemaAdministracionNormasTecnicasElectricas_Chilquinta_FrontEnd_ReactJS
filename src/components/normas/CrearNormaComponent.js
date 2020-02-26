@@ -214,7 +214,7 @@ class CrearNormaComponent extends React.Component {
           <NormasContext.Provider value={this}>
               <HeaderComponent />
               <Row>
-                  <Col size="12">
+                  <Col size="12 " centered>
                       <PanelComponent
                           title={`${this.props.intl.formatMessage({
                               id: 'component.CrearNormas.title'
@@ -229,6 +229,7 @@ class CrearNormaComponent extends React.Component {
                                           marginTop: '1rem',
                                           marginLeft: '6rem'
                                       }}
+                                      centered
                                   >
                                       <form>
                                           <MDBInput
@@ -289,9 +290,7 @@ class CrearNormaComponent extends React.Component {
                                                   disabled={
                                                       !this.state.nombreNorma ||
                             !this.state.codigoNorma ||
-                            !this.state.normadescripcion ||
-                            !this.state.pdfFile ||
-                            !this.state.cadFile
+                            !this.state.normadescripcion 
                                                   }
                                                   color="primary"
                                                   onClick={this.publishToWorkflow}
