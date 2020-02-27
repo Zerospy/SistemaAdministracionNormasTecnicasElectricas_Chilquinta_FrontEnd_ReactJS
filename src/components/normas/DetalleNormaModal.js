@@ -151,7 +151,7 @@ class DetalleNormaModal extends React.Component {
             }
       return (
           <Container>
-              <Modal isOpen={isOpen} size="lg">
+              <Modal isOpen={isOpen} size="lg" centered>
                   <ModalHeader toggle={toggle}>
                       <FormattedMessage id="component.normas.title.detalles" />
                   </ModalHeader>

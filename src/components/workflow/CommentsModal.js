@@ -146,7 +146,7 @@ class CommentsModal extends React.Component {
 
       return (
           <Container>
-              <Modal isOpen={isOpen} size="lg">
+              <Modal isOpen={isOpen} size="lg" centered>
                   <ModalHeader toggle={toggle}>
                       <FormattedMessage id="component.workflow.modal.title" />
                   </ModalHeader>

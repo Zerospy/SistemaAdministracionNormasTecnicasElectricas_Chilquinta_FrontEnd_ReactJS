@@ -133,15 +133,15 @@ class CrearUserModal extends React.Component {
           const {data} = this.props.user;
           this.setState({
               saving: false,
-              id: data.id,
-              name: data.nombres,
-              lastName: data.apellidos,
-              username: data.usuario,
+              id: '',
+              name: '',
+              lastName: '',
+              username: '',
               password: '',
-              email: data.email,
-              avatar: data.urlAvatar,
-              enabled: data.estado,
-              admin: data.administrador
+              email: '',
+              avatar: '',
+              enabled: '',
+              admin: ''
           });
       }
   }

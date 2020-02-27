@@ -487,7 +487,7 @@ class NormasComponent extends React.Component {
 
                                         <Fa icon="plus" />
                                     </MDBBtn>
-                                    <MDBModal isOpen={this.state.modal} toggle={this.toggle}
+                                    <MDBModal isOpen={this.state.modal} toggle={this.toggle} centered
 
                                     >
                                         <MDBModalHeader toggle={this.toggle}>Crear Norma</MDBModalHeader>

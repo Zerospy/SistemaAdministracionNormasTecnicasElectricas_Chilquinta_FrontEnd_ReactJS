@@ -229,7 +229,7 @@ class CrearNormaComponent extends React.Component {
                                           marginTop: '1rem',
                                           marginLeft: '6rem'
                                       }}
-                                      centered
+                                      
                                   >
                                       <form>
                                           <MDBInput
