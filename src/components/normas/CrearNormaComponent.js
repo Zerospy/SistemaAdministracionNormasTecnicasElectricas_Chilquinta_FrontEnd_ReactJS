@@ -289,14 +289,14 @@ class CrearNormaComponent extends React.Component {
                                               <Button
                                                   disabled={
                                                       !this.state.nombreNorma ||
-                            !this.state.codigoNorma ||
-                            !this.state.normadescripcion 
+                                                      !this.state.codigoNorma ||
+                                                      !this.state.normadescripcion 
                                                   }
                                                   color="primary"
                                                   onClick={this.publishToWorkflow}
                                               >
                                                   {' '}
-                          Enviar a workflow
+                                                  Enviar a workflow
                                               </Button>
                                           </Col>
                                       </form>
