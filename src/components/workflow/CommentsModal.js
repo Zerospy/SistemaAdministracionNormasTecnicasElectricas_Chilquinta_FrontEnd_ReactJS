@@ -167,9 +167,12 @@ class CommentsModal extends React.Component {
                                                           <div className="col-md-10 col-xs-10">
                                                               <div className="messages msg_sent">
                                                                   <p>{comment.observacion}</p>
+
                                                                   <time dateTime={comment.createdAt}>
                                                                       {comment.createdAt}
                                                                   </time>
+                                                                  {console.log(comment.data)}
+
                                                               </div>
                                                           </div>
                                                           <div className="col-md-2 col-xs-2 avatar">
@@ -192,6 +195,7 @@ class CommentsModal extends React.Component {
                                                                   <p>{comment.observacion}</p>
                                                                   <time dateTime={comment.createdAt}>
                                                                       {comment.createdAt}
+                                                                      
                                                                   </time>
                                                               </div>
                                                           </div>
