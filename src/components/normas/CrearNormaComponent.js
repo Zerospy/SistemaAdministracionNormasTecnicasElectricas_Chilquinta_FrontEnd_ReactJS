@@ -165,7 +165,9 @@ class CrearNormaComponent extends React.Component {
                                   id: 'component.normas.modal.edit.success'
                               })}`
                           );
-                      });
+
+                      });          
+                        windows.location.reaload(true);
               });
       });
 
@@ -293,7 +295,8 @@ class CrearNormaComponent extends React.Component {
                                                       !this.state.normadescripcion 
                                                   }
                                                   color="primary"
-                                                  onClick={this.publishToWorkflow}
+                                                  onClick={this.publishToWorkflow }
+
                                               >
                                                   {' '}
                                                   Enviar a workflow

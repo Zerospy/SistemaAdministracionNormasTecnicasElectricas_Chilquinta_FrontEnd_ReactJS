@@ -218,7 +218,7 @@ class NormasComponent extends React.Component {
             });
             
         }
-
+             if(this.state.pdfFile != null || this.state.cadFile != null){     
         if (this.state.pdfFile.size != 0 && this.state.pdfFile.size != null && this.state.cadFile.size != 0 && this.state.cadFile.size != null) {
             this.normaService.post(params)
                 .then(response => {
@@ -262,6 +262,20 @@ class NormasComponent extends React.Component {
                     id: 'component.normas.modal.error.upload'
                 })}`
             );
+        }  
+        toast.success(
+            `${this.props.intl.formatMessage({
+                id: 'component.normas.modal.msg.success.crear'
+            })}`,
+            this.toggle()
+        );
+            } else { 
+                toast.success(
+                    `${this.props.intl.formatMessage({
+                        id: 'component.normas.modal.msg.success.crear'
+                    })}`,
+                    this.toggle()
+                );
         }
     };
     onChangeCodigo = e => {
@@ -520,8 +534,6 @@ class NormasComponent extends React.Component {
                                                         id="formGroupExampleInput"
                                                         value={this.state.normadescripcion}
                                                         onChange={this.onChangeDescripcion}
-
-
                                                     />
 
                                                     <label>Usuarios que pueden comentar</label>
@@ -548,6 +560,7 @@ class NormasComponent extends React.Component {
                                                     />
                                                     <label>CAD</label>
                                                     <MDBFileInput
+
                                                         getValue={files => {
                                                             this.setState({
                                                                 cadFile: files[0]
@@ -569,11 +582,17 @@ class NormasComponent extends React.Component {
                                             <Button color="primary"
 
                                                 disabled={!this.state.nombreNorma || !this.state.codigoNorma || !this.state.normadescripcion
-                                                    || !this.state.pdfFile || !this.state.cadFile}
+                                                    }
                                                 color="primary"
                                                 onClick={this.publishToWorkflow}
 
-                                            > Enviar a workflow</Button>
+                                            >
+                                                   {this.state.publishToWorkflow ? (
+                                      <Fa icon="spinner" className="fa-1x fa-spin" />
+                                                   ) : (
+                                      <FormattedMessage id="component.normas.modal.msg.success.crear" />
+                                                    )} 
+                                                 Enviar a workflow</Button>
                                         </MDBModalFooter>
 
                                     </MDBModal>
