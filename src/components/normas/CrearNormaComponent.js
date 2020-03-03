@@ -167,7 +167,7 @@ class CrearNormaComponent extends React.Component {
                           );
 
                       });          
-                        windows.location.reaload(true);
+                       
               });
       });
 
