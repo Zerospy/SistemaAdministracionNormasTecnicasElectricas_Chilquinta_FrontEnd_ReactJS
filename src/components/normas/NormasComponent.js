@@ -587,11 +587,7 @@ class NormasComponent extends React.Component {
                                                 onClick={this.publishToWorkflow}
 
                                             >
-                                                   {this.state.publishToWorkflow ? (
-                                      <Fa icon="spinner" className="fa-1x fa-spin" />
-                                                   ) : (
-                                      <FormattedMessage id="component.normas.modal.msg.success.crear" />
-                                                    )} 
+                                              
                                                  Enviar a workflow</Button>
                                         </MDBModalFooter>
 
