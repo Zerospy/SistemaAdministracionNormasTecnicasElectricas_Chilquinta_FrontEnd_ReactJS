@@ -218,7 +218,7 @@ class NormasComponent extends React.Component {
             });
             
         }
-       /*      if(this.state.pdfFile != null || this.state.cadFile != null){      */
+
         
             this.normaService.post(params)
                 .then(response => {
@@ -236,7 +236,7 @@ class NormasComponent extends React.Component {
 
                     console.log(response.data.id);
                     let formData = new FormData();
-                    if (typeof(this.state.pdfFile.size) != 'undefined' && typeof(this.state.cadFile.size) != 'undefined'){
+                    try{
                         if (this.state.pdfFile.size != 0 && this.state.pdfFile.size != null && this.state.cadFile.size != 0 && this.state.cadFile.size != null) {
                     formData.append('file', this.state.pdfFile);
 
@@ -250,7 +250,7 @@ class NormasComponent extends React.Component {
                                 console.log(result);   
                             });
                     });
-                }                        /*  Cierre if */  }
+                }                        /*  Cierre if */  } catch {}
             
             }),
             toast.success(
