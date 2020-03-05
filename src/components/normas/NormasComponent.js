@@ -236,7 +236,7 @@ class NormasComponent extends React.Component {
 
                     console.log(response.data.id);
                     let formData = new FormData();
-                    try{
+                  if (this.state.pdfFile.length > 0 && this.state.pdfFile.length > 0){
                         if (this.state.pdfFile.size != 0 && this.state.pdfFile.size != null && this.state.cadFile.size != 0 && this.state.cadFile.size != null) {
                     formData.append('file', this.state.pdfFile);
 
@@ -250,7 +250,7 @@ class NormasComponent extends React.Component {
                                 console.log(result);   
                             });
                     });
-                }                        /*  Cierre if */  } catch {}
+                }                        /*  Cierre if */  }
             
             }),
             toast.success(
