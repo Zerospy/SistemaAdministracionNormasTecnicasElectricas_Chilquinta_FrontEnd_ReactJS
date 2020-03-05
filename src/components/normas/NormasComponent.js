@@ -236,8 +236,8 @@ class NormasComponent extends React.Component {
 
                     console.log(response.data.id);
                     let formData = new FormData();
-                  if (this.state.pdfFile.length > 0 && this.state.pdfFile.length > 0){
-                        if (this.state.pdfFile.size != 0 && this.state.pdfFile.size != null && this.state.cadFile.size != 0 && this.state.cadFile.size != null) {
+               /*   if (this.state.pdfFile.length > 0 && this.state.pdfFile.length > 0){
+                        if (this.state.pdfFile.size != 0 && this.state.pdfFile.size != null && this.state.cadFile.size != 0 && this.state.cadFile.size != null) {  */
                     formData.append('file', this.state.pdfFile);
 
                     this.normaService.uploadNormaFile(response.data.id, 'pdf', formData).then(result => {
@@ -250,7 +250,7 @@ class NormasComponent extends React.Component {
                                 console.log(result);   
                             });
                     });
-                }                        /*  Cierre if */  }
+          /*        }                        Cierre if  }*/ 
             
             }),
             toast.success(
