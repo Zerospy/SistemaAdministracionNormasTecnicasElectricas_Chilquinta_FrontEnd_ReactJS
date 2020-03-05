@@ -198,8 +198,8 @@ class DetalleEditarNormaModal extends React.Component {
       );
 
       if (
-       /*    this.state.pdfFile &&
-      this.state.cadFile && */
+          this.state.pdfFile &&
+      this.state.cadFile && 
       this.state.pdfFile.size != 0 &&
       this.state.cadFile.size != 0 ||
       this.state.pdfFile.size == null &&
@@ -256,9 +256,9 @@ class DetalleEditarNormaModal extends React.Component {
 
       if (
           this.state.pdfFile.size != 0 &&
-    /*  this.state.pdfFile.size != null &&  */
-      this.state.cadFile.size != 0  /* &&
-     this.state.cadFile.size != null */
+     this.state.pdfFile.size != null &&  
+      this.state.cadFile.size != 0   &&
+     this.state.cadFile.size != null
       ) {
           this.setState({
               savingNorma: true

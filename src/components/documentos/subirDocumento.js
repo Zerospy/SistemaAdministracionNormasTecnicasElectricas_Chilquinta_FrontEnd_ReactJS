@@ -169,7 +169,7 @@ class subirDocumento extends React.Component {
                   <Col size="12">
                       <PanelComponent
                           title={`${this.props.intl.formatMessage({
-                              id: 'component.CrearNormas.title'
+                              id: 'menu.documentos.subir'
                           })}`}
                       >
                           <Col size="4">

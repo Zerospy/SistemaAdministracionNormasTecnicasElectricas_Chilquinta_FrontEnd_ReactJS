@@ -218,8 +218,8 @@ class NormasComponent extends React.Component {
             });
             
         }
-             if(this.state.pdfFile != null || this.state.cadFile != null){     
-        if (this.state.pdfFile.size != 0 && this.state.pdfFile.size != null && this.state.cadFile.size != 0 && this.state.cadFile.size != null) {
+       /*      if(this.state.pdfFile != null || this.state.cadFile != null){      */
+        
             this.normaService.post(params)
                 .then(response => {
                     const data = response.data;
@@ -237,7 +237,7 @@ class NormasComponent extends React.Component {
                     console.log(response.data.id);
                     let formData = new FormData();
                     formData.append('file', this.state.pdfFile);
-
+                    if (this.state.pdfFile.size != 0 && this.state.pdfFile.size != null && this.state.cadFile.size != 0 && this.state.cadFile.size != null) {
                     this.normaService.uploadNormaFile(response.data.id, 'pdf', formData).then(result => {
                         formData = new FormData();
                         formData.append('file', this.state.cadFile);
@@ -248,36 +248,18 @@ class NormasComponent extends React.Component {
                                 console.log(result);   
                             });
                     });
-                }),
-
+                }                        /*  Cierre if */
+            
+            }),
             toast.success(
                 `${this.props.intl.formatMessage({
                     id: 'component.normas.modal.msg.success.crear'
                 })}`,
                 this.toggle()
             );
-        } else {
-            toast.error(
-                `${this.props.intl.formatMessage({
-                    id: 'component.normas.modal.error.upload'
-                })}`
-            );
-        }  
-        toast.success(
-            `${this.props.intl.formatMessage({
-                id: 'component.normas.modal.msg.success.crear'
-            })}`,
-            this.toggle()
-        );
-            } else { 
-                toast.success(
-                    `${this.props.intl.formatMessage({
-                        id: 'component.normas.modal.msg.success.crear'
-                    })}`,
-                    this.toggle()
-                );
-        }
-    };
+        } 
+
+   
     onChangeCodigo = e => {
         this.setState({
             codigoNorma: e.target.value
