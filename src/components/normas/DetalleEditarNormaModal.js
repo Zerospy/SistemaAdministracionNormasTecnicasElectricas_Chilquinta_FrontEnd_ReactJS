@@ -205,6 +205,22 @@ class DetalleEditarNormaModal extends React.Component {
       this.state.pdfFile.size == null &&
       this.state.cadFile.size == null
       ) {
+
+
+          /*Insertado 03-07-2020 */
+      if (this.state.selectedUsers && this.state.selectedUsers.length > 0) {
+        params.usersToComment = [];
+
+        this.state.selectedUsers.forEach(user => {
+            params.usersToComment.push({
+                usuarioRecibeEntity: {
+                    id: user.id
+                }
+            });
+        });
+    } 
+         /*Insertado 03-07-2020 */ 
+
           this.setState({
               savingNorma: true
           });
@@ -281,7 +297,7 @@ class DetalleEditarNormaModal extends React.Component {
                                   id: 'component.normas.modal.edit.success'
                               })}`
                           );
-
+ 
                           this.props.toggle();
                       }),
                   () => {
@@ -448,10 +464,12 @@ class DetalleEditarNormaModal extends React.Component {
                       </Row>
                       <Row>
                           <Col className="d-flex justify-content-end">
+
+                                {/*  Boton que envia PDF y CAD  */}
                               <Button
                                   disabled={
-                    this.state.savingNorma
-                                  }
+                    this.state.savingNorma || !this.state.pdfFile && !this.state.cadFile
+                                   }
                                   color="primary"
                                   onClick={this.publishToWorkflow}
                               >
@@ -461,8 +479,11 @@ class DetalleEditarNormaModal extends React.Component {
                                       <FormattedMessage id="component.normas.modal.btn.editWorkflow" />
                                   )}
                               </Button>
+
+
+                                    {/*  Boton que solo modifica campos  */}
                               <Button
-                                  disabled={this.state.savingNorma}
+                                  disabled={this.state.savingNorma }
                                   color="primary"
                                   onClick={this.saveNorma}
                               >
