@@ -108,9 +108,10 @@ class WorkflowComponent extends React.Component {
                         modalComments: true
                     });
                 },
+                enabled: true,
                 editable: false,
                 colId: 'id',
-                width: 50
+                width: 90
             },
             {
                 headerName: `${props.intl.formatMessage({
@@ -211,7 +212,7 @@ class WorkflowComponent extends React.Component {
 
                 <CommentsModal
                     norma={this.state.selectedNorma}
-                    isOpen={this.state.modalComments && this.sessionInformation.admin}
+                    isOpen={this.state.modalComments /*&&  this.sessionInformation.admin */ }
                     publishing={this.state.publishing}
                     toggle={() => {
                         this.setState({
