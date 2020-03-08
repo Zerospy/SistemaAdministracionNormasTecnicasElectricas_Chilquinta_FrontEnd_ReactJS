@@ -108,7 +108,6 @@ class WorkflowComponent extends React.Component {
                         modalComments: true
                     });
                 },
-                enabled: this.sessionInformation.admin,
                 editable: false,
                 colId: 'id',
                 width: 50

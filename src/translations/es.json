@@ -1,5 +1,5 @@
 {
-    "app.title": "Chilquinta",
+    "app.title": "Sistema de normas Chilquinta",
 
     "app.general.btn.accept": "Aceptar",
     "app.general.btn.cancel": "Cerrar",
@@ -82,7 +82,7 @@
     "component.workflow.datagrid.tipoTabla": "Tipo",
     "component.workflow.datagrid.urlPdf": "UrlPdf",
     "component.workflow.datagrid.urlCad": "UrlCad",
-    "component.workflow.datagrid.actions": "#",
+    "component.workflow.datagrid.actions": "Comentarios",
 
     "component.workflow.modal.title": "Comentarios",
     "component.workflow.modal.grid.id": "Id",

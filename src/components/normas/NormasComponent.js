@@ -206,9 +206,10 @@ class NormasComponent extends React.Component {
             descripcion: this.state.normadescripcion,
             estado: {descripcion: '', id: '1'}, fecha: c};
 
-        if(this.state.selectedUsers && this.state.selectedUsers.length > 0){
-            params.usersToComment =  [];
-
+          /*Insertado 03-07-2020 */
+          if (this.state.selectedUsers && this.state.selectedUsers.length > 0) {
+            params.usersToComment = [];
+    
             this.state.selectedUsers.forEach(user => {
                 params.usersToComment.push({
                     usuarioRecibeEntity: {
@@ -216,8 +217,12 @@ class NormasComponent extends React.Component {
                     }
                 });
             });
-            
-        }
+        } 
+             /*Insertado 03-07-2020 */ 
+    
+              this.setState({
+                  savingNorma: true
+              });
 
         
             this.normaService.post(params)
