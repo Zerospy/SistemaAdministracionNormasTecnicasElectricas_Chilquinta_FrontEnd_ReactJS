@@ -166,6 +166,7 @@ class CommentsModal extends React.Component {
                                                       <div className="row msg_container base_sent">
                                                           <div className="col-md-10 col-xs-10">
                                                               <div className="messages msg_sent">
+                                                                  <p>{comment.usuarioEntity.fullName} </p>
                                                                   <p>{comment.observacion}</p>
 
                                                                   <time dateTime={comment.createdAt}>
