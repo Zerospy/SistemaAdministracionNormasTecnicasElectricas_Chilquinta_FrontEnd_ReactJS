@@ -250,13 +250,59 @@ class DetalleEditarNormaModal extends React.Component {
   publishToWorkflow = () => {
       const id = this.props.norma.id;
       const normaId = this.props.norma.id;
+
+
+
+
+      if (this.state.codigoNorma === '' || this.state.codigoNorma === null) {
+        this.state.codigoNorma = JSON.stringify(this.props.norma, ['codNorma'])
+            .split('{"codNorma":"')
+            .join('');
+        this.state.codigoNorma = this.state.codigoNorma.split('"}').join('');
+    }
+    if (this.state.nombreNorma === '' || this.state.nombreNorma === null) {
+        this.state.nombreNorma = JSON.stringify(this.props.norma, ['nombre'])
+            .split('{"nombre":"')
+            .join('');
+        this.state.nombreNorma = this.state.nombreNorma.split('"}').join('');
+    }
+    if (
+        this.state.normadescripcion === '' ||
+    this.state.normadescripcion === null
+    ) {
+        this.state.normadescripcion = JSON.stringify(this.props.norma, [
+            'descripcion'
+        ])
+            .split('{"descripcion":"')
+            .join('');
+        this.state.normadescripcion = this.state.normadescripcion
+            .split('"}')
+            .join('');
+    }
+
+
+
       const params = {
           codNorma: this.state.codigoNorma,
           nombre: this.state.nombreNorma,
           descripcion: this.state.normadescripcion
       };
+
       let formData = new FormData();
       formData.append('file', this.state.pdfFile);
+         /*Insertado 09-03-2020 */
+         if (this.state.selectedUsers && this.state.selectedUsers.length > 0) {
+            params.usersToComment = [];
+    
+            this.state.selectedUsers.forEach(user => {
+                params.usersToComment.push({
+                    usuarioRecibeEntity: {
+                        id: user.id
+                    }
+                });
+            });
+        } 
+             /*Insertado 09-03-2020 */ 
 
       if (
           this.state.pdfFile.size != 0 &&
@@ -307,23 +353,7 @@ class DetalleEditarNormaModal extends React.Component {
               })}`
           );
       }
-            /*Insertado 09-03-2020 */
-            if (this.state.selectedUsers && this.state.selectedUsers.length > 0) {
-                params.usersToComment = [];
-        
-                this.state.selectedUsers.forEach(user => {
-                    params.usersToComment.push({
-                        usuarioRecibeEntity: {
-                            id: user.id
-                        }
-                    });
-                });
-            } 
-                 /*Insertado 09-03-2020 */ 
-        
-                  this.setState({
-                      savingNorma: true
-                  });
+         
   };
 
   componentDidMount() {
