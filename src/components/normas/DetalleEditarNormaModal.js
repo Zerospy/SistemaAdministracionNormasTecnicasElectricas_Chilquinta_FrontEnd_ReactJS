@@ -171,7 +171,7 @@ class DetalleEditarNormaModal extends React.Component {
           response => {
               const data = response.data;
 
-              if (!this.state.pdfFile && !this.state.cadFile) {
+           /*   if (!this.state.pdfFile && !this.state.cadFile) {
                   this.props.toggle();
                   toast.success(
                       `${this.props.intl.formatMessage({
@@ -182,7 +182,7 @@ class DetalleEditarNormaModal extends React.Component {
                   this.setState({
                       savingNorma: false
                   });
-              }
+              } */
           },
           () => {
               toast.error(
@@ -197,38 +197,22 @@ class DetalleEditarNormaModal extends React.Component {
           }
       );
 
-      if (
+     /* if (
           this.state.pdfFile &&
       this.state.cadFile && 
       this.state.pdfFile.size != 0 &&
       this.state.cadFile.size != 0 ||
       this.state.pdfFile.size == null &&
       this.state.cadFile.size == null
-      ) {
+      ) {  */
 
 
-          /*Insertado 03-07-2020 */
-      if (this.state.selectedUsers && this.state.selectedUsers.length > 0) {
-        params.usersToComment = [];
-
-        this.state.selectedUsers.forEach(user => {
-            params.usersToComment.push({
-                usuarioRecibeEntity: {
-                    id: user.id
-                }
-            });
-        });
-    } 
-         /*Insertado 03-07-2020 */ 
-
-          this.setState({
-              savingNorma: true
-          });
-
+    
+            /*
           let formData = new FormData();
           formData.append('file', this.state.pdfFile);
           /* */
-          this.normaService
+         /*   this.normaService
               .uploadNormaFile(normaId, 'pdf', formData)
               .then(result => {
                   formData = new FormData();
@@ -258,10 +242,10 @@ class DetalleEditarNormaModal extends React.Component {
                       this.setState({
                           savingNorma: false
                       });
-                  };
-              });
-      }
-  };
+               };
+                            }); */
+                             /*} */
+                                  };
 
   publishToWorkflow = () => {
       const id = this.props.norma.id;
@@ -319,6 +303,23 @@ class DetalleEditarNormaModal extends React.Component {
               })}`
           );
       }
+            /*Insertado 09-03-2020 */
+            if (this.state.selectedUsers && this.state.selectedUsers.length > 0) {
+                params.usersToComment = [];
+        
+                this.state.selectedUsers.forEach(user => {
+                    params.usersToComment.push({
+                        usuarioRecibeEntity: {
+                            id: user.id
+                        }
+                    });
+                });
+            } 
+                 /*Insertado 09-03-2020 */ 
+        
+                  this.setState({
+                      savingNorma: true
+                  });
   };
 
   componentDidMount() {
