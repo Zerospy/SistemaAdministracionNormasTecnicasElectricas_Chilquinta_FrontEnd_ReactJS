@@ -250,7 +250,11 @@ class DetalleEditarNormaModal extends React.Component {
   publishToWorkflow = () => {
       const id = this.props.norma.id;
       const normaId = this.props.norma.id;
-
+      const params = {
+          codNorma: this.state.codigoNorma,
+          nombre: this.state.nombreNorma,
+          descripcion: this.state.normadescripcion
+      };
       let formData = new FormData();
       formData.append('file', this.state.pdfFile);
 
