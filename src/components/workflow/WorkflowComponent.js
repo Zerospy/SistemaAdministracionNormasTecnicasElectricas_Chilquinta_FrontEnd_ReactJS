@@ -126,7 +126,7 @@ class WorkflowComponent extends React.Component {
                     });
                 },
                 editable: false,
-                enabled:this.sessionInformation.admin,
+                enabled: this.sessionInformation.admin,
                 colId: 'id',
                 width: 120
             }
@@ -286,7 +286,7 @@ class WorkflowComponent extends React.Component {
                     
                    {/* {this.sessionInformation.admin ?  */} <DardebajaModal
                     norma={this.state.selectedNorma}
-                    isOpen={this.state.DardebajaModal}
+                    isOpen={this.state.DardebajaModal && this.sessionInformation.admin}
                     toggle={() => {
                         this.setState({
                             DardebajaModal: !this.state.DardebajaModal
