@@ -6,10 +6,11 @@ import {injectIntl} from 'react-intl';
 class DardeBajaButton extends Component {
     render() {
         const {onClick} = this.props.colDef;
-        const {data} = this.props;
+        const {data, colDef} = this.props;
 
         return (
             <Button
+               disabled={data === null || !colDef.enabled}
                 color="danger"
                 className="btn-grid"
                 onClick={onClick ? onClick.bind(this, data) : null}
