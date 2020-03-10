@@ -20,12 +20,16 @@ import CommentsService from 'services/CommentsService';
 import {toast} from 'react-toastify';
 import AvatarImage from 'assets/img/avatar.jpg';
 import Moment from 'moment';
+import LoginService from 'services/LoginService';
 
 class CommentsModal extends React.Component {
     constructor(props) {
         super(props);
 
         this.commentService = new CommentsService();
+
+        this.loginService = new LoginService();
+        this.sessionInformation = this.loginService.getSessionInformation();
 
         const columnDefs = [
             {
@@ -266,7 +270,7 @@ class CommentsModal extends React.Component {
                                   <FormattedMessage id="app.general.btn.cancel" />
                               </Button>
                               
-                                {canPublish ? (  
+                                {canPublish && this.sessionInformation.admin ? (  
                                   <Button
                                       disabled={this.props.publishing && !this.sessionInformation.admin} 
                                       onClick={() => {
