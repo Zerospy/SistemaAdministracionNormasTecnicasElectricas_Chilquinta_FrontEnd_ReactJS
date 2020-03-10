@@ -142,7 +142,7 @@ class CommentsModal extends React.Component {
   render() {
       const {toggle, isOpen, onSave, norma} = this.props;
 
-      const canPublish = norma !== null && norma.estado && norma.estado.id !== 3 && this.sessionInformation.admin === true;
+      const canPublish = norma !== null && norma.estado && norma.estado.id !== 3;
 
       return (
           <Container>
@@ -268,7 +268,7 @@ class CommentsModal extends React.Component {
                               
                                 {canPublish ? (  
                                   <Button
-                                      disabled={this.props.publishing}
+                                      disabled={this.props.publishing && !this.sessionInformation.admin} 
                                       onClick={() => {
                                           if (typeof onSave === 'function') {
                                               onSave(this.props.norma);
