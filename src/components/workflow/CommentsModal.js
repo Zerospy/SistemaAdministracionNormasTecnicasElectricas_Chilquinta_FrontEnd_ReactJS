@@ -142,7 +142,7 @@ class CommentsModal extends React.Component {
   render() {
       const {toggle, isOpen, onSave, norma} = this.props;
 
-      const canPublish = norma !== null && norma.estado && norma.estado.id !== 3;
+      const canPublish = norma !== null && norma.estado && norma.estado.id !== 3 && this.sessionInformation.admin === true;
 
       return (
           <Container>
@@ -265,7 +265,8 @@ class CommentsModal extends React.Component {
                                   {' '}
                                   <FormattedMessage id="app.general.btn.cancel" />
                               </Button>
-                              {canPublish ? (
+                              
+                                {canPublish ? (  
                                   <Button
                                       disabled={this.props.publishing}
                                       onClick={() => {
@@ -280,7 +281,8 @@ class CommentsModal extends React.Component {
                                           <FormattedMessage id="component.workflow.modal.btn.save" />
                                       )}
                                   </Button>
-                              ) : null}
+                              ) : null}    
+
                           </Col>
                       </Row>
                   </ModalFooter>
