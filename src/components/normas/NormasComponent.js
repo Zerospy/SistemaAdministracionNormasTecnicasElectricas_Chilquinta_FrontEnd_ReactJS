@@ -131,7 +131,7 @@ class NormasComponent extends React.Component {
                 enabled: this.sessionInformation.admin,
                 colId: 'id',
                 width: 120
-            } : null 
+            } : []
         ];
 
         this.state = {
