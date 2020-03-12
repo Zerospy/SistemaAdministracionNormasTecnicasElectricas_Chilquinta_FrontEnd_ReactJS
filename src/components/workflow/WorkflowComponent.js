@@ -81,7 +81,7 @@ class WorkflowComponent extends React.Component {
                 colId: 'id',
                 width: 80
             },
-            {
+            this.sessionInformation.admin ? {
                 headerName: 'Editar',
                 field: 'id',
                 cellRenderer: 'DetailButtonGridEdit',
@@ -95,7 +95,7 @@ class WorkflowComponent extends React.Component {
                 enabled: this.sessionInformation.admin,
                 colId: 'id',
                 width: 80
-            },
+            } : [],
             {
                 headerName: `${props.intl.formatMessage({
                     id: 'component.workflow.datagrid.actions'
@@ -113,7 +113,7 @@ class WorkflowComponent extends React.Component {
                 colId: 'id',
                 width: 90
             },
-            {
+            this.sessionInformation.admin ? {
                 headerName: `${props.intl.formatMessage({
                     id: 'component.dataGrid.DardeBajaGrid'
                 })}`,
@@ -129,7 +129,7 @@ class WorkflowComponent extends React.Component {
                 enabled: this.sessionInformation.admin,
                 colId: 'id',
                 width: 120
-            }
+            } : []
         ];
 
         this.state = {

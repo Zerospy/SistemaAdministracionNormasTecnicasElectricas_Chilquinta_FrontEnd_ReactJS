@@ -100,7 +100,7 @@ class NormasComponent extends React.Component {
                 colId: 'id',
                 width: 80
             },
-            {
+            this.sessionInformation.admin ?  {
                 headerName: 'Editar',
                 field: 'id',
                 cellRenderer: 'DetailButtonGridEdit',
@@ -114,7 +114,7 @@ class NormasComponent extends React.Component {
                 enabled: this.sessionInformation.admin,
                 colId: 'id',
                 width: 80
-            },
+            } : [] ,
              this.sessionInformation.admin ? {
                 headerName: `${props.intl.formatMessage({
                     id: 'component.dataGrid.DardeBajaGrid'
