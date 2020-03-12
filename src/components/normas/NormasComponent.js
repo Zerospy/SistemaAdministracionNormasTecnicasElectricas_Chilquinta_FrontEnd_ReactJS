@@ -115,7 +115,7 @@ class NormasComponent extends React.Component {
                 colId: 'id',
                 width: 80
             },
-            {
+             this.sessionInformation.admin ? {
                 headerName: `${props.intl.formatMessage({
                     id: 'component.dataGrid.DardeBajaGrid'
                 })}`,
@@ -131,7 +131,7 @@ class NormasComponent extends React.Component {
                 enabled: this.sessionInformation.admin,
                 colId: 'id',
                 width: 120
-            }
+            } : null 
         ];
 
         this.state = {

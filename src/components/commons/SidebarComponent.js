@@ -66,7 +66,7 @@ class SidebarComponent extends React.Component {
                           icon="home"
                           startOpen={true}
                       >
-                           {this.sessionInformation.admin ?  <SideNavLink
+                           <SideNavLink
                               to="/dashboard"
                               onClick={() => {
                                   window.location.reaload();
@@ -74,7 +74,7 @@ class SidebarComponent extends React.Component {
                           > 
                               <Fa icon="bong" />
                               <FormattedMessage id="menu.home.dashboard" />
-                          </SideNavLink> : null}
+                          </SideNavLink> 
                       </SideNavCat>
 
                       <SideNavCat
