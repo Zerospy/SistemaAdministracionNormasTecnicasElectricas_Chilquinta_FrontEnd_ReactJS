@@ -183,8 +183,8 @@ class DashboardComponent extends React.Component {
                                   <div className="col-12 m-3">
 
                                        {this.sessionInformation.admin ? <h4 className="">Dashboard</h4> :  
-                                       /* <div className="col-8"> <h4 className="">Bienvenido, <span>{this.sessionInformation.fullName}</span> </h4> </div> */
-                                       <div className="mx-auto" style="width: 200px"> <h4 className="">Bienvenido, <span>{this.sessionInformation.fullName}</span> </h4> </div>
+                                       <div className="col-8"> <h4 className="">Bienvenido, <span>{this.sessionInformation.fullName}</span> </h4> </div>
+                                       
                                     }
                                       
                                   </div>
@@ -416,11 +416,12 @@ class DashboardComponent extends React.Component {
                                       </PanelComponent> : null }
                                   </div>
                               </div>
+                                {/*
                               {this.sessionInformation.admin ?  
 
                                                 <div className="banner" justify-content="bottom">
                                                     <img src={Normas} height="80" alt="Banner Bienvenido" />
-                                                     </div> : null }
+                                                     </div> : null } */}
 
                               {/* <div className="row mt-3 mb-5">
                                     <div className="col-7">
