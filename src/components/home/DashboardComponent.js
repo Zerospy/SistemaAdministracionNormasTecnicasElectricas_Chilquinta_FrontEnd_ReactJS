@@ -25,7 +25,7 @@ import DashboardModal from 'components/home/DashboardModal';
 import Constantes from 'Constantes';
 import {Line} from 'react-chartjs-2';
 import LoginService from 'services/LoginService';
-import Normas from 'assets/Normas.png';
+import Normas from 'assets/img/Normas.png';
 
 const data = {
     // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
