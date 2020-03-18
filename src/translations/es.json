@@ -1,8 +1,9 @@
 {
-    "app.title": "Chilquinta",
+    "app.title": "Sistema de normas Chilquinta",
 
     "app.general.btn.accept": "Aceptar",
     "app.general.btn.cancel": "Cerrar",
+    "app.general.btn.save": "Guardar",
     
     "legend.ban.mp": "Materias Primas Prohibidas",
     "legend.alergen.mp": "Materias Primas con Componentes Alergenos",
@@ -32,7 +33,7 @@
     "menu.home.dashboard": "Home",
 
     "menu.workflow": "Workflow",
-    "menu.workflow.item": "Publicar Normas",
+    "menu.workflow.item": "Workflow Normas",
 
     "menu.account": "Cuenta",
     "menu.account.logout": "Cerrar sesión",
@@ -40,12 +41,22 @@
     "menu.help": "Ayuda",
     "menu.help.userManual": "Manual de usuario",
 
+    "menu.user.management": "Administración de usuarios",
+    "menu.user.administration": "Usuarios",
+
     "component.messages.loading": "Cargando...",
     
     "component.dataGrid.noRows": "No hay registros que mostrar",
     "component.dataGrid.loading": "Cargando... Por favor, espere..",
     "component.dataGrid.detail": "Ver detalle",
+    "component.dataGrid.edit": "Editar",
     "component.dataGrid.EditarNorma":"Editar Norma",
+
+    "component.dataGrid.DardeBaja":"Dar de Baja",
+    "component.dataGrid.DardeBajaGrid":"Dar de baja",
+    "component.dataGrid.DardeBajaButton":"Dar de baja",
+    "component.modal.succes.baja":"Norma dada de baja correctamente",
+
     "component.dataGrid.validateIfra": "Validar IFRA",
     "component.dataGrid.comments": "Agregar comentarios",
     "component.dataGrid.genExperimental": "Generar experimental",
@@ -71,7 +82,7 @@
     "component.workflow.datagrid.tipoTabla": "Tipo",
     "component.workflow.datagrid.urlPdf": "UrlPdf",
     "component.workflow.datagrid.urlCad": "UrlCad",
-    "component.workflow.datagrid.actions": "#",
+    "component.workflow.datagrid.actions": "Comentarios",
 
     "component.workflow.modal.title": "Comentarios",
     "component.workflow.modal.grid.id": "Id",
@@ -100,10 +111,12 @@
 
 
     "component.normas.title.EditModal": "Editar Norma",
-    "component.normas.modal.btn.edit": "Modificar",
+    "component.normas.modal.btn.edit": "Modificar campos",
+    "component.normas.modal.btn.editWorkflow": "Enviar PDF y Cad a flujo",
     "component.normas.modal.edit.error": "Ocurrió un problema al modificar la norma",
     "component.normas.modal.edit.success": "Datos registrados correctamente",
-    
+    "component.normas.modal.error.upload": "Sus documentos deben llevar contenido, revise y suba nuevamente",
+
     "component.CrearNormas.title":"Subir una nueva norma",
 
     "component.vernormas.CodNorma.Modal": "Codigo identificador de la Norma",
@@ -121,10 +134,25 @@
     "component.normas.modal.msg.success": "Norma publicada correctamente!",
     "component.normas.modal.msg.error": "Ocurrió un problema al publicar la norma",
     "component.normas.modal.comment.error": "Ocurrió un problema al agregar el comentario",
-    
     "component.normas.modal.btn.save": "Publicar",
+    "component.normas.modal.msg.success.crear": "Norma enviada correctamente a workflow!",
+    
+    "component.normasInternacionales": "Normas Internacionales",
+    "component.normasInternacionales.administracion": "Subir norma internacional",
 
+    "component.normasInternacionales.datagrid.codigo": "Codigo norma",
+    "component.normasInternacionales.datagrid.NombreI": "Nombre norma internacional Ingles",
+    "component.normasInternacionales.datagrid.NombreE": "Nombre norma internacional Español",
+    "component.normasInternacionales.datagrid.Solicitar": "Solicitar",
+    "component.normasInternacionales.succes": "Normas Internacionales agregadas exitosamente",
+    "component.normasInternacionales.error": "Error en el archivo, revise orden de columnas",
 
+    "menu.documentos": "Documentos",
+    "menu.documentos.title": "Listado de Documentos",
+    "menu.documentos.item": "Documentacion en sistema",
+    "menu.documentos.subir":"Subir Documento",
+    "menu.documentos.categoria":"Categoria",
+  
 
     "end": "end"
 

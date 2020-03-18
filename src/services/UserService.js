@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 export default class UserService {
-  get = params => axios.get('/users/GetUsers', {
-      params: params
-  });
+  getUsers = () => axios.get('/usuario/');
+  saveUser = user => axios.post('/usuario/', user);
+  uploadUserAvatar = (userID, formData) =>
+      axios.post(`/usuario/uploadAvatar/${userID}`, formData);
 }

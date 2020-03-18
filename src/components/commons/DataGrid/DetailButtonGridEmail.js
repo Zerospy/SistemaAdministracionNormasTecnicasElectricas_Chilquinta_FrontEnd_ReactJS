@@ -6,11 +6,10 @@ import {injectIntl} from 'react-intl';
 class DetailButtonGridEdit extends Component {
     render() {
         const {onClick} = this.props.colDef;
-        const {data, colDef} = this.props;
+        const {data} = this.props;
 
         return (
             <Button
-                disabled={!colDef.enabled}
                 color="primary"
                 className="btn-grid"
                 onClick={onClick ? onClick.bind(this, data) : null}
@@ -18,7 +17,7 @@ class DetailButtonGridEdit extends Component {
                     id: 'component.dataGrid.EditarNorma'
                 })}`}
             >
-                <Fa icon="pencil-alt" />
+                <Fa icon="envelope" />
             </Button>
         );
     }

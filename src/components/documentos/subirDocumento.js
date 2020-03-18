@@ -28,12 +28,12 @@ import GridUsuarios from 'components/normas/GridUsuarios';
 import Moment from 'moment';
 import Select from 'react-select';
 
-class CrearNormaComponent extends React.Component {
+class subirDocumento extends React.Component {
     showSettings(event) {
         event.preventDefault();
     }
   state = {
-      modal: false
+      modal: false,
   };
   toggle = () => {
       this.setState({
@@ -58,8 +58,10 @@ class CrearNormaComponent extends React.Component {
               id: 0
           },
           usersOptions: [],
-          selectedUsers: []
+          selectedUsers: [],
+   
       };
+
   }
   getNorma(norma) {
       this.normaService.get(norma).then(res => {
@@ -71,29 +73,9 @@ class CrearNormaComponent extends React.Component {
       });
   }
 
-  getUsuarios = () => {
-      this.userService.getUsers().then(
-          response => {
-              const data = response.data;
+  
 
-              if (data && data.length > 0) {
-                  data.forEach(user => {
-                      user.label = `${user.nombres} ${user.apellidos}`;
-                      user.value = user.id;
-                  });
-              }
-
-              this.setState({
-                  usersOptions: response !== null ? data : []
-              });
-          },
-          () => {
-              toast.info('Ocurrió un problema al consultar los usuarios');
-          }
-      );
-  };
-
-  publishToWorkflow = () => {
+  publishToDocumentos = async() => {
       const normaId = '';
 
       const a = Moment().toObject();
@@ -120,22 +102,10 @@ class CrearNormaComponent extends React.Component {
           nombre: this.state.nombreNorma,
           descripcion: this.state.normadescripcion,
           estado: {descripcion: '', id: '1'},
-          fecha: c
+          fecha: c,
+          tipoNorma: 'DOCUMENTO'
       };
-
-      if (this.state.selectedUsers && this.state.selectedUsers.length > 0) {
-          params.usersToComment = [];
-
-          this.state.selectedUsers.forEach(user => {
-              params.usersToComment.push({
-                  usuarioRecibeEntity: {
-                      id: user.id
-                  }
-              });
-          });
-      }
-
-      this.normaService.post(params).then(response => {
+              this.normaService.post(params).then(response => {
           const data = response.data;
 
           data.createdAt = new Moment(data.createdAt).format(
@@ -150,52 +120,27 @@ class CrearNormaComponent extends React.Component {
           console.log(response.data.id);
           let formData = new FormData();
           formData.append('file', this.state.pdfFile);
+  
+            this.setState({
 
-         
-          this.normaService
-              .uploadNormaFile(response.data.id, 'pdf', formData)
-              .then(result => {
-                  formData = new FormData();
-                  formData.append('file', this.state.cadFile);
+              normaId: response.data.id
+            });
+              console.log(normaId);
+            this.normaService
+            .uploadNormaFile(response.data.id, 'pdf', formData)
+            .then(result => {
+                formData = new FormData();
+                formData.append('file', this.state.cadFile); 
 
-                  this.normaService
-                      .uploadNormaFile(response.data.id, 'cad', formData)
-                      .then(result => {
-                          toast.success(
-                              `${this.props.intl.formatMessage({
-                                  id: 'component.normas.modal.edit.success'
-                              })}`
-                          );
-
-                      });          
-                       
-              });
-      toast.success(   `${this.props.intl.formatMessage({
-        id: 'component.normas.modal.edit.success'
-    })}` );
-    
-    });
-
-      this.setState({
-          pdfFile: '',
-          cadFile: '',
-          codigoNorma: '',
-          nombreNorma: '',
-          normaDescripcion: '',
-          estado: {
-              descripcion: 'En Revisión',
-              id: 0
-          },
-          usersOptions: [],
-          selectedUsers: []
-      });
-
+            });
+      }),
       toast.success(
           `${this.props.intl.formatMessage({
               id: 'component.normas.modal.msg.success.crear'
           })}`
       );
   };
+
   onChangeCodigo = e => {
       this.setState({
           codigoNorma: e.target.value
@@ -213,7 +158,7 @@ class CrearNormaComponent extends React.Component {
   };
 
   componentDidMount() {
-      this.getUsuarios();
+      
   }
 
   render() {
@@ -221,10 +166,10 @@ class CrearNormaComponent extends React.Component {
           <NormasContext.Provider value={this}>
               <HeaderComponent />
               <Row>
-                  <Col size="12 " centered>
+                  <Col size="12">
                       <PanelComponent
                           title={`${this.props.intl.formatMessage({
-                              id: 'component.CrearNormas.title'
+                              id: 'menu.documentos.subir'
                           })}`}
                       >
                           <Col size="4">
@@ -236,47 +181,35 @@ class CrearNormaComponent extends React.Component {
                                           marginTop: '1rem',
                                           marginLeft: '6rem'
                                       }}
-                                      
                                   >
                                       <form>
-                                          <MDBInput
-                                              material
-                                              containerClassName="mb-2 mt-0"
-                                              label="Codigo de norma"
-                                              prepend="Default"
-                                              onChange={this.onChangeCodigo}
-                                          />
-
+                                      <div>
+                                                <select className="browser-default custom-select" 
+                                                value={this.state.codigoNorma} onChange={this.onChangeCodigo}>
+                                                >
+                                                <option> Seleccione una categoria</option>
+                                                <option codigoNorma="Subestaciones de poder">Subestaciones de poder</option>
+                                                <option codigoNorma="Distribucion" >Distribucion</option>
+                                                <option codigoNorma="Lineas de transmision" >Lineas de transmision</option>
+                                                </select>
+                                        </div>
                                           <br />
 
                                           <MDBInput
                                               material
                                               containerClassName="mb-2 mt-0"
-                                              label="Nombre Norma"
+                                              label="Nombre documento"
                                               prepend="Default"
                                               onChange={this.onChangeNombre}
                                           />
                                           <MDBInput
                                               type="textarea"
-                                              label="Descripcion de la norma"
+                                              label="Descripcion del documento"
                                               rows="5"
                                               onChange={this.onChangeDescripcion}
                                           />
-                                          <label>Usuarios que pueden comentar</label>
-                                          <Select
-                                              options={this.state.usersOptions}
-                                              onChange={selectedOptions => {
-                                                  this.setState({
-                                                      selectedUsers: selectedOptions
-                                                  });
-                                              }}
-                                              value={this.state.selectedUsers}
-                                              isMulti
-                                              isSearchable
-                                              placeholder={'Listado de usuarios'}
-                                          />
                                           <br />
-                                          <label>PDF</label>
+                                          <label>Subir Documento</label>
                                           <MDBFileInput
                                               getValue={files => {
                                                   this.setState({
@@ -284,27 +217,18 @@ class CrearNormaComponent extends React.Component {
                                                   });
                                               }}
                                           />
-                                          <label>CAD</label>
-                                          <MDBFileInput
-                                              getValue={files => {
-                                                  this.setState({
-                                                      cadFile: files[0]
-                                                  });
-                                              }}
-                                          />
                                           <Col className="offset-9" size="4">
                                               <Button
                                                   disabled={
                                                       !this.state.nombreNorma ||
-                                                      !this.state.codigoNorma ||
-                                                      !this.state.normadescripcion 
+                            !this.state.normadescripcion ||
+                            !this.state.pdfFile
                                                   }
                                                   color="primary"
-                                                  onClick={this.publishToWorkflow }
-
+                                                  onClick={this.publishToDocumentos}
                                               >
                                                   {' '}
-                                                  Enviar a workflow
+                          Cargar a repositorio
                                               </Button>
                                           </Col>
                                       </form>
@@ -318,15 +242,11 @@ class CrearNormaComponent extends React.Component {
       );
   }
 }
-function isFirstColumn(params) {
-    const displayedColumns = params.columnApi.getAllDisplayedColumns();
-    const thisIsFirstColumn = displayedColumns[0] === params.column;
-    return thisIsFirstColumn;
-}
 
-export default injectIntl(CrearNormaComponent);
 
-CrearNormaComponent.propTypes = {
+export default injectIntl(subirDocumento);
+
+subirDocumento.propTypes = {
     match: PropTypes.any,
     location: PropTypes.object,
     intl: PropTypes.any

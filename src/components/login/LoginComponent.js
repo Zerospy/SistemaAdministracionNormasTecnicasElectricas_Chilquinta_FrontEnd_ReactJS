@@ -8,6 +8,7 @@ import {GeneralContext} from 'GeneralContext';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import VerificationCodeModal from 'components/login/VerificationCodeModal';
 
+
 class LoginComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -31,10 +32,17 @@ class LoginComponent extends React.Component {
         this.passwordInputRef = React.createRef();
 
         this.loginService = new LoginService();
+
+
+        this.sessionInformation = this.loginService.getSessionInformation();
     }
 
   redirectHome = () => {
+   
       this.props.history.push('/dashboard');
+          
+    
+  
   };
 
   login = () => {

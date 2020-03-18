@@ -3,30 +3,29 @@ import {Button, Fa} from 'mdbreact';
 import PropTypes from 'prop-types';
 import {injectIntl} from 'react-intl';
 
-class DetailButtonGridEdit extends Component {
+class EditButtonGridRenderer extends Component {
     render() {
         const {onClick} = this.props.colDef;
-        const {data, colDef} = this.props;
-
+        const {node, colDef} = this.props;
+        const {data} = node;
         return (
             <Button
-                disabled={!colDef.enabled}
-                color="primary"
+                disabled={data === null || !colDef.enabled}
+                color={'info'}
                 className="btn-grid"
-                onClick={onClick ? onClick.bind(this, data) : null}
+                onClick={onClick.bind(this, node)}
                 title={`${this.props.intl.formatMessage({
-                    id: 'component.dataGrid.EditarNorma'
+                    id: 'component.dataGrid.edit'
                 })}`}
             >
-                <Fa icon="pencil-alt" />
+                <Fa icon="edit" />
             </Button>
         );
     }
 }
+export default injectIntl(EditButtonGridRenderer);
 
-export default injectIntl(DetailButtonGridEdit);
-
-DetailButtonGridEdit.propTypes = {
+EditButtonGridRenderer.propTypes = {
     context: PropTypes.object,
     node: PropTypes.object,
     colDef: PropTypes.object,

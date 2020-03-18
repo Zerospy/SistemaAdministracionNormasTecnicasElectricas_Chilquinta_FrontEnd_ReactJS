@@ -20,16 +20,12 @@ import CommentsService from 'services/CommentsService';
 import {toast} from 'react-toastify';
 import AvatarImage from 'assets/img/avatar.jpg';
 import Moment from 'moment';
-import LoginService from 'services/LoginService';
 
 class CommentsModal extends React.Component {
     constructor(props) {
         super(props);
 
         this.commentService = new CommentsService();
-
-        this.loginService = new LoginService();
-        this.sessionInformation = this.loginService.getSessionInformation();
 
         const columnDefs = [
             {
@@ -170,14 +166,10 @@ class CommentsModal extends React.Component {
                                                       <div className="row msg_container base_sent">
                                                           <div className="col-md-10 col-xs-10">
                                                               <div className="messages msg_sent">
-                                                                  <p>{comment.usuarioEntity.fullName} </p>
                                                                   <p>{comment.observacion}</p>
-
                                                                   <time dateTime={comment.createdAt}>
                                                                       {comment.createdAt}
                                                                   </time>
-                                                                  {console.log(comment.data)}
-
                                                               </div>
                                                           </div>
                                                           <div className="col-md-2 col-xs-2 avatar">
@@ -197,11 +189,9 @@ class CommentsModal extends React.Component {
                                                           </div>
                                                           <div className="col-md-10 col-xs-10">
                                                               <div className="messages msg_receive">
-                                                              <p>{comment.usuarioEntity.fullName} </p>
                                                                   <p>{comment.observacion}</p>
                                                                   <time dateTime={comment.createdAt}>
                                                                       {comment.createdAt}
-                                                                      
                                                                   </time>
                                                               </div>
                                                           </div>
@@ -269,10 +259,9 @@ class CommentsModal extends React.Component {
                                   {' '}
                                   <FormattedMessage id="app.general.btn.cancel" />
                               </Button>
-                              
-                                {canPublish && this.sessionInformation.admin ? (  
+                              {canPublish ? (
                                   <Button
-                                      disabled={this.props.publishing && !this.sessionInformation.admin} 
+                                      disabled={this.props.publishing}
                                       onClick={() => {
                                           if (typeof onSave === 'function') {
                                               onSave(this.props.norma);
@@ -285,8 +274,7 @@ class CommentsModal extends React.Component {
                                           <FormattedMessage id="component.workflow.modal.btn.save" />
                                       )}
                                   </Button>
-                              ) : null}    
-
+                              ) : null}
                           </Col>
                       </Row>
                   </ModalFooter>

@@ -6,11 +6,11 @@ import {injectIntl} from 'react-intl';
 class CommentsButtonGridRenderer extends Component {
     render() {
         const {onClick} = this.props.colDef;
-        const {data} = this.props;
+        const {data, colDef} = this.props;
 
         return (
             <Button
-                disabled={data === null || data.estado.id === 3}
+                disabled={data === null || !colDef.enabled}
                 color="info"
                 className="btn-grid"
                 onClick={onClick.bind(this, data)}

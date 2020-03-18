@@ -10,9 +10,12 @@ import Constantes from 'Constantes';
 import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import NormaService from 'services/NormaService';
+import LoginService from 'services/LoginService';
 import {toast} from 'react-toastify';
 import Moment from 'moment';
-
+import DetalleNormaModal from 'components/normas/DetalleNormaModal';
+import DetalleEditarNormaModal from 'components/normas/DetalleEditarNormaModal';
+import DardebajaModal from 'components/normas/DardebajaModal';
 class WorkflowComponent extends React.Component {
     showSettings(event) {
         event.preventDefault();
@@ -24,6 +27,9 @@ class WorkflowComponent extends React.Component {
         this.gridApi = null;
 
         this.normaService = new NormaService();
+
+        this.loginService = new LoginService();
+        this.sessionInformation = this.loginService.getSessionInformation();
 
         const columnDefs = [
             {
@@ -62,6 +68,35 @@ class WorkflowComponent extends React.Component {
                 width: 180
             },
             {
+                headerName: 'Ver',
+                field: 'id',
+                cellRenderer: 'DetailButtonGridRenderer',
+                onClick: norma => {
+                    this.setState({
+                        selectedNorma: norma,
+                        modalDetalle: true
+                    });
+                },
+                editable: false,
+                colId: 'id',
+                width: 80
+            },
+            this.sessionInformation.admin ? {
+                headerName: 'Editar',
+                field: 'id',
+                cellRenderer: 'DetailButtonGridEdit',
+                onClick: norma => {
+                    this.setState({
+                        selectedNorma: norma,
+                        modalEdit: true
+                    });
+                },
+                editable: false,
+                enabled: this.sessionInformation.admin,
+                colId: 'id',
+                width: 80
+            } : [],
+            {
                 headerName: `${props.intl.formatMessage({
                     id: 'component.workflow.datagrid.actions'
                 })}`,
@@ -73,10 +108,28 @@ class WorkflowComponent extends React.Component {
                         modalComments: true
                     });
                 },
+                enabled: true,
                 editable: false,
                 colId: 'id',
-                width: 50
-            }
+                width: 90
+            },
+            this.sessionInformation.admin ? {
+                headerName: `${props.intl.formatMessage({
+                    id: 'component.dataGrid.DardeBajaGrid'
+                })}`,
+                field: 'dardeBaja',
+                cellRenderer: 'DardeBajaButton',
+                onClick: norma => {
+                    this.setState({
+                        selectedNorma: norma,
+                        DardebajaModal: true
+                    });
+                },
+                editable: false,
+                enabled: this.sessionInformation.admin,
+                colId: 'id',
+                width: 120
+            } : []
         ];
 
         this.state = {
@@ -135,9 +188,31 @@ class WorkflowComponent extends React.Component {
     render() {
         return [
             <WorkflowContext.Provider value={this}>
+                <DetalleNormaModal
+                    norma={this.state.selectedNorma}
+                    isOpen={this.state.modalDetalle}
+                    toggle={() => {
+                        this.setState({
+                            modalDetalle: !this.state.modalDetalle
+                        });
+                    }}
+                    enabled={this.sessionInformation.admin}
+                />
+                    <DetalleEditarNormaModal
+                    norma={this.state.selectedNorma}
+                    isOpen={this.state.modalEdit}
+                    toggle={() => {
+                        this.setState({
+                            modalEdit: !this.state.modalEdit
+
+                        });
+                        this.searchNormas();
+                    }}
+                />
+
                 <CommentsModal
                     norma={this.state.selectedNorma}
-                    isOpen={this.state.modalComments}
+                    isOpen={this.state.modalComments /*&&  this.sessionInformation.admin */ }
                     publishing={this.state.publishing}
                     toggle={() => {
                         this.setState({
@@ -208,6 +283,84 @@ class WorkflowComponent extends React.Component {
                         );
                     }}
                 />
+                    
+                   {/* {this.sessionInformation.admin ?  */} <DardebajaModal
+                    norma={this.state.selectedNorma}
+                    isOpen={this.state.DardebajaModal && this.sessionInformation.admin}
+                    toggle={() => {
+                        this.setState({
+                            DardebajaModal: !this.state.DardebajaModal
+                        });
+                    }}
+                   
+                    onDarBaja={norma => {
+                        console.log(norma);
+
+                        const rowData = this.state.rowData;
+
+                        if (rowData !== null && rowData.length > 0) {
+                            this.normaService.getById(norma.id).then(
+                                response => {
+                                    rowData.some((item, index) => {
+                                        if (item.id === norma.id) {
+                                            rowData[index].estado = response.data.estado;
+                                            return true;
+                                        }
+                                    });
+                                    this.gridApi.setRowData(rowData);
+                                },
+                                errorResponse => {
+                                    console.error(errorResponse);
+                                    toast.error(
+                                        `${this.props.intl.formatMessage({
+                                            id: 'component.workflow.modal.msg.error'
+                                        })}`
+                                    );
+                                }
+                            );
+                        }
+                    }}
+                    onSave={norma => {
+                        this.setState({
+                            publishing: true
+                        });
+
+                        this.normaService.dardeBaja(norma.id).then(
+                            () => {
+                                this.setState(
+                                    {
+                                        publishing: false,
+                                        DardebajaModal: false
+                                    },
+                                    () => {
+                                        this.searchNormas();
+                                    }
+                                );
+                                toast.success(
+                                    `${this.props.intl.formatMessage({
+                                        id: 'component.modal.succes.baja'
+                                    })}`
+                                );
+                            },
+                            () => {
+                                this.setState({
+                                    publishing: false,
+                                    DardebajaModal: false
+                                });
+
+                                toast.error(
+                                    `${this.props.intl.formatMessage({
+                                        id: 'component.workflow.modal.msg.error'
+                                    })}`
+                                );
+                            }
+                        );
+                    }}
+                
+                />  
+                  { /*  enabled={this.sessionInformation.admin} */}  {/* : []} */}  
+
+
                 <HeaderComponent />
                 <Row>
                     <Col size="12">
@@ -243,7 +396,6 @@ class WorkflowComponent extends React.Component {
                                         <Fa icon="sync" />
                                     </Button>
                                 </Col>
-                                
                             </Row>
 
                             <DataGridComponent

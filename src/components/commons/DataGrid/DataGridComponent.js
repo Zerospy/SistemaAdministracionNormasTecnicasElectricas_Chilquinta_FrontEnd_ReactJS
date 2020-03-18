@@ -5,7 +5,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import HeaderGroupComponent from 'components/commons/DataGrid/HeaderGroupComponent';
 import DetailButtonGridRenderer from 'components/commons/DataGrid/DetailButtonGridRenderer';
+import DownloadButtonGrid from 'components/commons/DataGrid/DownloadButtonGrid';
 import DetailButtonGridEdit from 'components/commons/DataGrid/DetailButtonGridEdit';
+import DardeBajaButton from 'components/commons/DataGrid/DardeBajaButton';
+import DetailButtonGridEmail from 'components/commons/DataGrid/DetailButtonGridEmail';
 import DetailAlergenButtonGridRenderer from 'components/commons/DataGrid/DetailAlergenButtonGridRenderer';
 import CustomCheckboxRenderer from 'components/commons/DataGrid/CustomCheckboxRenderer';
 import GenerateExpButtonGridRenderer from 'components/commons/DataGrid/GenerateExpButtonGridRenderer';
@@ -15,6 +18,7 @@ import RemoveIconGridRenderer from 'components/commons/DataGrid/RemoveIconGridRe
 import RemoveButtonGridRenderer from 'components/commons/DataGrid/RemoveButtonGridRenderer';
 import ShareButtonGridRenderer from 'components/commons/DataGrid/ShareButtonGridRenderer';
 import AddMaterialButtonRenderer from 'components/commons/DataGrid/AddMaterialButtonRenderer';
+import EditButtonGridRenderer from 'components/commons/DataGrid/EditButtonGridRenderer';
 import MaterialBannedComponent from 'components/commons/DataGrid/MaterialBannedComponent';
 import LoadingComponent from 'components/commons/base/LoadingComponent';
 import {FormattedMessage, injectIntl} from 'react-intl';
@@ -31,7 +35,10 @@ class DataGridComponent extends React.Component {
             frameworkComponents: {
                 customHeaderGroupComponent: HeaderGroupComponent,
                 DetailButtonGridRenderer: DetailButtonGridRenderer,
+                DownloadButtonGrid: DownloadButtonGrid,
                 DetailButtonGridEdit: DetailButtonGridEdit,
+                DardeBajaButton: DardeBajaButton,
+                DetailButtonGridEmail: DetailButtonGridEmail,
                 DetailAlergenButtonGridRenderer: DetailAlergenButtonGridRenderer,
                 CustomCheckboxRenderer: CustomCheckboxRenderer,
                 GenerateExpButtonGridRenderer: GenerateExpButtonGridRenderer,
@@ -41,7 +48,8 @@ class DataGridComponent extends React.Component {
                 ShareButtonGridRenderer: ShareButtonGridRenderer,
                 RemoveButtonGridRenderer: RemoveButtonGridRenderer,
                 AddMaterialButtonRenderer: AddMaterialButtonRenderer,
-                MaterialBannedComponent: MaterialBannedComponent
+                MaterialBannedComponent: MaterialBannedComponent,
+                EditButtonGridRenderer: EditButtonGridRenderer
             },
             selectedRowsPerPage: [],
             selectedRows: []
@@ -95,6 +103,18 @@ class DataGridComponent extends React.Component {
           onGridLoad(params);
       }
   };
+
+  FiltroEstado() {
+      const estadoFilterComponent = this.gridApi.getFilterInstance('estado');
+
+      const model = {
+          type: 'set',
+          values: ['Publicada']
+      };
+
+      estadoFilterComponent.setModel(model);
+      this.gridApi.onFilterChanged();
+  }
 
   componentDidMount() {}
 
@@ -310,7 +330,10 @@ class DataGridComponent extends React.Component {
 
       return (
           <Container fluid={true}>
-              <LoadingComponent loading={this.props.isLoading} />
+              <LoadingComponent
+                  loading={this.props.isLoading}
+                  noBackground={this.props.loadingNoBackground}
+              />
               <div className={this.props.classContainer}>
                   <div id={this.state.id} className={'ag-theme-balham h-100'}>
                       <AgGridReact
@@ -435,6 +458,7 @@ DataGridComponent.propTypes = {
     gridOptions: PropTypes.any,
     rowData: PropTypes.array,
     isLoading: PropTypes.bool,
+    loadingNoBackground: PropTypes.bool,
     forceLoadColumns: PropTypes.bool,
     onGridLoad: PropTypes.func,
     onRowSelection: PropTypes.func,

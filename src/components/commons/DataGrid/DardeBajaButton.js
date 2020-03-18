@@ -3,30 +3,30 @@ import {Button, Fa} from 'mdbreact';
 import PropTypes from 'prop-types';
 import {injectIntl} from 'react-intl';
 
-class DetailButtonGridEdit extends Component {
+class DardeBajaButton extends Component {
     render() {
         const {onClick} = this.props.colDef;
         const {data, colDef} = this.props;
 
         return (
             <Button
-                disabled={!colDef.enabled}
-                color="primary"
+               disabled={data === null || !colDef.enabled}
+                color="danger"
                 className="btn-grid"
                 onClick={onClick ? onClick.bind(this, data) : null}
                 title={`${this.props.intl.formatMessage({
-                    id: 'component.dataGrid.EditarNorma'
+                    id: 'component.dataGrid.DardeBaja'
                 })}`}
             >
-                <Fa icon="pencil-alt" />
+                <Fa icon="folder-minus"/>
             </Button>
         );
     }
 }
 
-export default injectIntl(DetailButtonGridEdit);
+export default injectIntl(DardeBajaButton);
 
-DetailButtonGridEdit.propTypes = {
+DardeBajaButton.propTypes = {
     context: PropTypes.object,
     node: PropTypes.object,
     colDef: PropTypes.object,

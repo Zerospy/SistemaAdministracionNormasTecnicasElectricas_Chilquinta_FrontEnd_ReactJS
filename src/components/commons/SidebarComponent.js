@@ -16,6 +16,9 @@ class SidebarComponent extends React.Component {
         this.state = {
             toggleState: false
         };
+
+        this.loginService = new LoginService();
+        this.sessionInformation = this.loginService.getSessionInformation();
     }
 
     // Slide out buttons event handlers
@@ -63,15 +66,15 @@ class SidebarComponent extends React.Component {
                           icon="home"
                           startOpen={true}
                       >
-                          <SideNavLink
+                           <SideNavLink
                               to="/dashboard"
                               onClick={() => {
                                   window.location.reaload();
                               }}
-                          >
+                          > 
                               <Fa icon="bong" />
                               <FormattedMessage id="menu.home.dashboard" />
-                          </SideNavLink>
+                          </SideNavLink> 
                       </SideNavCat>
 
                       <SideNavCat
@@ -92,7 +95,7 @@ class SidebarComponent extends React.Component {
                               <FormattedMessage id="component.normas.title" />
                           </SideNavLink>
 
-                          <SideNavLink
+                          {this.sessionInformation.admin ? <SideNavLink
                               to="CrearNorma"
                               onClick={() => {
                                   window.location.reaload();
@@ -100,10 +103,38 @@ class SidebarComponent extends React.Component {
                           >
                               <Fa icon="plus" />
                               <FormattedMessage id="component.normas.crear" />
-                          </SideNavLink>
+                          </SideNavLink> : null}
 
-                     
+                          
                       </SideNavCat>
+
+                      <SideNavCat
+                          id="component.normasInternacionales"
+                          name={`${this.props.intl.formatMessage({
+                              id: 'component.normasInternacionales'
+                          })}`}
+                          icon="globe"
+                          startOpen={true}
+                      >
+                          <SideNavLink
+                              to="normasInternacionales"
+                              onClick={() => {
+                                  window.location.reaload();
+                              }}
+                          >
+                              <Fa icon="passport" />
+                              <FormattedMessage id="component.normasInternacionales" />
+                          </SideNavLink>
+                          {this.sessionInformation.admin ?  <SideNavLink
+                              to="administracionNormasInternacionales"
+                              onClick={() => {
+                                  window.location.reaload();
+                              }}
+                          >
+                              <Fa icon="cloud-upload-alt" />
+                              <FormattedMessage id="component.normasInternacionales.administracion" />
+                          </SideNavLink> : []}
+                      </SideNavCat> 
 
                       <SideNavCat
                           id="workflow"
@@ -124,6 +155,48 @@ class SidebarComponent extends React.Component {
                           </SideNavLink>
                       </SideNavCat>
 
+
+                      <SideNavCat
+                          id="Documentos"
+                          name={`${this.props.intl.formatMessage({
+                              id: 'menu.documentos'
+                          })}`}
+                          icon="folder"
+                          startOpen={true}
+                      >
+                          <SideNavLink
+                              to="/documentosComponent"
+                              onClick={() => {
+                                  window.location.reaload();
+                              }}
+                          >
+                              <Fa icon="network-wired" />
+                              <FormattedMessage id="menu.documentos.item" />
+                          </SideNavLink>
+                          {this.sessionInformation.admin ? <SideNavLink
+                              to="/subirDocumento"
+                              onClick={() => {
+                                  window.location.reaload();
+                              }}
+                          >
+                              <Fa icon="network-wired" />
+                              <FormattedMessage id="menu.documentos.subir" />
+                          </SideNavLink> : []}
+                      </SideNavCat>
+
+                      {this.sessionInformation.admin ? <SideNavCat
+                          id="userManagement"
+                          name={`${this.props.intl.formatMessage({
+                              id: 'menu.user.management'
+                          })}`}
+                          icon="user-cog"
+                      >
+                          <SideNavLink to="/users-management">
+                              <Fa icon="users" />
+                              <FormattedMessage id="menu.user.administration" />
+                          </SideNavLink>
+                      </SideNavCat> : []}
+
                       <SideNavCat
                           id="session"
                           name={`${this.props.intl.formatMessage({
@@ -135,15 +208,16 @@ class SidebarComponent extends React.Component {
                               to="/login"
                               onClick={() => {
                                   new LoginService().logOut();
+                                  this.props.history.push(this.props.match.url)
                                   window.location.reaload(true);
                               }}
                           >
-                              <Fa icon="users" />
+                              <Fa icon="sign-out-altZ" />
                               <FormattedMessage id="menu.account.logout" />
                           </SideNavLink>
                       </SideNavCat>
 
-                      <SideNavCat
+                      {/* <SideNavCat
                           id="ayuda"
                           name={`${this.props.intl.formatMessage({
                               id: 'menu.help'
@@ -154,7 +228,7 @@ class SidebarComponent extends React.Component {
                               <Fa icon="book" />
                               <FormattedMessage id="menu.help.userManual" />
                           </a>
-                      </SideNavCat>
+                      </SideNavCat> */}
                   </SideNavNav>
               </SideNav>
           </div>

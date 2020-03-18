@@ -19,6 +19,7 @@ import NormaService from 'services/NormaService';
 import {toast} from 'react-toastify';
 import pdf from 'assets/img/pdf.png';
 import cad from 'assets/img/cad.png';
+import LoginService from 'services/LoginService';
 import {Link} from 'react-router-dom';
 import {saveAs} from 'file-saver';
 
@@ -30,7 +31,8 @@ class DetalleNormaModal extends React.Component {
       super(props);
 
       this.normaService = new NormaService();
-
+      this.loginService = new LoginService();
+      this.sessionInformation = this.loginService.getSessionInformation();
       const columnDefs = [
           {
               headerName: `${props.intl.formatMessage({
@@ -47,84 +49,60 @@ class DetalleNormaModal extends React.Component {
               RowsPerPage: Constantes.DEFAULT_PAGE_SIZE
           },
           columnDefs: columnDefs,
-          rowData: [],
+          normaInfo: {},
           loadingInformation: false
       };
+      
   }
-
+  
   getNorma(norma) {
-      this.normaService.get(norma.id).then(response => {
+      this.normaService.getById(norma.id).then(response => {
           const data = response.data;
 
           this.setState({
-              rowData: response !== null ? response.data : [],
-
+              normaInfo: data,
               loadingInformation: false
           });
       });
   }
-  saveComment = () => {
-      const {rowData} = this.state;
-      const normaId = this.props.norma.id;
-      const {onSaveComment, norma} = this.props;
-
-      this.setState({
-          savingComment: true
-      });
-
-      this.commentService
-          .post(normaId, {
-              comment: this.state.newComment
-          })
-          .then(
-              response => {
-                  const data = response.data;
-
-                  onSaveComment(norma);
-                  this.setState(
-                      {
-                          rowData: [...rowData, data],
-                          savingComment: false
-                      },
-                      () => {
-                          this.setState({
-                              newComment: ''
-                          });
-                      }
-                  );
-              },
-              () => {
-                  toast.error(
-                      `${this.props.intl.formatMessage({
-                          id: 'component.normas.modal.comment.error'
-                      })}`
-                  );
-
-                  this.setState({
-                      savingComment: false
-                  });
-              }
-          );
-  };
 
   downloadPdf = () => {
-      const {id, codNorma} = this.props.norma;
-      this.normaService.downloadNormaFile(id, 'pdf').then(response => {
+      const {id, codNorma, urlPdf, estado} = this.props.norma;
+
+      if (urlPdf !== null && estado !== null && estado.id === 3) {
           saveAs(
-              new Blob([response.data], {
-                  type: 'application/pdf'
-              }),
-              `${codNorma}.pdf`
+              urlPdf,
+              `${codNorma}-${this.state.normaInfo.pdfFileName}`
           );
-      });
+      } else {
+          this.normaService.downloadNormaFile(id, 'pdf').then(response => {
+              saveAs(
+                  new Blob([response.data]),
+                  `${codNorma}-${this.state.normaInfo.pdfFileName}`
+              );
+          });
+      }
   };
 
   downloadCad = () => {
-      const {id, codNorma} = this.props.norma;
-      this.normaService.downloadNormaFile(id, 'cad').then(response => {
-          saveAs(new Blob([response.data]), `${codNorma}.cad`);
-      });
+      const {id, codNorma, urlCad, estado} = this.props.norma;
+
+      if (urlCad !== null && estado !== null && estado.id === 3) {
+          saveAs(
+              urlCad,
+              `${codNorma}-${this.state.normaInfo.cadFileName}`
+          );
+      } else {
+          this.normaService.downloadNormaFile(id, 'cad').then(response => {
+              saveAs(
+                  new Blob([response.data]),
+                  `${codNorma}-${this.state.normaInfo.cadFileName}`
+              );
+          });
+      }
   };
+
+
 
   componentDidUpdate(prevProps) {
       if (
@@ -133,11 +111,13 @@ class DetalleNormaModal extends React.Component {
       this.props.norma !== prevProps.norma
       ) {
           this.setState({
-              rowData: []
+              normaInfo: {}
           });
           this.getNorma(this.props.norma);
       }
   }
+
+  
 
   render() {
       const {toggle, isOpen, onSave, norma} = this.props;
@@ -163,10 +143,15 @@ class DetalleNormaModal extends React.Component {
       const normafecha = normafecha0.split('"}').join('');
 
       const normaDesc = JSON.stringify(this.props.norma, ['id']);
-
+        let imageCad = "";
+            if(this.sessionInformation.admin === true){
+            imageCad = pdf
+            } else {
+                imageCad = cad
+            }
       return (
           <Container>
-              <Modal isOpen={isOpen} size="lg">
+              <Modal isOpen={isOpen} size="lg" centered>
                   <ModalHeader toggle={toggle}>
                       <FormattedMessage id="component.normas.title.detalles" />
                   </ModalHeader>
@@ -202,36 +187,40 @@ class DetalleNormaModal extends React.Component {
                               >
                                   <h5>{normafecha.substring(0, 10)}</h5>
                               </PanelComponent>
-                              <PanelComponent
-                                  title={`${this.props.intl.formatMessage({
-                                      id: 'component.vernormas.descarga.Modal'
-                                  })}`}
-                              >
-                                  <h5>
-                                      {' '}
-                                      <td onClick={this.downloadPdf}>
+                          
+                                  <PanelComponent
+                                      title={`${this.props.intl.formatMessage({
+                                          id: 'component.vernormas.descarga.Modal'
+                                      })}`}
+                                  >
+                                      <h5>
                                           {' '}
-                                          <img
-                                              style={{
-                                                  width: 70,
-                                                  height: 70,
-                                                  cursor: 'pointer',
-                                                  marginRight: '8px'
-                                              }}
-                                              title="Descargar Pdf de la norma"
-                                              src={pdf}
-                                          ></img>
-                                      </td>{' '}
-                                      <td onClick={this.downloadCad}>
-                                          {' '}
-                                          <img
-                                              style={{width: 70, height: 70, cursor: 'pointer'}}
-                                              src={cad}
-                                              title="Descargar Cad de la norma"
-                                          ></img>
-                                      </td>{' '}
-                                  </h5>
-                              </PanelComponent>
+                                          <td onClick={this.downloadPdf}>
+                                              {' '}
+                                              <img
+                                                  style={{
+                                                      width: 70,
+                                                      height: 70,
+                                                      cursor: 'pointer',
+                                                      marginRight: '8px'
+                                                  }}
+                                                  title="Descargar Pdf de la norma"
+                                                  src={pdf}
+                                              ></img>
+                                          </td>{' '}
+                                          {this.sessionInformation.admin ?  <td onClick={this.downloadCad}>
+                                              {' '}
+                                            
+                                              <img
+                                                  style={{width: 70, height: 70, cursor: 'pointer'}}
+                                                  src={cad}
+                                                  title="Descargar Cad de la norma"
+                                              ></img>
+                                         
+                                          </td> : []} {' '} 
+                                      </h5>
+                                  </PanelComponent>
+                            
                           </Col>
                       </Row>
                       <Row>
@@ -263,6 +252,7 @@ DetalleNormaModal.propTypes = {
     onSave: PropTypes.func,
     isOpen: PropTypes.bool,
     publishing: PropTypes.bool,
+    enabled: PropTypes.bool,
     intl: PropTypes.any,
     norma: PropTypes.any
 };
