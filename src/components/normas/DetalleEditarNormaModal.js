@@ -116,7 +116,6 @@ class DetalleEditarNormaModal extends React.Component {
 
   saveNorma = () => {
       const {onSaveNorma, norma} = this.props;
-      const id = this.props.norma.id;
       const normaId = this.props.norma.id;
       const codNorma = this.props.norma.codNorma;
 
@@ -151,6 +150,7 @@ class DetalleEditarNormaModal extends React.Component {
           descripcion: this.state.normadescripcion
       };
 
+      /* /*
       if (this.state.selectedUsers && this.state.selectedUsers.length > 0) {
           params.usersToComment = [];
 
@@ -161,28 +161,19 @@ class DetalleEditarNormaModal extends React.Component {
                   }
               });
           });
-      }
+      }   */  
 
       this.setState({
           savingNorma: true
       });
 
-      this.normaService.updateNorma(id, params).then(
+      this.normaService.modificarCamposNorma(normaId, params).then(
           response => {
               const data = response.data;
 
-           /*   if (!this.state.pdfFile && !this.state.cadFile) {
-                  this.props.toggle();
-                  toast.success(
-                      `${this.props.intl.formatMessage({
-                          id: 'component.normas.modal.edit.success'
-                      })}`
-                  );
 
-                  this.setState({
-                      savingNorma: false
-                  });
-              } */
+            
+              
           },
           () => {
               toast.error(

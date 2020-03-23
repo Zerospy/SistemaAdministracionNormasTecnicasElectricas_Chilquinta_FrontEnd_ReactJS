@@ -83,7 +83,7 @@ class NormasComponent extends React.Component {
                 headerName: `${props.intl.formatMessage({
                     id: 'component.normas.datagrid.fecha'
                 })}`,
-                field: 'fechaStr',
+                field: 'fecha',
                 width: 150
             },
             {
@@ -298,8 +298,8 @@ class NormasComponent extends React.Component {
 
                 if (data !== null && data.length > 0) {
                     data.forEach(item => {
-                        item.fechaStr = new Moment(item.fecha).format(
-                            Constantes.DATE_FORMAT
+                        item.fecha = new Moment(item.fecha).format(
+                            Constantes.DATETIME_FORMAT
                         );
                     });
                 }

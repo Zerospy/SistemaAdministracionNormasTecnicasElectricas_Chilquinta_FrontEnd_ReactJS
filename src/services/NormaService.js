@@ -13,6 +13,9 @@ export default class NormaService {
 
   updateNorma = (id, params) => axios.post(`/norma/updateNorma/${id}`, params);
 
+  
+  modificarCamposNorma = (id, params) => axios.post(`/norma/modificarCampos/${id}`, params);
+
   dardeBaja = id => axios.post(`/norma/dardebaja/${id}`);
   estadoNormas = estadoNorma => axios.get(`/norma/findByStatus/${estadoNorma}`);
 

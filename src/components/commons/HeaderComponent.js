@@ -25,6 +25,7 @@ class HeaderComponent extends React.Component {
 
     render() {
         return (
+
             <Row
                 className={classNames({
                     'header-top': true,
@@ -47,6 +48,7 @@ class HeaderComponent extends React.Component {
                     </span>
                 </div>
             </Row>
+            
         );
     }
 }
