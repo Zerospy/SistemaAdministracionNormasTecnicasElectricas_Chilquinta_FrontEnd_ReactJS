@@ -40,46 +40,7 @@ class administracionNormasInternacionales extends React.Component {
         this.state = {
            
             columnDefs: [
-                {
-                    field: "athlete",
-                    width: 150
-                },
-                {
-                    field: "age",
-                    width: 90
-                },
-                {
-                    field: "country",
-                    width: 120
-                },
-                {
-                    field: "year",
-                    width: 90
-                },
-                {
-                    field: "date",
-                    width: 110
-                },
-                {
-                    field: "sport",
-                    width: 110
-                },
-                {
-                    field: "gold",
-                    width: 100
-                },
-                {
-                    field: "silver",
-                    width: 100
-                },
-                {
-                    field: "bronze",
-                    width: 100
-                },
-                {
-                    field: "total",
-                    width: 100
-                }
+         
             ],
             defaultColDef: {
                 width: 100,
@@ -102,12 +63,12 @@ class administracionNormasInternacionales extends React.Component {
           file[0].type ===
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         if (!isExcel) {
-          errorMessage = "You can only upload Excel file!";
+          errorMessage = "Solo puedes subir Excel!";
         }
         console.log("file", file[0].type);
         const isLt2M = file[0].size / 1024 / 1024 < 2;
         if (!isLt2M) {
-          errorMessage = "File must be smaller than 2MB!";
+          errorMessage = "El archivo debe ser inferior a 2MB!";
         }
         console.log("errorMessage", errorMessage);
         return errorMessage;
@@ -117,7 +78,7 @@ class administracionNormasInternacionales extends React.Component {
         let fileObj = fileList
         if (!fileObj) {
           this.setState({
-            errorMessage: "No file uploaded!",
+            errorMessage: "No hay archivo subido!",
           })
           return false
         }
@@ -130,7 +91,7 @@ class administracionNormasInternacionales extends React.Component {
           )
         ) {
           this.setState({
-            errorMessage: "Unknown file format. Only Excel files are uploaded!",
+            errorMessage: "Formato Desconocido, solo debe subir Excel",
           })
           return false
         }
@@ -275,10 +236,10 @@ class administracionNormasInternacionales extends React.Component {
                                 id: 'component.normasInternacionales.administracion'
                             })}`}
                         >
-                            <Col size="4">
+                            <Col size="12">
                                      <h1>Importar componente Excel</h1>
                                 <label> Seleccione Archivo excel de norma internacional</label>
-                           <div>
+<div>
   <Upload
     name="file"
     beforeUpload={this.fileHandler}

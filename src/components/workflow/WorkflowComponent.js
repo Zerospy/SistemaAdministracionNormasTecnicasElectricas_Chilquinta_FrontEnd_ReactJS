@@ -81,21 +81,6 @@ class WorkflowComponent extends React.Component {
                 colId: 'id',
                 width: 80
             },
-            this.sessionInformation.admin ? {
-                headerName: 'Editar',
-                field: 'id',
-                cellRenderer: 'DetailButtonGridEdit',
-                onClick: norma => {
-                    this.setState({
-                        selectedNorma: norma,
-                        modalEdit: true
-                    });
-                },
-                editable: false,
-                enabled: this.sessionInformation.admin,
-                colId: 'id',
-                width: 80
-            } : [],
             {
                 headerName: `${props.intl.formatMessage({
                     id: 'component.workflow.datagrid.actions'
@@ -111,8 +96,23 @@ class WorkflowComponent extends React.Component {
                 enabled: true,
                 editable: false,
                 colId: 'id',
-                width: 90
+                width: 120
             },
+            this.sessionInformation.admin ? {
+                headerName: 'Editar',
+                field: 'id',
+                cellRenderer: 'DetailButtonGridEdit',
+                onClick: norma => {
+                    this.setState({
+                        selectedNorma: norma,
+                        modalEdit: true
+                    });
+                },
+                editable: false,
+                enabled: this.sessionInformation.admin,
+                colId: 'id',
+                width: 80
+            } : [],
             this.sessionInformation.admin ? {
                 headerName: `${props.intl.formatMessage({
                     id: 'component.dataGrid.DardeBajaGrid'

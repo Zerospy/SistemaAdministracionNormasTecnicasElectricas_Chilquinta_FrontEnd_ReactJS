@@ -67,6 +67,13 @@ class normasInternacionales extends React.Component {
       },
       {
         headerName: `${props.intl.formatMessage({
+          id: "component.normasInternacionales.datagrid.Fecha"
+        })}`,
+        field: "fecha",
+        width: 150
+      },
+      {
+        headerName: `${props.intl.formatMessage({
           id: "component.normasInternacionales.datagrid.Solicitar"
         })}`,
         cellRenderer: "DetailButtonGridEmail",
@@ -96,7 +103,7 @@ class normasInternacionales extends React.Component {
       email: "esteffens@chilquinta.cl",
       rowData: [],
       loadingInformation: false,
-      normaId: "NORMA GENIAL",
+      normaId: "NORMA",
       selectedNorma: null,
       codNorma: ""
     };

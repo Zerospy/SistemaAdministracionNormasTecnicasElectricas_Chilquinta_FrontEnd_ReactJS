@@ -46,13 +46,6 @@ class NormasComponent extends React.Component {
         const columnDefs = [
             {
                 headerName: `${props.intl.formatMessage({
-                    id: 'component.normas.datagrid.id'
-                })}`,
-                field: 'id',
-                width: 50
-            },
-            {
-                headerName: `${props.intl.formatMessage({
                     id: 'component.normas.datagrid.codNorma'
                 })}`,
                 field: 'codNorma',
@@ -163,7 +156,9 @@ class NormasComponent extends React.Component {
             estadoNorma: '',
             fecha: {
                 fecha: ''
-            }
+            },
+            OpenSideBar: true
+
         };
     }
 
@@ -224,46 +219,51 @@ class NormasComponent extends React.Component {
                   savingNorma: true
               });
 
-        
-            this.normaService.post(params)
-                .then(response => {
-                    const data = response.data;
-
-                    data.createdAt = new Moment(data.createdAt).format(
-                        Constantes.DATETIME_FORMAT
-                    );
-                    console.log(response.data);
-                    console.log(response.data.id);
-                    this.setState({
-                        normaId: response.data.id
-
-                    });
-
-                    console.log(response.data.id);
-                    let formData = new FormData();
-               /*   if (this.state.pdfFile.length > 0 && this.state.pdfFile.length > 0){
-                        if (this.state.pdfFile.size != 0 && this.state.pdfFile.size != null && this.state.cadFile.size != 0 && this.state.cadFile.size != null) {  */
-                    formData.append('file', this.state.pdfFile);
-
-                    this.normaService.uploadNormaFile(response.data.id, 'pdf', formData).then(result => {
+              this.normaService.post(params).then(response => {
+                const data = response.data;
+      
+                data.createdAt = new Moment(data.createdAt).format(
+                    Constantes.DATETIME_FORMAT
+                );
+                console.log(response.data);
+                console.log(response.data.id);
+                this.setState({
+                    normaId: response.data.id
+                });
+      
+                console.log(response.data.id);
+                let formData = new FormData();
+                formData.append('file', this.state.pdfFile);
+              
+               
+                this.normaService
+                    .uploadNormaFile(response.data.id, 'pdf', formData)
+                    .then(result => {
                         formData = new FormData();
                         formData.append('file', this.state.cadFile);
-                        console.log(result);   
+      
                         this.normaService
                             .uploadNormaFile(response.data.id, 'cad', formData)
                             .then(result => {
-                                console.log(result);   
-                            });
+                                  
+                                 
+                              
+                                
+                            });          
+                             
                     });
-          /*        }                        Cierre if  }*/ 
-            
-            }),
-            toast.success(
-                `${this.props.intl.formatMessage({
-                    id: 'component.normas.modal.msg.success.crear'
-                })}`,
-                this.toggle()
-            );
+
+
+                    toast.success(
+                        `${this.props.intl.formatMessage({
+                        id: 'component.normas.modal.msg.success.crear'
+                                                                        })}`,
+      
+                                               );
+                    this.toggle();
+          });
+
+       
         } 
 
    
@@ -336,12 +336,19 @@ class NormasComponent extends React.Component {
 
                 });
             });
+
+
     }
+
+
+
 
     componentDidMount() {
         this.searchNormas();
         this.getUsuarios();
     }
+
+
 
     render() {
         const idData = this.state.idData;
@@ -449,7 +456,7 @@ class NormasComponent extends React.Component {
                     enabled={this.sessionInformation.admin}
                 /> : []}
 
-                <HeaderComponent />
+                <HeaderComponent OpenSideBar = {this.state.OpenSideBar} />
                 <Row>
                     <Col size="12">
                         <PanelComponent

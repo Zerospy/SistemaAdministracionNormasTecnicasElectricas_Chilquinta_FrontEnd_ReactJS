@@ -169,11 +169,17 @@ class DetalleEditarNormaModal extends React.Component {
 
       this.normaService.modificarCamposNorma(normaId, params).then(
           response => {
-              const data = response.data;
+            this.setState({
+                savingNorma: false
+            });
+              toast.success(
+                `${this.props.intl.formatMessage({
+                    id: 'component.normas.modal.edit.success'
+                })}`
+            );
 
+            this.props.toggle();
 
-            
-              
           },
           () => {
               toast.error(
@@ -181,10 +187,6 @@ class DetalleEditarNormaModal extends React.Component {
                       id: 'component.normas.modal.edit.error'
                   })}`
               );
-
-              this.setState({
-                  savingNorma: false
-              });
           }
       );
 
@@ -304,6 +306,7 @@ class DetalleEditarNormaModal extends React.Component {
           this.setState({
               savingNorma: true
           });
+          this.normaService.post(params).then(response => {
           this.normaService
               .uploadNormaFile(normaId, 'pdf', formData)
               .then(result => {
@@ -316,7 +319,7 @@ class DetalleEditarNormaModal extends React.Component {
                           this.setState({
                               savingNorma: false
                           });
-
+              
                           toast.success(
                               `${this.props.intl.formatMessage({
                                   id: 'component.normas.modal.edit.success'
@@ -337,7 +340,8 @@ class DetalleEditarNormaModal extends React.Component {
                       });
                   };
               });
-      } else {
+          });
+         } else {
           toast.error(
               `${this.props.intl.formatMessage({
                   id: 'component.normas.modal.error.upload'
