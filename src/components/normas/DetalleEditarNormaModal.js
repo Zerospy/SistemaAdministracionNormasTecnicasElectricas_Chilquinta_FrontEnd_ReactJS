@@ -115,130 +115,74 @@ class DetalleEditarNormaModal extends React.Component {
   };
 
   saveNorma = () => {
-      const {onSaveNorma, norma} = this.props;
-      const normaId = this.props.norma.id;
-      const codNorma = this.props.norma.codNorma;
+    const {onSaveNorma, norma} = this.props;
+    const normaId = this.props.norma.id;
+    const codNorma = this.props.norma.codNorma;
 
-      if (this.state.codigoNorma === '' || this.state.codigoNorma === null) {
-          this.state.codigoNorma = JSON.stringify(this.props.norma, ['codNorma'])
-              .split('{"codNorma":"')
-              .join('');
-          this.state.codigoNorma = this.state.codigoNorma.split('"}').join('');
-      }
-      if (this.state.nombreNorma === '' || this.state.nombreNorma === null) {
-          this.state.nombreNorma = JSON.stringify(this.props.norma, ['nombre'])
-              .split('{"nombre":"')
-              .join('');
-          this.state.nombreNorma = this.state.nombreNorma.split('"}').join('');
-      }
-      if (
-          this.state.normadescripcion === '' ||
-      this.state.normadescripcion === null
-      ) {
-          this.state.normadescripcion = JSON.stringify(this.props.norma, [
-              'descripcion'
-          ])
-              .split('{"descripcion":"')
-              .join('');
-          this.state.normadescripcion = this.state.normadescripcion
-              .split('"}')
-              .join('');
-      }
-      const params = {
-          codNorma: this.state.codigoNorma,
-          nombre: this.state.nombreNorma,
-          descripcion: this.state.normadescripcion
-      };
+    if (this.state.codigoNorma === '' || this.state.codigoNorma === null) {
+        this.state.codigoNorma = JSON.stringify(this.props.norma, ['codNorma'])
+            .split('{"codNorma":"')
+            .join('');
+        this.state.codigoNorma = this.state.codigoNorma.split('"}').join('');
+    }
+    if (this.state.nombreNorma === '' || this.state.nombreNorma === null) {
+        this.state.nombreNorma = JSON.stringify(this.props.norma, ['nombre'])
+            .split('{"nombre":"')
+            .join('');
+        this.state.nombreNorma = this.state.nombreNorma.split('"}').join('');
+    }
+    if (
+        this.state.normadescripcion === '' ||
+    this.state.normadescripcion === null
+    ) {
+        this.state.normadescripcion = JSON.stringify(this.props.norma, [
+            'descripcion'
+        ])
+            .split('{"descripcion":"')
+            .join('');
+        this.state.normadescripcion = this.state.normadescripcion
+            .split('"}')
+            .join('');
+    }
+    const params = {
+        codNorma: this.state.codigoNorma,
+        nombre: this.state.nombreNorma,
+        descripcion: this.state.normadescripcion
+    };
 
-      /* /*
-      if (this.state.selectedUsers && this.state.selectedUsers.length > 0) {
-          params.usersToComment = [];
 
-          this.state.selectedUsers.forEach(user => {
-              params.usersToComment.push({
-                  usuarioRecibeEntity: {
-                      id: user.id
-                  }
-              });
+
+    this.setState({
+        savingNorma: true
+    });
+
+    this.normaService.modificarCamposNorma(normaId, params).then(
+        response => {
+          this.setState({
+              savingNorma: false
           });
-      }   */  
+            toast.success(
+              `${this.props.intl.formatMessage({
+                  id: 'component.normas.modal.edit.success'
+              })}`
+          );
 
-      this.setState({
-          savingNorma: true
-      });
+          this.props.toggle();
 
-      this.normaService.modificarCamposNorma(normaId, params).then(
-          response => {
+        },
+        () => {
             this.setState({
                 savingNorma: false
             });
-              toast.success(
+            toast.error(
                 `${this.props.intl.formatMessage({
-                    id: 'component.normas.modal.edit.success'
+                    id: 'component.normas.modal.edit.error'
                 })}`
             );
+        }
+    );
 
-            this.props.toggle();
-
-          },
-          () => {
-              toast.error(
-                  `${this.props.intl.formatMessage({
-                      id: 'component.normas.modal.edit.error'
-                  })}`
-              );
-          }
-      );
-
-     /* if (
-          this.state.pdfFile &&
-      this.state.cadFile && 
-      this.state.pdfFile.size != 0 &&
-      this.state.cadFile.size != 0 ||
-      this.state.pdfFile.size == null &&
-      this.state.cadFile.size == null
-      ) {  */
-
-
-    
-            /*
-          let formData = new FormData();
-          formData.append('file', this.state.pdfFile);
-          /* */
-         /*   this.normaService
-              .uploadNormaFile(normaId, 'pdf', formData)
-              .then(result => {
-                  formData = new FormData();
-                  formData.append('file', this.state.cadFile);
-
-                  this.normaService
-                      .uploadNormaFile(normaId, 'cad', formData)
-                      .then(result => {
-                          this.props.toggle();
-                          toast.success(
-                              `${this.props.intl.formatMessage({
-                                  id: 'component.normas.modal.edit.success'
-                              })}`
-                          );
-
-                          this.setState({
-                              savingNorma: false
-                          });
-                      }),
-                  () => {
-                      toast.error(
-                          `${this.props.intl.formatMessage({
-                              id: 'component.normas.modal.edit.error'
-                          })}`
-                      );
-
-                      this.setState({
-                          savingNorma: false
-                      });
-               };
-                            }); */
-                             /*} */
-                                  };
+                                };
 
   publishToWorkflow = () => {
       const id = this.props.norma.id;
