@@ -120,6 +120,8 @@ class CrearUserModal extends React.Component {
                   saving: false
               });
               toast.error(errorResponse);
+              toast.error('Ocurrió un problema al guardar la información');
+           
           }
       );
   };
