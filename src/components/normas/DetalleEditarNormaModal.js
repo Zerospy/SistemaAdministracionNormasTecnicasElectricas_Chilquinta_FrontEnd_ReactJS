@@ -504,7 +504,7 @@ class DetalleEditarNormaModal extends React.Component {
                           <Col className="d-flex justify-content-end">
 
                                 {/*  Boton que envia PDF y CAD  */}
-                                {this.props.publish ? (
+                                {!this.props.publish ? (
                               <Button
                                   disabled={
                     this.state.savingNorma || !this.state.pdfFile && !this.state.cadFile
@@ -521,7 +521,7 @@ class DetalleEditarNormaModal extends React.Component {
                                 ) : null}
 
                                     {/*  Boton que solo modifica campos  */}
-                                    {this.props.publish ? (
+                                    {!this.props.publish ? (
                               <Button
                                   disabled={this.state.savingNorma }
                                   color="primary"
