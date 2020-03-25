@@ -24,6 +24,9 @@ import cad from 'assets/img/cad.png';
 import {Link} from 'react-router-dom';
 import Select from 'react-select';
 import LoadingComponent from 'components/commons/base/LoadingComponent';
+import LoginService from 'services/LoginService';
+import Moment from 'moment';
+
 
 class DetalleEditarNormaModal extends React.Component {
   state = {
@@ -34,6 +37,9 @@ class DetalleEditarNormaModal extends React.Component {
 
       this.normaService = new NormaService();
       this.userService = new UserService();
+
+      this.loginService = new LoginService();
+      this.sessionInformation = this.loginService.getSessionInformation();
 
       const columnDefs = [
           {
@@ -408,6 +414,8 @@ class DetalleEditarNormaModal extends React.Component {
 
       const normaDesc = JSON.stringify(this.props.norma, ['id']);
 
+      const canPublish = norma !== null && norma.estado && norma.estado.id !== 3;
+
       return (
           <Container>
               <Modal isOpen={isOpen} size="lg" centered>
@@ -496,6 +504,7 @@ class DetalleEditarNormaModal extends React.Component {
                           <Col className="d-flex justify-content-end">
 
                                 {/*  Boton que envia PDF y CAD  */}
+                                {canPublish && this.sessionInformation.admin && !this.props.publish ? (
                               <Button
                                   disabled={
                     this.state.savingNorma || !this.state.pdfFile && !this.state.cadFile
@@ -509,9 +518,10 @@ class DetalleEditarNormaModal extends React.Component {
                                       <FormattedMessage id="component.normas.modal.btn.editWorkflow" />
                                   )}
                               </Button>
-
+                                ) : null}
 
                                     {/*  Boton que solo modifica campos  */}
+                                    {canPublish && this.sessionInformation.admin && !this.props.publish ? (
                               <Button
                                   disabled={this.state.savingNorma }
                                   color="primary"
@@ -523,6 +533,24 @@ class DetalleEditarNormaModal extends React.Component {
                                       <FormattedMessage id="component.normas.modal.btn.edit" />
                                   )}
                               </Button>
+                              ) : null}
+                              {/*  Boton para publicar norma desde comentarios  */}
+                              {canPublish && this.sessionInformation.admin && this.props.publish ? (
+                                    <Button
+                                        disabled={this.props.publishing && !this.sessionInformation.admin}
+                                        onClick={() => {
+                                            if (typeof onSave === 'function') {
+                                                onSave(this.props.norma);
+                                            }
+                                        }}
+                                    >
+                                        {this.props.publishing ? (
+                                            <Fa icon="spinner" className="fa-1x fa-spin" />
+                                        ) : (
+                                                <FormattedMessage id="app.general.btn.save" />
+                                            )}
+                                    </Button>
+                                ) : null}
                               <Button
                                   color="cancel"
                                   onClick={toggle}
