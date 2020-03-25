@@ -198,15 +198,55 @@ class WorkflowComponent extends React.Component {
                     }}
                     enabled={this.sessionInformation.admin}
                 />
-                    <DetalleEditarNormaModal
+                <DetalleEditarNormaModal
                     norma={this.state.selectedNorma}
                     isOpen={this.state.modalEdit}
+                    publishing={this.state.publishing}
+                    publish={this.state.publish}
                     toggle={() => {
                         this.setState({
-                            modalEdit: !this.state.modalEdit
-
+                            modalEdit: !this.state.modalEdit,
+                            publish: false,
+                            publishing: false
                         });
                         this.searchNormas();
+                    }}
+                    onSave={norma => {
+                        this.setState({
+                            publishing: true
+                        });
+                        this.normaService.publish(norma.id).then(
+                            () => {
+                                this.setState(
+                                    {
+                                        publishing: false,
+                                        modalEdit: false,
+                                        publish: false
+                                    },
+                                    () => {
+                                        this.searchNormas();
+                                    }
+                                );
+                                toast.success(
+                                    `${this.props.intl.formatMessage({
+                                        id: 'component.workflow.modal.msg.success'
+                                    })}`
+                                );
+                            },
+                            () => {
+                                this.setState({
+                                    publishing: false,
+                                    modalComments: false,
+                                    publish: false
+                                });
+                
+                                toast.error(
+                                    `${this.props.intl.formatMessage({
+                                        id: 'component.workflow.modal.msg.error'
+                                    })}`
+                                );
+                            }
+                        );
                     }}
                 />
 
@@ -248,39 +288,21 @@ class WorkflowComponent extends React.Component {
                     }}
                     onSave={norma => {
                         this.setState({
-                            publishing: true
+                            publish: true,
+                            modalComments: false,
+                            modalEdit: true
                         });
-
-                        this.normaService.publish(norma.id).then(
-                            () => {
-                                this.setState(
-                                    {
-                                        publishing: false,
-                                        modalComments: false
-                                    },
-                                    () => {
-                                        this.searchNormas();
-                                    }
-                                );
-                                toast.success(
-                                    `${this.props.intl.formatMessage({
-                                        id: 'component.workflow.modal.msg.success'
-                                    })}`
-                                );
-                            },
-                            () => {
+                        <DetalleEditarNormaModal
+                            norma={this.state.selectedNorma}
+                            isOpen={this.state.modalEdit}
+                            toggle={() => {
                                 this.setState({
-                                    publishing: false,
-                                    modalComments: false
+                                    modalEdit: !this.state.modalEdit,
+                                   
                                 });
-
-                                toast.error(
-                                    `${this.props.intl.formatMessage({
-                                        id: 'component.workflow.modal.msg.error'
-                                    })}`
-                                );
-                            }
-                        );
+                                this.searchNormas();
+                            }}
+                        />
                     }}
                 />
                     

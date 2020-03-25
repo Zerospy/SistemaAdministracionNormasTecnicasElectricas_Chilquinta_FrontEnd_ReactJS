@@ -130,6 +130,7 @@
     "component.normas.modal.grid.comment": "Comentario",
     "component.normas.modal.input.placeholder": "Agregar comentarios...",
     "component.normas.modal.btn.send": "Enviar",
+    "component.normas.modal.btn.comment": "Comentar",
     "component.normas.modal.grid.user": "Usuario",
     "component.normas.modal.msg.success": "Norma publicada correctamente!",
     "component.normas.modal.msg.error": "Ocurrió un problema al publicar la norma",

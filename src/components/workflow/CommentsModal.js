@@ -251,7 +251,7 @@ class CommentsModal extends React.Component {
                                       {this.state.savingComment ? (
                                           <Fa icon="spinner" className="fa-1x fa-spin" />
                                       ) : (
-                                          <FormattedMessage id="component.normas.modal.btn.send" />
+                                          <FormattedMessage id="component.normas.modal.btn.comment" />
                                       )}
                                   </Button>
                               </div>
