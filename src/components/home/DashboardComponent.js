@@ -25,7 +25,7 @@ import DashboardModal from 'components/home/DashboardModal';
 import Constantes from 'Constantes';
 import {Line} from 'react-chartjs-2';
 import LoginService from 'services/LoginService';
-import Normas from 'assets/img/Normas.png';
+import NormasBanner from 'assets/img/Normas.png';
 
 const data = {
     // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -108,7 +108,8 @@ class DashboardComponent extends React.Component {
             modalType: null,
             rowData: [],
             columnDefs: columnDefs,
-            lastComments: []
+            lastComments: [],
+            OpenSideBar: true
         };
     }
 
@@ -173,8 +174,11 @@ class DashboardComponent extends React.Component {
                   }}
                   modalType={this.state.modalType}
               />
+             
               <div className="dashboard">
-                  <HeaderComponent print={false} />
+                  <HeaderComponent print={false} 
+                   OpenSideBar = {this.state.OpenSideBar}
+                  />
                   <LoadingComponent loading={this.state.isLoading} />
                   <div className="page-content-wrapper">
                       <div className="page-content-wrapper-inner">
@@ -182,13 +186,14 @@ class DashboardComponent extends React.Component {
                               <div className="row">
                                   <div className="col-12 m-3">
 
-                                       {this.sessionInformation.admin ? <h4 className="">Dashboard</h4> :  
-                                       <div className="col-8"> <h4 className="">Bienvenido, <span>{this.sessionInformation.fullName}</span> </h4> </div>
+                                  {this.sessionInformation.admin ? <h4 className="">Dashboard</h4> :  
+                                       null
                                        
                                     }
                                       
                                   </div>
                               </div>
+                              
                               <div className="row">
                                   <div className="col-8">
                                   {this.sessionInformation.admin ?       <PanelComponent title={'Resumen de actividades'}>
@@ -202,7 +207,7 @@ class DashboardComponent extends React.Component {
                                                           <MDBCardText className="">
                                                               <Row>
                                                                   <Col className="col-8">
-                                    Normas en el sistema
+                                                                         Normas en el sistema
                                                                   </Col>
                                                                   <Col className="col-4">
                                                                       <span className="badge badge-counter-disabled">
@@ -228,7 +233,7 @@ class DashboardComponent extends React.Component {
                                                           <MDBCardText className="">
                                                               <Row>
                                                                   <Col className="col-8">
-                                    Normas descargadas
+                                                                      Normas descargadas
                                                                   </Col>
                                                                   <Col className="col-4">
                                                                       <span className="badge badge-light badge-counter">
@@ -268,7 +273,7 @@ class DashboardComponent extends React.Component {
                                                           <MDBCardText className="">
                                                               <Row>
                                                                   <Col className="col-8">
-                                    Documentos subidos
+                                                                               Documentos subidos
                                                                   </Col>
                                                                   <Col className="col-4">
                                                                       <span className="badge badge-light badge-counter">
@@ -414,8 +419,11 @@ class DashboardComponent extends React.Component {
                                                   </div>
                                               )}
                                       </PanelComponent> : null }
+
+                                     
                                   </div>
                               </div>
+                             
                                 {/*
                               {this.sessionInformation.admin ?  
 
@@ -449,7 +457,17 @@ class DashboardComponent extends React.Component {
 
                       {/* page content ends */}
                   </div>
+                   
+                   {/*
+                  {this.sessionInformation.admin ?  null :  
+                                        <h4 className="bienvenida">Bienvenido, <span>{this.sessionInformation.fullName}</span> </h4> 
+                                       
+                                    } */}
               </div>
+              {this.sessionInformation.admin ? 
+              
+                    null
+            : <img src={NormasBanner} alt="Sistema de normas CHQ" className="imagenCentrada" /> }
           </DashboardContext.Provider>
       );
   }

@@ -23,8 +23,21 @@ class HeaderComponent extends React.Component {
         };
     }
 
+    GetInformationSideNav(OpenSideBar){
+            if(OpenSideBar === true ){
+
+                this.state.OpenSideBar = true;
+            }else{
+
+                this.state.OpenSideBar = false;
+            }
+
+
+    }
+
     render() {
         return (
+
             <Row
                 className={classNames({
                     'header-top': true,
@@ -37,6 +50,7 @@ class HeaderComponent extends React.Component {
                         'col-1 text-center mt-3': true,
                         noPrint: this.props.print === false
                     })}
+                   OpenSideBar={this.GetInformationSideNav}
                 />
                 <div className="col-8 page-title mt-3">
                     <h4 className="text-center text-bold mt-2">{this.state.pageTitle}</h4>
@@ -47,6 +61,7 @@ class HeaderComponent extends React.Component {
                     </span>
                 </div>
             </Row>
+            
         );
     }
 }

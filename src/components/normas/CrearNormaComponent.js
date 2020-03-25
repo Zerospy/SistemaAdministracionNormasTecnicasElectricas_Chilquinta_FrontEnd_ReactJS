@@ -150,7 +150,7 @@ class CrearNormaComponent extends React.Component {
           console.log(response.data.id);
           let formData = new FormData();
           formData.append('file', this.state.pdfFile);
-
+          this.reload ();
          
           this.normaService
               .uploadNormaFile(response.data.id, 'pdf', formData)
@@ -161,18 +161,18 @@ class CrearNormaComponent extends React.Component {
                   this.normaService
                       .uploadNormaFile(response.data.id, 'cad', formData)
                       .then(result => {
-                          toast.success(
-                              `${this.props.intl.formatMessage({
-                                  id: 'component.normas.modal.edit.success'
-                              })}`
-                          );
+
+                            this.reload ();
+                      toast.success(
+                                              `${this.props.intl.formatMessage({
+                                              id: 'component.normas.modal.msg.success.crear'
+                                                                                              })}`,
+                            
+                                                                     );
 
                       });          
                        
               });
-      toast.success(   `${this.props.intl.formatMessage({
-        id: 'component.normas.modal.edit.success'
-    })}` );
     
     });
 
@@ -196,6 +196,13 @@ class CrearNormaComponent extends React.Component {
           })}`
       );
   };
+
+  reload = () => {
+    window.location.reload(true);
+   /* this.props.history.push('/CrearNorma'); */
+}
+
+
   onChangeCodigo = e => {
       this.setState({
           codigoNorma: e.target.value
@@ -226,10 +233,11 @@ class CrearNormaComponent extends React.Component {
                           title={`${this.props.intl.formatMessage({
                               id: 'component.CrearNormas.title'
                           })}`}
+                          centered
                       >
-                          <Col size="4">
+                          <Col size="12">
                               <MDBContainer>
-                                  <MDBCard
+                           {/*          <MDBCard
                                       className="card-body"
                                       style={{
                                           width: '60rem',
@@ -237,7 +245,7 @@ class CrearNormaComponent extends React.Component {
                                           marginLeft: '6rem'
                                       }}
                                       
-                                  >
+                                    > */}
                                       <form>
                                           <MDBInput
                                               material
@@ -308,7 +316,7 @@ class CrearNormaComponent extends React.Component {
                                               </Button>
                                           </Col>
                                       </form>
-                                  </MDBCard>
+                           {/*       </MDBCard> */}
                               </MDBContainer>
                           </Col>
                       </PanelComponent>

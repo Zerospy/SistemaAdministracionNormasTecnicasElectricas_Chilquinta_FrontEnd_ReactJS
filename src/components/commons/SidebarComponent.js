@@ -28,15 +28,35 @@ class SidebarComponent extends React.Component {
         });
     }
 
+    handleToggle = (OpenSideBar) => {
+
+        if (OpenSideBar === true ) {
+        this.setState({
+            OpenSideBar: true
+        });
+    }else{
+
+        this.setState({
+            OpenSideBar: false
+        });
+
+    }
+}
+  
+
   redirectTo = link => {
       this.props.history.push(link);
   };
-
+  componentDidMount() {
+    this.handleToggle();
+  
+}
   render() {
       const menuButton = (
           <a
               href="#!"
               className="text-black-50"
+              OnStart={this.handleToggle} 
               onClick={this.handleToggleClick}
               key="sideNavToggle"
           >
@@ -44,15 +64,17 @@ class SidebarComponent extends React.Component {
           </a>
       );
       const className = this.props.className;
-
-      return (
+        const {toggleState} = this.state;
+              return (
           <div className={className}>
               <div className="text-center">{menuButton}</div>
               <SideNav
+                    /*   hidden   */
                   hidden
                   triggerOpening={this.state.toggleState}
                   breakWidth={1300}
                   className="white-color"
+                  
               >
                   <div>
                       <img src={logo} alt="Cramer" className="page-logo" />

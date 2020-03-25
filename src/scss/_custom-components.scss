@@ -918,6 +918,7 @@ align-items: flex-end;
         .sidebar .navigation-menu > li:not(.nav-category-divider) > a[data-toggle="collapse"][aria-expanded="true"]:after {
           -webkit-transform: rotate(90deg);
                   transform: rotate(90deg); }
+      
 
 /* Footer */
 footer {
@@ -1118,6 +1119,26 @@ footer {
     }
   }
 }
+.imagenCentrada{
+  
+  margin-left: auto;
+  margin-right: auto;
+  bottom: -10px;
+  max-width: 90%;
+  height: auto;
+  position: relative;
+  
+  
+}
+.bienvenida{
+
+  margin-top: 30px;
+  position: relative;
+  text-align: center;
+  margin-left: 50px;
+  
+}
+
 
 /* Timeline */
 
@@ -1203,6 +1224,7 @@ footer {
 }
 
 .user-welcome {
+
   font-weight: 400;
   span {
     font-size: 20px;
