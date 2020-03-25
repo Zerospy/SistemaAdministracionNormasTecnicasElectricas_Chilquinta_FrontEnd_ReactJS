@@ -27,11 +27,21 @@ class SidebarComponent extends React.Component {
             toggleState: !this.state.toggleState
         });
     }
-    handleToggle() {
+
+    handleToggle = (OpenSideBar) => {
+
+        if (OpenSideBar === true ) {
         this.setState({
-            toggleState: !this.state.toggleState
+            OpenSideBar: true
         });
+    }else{
+
+        this.setState({
+            OpenSideBar: false
+        });
+
     }
+}
   
 
   redirectTo = link => {
@@ -39,7 +49,7 @@ class SidebarComponent extends React.Component {
   };
   componentDidMount() {
     this.handleToggle();
-   
+  
 }
   render() {
       const menuButton = (
