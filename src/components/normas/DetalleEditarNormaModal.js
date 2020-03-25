@@ -481,7 +481,7 @@ class DetalleEditarNormaModal extends React.Component {
                               {/*  Boton para publicar norma desde comentarios  */}
                               {canPublish && this.sessionInformation.admin && this.props.publish ? (
                                     <Button
-                                        disabled={this.props.publishing && !this.sessionInformation.admin}
+                                        disabled={this.props.publishing && !this.sessionInformation.admin && this.state.savingNorma || !this.state.pdfFile && !this.state.cadFile}
                                         onClick={() => {
                                             if (typeof onSave === 'function') {
                                                 onSave(this.props.norma);
