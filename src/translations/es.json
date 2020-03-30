@@ -43,7 +43,9 @@
 
     "menu.user.management": "Administración de usuarios",
     "menu.user.administration": "Usuarios",
-
+    "menu.manuales": "Manuales de usuario",
+    "menu.manual.admin": "Manual de administrador",
+    "menu.manual.user": "Manual de usuario",
     "component.messages.loading": "Cargando...",
     
     "component.dataGrid.noRows": "No hay registros que mostrar",
