@@ -192,7 +192,7 @@ class SidebarComponent extends React.Component {
                                   window.location.reaload();
                               }}
                           >
-                              <Fa icon="network-wired" />
+                              <Fa icon="book" />
                               <FormattedMessage id="menu.documentos.item" />
                           </SideNavLink>
                           {this.sessionInformation.admin ? <SideNavLink
@@ -201,7 +201,7 @@ class SidebarComponent extends React.Component {
                                   window.location.reaload();
                               }}
                           >
-                              <Fa icon="network-wired" />
+                              <Fa icon="arrow-circle-up" />
                               <FormattedMessage id="menu.documentos.subir" />
                           </SideNavLink> : []}
                       </SideNavCat>
@@ -218,6 +218,33 @@ class SidebarComponent extends React.Component {
                               <FormattedMessage id="menu.user.administration" />
                           </SideNavLink>
                       </SideNavCat> : []}
+                      <SideNavCat
+                          id="manuales"
+                          name={`${this.props.intl.formatMessage({
+                              id: 'menu.manuales'
+                          })}`}
+                          icon="book"
+                      >         
+                          <SideNavLink
+                           
+                          onClick={()=> {   
+                            window.location.href = 'http://shpprd/sites/normas/Documentos%20compartidos/Manual%20de%20usuario%20normal.pdf'; 
+
+                          }}
+                          >
+                              <Fa icon="book-open" />
+                              <FormattedMessage id="menu.manual.admin" />
+                          </SideNavLink>
+                          <SideNavLink
+                              onClick={()=> {   
+                                window.location.href = 'http://shpprd/sites/normas/Documentos%20compartidos/Manual%20de%20usuario%20administrador.pdf'; 
+
+                              }}
+                          >
+                              <Fa icon="book-open" />
+                              <FormattedMessage id="menu.manual.user" />
+                          </SideNavLink>
+                      </SideNavCat>
 
                       <SideNavCat
                           id="session"
@@ -225,7 +252,7 @@ class SidebarComponent extends React.Component {
                               id: 'menu.account'
                           })}`}
                           icon="lock"
-                      >
+                      >         
                           <SideNavLink
                               to="/login"
                               onClick={() => {

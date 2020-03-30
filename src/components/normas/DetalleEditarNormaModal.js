@@ -256,7 +256,7 @@ class DetalleEditarNormaModal extends React.Component {
           this.setState({
               savingNorma: true
           });
-          this.normaService.post(params).then(response => {
+          this.normaService.updateNorma(normaId, params).then(response => {
           this.normaService
               .uploadNormaFile(normaId, 'pdf', formData)
               .then(result => {
