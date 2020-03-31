@@ -218,7 +218,7 @@ class SidebarComponent extends React.Component {
                               <FormattedMessage id="menu.user.administration" />
                           </SideNavLink>
                       </SideNavCat> : []}
-                      
+
                       <SideNavCat
                           id="manuales"
                           name={`${this.props.intl.formatMessage({
@@ -234,17 +234,18 @@ class SidebarComponent extends React.Component {
                           }}
                           >
                               <Fa icon="book-open" />
-                              <FormattedMessage id="menu.manual.admin" />
+                              <FormattedMessage id="menu.manual.user" />
                           </SideNavLink>
+                          {this.sessionInformation.admin ?
                           <SideNavLink
                               onClick={()=> {   
                                 window.location.href = 'http://shpprd/sites/normas/Documentos%20compartidos/Manual%20de%20usuario%20administrador.pdf'; 
 
-                              }}
-                          >
+                              }} 
+                          > 
                               <Fa icon="book-open" />
-                              <FormattedMessage id="menu.manual.user" />
-                          </SideNavLink>
+                              <FormattedMessage id="menu.manual.admin" />
+                          </SideNavLink>  : []}
                       </SideNavCat>
 
                       <SideNavCat

@@ -73,7 +73,10 @@ class subirDocumento extends React.Component {
       });
   }
 
-  
+  reload = () => {
+    window.location.reload(true);
+   /* this.props.history.push('/CrearNorma'); */
+}
 
   publishToDocumentos = async() => {
       const normaId = '';
@@ -134,11 +137,15 @@ class subirDocumento extends React.Component {
 
             });
       }),
+
+
       toast.success(
           `${this.props.intl.formatMessage({
               id: 'component.normas.modal.msg.success.crear'
           })}`
       );
+
+      this.reload ();
   };
 
   onChangeCodigo = e => {
