@@ -218,6 +218,7 @@ class SidebarComponent extends React.Component {
                               <FormattedMessage id="menu.user.administration" />
                           </SideNavLink>
                       </SideNavCat> : []}
+                      
                       <SideNavCat
                           id="manuales"
                           name={`${this.props.intl.formatMessage({
