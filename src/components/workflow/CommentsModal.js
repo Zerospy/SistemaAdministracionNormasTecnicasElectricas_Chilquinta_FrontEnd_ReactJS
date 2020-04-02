@@ -130,6 +130,10 @@ class CommentsModal extends React.Component {
               }
           );
   };
+
+
+
+
   componentDidUpdate(prevProps) {
       if (
           this.props !== null &&

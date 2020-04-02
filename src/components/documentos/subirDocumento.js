@@ -19,6 +19,7 @@ import {
     MDBFileInput,
     MDBInput,
     MDBBtn,
+    Fa,
     MDBContainer,
     MDBModal,
     MDBModalBody,
@@ -130,25 +131,42 @@ class subirDocumento extends React.Component {
               normaId: response.data.id
             });
               console.log(normaId);
+
+              this.setState({
+                savingNorma: true
+            });
             this.normaService
             .uploadNormaFile(response.data.id, 'pdf', formData)
             .then(result => {
+                
                 formData = new FormData();
                 formData.append('file', this.state.cadFile); 
 
-            });
+                this.setState({
+                    savingNorma: false
+                });
+                toast.success(
+                    `${this.props.intl.formatMessage({
+                        id: 'component.normas.modal.btn.exitoDocumento'
+                    })}`
+                );
 
-      toast.success(
-        `${this.props.intl.formatMessage({
-            id: 'component.normas.modal.msg.success.crear'
-        })}`
-    );
-    this.reload();
+            }),
+            () => {
+                toast.error(
+                    `${this.props.intl.formatMessage({
+                        id: 'component.normas.modal.edit.errorDocumento'
+                    })}`
+                );
+
+                this.setState({
+                    savingNorma: false
+                });
+            };
+        
+
       })
 
-
-
-      
   };
 
   onChangeCodigo = e => {
@@ -181,9 +199,10 @@ class subirDocumento extends React.Component {
                           title={`${this.props.intl.formatMessage({
                               id: 'menu.documentos.subir'
                           })}`}
+                          centered
                       >
                           <Col size="4">
-                              <MDBContainer>
+                              <MDBContainer centered>
                                   <MDBCard
                                       className="card-body"
                                       style={{
@@ -195,12 +214,12 @@ class subirDocumento extends React.Component {
                                       <form>
                                       <div>
                                                 <select className="browser-default custom-select" 
-                                                value={this.state.codigoNorma} onChange={this.onChangeCodigo}>
+                                                value={this.state.nombreNorma} onChange={this.onChangeNombre}>
                                                 >
                                                 <option> Seleccione una categoria</option>
-                                                <option codigoNorma="Subestaciones de poder">Subestaciones de poder</option>
-                                                <option codigoNorma="Distribucion" >Distribucion</option>
-                                                <option codigoNorma="Lineas de transmision" >Lineas de transmision</option>
+                                                <option nombreNorma="Subestaciones de poder">Subestaciones de poder</option>
+                                                <option nombreNorma="Distribucion" >Distribucion</option>
+                                                <option nombreNorma="Lineas de transmision" >Lineas de transmision</option>
                                                 </select>
                                         </div>
                                           <br />
@@ -210,7 +229,7 @@ class subirDocumento extends React.Component {
                                               containerClassName="mb-2 mt-0"
                                               label="Nombre documento"
                                               prepend="Default"
-                                              onChange={this.onChangeNombre}
+                                              onChange={this.onChangeCodigo}
                                           />
                                           <MDBInput
                                               type="textarea"
@@ -232,7 +251,7 @@ class subirDocumento extends React.Component {
   
                                           <Col className="offset-9" size="4">
                                               <Button
-                                                  disabled={
+                                                  disabled={  this.state.savingNorma ||
                                                       !this.state.nombreNorma ||
                             !this.state.normadescripcion ||
                             !this.state.pdfFile
@@ -240,8 +259,13 @@ class subirDocumento extends React.Component {
                                                   color="primary"
                                                   onClick={this.publishToDocumentos}
                                               >
+                                                      {this.state.savingNorma ? (
+                                      <Fa icon="spinner" className="fa-1x fa-spin" />
+                                  ) : (
+                                      <FormattedMessage id="component.normas.modal.btn.cargarDocto" />
+                                  )}
                                                   {' '}
-                          Cargar a repositorio
+                        
                                               </Button>
                                           </Col>
                                       </form>

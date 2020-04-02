@@ -118,7 +118,9 @@
     "component.normas.modal.edit.error": "Ocurrió un problema al modificar la norma",
     "component.normas.modal.edit.success": "Datos registrados correctamente",
     "component.normas.modal.error.upload": "Sus documentos deben llevar contenido, revise y suba nuevamente",
-
+    "component.normas.modal.btn.cargarDocto": "Enviar Documento",
+    "component.normas.modal.btn.exitoDocumento": "Su documento se ha cargado con exito",
+    "component.normas.modal.edit.errorDocumento": "Ocurrió un problema al cargar el documento",
     "component.CrearNormas.title":"Subir una nueva norma",
 
     "component.vernormas.CodNorma.Modal": "Codigo identificador de la Norma",

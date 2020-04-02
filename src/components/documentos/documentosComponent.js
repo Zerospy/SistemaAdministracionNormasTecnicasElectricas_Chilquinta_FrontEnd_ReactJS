@@ -57,14 +57,14 @@ class NormasComponent extends React.Component {
               headerName: `${props.intl.formatMessage({
                   id: 'menu.documentos.categoria'
               })}`,
-              field: 'codNorma',
+              field: 'nombre',
               width: 300
           },
           {
               headerName: `${props.intl.formatMessage({
                   id: 'component.normas.datagrid.nombre'
               })}`,
-              field: 'nombre',
+              field: 'codNorma',
               width: 300
           },
           {
