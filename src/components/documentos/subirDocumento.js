@@ -11,6 +11,7 @@ import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import NormaService from 'services/NormaService';
 import UserService from 'services/UserService';
 import {toast} from 'react-toastify';
+import { Table, Popconfirm, Icon, Upload } from "antd";
 import {
     MDBCard,
     MDBCardTitle,
@@ -136,16 +137,18 @@ class subirDocumento extends React.Component {
                 formData.append('file', this.state.cadFile); 
 
             });
-      }),
-
 
       toast.success(
-          `${this.props.intl.formatMessage({
-              id: 'component.normas.modal.msg.success.crear'
-          })}`
-      );
+        `${this.props.intl.formatMessage({
+            id: 'component.normas.modal.msg.success.crear'
+        })}`
+    );
+    this.reload();
+      })
 
-      this.reload ();
+
+
+      
   };
 
   onChangeCodigo = e => {
@@ -218,12 +221,15 @@ class subirDocumento extends React.Component {
                                           <br />
                                           <label>Subir Documento</label>
                                           <MDBFileInput
+                                             label="Seleccione un documento para cargar"
                                               getValue={files => {
                                                   this.setState({
                                                       pdfFile: files[0]
                                                   });
                                               }}
-                                          />
+                                        > </MDBFileInput>
+                                                 
+  
                                           <Col className="offset-9" size="4">
                                               <Button
                                                   disabled={

@@ -72,7 +72,7 @@ class SidebarComponent extends React.Component {
                     /*   hidden   */
                   hidden
                   triggerOpening={this.state.toggleState}
-                  breakWidth={1300}
+                  breakWidth={1600}
                   className="white-color"
                   
               >

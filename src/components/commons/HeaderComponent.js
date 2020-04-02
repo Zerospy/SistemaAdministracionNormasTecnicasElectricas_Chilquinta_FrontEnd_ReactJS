@@ -37,7 +37,7 @@ class HeaderComponent extends React.Component {
 
     render() {
         return (
-
+            
             <Row
                 className={classNames({
                     'header-top': true,
@@ -45,6 +45,7 @@ class HeaderComponent extends React.Component {
                     noPrint: this.props.print === false
                 })}
             >
+                 
                 <SidebarComponent
                     className={classNames({
                         'col-1 text-center mt-3': true,
@@ -52,15 +53,29 @@ class HeaderComponent extends React.Component {
                     })}
                    OpenSideBar={this.GetInformationSideNav}
                 />
-                <div className="col-8 page-title mt-3">
-                    <h4 className="text-center text-bold mt-2">{this.state.pageTitle}</h4>
+                     <div class="d-flex flex-row">
+                    
+                <div className="col-12 page-title mt-3">
+                    <h4 className="text-center text-bold mt-1">{this.state.pageTitle}</h4>
                 </div>
-                <div className="col-3 page-title mt-3">
-                    <span className="text-gray text-center user-welcome">
-            Bienvenido, <span>{this.sessionInformation.fullName}</span>
+
+               
+                {this.sessionInformation.admin ?    <div className="col-3 page-title mt-2 ">
+                     <span className="text-gray text-center user-welcome">
+            Bienvenido, Administrador <span>{this.sessionInformation.fullName}</span>
                     </span>
-                </div>
-            </Row>
+                </div>  : <div className="col-3 page-title mt-2">
+                     <span className="text-gray text-center user-welcome ">
+            Bienvenido, usuario <span>{this.sessionInformation.fullName}</span>
+            
+                    </span>
+             
+                </div> }
+                <div className="col-3 text-center page-logo2 mt-2">
+                                      <img src={logo} alt="Cramer" />
+                                  </div>
+                                  </div>
+            </Row> 
             
         );
     }

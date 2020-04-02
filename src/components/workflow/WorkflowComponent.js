@@ -180,6 +180,10 @@ class WorkflowComponent extends React.Component {
             }
         );
     }
+    reload = () => {
+        window.location.reload(true);
+       /* this.props.history.push('/CrearNorma'); */
+    }
 
     componentDidMount() {
         this.searchNormas();
@@ -258,6 +262,7 @@ class WorkflowComponent extends React.Component {
                         this.setState({
                             modalComments: !this.state.modalComments
                         });
+                        this.reload();
                     }}
                     onSaveComment={norma => {
                         console.log(norma);

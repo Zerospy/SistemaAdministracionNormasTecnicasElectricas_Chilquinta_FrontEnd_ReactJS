@@ -464,9 +464,15 @@ class DashboardComponent extends React.Component {
                                        
                                     } */}
               </div>
+
               {this.sessionInformation.admin ? 
               
-                    null
+              null
+      : <span centere> Menu Principal   </span> }
+
+              {this.sessionInformation.admin ? 
+              
+              <img src={NormasBanner} alt="Sistema de normas CHQ" className="imagenCentrada-admin" />
             : <img src={NormasBanner} alt="Sistema de normas CHQ" className="imagenCentrada" /> }
           </DashboardContext.Provider>
       );

@@ -243,11 +243,11 @@ class NormasComponent extends React.Component {
 
               <HeaderComponent />
               <Row>
-                  <Col size="12">
+                  <Col size="12" centered>
                       <PanelComponent
                           title={`${this.props.intl.formatMessage({
                               id: 'menu.documentos.title'
-                          })}`}
+                          })}`} centered
                       >
                           <Col size="4">
                               <Input
