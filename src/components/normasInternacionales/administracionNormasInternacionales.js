@@ -38,21 +38,27 @@ class administracionNormasInternacionales extends React.Component {
         this.normaService = new NormaService();
 
         this.state = {
-           
-            columnDefs: [
-         
-            ],
-            defaultColDef: {
-                width: 100,
-                headerCheckboxSelection: isFirstColumn,
-                checkboxSelection: isFirstColumn,
-                resizable: true
-            },
+
+            errorMessage:null ,
             rowSelection: "multiple",
             rowData: [],
             isLoading: false
         };
     }
+
+
+    handleSave = row => {
+      const newData = [...this.state.rows]
+      const index = newData.findIndex(item => row.key === item.key)
+      const item = newData[index]
+      newData.splice(index, 1, {
+        ...item,
+        ...row,
+      })
+      this.setState({ rows: newData })
+    }
+
+
     checkFile(file) {
         let errorMessage = "";
         if (!file || !file[0]) {
@@ -63,24 +69,66 @@ class administracionNormasInternacionales extends React.Component {
           file[0].type ===
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         if (!isExcel) {
-          errorMessage = "Solo puedes subir Excel!";
+          errorMessage = "You can only upload Excel file!";
         }
         console.log("file", file[0].type);
         const isLt2M = file[0].size / 1024 / 1024 < 2;
         if (!isLt2M) {
-          errorMessage = "El archivo debe ser inferior a 2MB!";
+          errorMessage = "File must be smaller than 2MB!";
         }
         console.log("errorMessage", errorMessage);
         return errorMessage;
       }
+
+
       fileHandler = fileList => {
         console.log("fileList", fileList)
-        let fileObj = fileList
-        if (!fileObj) {
+        
+        let fileObj =  fileList.target.files[0];
+
+    //just pass the fileObj as parameter
+    ExcelRenderer(fileObj, (err, resp) => {
+      console.log("resp:",resp , fileObj);
+
+      if (err) {
+        console.log(err)
+      } else {
+        let newRows = []
+        resp.rows.slice(1).map((row, index) => {
+          if (row && row !== "undefined") {
+            newRows.push({
+              id: index,
+              codNorma: row[0],
+              nombreIngles: row[2],
+              nombre: row[1],
+              tipo_norma: 'INTERNACIONAL',
+            })
+          }
+        })
+        console.log(JSON.stringify(newRows));
+        
+        if (newRows.length === 0) {
           this.setState({
-            errorMessage: "No hay archivo subido!",
+            errorMessage: "No data found in file!",
           })
           return false
+        } else {
+          this.setState({
+            cols: resp.cols,
+            rows: newRows,
+            errorMessage: null,
+          })
+        }
+      }
+    }
+    
+    )
+  
+        if (!fileObj) {
+          this.setState({
+            errorMessage: "No file uploaded!",
+          });
+          return false;
         }
         console.log("fileObj.type:", fileObj.type)
         if (
@@ -91,54 +139,61 @@ class administracionNormasInternacionales extends React.Component {
           )
         ) {
           this.setState({
-            errorMessage: "Formato Desconocido, solo debe subir Excel",
+            errorMessage: "Unknown file format. Only Excel files are uploaded!",
           })
-          return false
+          return false;
         }
-        //just pass the fileObj as parameter
-        ExcelRenderer(fileObj, (err, resp) => {
-          if (err) {
-            console.log(err)
-          } else {
-            let newRows = []
-            resp.rows.slice(1).map((row, index) => {
-              if (row && row !== "undefined") {
-                newRows.push({
-                  /* id: index, */
-                  codNorma: row[0],
-                  nombreIngles: row[2],
-                  nombre: row[1],
-                  tipo_norma: 'INTERNACIONAL',
-                })
-              }
-            })
-            if (newRows.length === 0) {
-              this.setState({
-                errorMessage: "No data found in file!",
-              })
-              return false
-            } else {
-              this.setState({
-                cols: resp.cols,
-                rows: newRows,
-                errorMessage: null,
-              })
-            }
-          }
-        })
-        return false
       }
+
+
+
+     
       
 
       handleSubmit = async () => {
         console.log("submitting: ", this.state.rows)
         //submit to API
-        //if successful, banigate and clear the data
-        this.setState({ rows: [] })
-        const data = this.state.rows;
-        console.log(JSON.stringify(data));
+
+        const params = this.state.rows;
+
+        this.normaService.normaInternacional(params)
+        .then(response => {
+            const data = response.data;
+
+            data.createdAt = new Moment(data.createdAt).format(
+                Constantes.DATETIME_FORMAT
+            );
+            this.setState({
+              isLoading: false
+          });
+            toast.success(
+              `${this.props.intl.formatMessage({
+                  id: 'component.normasInternacionales.succes'
+              })}`
+          );
+          this.setState({ rows: [] })
+      
+
+       
        
         const params = [this.state.rows];
+          
+        },() => {
+          this.setState({
+            isLoading: false
+        });
+          toast.error(
+              `${this.props.intl.formatMessage({
+                  id: 'component.normasInternacionales.error'
+              })}`
+          );
+
+          this.setState({
+              savingNorma: false
+          });
+      }); 
+        //if successful, banigate and clear the data
+        
         
         // normas.map((rowData, i) =>   ) 
                     console.log(params);
@@ -149,36 +204,8 @@ class administracionNormasInternacionales extends React.Component {
         this.setState({
           isLoading: true
       });
-        this.normaService.normaInternacional(data)
-            .then(response => {
-                const data = response.data;
-
-                data.createdAt = new Moment(data.createdAt).format(
-                    Constantes.DATETIME_FORMAT
-                );
-                this.setState({
-                  isLoading: false
-              });
-                toast.success(
-                  `${this.props.intl.formatMessage({
-                      id: 'component.normasInternacionales.succes'
-                  })}`
-              );
-              window.location.reload();
-            },() => {
-              this.setState({
-                isLoading: false
-            });
-              toast.error(
-                  `${this.props.intl.formatMessage({
-                      id: 'component.normasInternacionales.error'
-                  })}`
-              );
-  
-              this.setState({
-                  savingNorma: false
-              });
-          });   
+      console.log(JSON.stringify(params));
+      
       }
 
     onGridReady = params => {
@@ -219,15 +246,7 @@ class administracionNormasInternacionales extends React.Component {
         return (
             
             <NormasContext.Provider value={this}>
-                <convocarModal
-                    norma={this.state.selectedNorma}
-                    isOpen={this.state.modalComments}
-                    toggle={() => {
-                        this.setState({
-                            modalComments: !this.state.modalComments
-                        });
-                    }}
-                />
+           
                 <HeaderComponent />
                 <Row>
                     <Col size="12">
@@ -236,31 +255,27 @@ class administracionNormasInternacionales extends React.Component {
                                 id: 'component.normasInternacionales.administracion'
                             })}`}
                         >
-                            <Col size="12">
+                          
+                            <Col size="4">
                                      <h1>Importar componente Excel</h1>
                                 <label> Seleccione Archivo excel de norma internacional</label>
-<div>
-  <Upload
-    name="file"
-    beforeUpload={this.fileHandler}
-    onRemove={() => this.setState({ rows: [] })}
-    multiple={false}
-  >
-    <Button>
-      <Icon type="upload" /> Click para subir Excel
-    </Button>
+     <div>
+ 
+ 
+  <input type="file" onChange={this.fileHandler.bind(this)} style={{"padding":"10px"}} />
 
-  </Upload>
   <Button
           onClick={this.handleSubmit }
           size="large"
           type="primary"
           style={{ marginBottom: 16, marginLeft: 10 }}
+          
         >
+              <Icon type="send"></Icon>
             <LoadingComponent loading={this.state.isLoading} />
           Enviar
         </Button>
-</div>
+        </div>
                           
                             </Col>
                         </PanelComponent>
