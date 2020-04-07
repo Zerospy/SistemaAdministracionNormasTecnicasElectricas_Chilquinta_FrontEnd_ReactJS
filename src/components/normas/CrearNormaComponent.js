@@ -136,57 +136,75 @@ class CrearNormaComponent extends React.Component {
         this.setState({
             savingNorma: true
         });
+        this.normaService.existsByCodNorma(this.state.codigoNorma).then(resp => {
+            const existe = resp.data;
+            if (existe) {
+                toast.error('El codigo de Norma: [' + this.state.codigoNorma + '] Existe');
+                this.setState({
+                    savingNorma: false
+                });
+            } else {
+                this.normaService.post(params).then(response => {
+                    const data = response.data;
 
-        this.normaService.post(params).then(response => {
-            const data = response.data;
+                    data.createdAt = new Moment(data.createdAt).format(
+                        Constantes.DATETIME_FORMAT
+                    );
+                    console.log(response.data);
+                    console.log(response.data.id);
+                    this.setState({
+                        normaId: response.data.id
+                    });
 
-            data.createdAt = new Moment(data.createdAt).format(
-                Constantes.DATETIME_FORMAT
-            );
-            console.log(response.data);
-            console.log(response.data.id);
-            this.setState({
-                normaId: response.data.id
-            });
+                    console.log(response.data.id);
+                    let formData = new FormData();
+                    formData.append('file', this.state.pdfFile);
 
-            console.log(response.data.id);
-            let formData = new FormData();
-            formData.append('file', this.state.pdfFile);
-
-
-            this.normaService
-                .uploadNormaFile(response.data.id, 'pdf', formData)
-                .then(result => {
-                    formData = new FormData();
-                    formData.append('file', this.state.cadFile);
 
                     this.normaService
-                        .uploadNormaFile(response.data.id, 'cad', formData)
+                        .uploadNormaFile(response.data.id, 'pdf', formData)
                         .then(result => {
+                            formData = new FormData();
+                            formData.append('file', this.state.cadFile);
 
-                            this.setState({
-                                savingNorma: false
-                            });
+                            this.normaService
+                                .uploadNormaFile(response.data.id, 'cad', formData)
+                                .then(result => {
 
-                            toast.success(
-                                `${this.props.intl.formatMessage({
-                                    id: 'component.normas.modal.msg.success.crear'
-                                })}`);
-                            this.setState({
-                                pdfFile: '',
-                                cadFile: '',
-                                codigoNorma: '',
-                                nombreNorma: '',
-                                normaDescripcion: '',
-                                estado: {
-                                    descripcion: 'En Revisión',
-                                    id: 0
-                                },
-                                usersOptions: [],
-                                selectedUsers: []
-                            });
-                            this.reload();
-                        }), () => {
+                                    this.setState({
+                                        savingNorma: false
+                                    });
+
+                                    toast.success(
+                                        `${this.props.intl.formatMessage({
+                                            id: 'component.normas.modal.msg.success.crear'
+                                        })}`);
+                                    this.setState({
+                                        pdfFile: '',
+                                        cadFile: '',
+                                        codigoNorma: '',
+                                        nombreNorma: '',
+                                        normaDescripcion: '',
+                                        estado: {
+                                            descripcion: 'En Revisión',
+                                            id: 0
+                                        },
+                                        usersOptions: [],
+                                        selectedUsers: []
+                                    });
+                                    this.reload();
+                                }), () => {
+
+                                    toast.error(
+                                        `${this.props.intl.formatMessage({
+                                            id: 'component.normas.modal.edit.error'
+                                        })}`
+                                    );
+                                    this.setState({
+                                        savingNorma: false
+                                    });
+                                };
+                        }),() => {
 
                             toast.error(
                                 `${this.props.intl.formatMessage({
@@ -196,14 +214,10 @@ class CrearNormaComponent extends React.Component {
                             this.setState({
                                 savingNorma: false
                             });
-                        };
-
+                        };;
                 });
-
-
-
+            }
         });
-
     }
     reload = () => {
         window.location.reload(true);
