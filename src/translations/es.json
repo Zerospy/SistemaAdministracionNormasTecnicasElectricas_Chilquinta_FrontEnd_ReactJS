@@ -122,7 +122,8 @@
     "component.normas.modal.btn.exitoDocumento": "Su documento se ha cargado con exito",
     "component.normas.modal.edit.errorDocumento": "Ocurrió un problema al cargar el documento",
     "component.CrearNormas.title":"Subir una nueva norma",
-
+    "component.normas.wkf":"Enviar a workflow",
+    "component.normas.wkf.error":"Ha ocurrido un error al enviar a workflow",
     "component.vernormas.CodNorma.Modal": "Codigo identificador de la Norma",
     "component.vernormas.title.Modal": "Nombre norma",
     "component.vernormas.descripcion.Modal": "Descripcion de la norma",

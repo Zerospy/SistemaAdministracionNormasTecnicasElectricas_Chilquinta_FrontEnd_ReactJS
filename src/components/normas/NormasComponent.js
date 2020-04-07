@@ -1,20 +1,20 @@
 import HeaderComponent from 'components/commons/HeaderComponent';
-import {NormasContext} from 'components/normas/NormasContext';
+import { NormasContext } from 'components/normas/NormasContext';
 import DetalleNormaModal from 'components/normas/DetalleNormaModal';
-import {Col, Row, Input, Fa, Button, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBModal, MDBBtn, MDBFileInput} from 'mdbreact';
+import { Col, Row, Input, Fa, Button, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBModal, MDBBtn, MDBFileInput } from 'mdbreact';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import Constantes from 'Constantes';
 import PanelComponent from 'components/commons/panels/PanelComponent';
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import NormaService from 'services/NormaService';
 import UserService from 'services/UserService';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import DetalleEditarNormaModal from './DetalleEditarNormaModal';
 import CommentRequestModal from './DetalleEditarNormaModal';
 import Moment from 'moment';
-import {saveAs} from 'file-saver';
+import { saveAs } from 'file-saver';
 import DardebajaModal from './DardebajaModal';
 import LoginService from 'services/LoginService';
 import Select from 'react-select';
@@ -36,7 +36,8 @@ class NormasComponent extends React.Component {
 
     constructor(props) {
         super(props);
-
+        this.onUploadPDF = this.onUploadPDF.bind(this);
+        this.onUploadCAD = this.onUploadCAD.bind(this);
         this.normaService = new NormaService();
         this.userService = new UserService();
 
@@ -93,7 +94,7 @@ class NormasComponent extends React.Component {
                 colId: 'id',
                 width: 80
             },
-            this.sessionInformation.admin ?  {
+            this.sessionInformation.admin ? {
                 headerName: 'Editar',
                 field: 'id',
                 cellRenderer: 'DetailButtonGridEdit',
@@ -107,8 +108,8 @@ class NormasComponent extends React.Component {
                 enabled: this.sessionInformation.admin,
                 colId: 'id',
                 width: 80
-            } : [] ,
-             this.sessionInformation.admin ? {
+            } : [],
+            this.sessionInformation.admin ? {
                 headerName: `${props.intl.formatMessage({
                     id: 'component.dataGrid.DardeBajaGrid'
                 })}`,
@@ -128,6 +129,10 @@ class NormasComponent extends React.Component {
         ];
 
         this.state = {
+            documentoPDF: "Ningun documento cargado..",
+            documentoCAD: "Ningun documento cargado..",    
+            pdfFile: '',
+            cadFile: '',
             pagination: {
                 PageIndex: 1,
                 RowsPerPage: Constantes.DEFAULT_PAGE_SIZE
@@ -162,7 +167,7 @@ class NormasComponent extends React.Component {
         };
     }
 
-    getUsuarios= () => {
+    getUsuarios = () => {
         this.userService.getUsers().then(response => {
             const data = response.data;
 
@@ -182,10 +187,11 @@ class NormasComponent extends React.Component {
     }
 
     publishToWorkflow = () => {
+        
         const normaId = '';
 
         const a = Moment().toObject();
-        const b = {year: a.years, month: a.months + 1, day: a.date, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds};
+        const b = { year: a.years, month: a.months + 1, day: a.date, hour: a.hours, minutes: a.minutes, seconds: a.seconds, nanos: a.milliseconds };
         if (b.day < 10) {
             b.day = `0${b.day}`;
         }
@@ -199,12 +205,13 @@ class NormasComponent extends React.Component {
         const params = {
             codNorma: this.state.codigoNorma, nombre: this.state.nombreNorma,
             descripcion: this.state.normadescripcion,
-            estado: {descripcion: '', id: '1'}, fecha: c};
+            estado: { descripcion: '', id: '1' }, fecha: c
+        };
 
-          /*Insertado 03-07-2020 */
-          if (this.state.selectedUsers && this.state.selectedUsers.length > 0) {
+        /*Insertado 03-07-2020 */
+        if (this.state.selectedUsers && this.state.selectedUsers.length > 0) {
             params.usersToComment = [];
-    
+
             this.state.selectedUsers.forEach(user => {
                 params.usersToComment.push({
                     usuarioRecibeEntity: {
@@ -212,61 +219,61 @@ class NormasComponent extends React.Component {
                     }
                 });
             });
-        } 
-             /*Insertado 03-07-2020 */ 
-    
-              this.setState({
-                  savingNorma: true
-              });
+        }
+        /*Insertado 03-07-2020 */
 
-              this.normaService.post(params).then(response => {
-                const data = response.data;
-      
-                data.createdAt = new Moment(data.createdAt).format(
-                    Constantes.DATETIME_FORMAT
-                );
-                console.log(response.data);
-                console.log(response.data.id);
-                this.setState({
-                    normaId: response.data.id
+        this.setState({
+            savingNorma: true
+        });
+
+        this.normaService.post(params).then(response => {
+            const data = response.data;
+
+            data.createdAt = new Moment(data.createdAt).format(
+                Constantes.DATETIME_FORMAT
+            );
+            console.log(response.data);
+            console.log(response.data.id);
+            this.setState({
+                normaId: response.data.id
+            });
+
+            console.log(response.data.id);
+            let formData = new FormData();
+            formData.append('file', this.state.pdfFile);
+
+
+            this.normaService
+                .uploadNormaFile(response.data.id, 'pdf', formData)
+                .then(result => {
+                    formData = new FormData();
+                    formData.append('file', this.state.cadFile);
+
+                    this.normaService
+                        .uploadNormaFile(response.data.id, 'cad', formData)
+                        .then(result => {
+
+
+
+
+                        });
+
                 });
-      
-                console.log(response.data.id);
-                let formData = new FormData();
-                formData.append('file', this.state.pdfFile);
-              
-               
-                this.normaService
-                    .uploadNormaFile(response.data.id, 'pdf', formData)
-                    .then(result => {
-                        formData = new FormData();
-                        formData.append('file', this.state.cadFile);
-      
-                        this.normaService
-                            .uploadNormaFile(response.data.id, 'cad', formData)
-                            .then(result => {
-                                  
-                                 
-                              
-                                
-                            });          
-                             
-                    });
 
 
-                    toast.success(
-                        `${this.props.intl.formatMessage({
-                        id: 'component.normas.modal.msg.success.crear'
-                                                                        })}`,
-      
-                                               );
-                    this.toggle();
-          });
+            toast.success(
+                `${this.props.intl.formatMessage({
+                    id: 'component.normas.modal.msg.success.crear'
+                })}`,
 
-       
-        } 
+            );
+            this.toggle();
+        });
 
-   
+
+    }
+
+
     onChangeCodigo = e => {
         this.setState({
             codigoNorma: e.target.value
@@ -285,6 +292,20 @@ class NormasComponent extends React.Component {
 
         });
     }
+  
+    onUploadCAD(x) {
+
+        this.setState({
+            cadFile:x.target.files[0]
+        })
+        this.setState({
+            documentoCAD: "Documento CAD cargado",
+
+        })
+
+    }
+
+
     searchNormas() {
         const estadoNorma = 'PUBLICADA';
         const norma = '';
@@ -294,7 +315,7 @@ class NormasComponent extends React.Component {
 
         this.normaService.estadoNormas(estadoNorma).then(
             response => {
-                const {data} = response;
+                const { data } = response;
 
                 if (data !== null && data.length > 0) {
                     data.forEach(item => {
@@ -339,10 +360,17 @@ class NormasComponent extends React.Component {
 
 
     }
+    onUploadPDF(e) {
 
+        this.setState({
+            pdfFile: e.target.files[0]
+        })
+        this.setState({
+            documentoPDF: "Documento PDF cargado",
 
+        })
 
-
+    }
     componentDidMount() {
         this.searchNormas();
         this.getUsuarios();
@@ -352,7 +380,7 @@ class NormasComponent extends React.Component {
 
     render() {
         const idData = this.state.idData;
-        const {norma} = this.props;
+        const { norma } = this.props;
 
         return [
             <NormasContext.Provider value={this}>
@@ -377,11 +405,11 @@ class NormasComponent extends React.Component {
 
                         });
                         this.searchNormas();
-                    }}  
-                    
+                    }}
+
                 />
- 
- {this.sessionInformation.admin ?  <DardebajaModal
+
+                {this.sessionInformation.admin ? <DardebajaModal
                     norma={this.state.selectedNorma}
                     isOpen={this.state.DardebajaModal}
                     toggle={() => {
@@ -456,7 +484,7 @@ class NormasComponent extends React.Component {
                     enabled={this.sessionInformation.admin}
                 /> : []}
 
-                <HeaderComponent OpenSideBar = {this.state.OpenSideBar} />
+                <HeaderComponent OpenSideBar={this.state.OpenSideBar} />
                 <Row>
                     <Col size="12">
                         <PanelComponent
@@ -534,8 +562,8 @@ class NormasComponent extends React.Component {
 
                                                     <label>Usuarios que pueden comentar</label>
                                                     <Select
-                                                        options = {this.state.usersOptions}
-                                                        onChange = {selectedOptions => {
+                                                        options={this.state.usersOptions}
+                                                        onChange={selectedOptions => {
                                                             this.setState({
                                                                 selectedUsers: selectedOptions
                                                             });
@@ -545,17 +573,42 @@ class NormasComponent extends React.Component {
                                                         isSearchable
                                                         placeholder={'Listado de usuarios'}
                                                     />
-                                                    <br/>
-                                                    <label>PDF</label>
-                                                    <MDBFileInput
+                                                    <br />
+                                             
+
+                                                    <div>
+
+
+<label for="choose_file1"><span id="file_name1" className="btn btn-default">Seleccione un documento PDF</span>
+{this.state.documentoPDF}
+    <input type="file" name="choose_file1" id="choose_file1" 
+        onChange={this.onUploadPDF}
+        style={{ width: '0px' }} />
+</label>
+
+
+</div>
+                                                {/*   <MDBFileInput
                                                         getValue={files => {
                                                             this.setState({
                                                                 pdfFile: files[0]
                                                             });
                                                         }}
-                                                    />
-                                                    <label>CAD</label>
-                                                    <MDBFileInput
+                                                    /> */} 
+                                                   
+                                                    <div>
+
+
+<label for="choose_file"><span id="file_name" className="btn btn-info" >Seleccione un documento CAD</span>
+{this.state.documentoCAD}
+    <input type="file" name="choose_file" id="choose_file"
+        onChange={this.onUploadCAD}
+        style={{ width: '0px' }} />
+</label>
+
+
+</div>
+                                               {/*     <MDBFileInput
 
                                                         getValue={files => {
                                                             this.setState({
@@ -563,7 +616,7 @@ class NormasComponent extends React.Component {
                                                             });
                                                         }}
 
-                                                    />
+                                                    /> */}
                                                 </div>
                                             </form>
 
@@ -578,13 +631,13 @@ class NormasComponent extends React.Component {
                                             <Button color="primary"
 
                                                 disabled={!this.state.nombreNorma || !this.state.codigoNorma || !this.state.normadescripcion
-                                                    }
+                                                }
                                                 color="primary"
                                                 onClick={this.publishToWorkflow}
 
                                             >
-                                              
-                                                 Enviar a workflow</Button>
+
+                                                Enviar a workflow</Button>
                                         </MDBModalFooter>
 
                                     </MDBModal>

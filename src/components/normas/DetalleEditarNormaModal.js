@@ -37,7 +37,8 @@ class DetalleEditarNormaModal extends React.Component {
 
       this.normaService = new NormaService();
       this.userService = new UserService();
-
+      this.onUploadPDF = this.onUploadPDF.bind(this);
+      this.onUploadCAD = this.onUploadCAD.bind(this);
       this.loginService = new LoginService();
       this.sessionInformation = this.loginService.getSessionInformation();
 
@@ -52,6 +53,10 @@ class DetalleEditarNormaModal extends React.Component {
       ];
 
       this.state = {
+        documentoPDF: "Ningun documento cargado..",
+        documentoCAD: "Ningun documento cargado..",    
+        pdfFile: '',
+        cadFile: '',
           pagination: {
               PageIndex: 1,
               RowsPerPage: Constantes.DEFAULT_PAGE_SIZE
@@ -119,6 +124,28 @@ class DetalleEditarNormaModal extends React.Component {
           }
       );
   };
+  onUploadCAD(x) {
+
+    this.setState({
+        cadFile:x.target.files[0]
+    })
+    this.setState({
+        documentoCAD: "Documento CAD cargado",
+
+    })
+
+}
+onUploadPDF(e) {
+
+    this.setState({
+        pdfFile: e.target.files[0]
+    })
+    this.setState({
+        documentoPDF: "Documento PDF cargado",
+
+    })
+
+}
 
   saveNorma = () => {
     const {onSaveNorma, norma} = this.props;
@@ -269,13 +296,13 @@ class DetalleEditarNormaModal extends React.Component {
                           this.setState({
                               savingNorma: false
                           });
-              
+ 
                           toast.success(
                               `${this.props.intl.formatMessage({
                                   id: 'component.normas.modal.edit.success'
                               })}`
                           );
- 
+                       
                           this.props.toggle();
                       }),
                   () => {
@@ -303,6 +330,7 @@ class DetalleEditarNormaModal extends React.Component {
 
   componentDidMount() {
       this.getUsuarios();
+    
   }
 
   componentDidUpdate(prevProps) {
@@ -312,6 +340,7 @@ class DetalleEditarNormaModal extends React.Component {
       this.props.norma !== prevProps.norma
       ) {
           this.getNorma(this.props.norma);
+          
       }
   }
   handleChange(event) {
@@ -421,7 +450,7 @@ class DetalleEditarNormaModal extends React.Component {
                                       />
                                       <br />
 
-                                      <label>PDF</label>
+                       {/*           <label>PDF</label>
                                       <MDBFileInput
                                           getValue={files => {
                                               this.setState({
@@ -436,7 +465,25 @@ class DetalleEditarNormaModal extends React.Component {
                                                   cadFile: files[0]
                                               });
                                           }}
-                                      />
+                                      />*/}     
+
+
+<label for="choose_file1"><span id="file_name1" className="btn btn-default">Seleccione un documento PDF</span>
+{this.state.documentoPDF}
+    <input type="file" name="choose_file1" id="choose_file1" 
+        onChange={this.onUploadPDF}
+        style={{ width: '0px' }} />
+</label>
+
+
+<label for="choose_file"><span id="file_name" className="btn btn-info" >Seleccione un documento CAD</span>
+{this.state.documentoCAD}
+    <input type="file" name="choose_file" id="choose_file"
+        onChange={this.onUploadCAD}
+        style={{ width: '0px' }} />
+</label>
+
+
                                   </div>
                               </form>
                           </Col>
