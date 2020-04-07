@@ -31,4 +31,6 @@ export default class NormaService {
       axios.post('norma/norma-internacional', params);
 
   normaDocumentos = id => axios.post(`norma/normadocumentos/${id}`);
+
+  existsByCodNorma = codNorma => axios.get(`/norma/existsByCodNorma/${codNorma}`);
 }
