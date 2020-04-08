@@ -1,35 +1,21 @@
+import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import HeaderComponent from 'components/commons/HeaderComponent';
+import PanelComponent from 'components/commons/panels/PanelComponent';
 import { NormasContext } from 'components/normas/NormasContext';
-import DetalleNormaModal from 'components/normas/DetalleNormaModal';
-import {
-    Col,
-    Row,
-    Input,
-    Fa,
-    Button,
-    MDBModalHeader,
-    MDBModalBody,
-    MDBModalFooter,
-    MDBModal,
-    MDBBtn,
-    MDBFileInput
-} from 'mdbreact';
+import Constantes from 'Constantes';
+import { saveAs } from 'file-saver';
+import { Col, Input, Row } from 'mdbreact';
+import Moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import Constantes from 'Constantes';
-import PanelComponent from 'components/commons/panels/PanelComponent';
-import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
+import { injectIntl } from 'react-intl';
+import { toast } from 'react-toastify';
+import DetallePerfilService from 'services/DetallePerfilService';
+import LoginService from 'services/LoginService';
 import NormaService from 'services/NormaService';
 import UserService from 'services/UserService';
-import { toast } from 'react-toastify';
-import { MDBSelect } from 'mdbreact';
-import Moment from 'moment';
-import { saveAs } from 'file-saver';
-import LoginService from 'services/LoginService';
-import Downloadclic from 'components/documentos/downloadclic';
-import DetallePerfilService from 'services/DetallePerfilService';
-
+import DardebajaModal from './DardebajaModal';
+import EditarDocumentoModal from './EditarDocumentoModal';
 
 class NormasComponent extends React.Component {
     showSettings(event) {
@@ -96,8 +82,40 @@ class NormasComponent extends React.Component {
                 },
                 editable: false,
                 colId: 'id',
-                width: 150
-            }
+                width: 120
+            },
+            this.sessionInformation.admin ? {
+                headerName: 'Editar',
+                field: 'idEditar',
+                cellRenderer: 'DetailButtonGridEdit',
+                onClick: norma => {
+                    this.setState({
+                        selectedNorma: norma,
+                        modalEdit: true
+                    });
+                },
+                editable: false,
+                enabled: this.sessionInformation.admin,
+                colId: 'idEditar',
+                width: 100
+            } : [],
+            this.sessionInformation.admin ? {
+                headerName: `${props.intl.formatMessage({
+                    id: 'component.dataGrid.DardeBajaGrid'
+                })}`,
+                field: 'dardeBaja',
+                cellRenderer: 'DardeBajaButton',
+                onClick: norma => {
+                    this.setState({
+                        selectedNorma: norma,
+                        DardebajaModal: true
+                    });
+                },
+                editable: false,
+                enabled: this.sessionInformation.admin,
+                colId: 'id',
+                width: 130
+            } : []
         ];
 
         this.state = {
@@ -111,6 +129,7 @@ class NormasComponent extends React.Component {
             loadingInformation: false,
             modalDownload: false,
             modalCommentRequest: false,
+            modalEdit: false,
             loadingDetalles: false,
             quickFilter: '',
             codigoNorma: '',
@@ -177,11 +196,10 @@ class NormasComponent extends React.Component {
             loadingInformation: true
         });
 
-        console.log(this.sessionInformation);
-
         this.normaService.getDocumentos().then(
             response => {
                 if (response.data && response.data.length > 0) {
+                    response.data = response.data.filter(item => item.estado.id !== 4)
                     response.data.forEach(item => {
                         item.fecha = new Moment(item.fecha).format(
                             Constantes.DATETIME_FORMAT
@@ -296,7 +314,7 @@ class NormasComponent extends React.Component {
 
         return (
             <NormasContext.Provider value={this}>
-                <Downloadclic
+                <ediDownloadclic
                     norma={this.state.selectedNorma}
                     isOpen={this.state.modalDownload}
                     toggle={() => {
@@ -305,6 +323,93 @@ class NormasComponent extends React.Component {
                         });
                     }}
                 />
+
+                <EditarDocumentoModal
+                    norma={this.state.selectedNorma}
+                    isOpen={this.state.modalEdit}
+                    toggle={() => {
+                        this.setState({
+                            modalEdit: !this.state.modalEdit
+                        });
+                        this.searchNormas();
+                    }}
+
+                />
+
+                {this.sessionInformation.admin ? <DardebajaModal
+                    norma={this.state.selectedNorma}
+                    isOpen={this.state.DardebajaModal}
+                    toggle={() => {
+                        this.setState({
+                            DardebajaModal: !this.state.DardebajaModal
+                        });
+                    }}
+                    /* */
+                    onDarBaja={norma => {
+                        console.log(norma);
+
+                        const rowData = this.state.rowData;
+
+                        if (rowData !== null && rowData.length > 0) {
+                            this.normaService.getById(norma.id).then(
+                                response => {
+                                    rowData.some((item, index) => {
+                                        if (item.id === norma.id) {
+                                            rowData[index].estado = response.data.estado;
+                                            return true;
+                                        }
+                                    });
+                                    this.gridApi.setRowData(rowData);
+                                },
+                                errorResponse => {
+                                    console.error(errorResponse);
+                                    toast.error(
+                                        `${this.props.intl.formatMessage({
+                                            id: 'component.workflow.modal.msg.error'
+                                        })}`
+                                    );
+                                }
+                            );
+                        }
+                    }}
+                    onSave={norma => {
+                        this.setState({
+                            publishing: true
+                        });
+
+                        this.normaService.dardeBaja(norma.id).then(
+                            () => {
+                                this.setState(
+                                    {
+                                        publishing: false,
+                                        DardebajaModal: false
+                                    },
+                                    () => {
+                                        this.searchNormas();
+                                    }
+                                );
+                                toast.success(
+                                    `${this.props.intl.formatMessage({
+                                        id: 'component.modal.succes.baja'
+                                    })}`
+                                );
+                            },
+                            () => {
+                                this.setState({
+                                    publishing: false,
+                                    DardebajaModal: false
+                                });
+
+                                toast.error(
+                                    `${this.props.intl.formatMessage({
+                                        id: 'component.workflow.modal.msg.error'
+                                    })}`
+                                );
+                            }
+                        );
+                    }}
+                    enabled={this.sessionInformation.admin}
+                /> : []}
 
                 <HeaderComponent />
                 <Row>

@@ -139,10 +139,6 @@ class subirDocumento extends React.Component {
             this.normaService
                 .uploadNormaFile(response.data.id, 'pdf', formData)
                 .then(result => {
-
-                    formData = new FormData();
-                    formData.append('file', this.state.cadFile);
-
                     this.setState({
                         savingNorma: false
                     });
@@ -151,7 +147,6 @@ class subirDocumento extends React.Component {
                             id: 'component.normas.modal.btn.exitoDocumento'
                         })}`
                     );
-
                 }),
                 () => {
                     toast.error(
@@ -159,15 +154,11 @@ class subirDocumento extends React.Component {
                             id: 'component.normas.modal.edit.errorDocumento'
                         })}`
                     );
-
                     this.setState({
                         savingNorma: false
                     });
                 };
-
-
         })
-
     };
 
     onChangeCodigo = e => {
