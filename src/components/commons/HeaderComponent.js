@@ -55,7 +55,7 @@ class HeaderComponent extends React.Component {
                 />
                      <div class="d-flex flex-row">
                     
-                <div className="col-12 page-title mt-3">
+                <div className="col-7 page-title mt-3">
                     <h4 className="text-center text-bold mt-1">{this.state.pageTitle}</h4>
                 </div>
 
