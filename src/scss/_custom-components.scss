@@ -57,9 +57,9 @@
   background-color: transparent;
   padding: 4px;
   padding-top: 15px;
-  padding-right: 100px;
   width: auto;
   height: auto;
+  right:-95px;
 }
 
 /* Custom grid styles */
@@ -1256,4 +1256,12 @@ footer {
 
 .modal-xl {
   max-width: 95% !important;
+}
+label u {
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+
+  text-decoration: none;
+  color: initial;
 }
