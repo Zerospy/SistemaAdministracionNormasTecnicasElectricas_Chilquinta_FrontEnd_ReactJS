@@ -160,7 +160,7 @@ class CrearNormaComponent extends React.Component {
                     let formData = new FormData();
                     formData.append('file', this.state.pdfFile);
 
-
+                    if (this.state.pdfFile != '') {
                     this.normaService
                         .uploadNormaFile(response.data.id, 'pdf', formData)
                         .then(result => {
@@ -193,7 +193,9 @@ class CrearNormaComponent extends React.Component {
                                         selectedUsers: []
                                     });
                                     this.reload();
-                                }), () => {
+                                
+                                }),
+                                     () => {
 
                                     toast.error(
                                         `${this.props.intl.formatMessage({
@@ -204,7 +206,8 @@ class CrearNormaComponent extends React.Component {
                                         savingNorma: false
                                     });
                                 };
-                        }),() => {
+                        }),
+                        () => {
 
                             toast.error(
                                 `${this.props.intl.formatMessage({
@@ -215,9 +218,20 @@ class CrearNormaComponent extends React.Component {
                                 savingNorma: false
                             });
                         };
+                    }else{
+                        toast.success(
+                            `${this.props.intl.formatMessage({
+                                id: 'component.normas.modal.msg.success.crear'
+                            })}`);
+                        this.setState({
+                            savingNorma: false
+                        });
+                    }
                 });
             }
-        }),() => {
+        });
+               /*
+         () => {
 
             toast.error(
                 `${this.props.intl.formatMessage({
@@ -227,7 +241,14 @@ class CrearNormaComponent extends React.Component {
             this.setState({
                 savingNorma: false
             });
-        };
+
+
+        }
+                }      
+            
+                });
+                        */
+
     }
     reload = () => {
         window.location.reload(true);

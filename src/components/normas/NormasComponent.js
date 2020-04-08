@@ -234,10 +234,13 @@ class NormasComponent extends React.Component {
                     savingNorma: false
                 });
             } else {
-
-                this.normaService.post(params).then(response => {
+                this.setState({
+                    savingNorma: true
+                });
+    
+                this.normaService.post(params).then(response => { 
                     const data = response.data;
-
+        
                     data.createdAt = new Moment(data.createdAt).format(
                         Constantes.DATETIME_FORMAT
                     );
@@ -246,24 +249,22 @@ class NormasComponent extends React.Component {
                     this.setState({
                         normaId: response.data.id
                     });
-
+        
                     console.log(response.data.id);
                     let formData = new FormData();
                     formData.append('file', this.state.pdfFile);
-
-
+        
+                    if (this.state.pdfFile != ''){
                     this.normaService
                         .uploadNormaFile(response.data.id, 'pdf', formData)
                         .then(result => {
                             formData = new FormData();
                             formData.append('file', this.state.cadFile);
-
+        
                             this.normaService
                                 .uploadNormaFile(response.data.id, 'cad', formData)
                                 .then(result => {
-
-
-
+        
 
                                 });
 
@@ -277,9 +278,9 @@ class NormasComponent extends React.Component {
 
                     );
                     this.toggle();
-                });
-            }
-        }), () => {
+                }    
+          }),
+         () => {
 
             toast.error(
                 `${this.props.intl.formatMessage({
@@ -289,7 +290,14 @@ class NormasComponent extends React.Component {
             this.setState({
                 savingNorma: false
             });
-        };
+
+
+        }
+                }      
+            
+                });
+
+
     }
 
 
