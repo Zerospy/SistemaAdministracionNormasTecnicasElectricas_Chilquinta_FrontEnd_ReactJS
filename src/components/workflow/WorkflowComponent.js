@@ -262,7 +262,7 @@ class WorkflowComponent extends React.Component {
                         this.setState({
                             modalComments: !this.state.modalComments
                         });
-                        this.reload();
+                      
                     }}
                     onSaveComment={norma => {
                         console.log(norma);
@@ -302,10 +302,12 @@ class WorkflowComponent extends React.Component {
                             isOpen={this.state.modalEdit}
                             toggle={() => {
                                 this.setState({
-                                    modalEdit: !this.state.modalEdit,
-                                   
+                                    modalEdit: !this.state.modalEdit
+
                                 });
-                                this.searchNormas();
+
+                             /*   this.searchNormas(); */
+
                             }}
                         />
                     }}

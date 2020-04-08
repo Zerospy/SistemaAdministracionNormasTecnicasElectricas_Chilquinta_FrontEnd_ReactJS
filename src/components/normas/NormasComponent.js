@@ -276,6 +276,10 @@ class NormasComponent extends React.Component {
 
 
                                         });
+                                        toast.success(
+                                            `${this.props.intl.formatMessage({
+                                                id: 'component.normas.modal.msg.success.crear'
+                                            })}`);
                                         this.toggle();
                                     });
 
