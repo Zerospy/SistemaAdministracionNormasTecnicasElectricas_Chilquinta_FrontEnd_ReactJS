@@ -161,64 +161,64 @@ class CrearNormaComponent extends React.Component {
                     formData.append('file', this.state.pdfFile);
 
                     if (this.state.pdfFile != '') {
-                    this.normaService
-                        .uploadNormaFile(response.data.id, 'pdf', formData)
-                        .then(result => {
-                            formData = new FormData();
-                            formData.append('file', this.state.cadFile);
+                        this.normaService
+                            .uploadNormaFile(response.data.id, 'pdf', formData)
+                            .then(result => {
+                                formData = new FormData();
+                                formData.append('file', this.state.cadFile);
 
-                            this.normaService
-                                .uploadNormaFile(response.data.id, 'cad', formData)
-                                .then(result => {
+                                this.normaService
+                                    .uploadNormaFile(response.data.id, 'cad', formData)
+                                    .then(result => {
 
-                                    this.setState({
-                                        savingNorma: false
-                                    });
+                                        this.setState({
+                                            savingNorma: false
+                                        });
 
-                                    toast.success(
-                                        `${this.props.intl.formatMessage({
-                                            id: 'component.normas.modal.msg.success.crear'
-                                        })}`);
-                                    this.setState({
-                                        pdfFile: '',
-                                        cadFile: '',
-                                        codigoNorma: '',
-                                        nombreNorma: '',
-                                        normaDescripcion: '',
-                                        estado: {
-                                            descripcion: 'En Revisión',
-                                            id: 0
-                                        },
-                                        usersOptions: [],
-                                        selectedUsers: []
-                                    });
-                                    this.reload();
-                                
-                                }),
-                                     () => {
+                                        toast.success(
+                                            `${this.props.intl.formatMessage({
+                                                id: 'component.normas.modal.msg.success.crear'
+                                            })}`);
+                                        this.setState({
+                                            pdfFile: '',
+                                            cadFile: '',
+                                            codigoNorma: '',
+                                            nombreNorma: '',
+                                            normaDescripcion: '',
+                                            estado: {
+                                                descripcion: 'En Revisión',
+                                                id: 0
+                                            },
+                                            usersOptions: [],
+                                            selectedUsers: []
+                                        });
+                                        this.reload();
 
-                                    toast.error(
-                                        `${this.props.intl.formatMessage({
-                                            id: 'component.normas.modal.edit.error'
-                                        })}`
-                                    );
-                                    this.setState({
-                                        savingNorma: false
-                                    });
-                                };
-                        }),
-                        () => {
+                                    }),
+                                    () => {
 
-                            toast.error(
-                                `${this.props.intl.formatMessage({
-                                    id: 'component.normas.modal.edit.error'
-                                })}`
-                            );
-                            this.setState({
-                                savingNorma: false
-                            });
-                        };
-                    }else{
+                                        toast.error(
+                                            `${this.props.intl.formatMessage({
+                                                id: 'component.normas.modal.edit.error'
+                                            })}`
+                                        );
+                                        this.setState({
+                                            savingNorma: false
+                                        });
+                                    };
+                            }),
+                            () => {
+
+                                toast.error(
+                                    `${this.props.intl.formatMessage({
+                                        id: 'component.normas.modal.edit.error'
+                                    })}`
+                                );
+                                this.setState({
+                                    savingNorma: false
+                                });
+                            };
+                    } else {
                         toast.success(
                             `${this.props.intl.formatMessage({
                                 id: 'component.normas.modal.msg.success.crear'
@@ -230,24 +230,24 @@ class CrearNormaComponent extends React.Component {
                 });
             }
         });
-               /*
-         () => {
+        /*
+  () => {
 
-            toast.error(
-                `${this.props.intl.formatMessage({
-                    id: 'component.normas.modal.edit.error'
-                })}`
-            );
-            this.setState({
-                savingNorma: false
-            });
+     toast.error(
+         `${this.props.intl.formatMessage({
+             id: 'component.normas.modal.edit.error'
+         })}`
+     );
+     this.setState({
+         savingNorma: false
+     });
 
 
-        }
-                }      
-            
-                });
-                        */
+ }
+         }      
+     
+         });
+                 */
 
     }
     reload = () => {
