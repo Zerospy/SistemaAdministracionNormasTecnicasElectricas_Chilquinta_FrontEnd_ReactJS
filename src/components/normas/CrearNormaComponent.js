@@ -214,10 +214,20 @@ class CrearNormaComponent extends React.Component {
                             this.setState({
                                 savingNorma: false
                             });
-                        };;
+                        };
                 });
             }
-        });
+        }),() => {
+
+            toast.error(
+                `${this.props.intl.formatMessage({
+                    id: 'component.normas.modal.edit.error'
+                })}`
+            );
+            this.setState({
+                savingNorma: false
+            });
+        };
     }
     reload = () => {
         window.location.reload(true);

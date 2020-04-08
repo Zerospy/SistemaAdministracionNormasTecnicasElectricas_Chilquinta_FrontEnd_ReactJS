@@ -130,7 +130,7 @@ class NormasComponent extends React.Component {
 
         this.state = {
             documentoPDF: "Ningun documento cargado..",
-            documentoCAD: "Ningun documento cargado..",    
+            documentoCAD: "Ningun documento cargado..",
             pdfFile: '',
             cadFile: '',
             pagination: {
@@ -187,7 +187,7 @@ class NormasComponent extends React.Component {
     }
 
     publishToWorkflow = () => {
-        
+
         const normaId = '';
 
         const a = Moment().toObject();
@@ -226,51 +226,70 @@ class NormasComponent extends React.Component {
             savingNorma: true
         });
 
-        this.normaService.post(params).then(response => {
-            const data = response.data;
+        this.normaService.existsByCodNorma(this.state.codigoNorma).then(resp => {
+            const existe = resp.data;
+            if (existe) {
+                toast.error('El codigo de Norma: [' + this.state.codigoNorma + '] Existe');
+                this.setState({
+                    savingNorma: false
+                });
+            } else {
 
-            data.createdAt = new Moment(data.createdAt).format(
-                Constantes.DATETIME_FORMAT
-            );
-            console.log(response.data);
-            console.log(response.data.id);
-            this.setState({
-                normaId: response.data.id
-            });
+                this.normaService.post(params).then(response => {
+                    const data = response.data;
 
-            console.log(response.data.id);
-            let formData = new FormData();
-            formData.append('file', this.state.pdfFile);
+                    data.createdAt = new Moment(data.createdAt).format(
+                        Constantes.DATETIME_FORMAT
+                    );
+                    console.log(response.data);
+                    console.log(response.data.id);
+                    this.setState({
+                        normaId: response.data.id
+                    });
 
+                    console.log(response.data.id);
+                    let formData = new FormData();
+                    formData.append('file', this.state.pdfFile);
 
-            this.normaService
-                .uploadNormaFile(response.data.id, 'pdf', formData)
-                .then(result => {
-                    formData = new FormData();
-                    formData.append('file', this.state.cadFile);
 
                     this.normaService
-                        .uploadNormaFile(response.data.id, 'cad', formData)
+                        .uploadNormaFile(response.data.id, 'pdf', formData)
                         .then(result => {
+                            formData = new FormData();
+                            formData.append('file', this.state.cadFile);
+
+                            this.normaService
+                                .uploadNormaFile(response.data.id, 'cad', formData)
+                                .then(result => {
 
 
 
+
+                                });
 
                         });
 
+
+                    toast.success(
+                        `${this.props.intl.formatMessage({
+                            id: 'component.normas.modal.msg.success.crear'
+                        })}`,
+
+                    );
+                    this.toggle();
                 });
+            }
+        }), () => {
 
-
-            toast.success(
+            toast.error(
                 `${this.props.intl.formatMessage({
-                    id: 'component.normas.modal.msg.success.crear'
-                })}`,
-
+                    id: 'component.normas.modal.edit.error'
+                })}`
             );
-            this.toggle();
-        });
-
-
+            this.setState({
+                savingNorma: false
+            });
+        };
     }
 
 
@@ -292,11 +311,11 @@ class NormasComponent extends React.Component {
 
         });
     }
-  
+
     onUploadCAD(x) {
 
         this.setState({
-            cadFile:x.target.files[0]
+            cadFile: x.target.files[0]
         })
         this.setState({
             documentoCAD: "Documento CAD cargado",
@@ -574,41 +593,41 @@ class NormasComponent extends React.Component {
                                                         placeholder={'Listado de usuarios'}
                                                     />
                                                     <br />
-                                             
+
 
                                                     <div>
 
 
-<label for="choose_file1"><span id="file_name1" className="btn btn-default">Seleccione un documento PDF</span>
-{this.state.documentoPDF}
-    <input type="file" name="choose_file1" id="choose_file1" 
-        onChange={this.onUploadPDF}
-        style={{ width: '0px' }} />
-</label>
+                                                        <label for="choose_file1"><span id="file_name1" className="btn btn-default">Seleccione un documento PDF</span>
+                                                            {this.state.documentoPDF}
+                                                            <input type="file" name="choose_file1" id="choose_file1"
+                                                                onChange={this.onUploadPDF}
+                                                                style={{ width: '0px' }} />
+                                                        </label>
 
 
-</div>
-                                                {/*   <MDBFileInput
+                                                    </div>
+                                                    {/*   <MDBFileInput
                                                         getValue={files => {
                                                             this.setState({
                                                                 pdfFile: files[0]
                                                             });
                                                         }}
-                                                    /> */} 
-                                                   
+                                                    /> */}
+
                                                     <div>
 
 
-<label for="choose_file"><span id="file_name" className="btn btn-info" >Seleccione un documento CAD</span>
-{this.state.documentoCAD}
-    <input type="file" name="choose_file" id="choose_file"
-        onChange={this.onUploadCAD}
-        style={{ width: '0px' }} />
-</label>
+                                                        <label for="choose_file"><span id="file_name" className="btn btn-info" >Seleccione un documento CAD</span>
+                                                            {this.state.documentoCAD}
+                                                            <input type="file" name="choose_file" id="choose_file"
+                                                                onChange={this.onUploadCAD}
+                                                                style={{ width: '0px' }} />
+                                                        </label>
 
 
-</div>
-                                               {/*     <MDBFileInput
+                                                    </div>
+                                                    {/*     <MDBFileInput
 
                                                         getValue={files => {
                                                             this.setState({
