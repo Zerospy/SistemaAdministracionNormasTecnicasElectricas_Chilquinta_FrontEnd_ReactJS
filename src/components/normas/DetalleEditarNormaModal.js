@@ -389,6 +389,8 @@ onUploadPDF(e) {
 
       const canPublish = norma !== null && norma.estado && norma.estado.id !== 3;
 
+      const codEstadoNorma = norma !== null && norma.estado && norma.estado.id === 3;
+
       return (
           <Container>
               <Modal isOpen={isOpen} size="lg" centered>
@@ -413,6 +415,7 @@ onUploadPDF(e) {
                                           id="formGroupExampleInput"
                                           defaultValue={codigoNorma}
                                           onChange={this.onChangeCodNorma}
+                                          disabled={codEstadoNorma}
                                       />
 
                                       <label htmlFor="formGroupExampleInput">Nombre Norma</label>
