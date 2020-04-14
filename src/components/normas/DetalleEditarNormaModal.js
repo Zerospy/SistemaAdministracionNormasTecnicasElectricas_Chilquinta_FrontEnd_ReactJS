@@ -184,7 +184,6 @@ class DetalleEditarNormaModal extends React.Component {
         };
 
 
-
         this.setState({
             savingNorma: true
         });
@@ -257,7 +256,19 @@ class DetalleEditarNormaModal extends React.Component {
             nombre: this.state.nombreNorma,
             descripcion: this.state.normadescripcion
         };
+        if (this.state.selectedUsers && this.state.selectedUsers.length > 0) {
+          params.usersToComment = this.state.selectedUsers; 
 
+          /*  this.state.selectedUsers.forEach(user => {
+                params.usersToComment.push({
+                    usuarioRecibeEntity: {
+                        id: user.id
+                    }
+                });
+            });  */
+
+        }
+        
         let formData = new FormData();
         formData.append('file', this.state.pdfFile);
 
@@ -281,6 +292,9 @@ class DetalleEditarNormaModal extends React.Component {
                             .uploadNormaFile(normaId, 'cad', formData)
                             .then(result => {
                                 this.setState({
+                                    selectedNorma: null,
+                                    usersOptions: [],
+                                    selectedUsers: [],
                                     savingNorma: false,
                                     documentoPDF: "Ningun documento cargado..",
                                     documentoCAD: "Ningun documento cargado.."
