@@ -1,6 +1,7 @@
 import DataGridComponent from 'components/commons/DataGrid/DataGridComponent';
 import HeaderComponent from 'components/commons/HeaderComponent';
 import PanelComponent from 'components/commons/panels/PanelComponent';
+import Downloadclic from 'components/documentos/downloadclic';
 import { NormasContext } from 'components/normas/NormasContext';
 import Constantes from 'Constantes';
 import { saveAs } from 'file-saver';
@@ -16,6 +17,7 @@ import NormaService from 'services/NormaService';
 import UserService from 'services/UserService';
 import DardebajaModal from './DardebajaModal';
 import EditarDocumentoModal from './EditarDocumentoModal';
+
 
 class NormasComponent extends React.Component {
     showSettings(event) {
@@ -314,7 +316,7 @@ class NormasComponent extends React.Component {
 
         return (
             <NormasContext.Provider value={this}>
-                <ediDownloadclic
+                <Downloadclic
                     norma={this.state.selectedNorma}
                     isOpen={this.state.modalDownload}
                     toggle={() => {
