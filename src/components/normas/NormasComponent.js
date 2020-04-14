@@ -18,6 +18,7 @@ import { saveAs } from 'file-saver';
 import DardebajaModal from './DardebajaModal';
 import LoginService from 'services/LoginService';
 import Select from 'react-select';
+import * as XLSX from 'xlsx';
 
 class NormasComponent extends React.Component {
     showSettings(event) {
@@ -420,6 +421,20 @@ class NormasComponent extends React.Component {
         this.getUsuarios();
     }
 
+    downloadExcel() {
+        const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        const fileName = 'ListadoNormas';
+        const fileExtension = '.xlsx';
+
+        this.normaService.downloadExcelNacional().then(response => {
+            console.log(response.data);
+            const ws = XLSX.utils.json_to_sheet(response.data);
+            const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+            const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+            const data = new Blob([excelBuffer], { type: fileType });
+            saveAs(data, fileName + fileExtension);
+        });
+    }
 
 
     render() {
@@ -552,7 +567,8 @@ class NormasComponent extends React.Component {
 
 
                             <Row>
-                                <Col className="offset-10" size="2">
+                                <Col className="offset-9" size="3">
+
                                     <Button
                                         size="sm"
                                         onClick={() => {
@@ -685,6 +701,15 @@ class NormasComponent extends React.Component {
                                         </MDBModalFooter>
 
                                     </MDBModal>
+                                    <Button
+                                        size="sm"
+                                        onClick={() => {
+                                            this.downloadExcel();
+                                        }}
+                                    >
+                                        {' '}
+                                        <Fa icon="file-download" />
+                                    </Button>
                                 </Col>
                             </Row>
 
