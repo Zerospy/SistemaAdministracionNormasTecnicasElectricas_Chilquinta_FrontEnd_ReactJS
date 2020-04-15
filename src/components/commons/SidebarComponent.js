@@ -90,9 +90,6 @@ class SidebarComponent extends React.Component {
                       >
                            <SideNavLink
                               to="/dashboard"
-                              onClick={() => {
-                                  window.location.reaload();
-                              }}
                           > 
                               <Fa icon="bong" />
                               <FormattedMessage id="menu.home.dashboard" />
@@ -109,9 +106,7 @@ class SidebarComponent extends React.Component {
                       >
                           <SideNavLink
                               to="normas"
-                              onClick={() => {
-                                  window.location.reaload();
-                              }}
+                          
                           >
                               <Fa icon="cubes" />
                               <FormattedMessage id="component.normas.title" />
@@ -119,9 +114,7 @@ class SidebarComponent extends React.Component {
 
                           {this.sessionInformation.admin ? <SideNavLink
                               to="CrearNorma"
-                              onClick={() => {
-                                  window.location.reaload();
-                              }}
+                       
                           >
                               <Fa icon="plus" />
                               <FormattedMessage id="component.normas.crear" />
@@ -140,18 +133,14 @@ class SidebarComponent extends React.Component {
                       >
                           <SideNavLink
                               to="normasInternacionales"
-                              onClick={() => {
-                                  window.location.reaload();
-                              }}
+                         
                           >
                               <Fa icon="passport" />
                               <FormattedMessage id="component.normasInternacionales" />
                           </SideNavLink>
                           {this.sessionInformation.admin ?  <SideNavLink
                               to="administracionNormasInternacionales"
-                              onClick={() => {
-                                  window.location.reaload();
-                              }}
+                          
                           >
                               <Fa icon="cloud-upload-alt" />
                               <FormattedMessage id="component.normasInternacionales.administracion" />
@@ -168,9 +157,7 @@ class SidebarComponent extends React.Component {
                       >
                           <SideNavLink
                               to="/workflow"
-                              onClick={() => {
-                                  window.location.reaload();
-                              }}
+                        
                           >
                               <Fa icon="network-wired" />
                               <FormattedMessage id="menu.workflow.item" />
@@ -188,18 +175,14 @@ class SidebarComponent extends React.Component {
                       >
                           <SideNavLink
                               to="/documentosComponent"
-                              onClick={() => {
-                                  window.location.reaload();
-                              }}
+                         
                           >
                               <Fa icon="book" />
                               <FormattedMessage id="menu.documentos.item" />
                           </SideNavLink>
                           {this.sessionInformation.admin ? <SideNavLink
                               to="/subirDocumento"
-                              onClick={() => {
-                                  window.location.reaload();
-                              }}
+                           
                           >
                               <Fa icon="arrow-circle-up" />
                               <FormattedMessage id="menu.documentos.subir" />
@@ -260,7 +243,7 @@ class SidebarComponent extends React.Component {
                               onClick={() => {
                                   new LoginService().logOut();
                                   this.props.history.push(this.props.match.url)
-                                  window.location.reaload(true);
+                                
                               }}
                           >
                               <Fa icon="sign-out-altZ" />
