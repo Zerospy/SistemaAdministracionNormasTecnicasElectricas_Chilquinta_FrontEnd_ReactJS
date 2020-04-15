@@ -70,6 +70,7 @@ class DetalleEditarNormaModal extends React.Component {
             normadescripcion: '',
             usersOptions: [],
             selectedUsers: []
+        
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -84,15 +85,16 @@ class DetalleEditarNormaModal extends React.Component {
             const data = response.data;
 
             data.usersToComment.forEach(user => {
-                user.value = user.id;
+                user.id = user.usuarioRecibeEntity.id;
                 user.label = `${user.usuarioRecibeEntity.nombres} ${user.usuarioRecibeEntity.apellidos}`;
             });
-
+            console.log(JSON.stringify(data.usersToComment));
             this.setState({
                 selectedUsers: data.usersToComment,
                 loadingInformation: false
-            });
+            });   
         });
+
     }
 
     getUsuarios = () => {
@@ -255,20 +257,26 @@ class DetalleEditarNormaModal extends React.Component {
             codNorma: this.state.codigoNorma,
             nombre: this.state.nombreNorma,
             descripcion: this.state.normadescripcion
+           
         };
+        console.log("Selected users ",JSON.stringify(this.state.selectedUsers))
+
+
+
         if (this.state.selectedUsers && this.state.selectedUsers.length > 0) {
-          params.usersToComment = this.state.selectedUsers; 
+            params.usersToComment = [];
 
-          /*  this.state.selectedUsers.forEach(user => {
+            this.state.selectedUsers.forEach(user => {
                 params.usersToComment.push({
-                    usuarioRecibeEntity: {
-                        id: user.id
-                    }
+                usuarioRecibeEntity: {
+                  id : user.id
+                }
                 });
-            });  */
-
+            });
         }
-        
+            console.log("Params ",JSON.stringify(params.usersToComment));
+           
+                
         let formData = new FormData();
         formData.append('file', this.state.pdfFile);
 
@@ -293,8 +301,6 @@ class DetalleEditarNormaModal extends React.Component {
                             .then(result => {
                                 this.setState({
                                     selectedNorma: null,
-                                    usersOptions: [],
-                                    selectedUsers: [],
                                     savingNorma: false,
                                     documentoPDF: "Ningun documento cargado..",
                                     documentoCAD: "Ningun documento cargado.."
