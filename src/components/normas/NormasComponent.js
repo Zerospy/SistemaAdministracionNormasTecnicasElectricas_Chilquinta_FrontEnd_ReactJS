@@ -701,15 +701,17 @@ class NormasComponent extends React.Component {
                                         </MDBModalFooter>
 
                                     </MDBModal>
-                                    <Button
-                                        size="sm"
-                                        onClick={() => {
-                                            this.downloadExcel();
-                                        }}
-                                    >
-                                        {' '}
-                                        <Fa icon="file-download" />
-                                    </Button>
+                                    {this.sessionInformation.admin ?
+                                        <Button
+                                            size="sm"
+                                            onClick={() => {
+                                                this.downloadExcel();
+                                            }}
+                                        >
+                                            {' '}
+                                            <Fa icon="file-download" />
+                                        </Button>
+                                        : []}
                                 </Col>
                             </Row>
 
