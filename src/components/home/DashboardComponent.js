@@ -384,7 +384,11 @@ class DashboardComponent extends React.Component {
                                                 </div>
                                           </div>
                                       </PanelComponent> : null }
-                                      <img src={NormasBanner} alt="Sistema de normas CHQ" />
+                                      {this.sessionInformation.admin ? 
+                
+                                    <img src={NormasBanner} alt="Sistema de normas CHQ" />
+                                       : null }
+                                  
                                   </div>
 
                                   <div className="col-4">
@@ -471,7 +475,7 @@ class DashboardComponent extends React.Component {
               {this.sessionInformation.admin ? 
               
               null
-      : <span centere> Menu Principal   </span> }
+      : <span centere>   </span> }
 
               {this.sessionInformation.admin ? 
               

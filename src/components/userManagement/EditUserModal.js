@@ -134,7 +134,7 @@ class EditUserModal extends React.Component {
                 this.setState({
                     saving: false
                 });
-                toast.error(errorResponse);
+                toast.error("Usuario no existe en ldap");
             }
         ),
         () => 
