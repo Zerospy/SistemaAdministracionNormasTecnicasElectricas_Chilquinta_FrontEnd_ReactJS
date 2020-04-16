@@ -362,6 +362,8 @@ class DashboardComponent extends React.Component {
                                                             <MDBCardText className="">
                                                                   <Row>
                                                                 <Col className="col-8">Normas Comentadas</Col>
+
+                                                                
                                                                 <Col className="col-4">
                                                                     <span className="badge badge-light badge-counter">
                                                                 <a onClick={this.displayModalNormas.bind(this, 4)}>
@@ -382,6 +384,7 @@ class DashboardComponent extends React.Component {
                                                 </div>
                                           </div>
                                       </PanelComponent> : null }
+                                      <img src={NormasBanner} alt="Sistema de normas CHQ" />
                                   </div>
 
                                   <div className="col-4">
@@ -472,7 +475,7 @@ class DashboardComponent extends React.Component {
 
               {this.sessionInformation.admin ? 
               
-              <img src={NormasBanner} alt="Sistema de normas CHQ" className="imagenCentrada-admin" />
+              null
             : <img src={NormasBanner} alt="Sistema de normas CHQ" className="imagenCentrada" /> }
           </DashboardContext.Provider>
       );

@@ -75,7 +75,8 @@ class EditUserModal extends React.Component {
             estado: this.state.enabled,
             usuario: this.state.username,
             perfil: this.state.perfil,
-            idPerfil: this.state.idPerfil
+            idPerfil: this.state.idPerfil,
+            enabled: this.state.enabled
         };
 
         this.setState({
@@ -135,7 +136,9 @@ class EditUserModal extends React.Component {
                 });
                 toast.error(errorResponse);
             }
-        );
+        ),
+        () => 
+        toast.error("Usuario no existe en ldap");
     };
 
     componentDidUpdate(prevProps) {
